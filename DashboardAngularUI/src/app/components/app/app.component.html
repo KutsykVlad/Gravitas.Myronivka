@@ -1,0 +1,21 @@
+<div class="header">
+  <img class="logo" src="./../../../assets/images/Logo-Horizontal.png">
+</div>
+
+<mat-tab-group (selectedTabChange)="changeSelectedPage($event)">
+  <mat-tab label="Стан системи">
+    <app-system-state-tab [isActive]="tabsStatus[0]"></app-system-state-tab>
+  </mat-tab>
+
+  <mat-tab label="Стан черги">
+    <app-queue-state-tab [isActive]="tabsStatus[1]"></app-queue-state-tab>
+  </mat-tab>
+
+  <mat-tab label="Навантаження вузла">
+    <app-node-load-tab></app-node-load-tab>
+  </mat-tab>
+
+  <mat-tab label="Робота системи">
+    <app-system-work-tab></app-system-work-tab>
+  </mat-tab>
+</mat-tab-group>

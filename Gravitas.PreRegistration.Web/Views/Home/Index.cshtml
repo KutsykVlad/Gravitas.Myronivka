@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@if (User.IsInRole("user"))
+{
+    <div class="container">
+        @if (ViewBag.allowed)
+        {
+            <div class="row justify-content-center">
+                <div class="col-md-9">
+                    @Html.ActionLink(@"Реєстрація", "RegisterTruck", "Home", new {@class = "btn btn-success btn-lg btn-block", @style = "height:70px; line-height:50px;"})
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row justify-content-center">
+                <div class="col-md-9">
+                    Реєструвати машини не дозволено
+                </div>
+            </div>
+        }
+
+    </div>
+    
+}
+else if (User.IsInRole("admin"))
+{
+    <div>
+        Вітаємо, адміністратор
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <h4>Ви не авторизовані, авторизуйтесь будь ласка</h4>
+            </div>
+        </div>
+    </div>
+}
+

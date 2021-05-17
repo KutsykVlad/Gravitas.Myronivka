@@ -1,0 +1,82 @@
+﻿@using Gravitas.Model.DomainValue
+@using Gravitas.Platform.Web.ViewModel
+@using Microsoft.Ajax.Utilities
+@model Gravitas.Platform.Web.ViewModel.UnloadPointType1Vms.IdleVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+@Html.Action("GetLabLink", "Helper", new { nodeId = Model.NodeId })
+
+@if (Model.BindedTruck?.DelliveryBillCode == null)
+{
+    <div class="d-flex align-items-center icon-container">
+        <div class="flex-shrink-1"><i class="fas fa-id-card"></i></div>
+        <div class="p-3 w-100"><h3>Очікування мітки автомобіля</h3></div>
+    </div>
+}
+else
+{
+    <div class="row mb-5">
+        <div class="col-2">
+            @{
+                var card = Html.DisplayFor(m => m.BindedTruck.CardNumber).ToString();
+                if (!card.IsNullOrWhiteSpace()) {
+                    card = card.Remove(0, 2);
+                }
+            }
+            @Html.LabelFor(m => m.BindedTruck.CardNumber)
+            @Html.TextBox(card, card, null, new {@class = "form-control", @readonly = "true"})
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(m => m.BindedTruck.DelliveryBillCode)
+            @Html.EditorFor(m => m.BindedTruck.DelliveryBillCode, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+        </div>
+        <div class="col-3">
+            @Html.LabelFor(m => m.BindedTruck.TransportNo)
+            @Html.EditorFor(m => m.BindedTruck.TransportNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+        </div>
+        <div class="col-3">
+            @Html.LabelFor(m => m.BindedTruck.TrailerNo)
+            @Html.EditorFor(m => m.BindedTruck.TrailerNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+        </div>
+        <div class="col-9">
+            @Html.LabelFor(m => m.BindedTruck.Product)
+            @Html.EditorFor(m => m.BindedTruck.Product, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+        </div>
+        <div class="col-3">
+            @Html.LabelFor(m => m.BindedTruck.WeightValue)
+            @Html.EditorFor(m => m.BindedTruck.WeightValue, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+        </div>
+    </div>
+    
+    <div class="row justify-content-between mt-4 mb-2">
+        <div class="col-md-3">
+            @Ajax.ActionLink(@"Тара", "Idle_GetTareValue", "UnloadPointType1", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-primary btn-lg btn-block" })
+        </div> 
+        <div class="col-md-3">
+            @Ajax.ActionLink("Завершити", "Idle_Confirm", "UnloadPointType1", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-warning btn-lg btn-block" })
+        </div>
+    </div>
+}
+
+<div class="row justify-content-between mt-4 mb-2">
+    <div class="col-md-3">
+        @Ajax.ActionLink(@"Деактивувати вузол", "Idle_ChangeState", "UnloadPointType1", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-warning btn-lg btn-block" })
+    </div>
+    <div class="col-md-3">
+        @Ajax.ActionLink(@"Назад", "IdleWorkstation_Back", "UnloadPointType1", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-danger btn-lg btn-block" })
+    </div> 
+</div>
+
+@{ Html.RenderAction(
+       "GetRegistry",
+       "TicketContainer",
+       new {
+           nodeId = Model.NodeId,
+           registerType = TicketRegisterType.UnloadPoints,
+           detailActionLink = new ActionLinkVm {
+               NodeId = Model.NodeId,
+               ControllerName = "UnloadPointType1",
+               ActionName = "Idle"
+           }
+       });
+}

@@ -1,0 +1,39 @@
+@import "../../../assets/override-material.scss";
+.main-flex-block {
+  width: 30vw;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+.flex-form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.flex-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  button {
+    margin: 1vw;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 800px) {
+  .main-flex-block {
+    width: 60vw;
+  }
+}

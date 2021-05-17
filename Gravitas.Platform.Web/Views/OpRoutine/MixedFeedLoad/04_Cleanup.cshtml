@@ -1,0 +1,48 @@
+﻿@model Gravitas.Platform.Web.ViewModel.MixedFeedLoadVms.CleanupVm
+
+@using (Ajax.BeginForm("Cleanup", "MixedFeedLoad", FormMethod.Post, new AjaxOptions(), new {enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.NodeId, new {@id = "nodeId"})
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-4">
+            <div class="row">
+                <div class="col-3">
+                    <a href="#" class="btn btn-primary btn-block mt-4" id="cleanup-time-minus" onclick="minus()">-</a>
+                </div>
+                <div class="col-6">
+                    @Html.LabelFor(model => Model.CleanupTime, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.EditorFor(model => Model.CleanupTime, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.CleanupTime, "", new {@class = "text-danger"})
+                </div>
+                <div class="col-3">
+                    <a href="#" class="btn btn-primary btn-block mt-4" id="cleanup-time-plus" onclick="plus()">+</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="row mt-3 justify-content-between">
+        <div class="col-3">
+            @Ajax.ActionLink(@"Назад", "Cleanup_Back", "MixedFeedLoad", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-danger btn-block"})
+        </div>
+        <div class="col-3">
+            <button type="submit" class="btn btn-warning btn-block">Відправити на очистку</button>
+        </div>
+    </div>
+}
+
+<script>
+    function plus() {
+        var i = document.getElementById('CleanupTime').value;
+        if (i > 59) document.getElementById('CleanupTime').value = 60;
+        else document.getElementById('CleanupTime').value++;
+    }
+    
+    function minus() {
+        var i = document.getElementById('CleanupTime').value;
+        if (i < 1) document.getElementById('CleanupTime').value = 0;
+        else document.getElementById('CleanupTime').value--;
+    }
+</script>

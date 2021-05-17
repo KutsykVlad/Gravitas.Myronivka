@@ -1,0 +1,26 @@
+<div class="component-container">
+
+  <mat-form-field class="nodes-selector">
+    <mat-label>Вузли</mat-label>
+
+    <mat-select multiple disableOptionCentering panelClass="cars-nodes-chart-selector" [(value)]="selectedNodes"
+      (selectionChange)="getOutsideTrucksToNodes(true)">
+      <mat-option class="select-option" *ngFor="let node of nodes; let i of index" [value]="node">
+        <div class="color-preview" [ngStyle]="{'background-color': node.Color}"></div>
+        {{node.Name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="chart-and-legend-container">
+    <div class="spinner-container" *ngIf="isDataLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <div #carsNodesChartLegend class="chart-legend" [innerHTML]="legendData"></div>
+
+    <div class="chart-container">
+      <canvas #carsNodesChart>{{ pieChart }}</canvas>
+    </div>
+  </div>
+</div>

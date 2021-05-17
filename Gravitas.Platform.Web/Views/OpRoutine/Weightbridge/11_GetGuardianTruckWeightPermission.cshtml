@@ -1,0 +1,99 @@
+﻿@model Gravitas.Platform.Web.ViewModel.WeightbridgeVms.GetGuardianTruckWeightPermissionVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="d-flex align-items-center icon-container">
+    <div class="flex-shrink-1"><i class="fas fa-id-card"></i></div>
+    <div class="p-3 w-100"><h3 style="color:red">Піднесіть картку Охоронця до зчитувача</h3></div>
+</div>
+<hr />
+<h4>
+    Піднесенням картки працівник охорони:
+    <p> - Підтверджує зважування автомобіля у режимі присутності охорони</p>
+</h4>
+
+@{
+    ViewBag.IsTruckWeighting = true;
+    ViewBag.OperationDescription = $"{Model.ScaleOpTypeName} автомобіля";
+    ViewBag.ScaleOpTypeName = Model.ScaleOpTypeName;
+    ViewBag.IsSecondWeighting = Model.IsSecondWeighting;
+    ViewBag.IsTrailerAvailable = Model.IsTrailerAvailable;
+}
+@Html.Partial("~/Views/Device/_ScaleWidget.cshtml")
+
+<hr />
+
+
+<div class="row">
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.DriverName, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.DriverName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+
+    <div class="form-group col-md-3">
+        @Html.LabelFor(model => model.TruckNo, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TruckNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+
+    <div class="form-group col-md-3">
+        @Html.LabelFor(model => model.TrailerNo, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TrailerNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.ReceiverName, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.ReceiverName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.IncomeDocGrossValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.IncomeDocGrossValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.IncomeDocTareValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.IncomeDocTareValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.DocNetValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.DocNetValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.GrossValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.GrossValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.TareValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TareValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.CurrentDocNetValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.CurrentDocNetValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.TrailerGrossValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TrailerGrossValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.TrailerTareValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TrailerTareValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.WeightingDelta, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.WeightingDelta, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+</div>

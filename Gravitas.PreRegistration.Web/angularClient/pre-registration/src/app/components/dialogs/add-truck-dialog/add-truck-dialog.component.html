@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Реєстрація автомобіля</h1>
+<p>Культура: {{data.title}}</p>
+<p>Час: {{data.time}}</p>
+<div mat-dialog-content>
+    <form class="flex-form" [formGroup]="addTruckForm">
+      <mat-form-field >
+        <input
+          matInput
+          formControlName="phoneNo"
+          placeholder="Номер телефону"
+        />
+        <mat-error *ngIf="addTruckForm?.get('phoneNo')?.invalid">
+          Номер телефону неправильний
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field >
+          <input
+            matInput
+            formControlName="truckNumber"
+            placeholder="Номер автомобіля"
+          />
+          <mat-error *ngIf="addTruckForm?.get('truckNumber')?.invalid">
+            Введіть номер автомобіля
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field >
+            <input
+              matInput
+              formControlName="notice"
+              placeholder="Нотатки"
+            />
+          </mat-form-field>
+
+      <div class="flex-buttons">
+        <button mat-raised-button (click)="close()">
+          Відмінити
+        </button>
+        <button mat-raised-button (click)="addTruck()">Зареєструвати</button>
+      </div>
+    </form>
+</div>

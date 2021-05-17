@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    table, tr, th, td {
+        border: solid 1px black
+    }
+
+    .headerContainer {
+        display: inline-block;
+    }
+</style>
+<h2>Print Form</h2>
+
+<div class="headerContainer">
+    <p>Now: @DateTime.UtcNow</p>
+    <button value="Print" onclick="location.href='@Url.Action("CreatePdf", "pdf")'">Print</button>
+</div>
+
+<br/>
+<br/>
+
+<table style="width: 100%">
+    <tr>
+        <td>Name:</td>
+        <td style="border-bottom: solid 1px black">John Doe</td>
+    </tr>
+</table>
+<br />
+<br />
+<br />
+<table style="width: 100%; ">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Summ</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>John Doe</td>
+        <td>1.00</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>fffff</td>
+        <td>2.00</td>
+    </tr>
+</table>

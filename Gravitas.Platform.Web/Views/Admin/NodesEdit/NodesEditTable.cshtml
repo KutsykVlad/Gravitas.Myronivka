@@ -1,0 +1,46 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@model Gravitas.Platform.Web.ViewModel.NodeEditListVm
+
+@{
+    ViewBag.Title = "Редактор вузлів";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.NodeName = "Редактор вузлів";
+}
+
+<div class="col-md-3 col-sm-3 col-lg-3">
+    @Html.ActionLink(@"До панелі адміністратора", "Panel", "Admin", null, new { @class = "btn btn-primary btn-block" })
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-3 text-lg-center"> <div class="text-capitalize inline"><h4>Редактор вузлів</h4></div></div>
+</div>
+
+<table class="table text-center">
+    <thead>
+    <tr>
+        <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().Id)</th>
+        <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().Name)</th>
+        <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().MaximumProcessingTime)</th>
+        <th scope="col-2">@Html.LabelFor(m => Model.Items.FirstOrDefault().Quota)</th>
+    </tr>
+    </thead>
+    <tbody>
+    @using (Html.BeginForm("ChangeNodeItems", "Admin", FormMethod.Post, new {vm = Model}))
+    {
+        for (int i = 0; i < Model.Items.Count; i++)
+         {
+             <tr>
+                 @Html.HiddenFor(model => Model.Items[i].Id, new { @id = "nodeId" })
+                 <td class="align-middle">@Html.DisplayFor(model => Model.Items[i].Id, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})</td>
+                 <td class="align-middle">@Html.DisplayFor(model => Model.Items[i].Name, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})</td>
+                 <td class="align-middle">@Html.EditorFor(model => Model.Items[i].MaximumProcessingTime, new {htmlAttributes = new {@class = "form-control", @min = "0"}})</td>
+                 <td class="align-middle">@Html.EditorFor(model => Model.Items[i].Quota, new {htmlAttributes = new {@class = "form-control", @min = "0"}})</td>
+             </tr>
+         }
+        <tr> 
+            <td colspan="4"><button class="btn-primary btn btn-block">Змінити</button></td>
+        </tr>
+    }
+    </tbody>
+</table>

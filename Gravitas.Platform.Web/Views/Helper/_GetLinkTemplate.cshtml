@@ -1,0 +1,16 @@
+@model Gravitas.Platform.Web.ViewModel.Helper.GetShrotLinkVm
+
+@if (Model.Links != null)
+{
+    foreach (var link in Model.Links)
+    {
+        <a href="@link.Link">
+            <span class="mb-3" style="color: red; font-size: 20px;">@link.Title</span>
+        </a>
+
+        if (link != Model.Links.LastOrDefault())
+        {
+            <span style="font-weight: 900; color: black"> | </span>
+        }
+    }
+}

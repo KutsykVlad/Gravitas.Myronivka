@@ -1,0 +1,10 @@
+﻿
+
+<div id="scaleData">
+    @Html.Action("ScaleState", "Device", new { nodeId = Model.NodeId })
+</div>
+
+<script>
+    stopScaleCountdownTimer();
+    startScaleTimer('@Url.Action("ScaleState", "Device")',"@Model.NodeId","@ViewBag.IsTruckWeighting","@ViewBag.OperationDescription","@ViewBag.ScaleOpTypeName","@ViewBag.IsSecondWeighting","@ViewBag.IsTrailerAvailable");
+</script>

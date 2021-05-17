@@ -1,0 +1,42 @@
+﻿@{ double value = (Model.IncomeDocGrossValue > Model.IncomeDocTareValue) ? Model.IncomeDocGrossValue : Model.IncomeDocTareValue; }
+
+<div id="DocNetData">
+    @Html.Action("DocNetValueDifference", "Device", new { nodeId = Model.NodeId, reduceValue = value })
+</div>
+
+
+@*@Url.Action("DocNetValueDifference", "Device", new { nodeId = Model.NodeId, reduceValue = Value })*@
+
+<script>
+    function loadDocNetPartialView() {
+        var myUrl =
+            '@Url.Action("DocNetValueDifference", "Device")';
+        $.ajax({
+            url: myUrl,
+            type: 'get',
+            cache: false,
+            data: {
+                nodeId: "@Model.NodeId",
+                reduceValue: "@value"
+            },
+            async: false,
+            success: function (result) {
+                $('#DocNetData').html(result);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        function RefreshDocNetPartial() {
+            //this will wait 2 seconds and then fire the load partial function
+            setTimeout(function () {
+                loadDocNetPartialView();
+                //recall this function so that it will continue to loop
+                RefreshDocNetPartial();
+            }, 2000);
+        }
+        //initialize the loop
+        RefreshDocNetPartial();
+    });
+</script>
+

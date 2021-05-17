@@ -1,0 +1,46 @@
+﻿@using Gravitas.Platform.Web.ViewModel
+@model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.LabFacelessOpDataComponentDetailVm
+
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+@Html.HiddenFor(m => m.StateId)
+@Html.HiddenFor(m => m.LabFacelessOpDataId)
+
+<div class="row ">
+    @if (Model.AnalysisValueDescriptor.EditImpurity)
+    {
+        <div class="col-lg-6 col-xs-12 form-group">
+            @Html.LabelFor(m => m.ImpurityValue)
+            @Html.EditorFor(m => m.ImpurityValue, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    }
+    
+    @if (Model.AnalysisValueDescriptor.EditIsInfectioned)
+    {
+        <div class="col-lg-6 col-xs-12 form-group">
+            @Html.LabelFor(m => m.InfectionedClassId)
+            @Html.DropDownListFor(
+                m => m.InfectionedClassId,
+                ((LabInfectionedСlassifierItemsVm) ViewBag.LabInfectionedСlassifierItems).Items.Select(d => new SelectListItem { Value = d.Id, Text = d.Name }),
+                "- - - Оберіть значення - - -",
+                new { @class = "form-control" })
+        </div>
+    }
+    
+    @if (Model.AnalysisValueDescriptor.EditHumidity)
+    {
+        <div class="col-lg-6 col-xs-12 form-group">
+            @Html.LabelFor(m => m.HumidityValue)
+            @Html.EditorFor(m => m.HumidityValue, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    }
+     
+    <div class="col-12 form-group">
+        @Html.LabelFor(m => m.Comment)
+        @Html.EditorFor(m => m.Comment, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+    <div class="col-12 form-group">
+        @Html.LabelFor(m => m.DataSourceName)
+        @Html.EditorFor(m => m.DataSourceName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+</div>

@@ -1,0 +1,24 @@
+@import './../../../styles/colors.scss';
+
+.header {
+  height: 10vh;
+  border-bottom: 0.1vh solid lightgray;
+  padding: 1vh;
+
+  .logo {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    object-position: left;
+  }
+}
+
+.mat-tab-group {
+  .mat-tab-body-wrapper {
+    height: calc(90vh - 49px);
+
+    .mat-tab-body {
+      height: calc(90vh - 49px);
+    }
+  }
+}

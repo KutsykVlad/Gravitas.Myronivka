@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1251" />
+    <title></title>
+
+    <style type="text/css">
+        body, div, table, thead, tbody, tfoot, tr, th, td, p {
+            font-family: "Calibri";
+            font-size: small
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        p {
+            padding: 2px;
+            margin: 0;
+        }
+
+        .row {
+            display: inline-block;
+        }
+
+        .second-table tr {
+            height: 25px;
+        }
+
+        .text-left {
+            text-align: left;
+            width: 50%;
+        }
+
+        .text-right {
+            width: 49%;
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .bold {
+            font-weight: 900;
+        }
+    </style>
+
+</head>
+
+<BODY LANG="uk-UA" DIR="LTR">
+    <P STYLE=" margin-bottom: 0.11in">
+        <FONT SIZE=4 STYLE="font-size: 16pt">
+            <B>
+                Технологічна Накладна
+            </B>
+        від ##field Date## 
+    </P>
+    <P>
+        <BR><BR>
+    </P>
+    <P>
+        Відправник:<u></u>
+        <u> ##field SenderName##</u>
+    </P>
+    <P>
+        Одержувач:
+        <u>
+            ##field ReceiverName##
+        </u>
+    </P>
+    <P>
+        Водій <u>
+            ##field Driver##
+        </u>
+    </P>
+    <P>
+        Номер авто <u>
+            ##field TruckNo##
+        </u>
+    </P>
+    <P>
+        Номер Причепа <u>
+            ##field TrailerNo##
+        </u>
+    </P>
+    <P STYLE="        margin-bottom: 0.11in;border-bottom: 1.50pt solid #00000a">
+        <BR><BR>
+    </P>
+    <TABLE WIDTH=622 CELLPADDING=7 CELLSPACING=0>
+        <COLGROUP>
+            <COL WIDTH=6>
+            <COL WIDTH=226>
+        </COLGROUP>
+        <COLGROUP>
+            <COL WIDTH=32>
+        </COLGROUP>
+        <COLGROUP>
+            <COL WIDTH=90>
+        </COLGROUP>
+        <COLGROUP>
+            <COL WIDTH=55>
+        </COLGROUP>
+        <COLGROUP>
+            <COL WIDTH=128>
+        </COLGROUP>
+        <TBODY>
+            <TR VALIGN=TOP>
+                <TD WIDTH=6 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>№</P>
+                </TD>
+                <TD WIDTH=226 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>Назва товару</P>
+                </TD>
+                <TD WIDTH=32 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>один</P>
+                </TD>
+                <TD WIDTH=90 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>Вид операції</P>
+                </TD>
+                <TD WIDTH=55 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>Кількість</P>
+                </TD>
+                <TD WIDTH=128 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>Час/дата операції</P>
+                </TD>
+            </TR>
+        </TBODY>
+        <TBODY>
+            <TR VALIGN=TOP>
+                <TD WIDTH=6 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=226 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>##field ProductName##</P>
+                </TD>
+                <TD WIDTH=32 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>Кг.</P>
+                </TD>
+                <TD WIDTH=90 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>Тара</P>
+                </TD>
+                <TD WIDTH=55 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>
+                        ##field GrossValue##
+                    </P>
+                </TD>
+                <TD WIDTH=128 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>
+                        ##field GrossDate##
+                    </P>
+                </TD>
+            </TR>
+        </TBODY>
+        <TBODY>
+            <TR VALIGN=TOP>
+                <TD WIDTH=6 STYLE="border-top: 1px solid #00000a; border-bottom: none; border-left: none; border-right: none; padding: 0in">
+                    <P>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=226 STYLE="border-top: 1px solid #00000a; border-bottom: none; border-left: none; border-right: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.08in">
+                    <P>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=32 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>Кг.</P>
+                </TD>
+                <TD WIDTH=90 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>Брутто</P>
+                </TD>
+                <TD WIDTH=55 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>
+                        ##field TareValue##
+                    </P>
+                </TD>
+                <TD WIDTH=128 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>
+                        ##field TareDate##
+                    </P>
+                </TD>
+            </TR>
+            <TR VALIGN=TOP>
+                <TD WIDTH=6 STYLE="border: none; padding: 0in">
+                    <P>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=226 STYLE="border-top: none; border-bottom: none; border-left: none; border-right: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0in; padding-right: 0.08in">
+                    <P>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=32 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>Кг.</P>
+                </TD>
+                <TD WIDTH=90 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>Нетто</P>
+                </TD>
+                <TD WIDTH=55 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>
+                        ##field NetValue##
+                    </P>
+                </TD>
+                <TD WIDTH=128 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P>
+                        ##field NetDate##
+                    </P>
+                </TD>
+            </TR>
+        </TBODY>
+    </TABLE>
+    <P STYLE="margin-bottom: 0.11in">
+        <BR><BR>
+    </P>
+    <P STYLE="margin-bottom: 0.11in">
+        <BR><BR>
+    </P>
+    <P STYLE="margin-bottom: 0.11in">
+        <BR><BR>
+    </P>
+    <P STYLE="margin-bottom: 0.11in">
+        <BR><BR>
+    </P>
+    <P STYLE="margin-bottom: 0.11in">
+        <BR><BR>
+    </P>
+    <P STYLE="margin-bottom: 0.11in">
+        Відвантажив/Прийняв______________
+        Підпис________________
+    </P>
+    <P STYLE="margin-bottom: 0.11in">
+        <A NAME="_GoBack"></A><BR><BR>
+    </P>
+    <P STYLE="margin-bottom: 0.11in">
+        Отримав
+        _______________(Водій)
+        Підпис________________
+    </P>
+    <P STYLE="margin-bottom: 0.11in">
+        <BR><BR>
+    </P>
+    <P STYLE="margin-bottom: 0.11in">
+        <BR><BR>
+    </P>
+</BODY>
+
+</html>

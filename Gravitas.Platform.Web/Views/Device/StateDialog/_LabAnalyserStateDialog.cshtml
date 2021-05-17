@@ -1,0 +1,80 @@
+﻿@model Gravitas.Platform.Web.ViewModel.DeviceStateVms.LabAnalyserStateDialogVm
+@{
+    Html.EnableClientValidation(false);
+}
+
+@if (Model == null)
+{
+    <div class="card ">
+        <div class="card-header">
+            <h5 class="card-title">Експрес-аналізатор</h5>
+        </div>
+        <div class="card-body">
+            <div class="jumbotron">
+                Відсутні дані
+            </div>
+        </div>
+    </div>
+} else {
+    <div class="card ">
+        <div class="card-header">
+            <h5 class="card-title">@Model.DeviceId - @Model.DeviceName</h5>
+        </div>
+        <div class="card-body">
+
+            @using (Ajax.BeginForm("ResultEditAnalysis_SaveFromDevice", "LaboratoryIn", null, null, FormMethod.Post)) {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.NodeId)
+                @Html.HiddenFor(m => m.DeviceId)
+                @Html.HiddenFor(m => m.DeviceName)
+
+                <div class="row">
+                    <div class="col-11">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6 form-group">
+                        @Html.LabelFor(m => m.AnalysisTime)
+                        @Html.EditorFor(m => m.AnalysisTime, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+                    </div>
+                    <div class="col-6 form-group">
+                        @Html.LabelFor(m => m.SampleName)
+                        @Html.EditorFor(m => m.SampleName, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+                    </div>
+                </div>
+
+                for (var i = 0; i < Model.ValueList.Count; i++) {
+
+                    @Html.HiddenFor(m => Model.ValueList[i].Id)
+                    @Html.HiddenFor(m => Model.ValueList[i].Name)
+
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            @Html.Label(Model.ValueList[i].Name)
+                            @Html.EditorFor(m => Model.ValueList[i].Value, new {htmlAttributes = new {@class = "form-control ", @readonly = "true"}})
+                        </div>
+                        <div class="col-6 form-group">
+                            @Html.LabelFor(m => Model.ValueList[i].TargetId)
+                            @Html.DropDownListFor(m => Model.ValueList[i].TargetId,
+                                ((Gravitas.Model.Dto.ExternalData.LabDeviceResultTypeItems) ViewBag.LabDevResultTypeItems).Items.Select(e => new SelectListItem() {Value = e.Id, Text = e.Name}),
+                                new {@class = "form-control"})
+                        </div>
+                    </div>
+                }
+
+                if (Model.IsActualData)
+                {
+                    <input type="submit" value="Зафіксувати результат" class="btn btn-primary btn-block" />
+                }
+                else
+                {
+                    <input type="submit" value="Зафіксувати результат" class="btn btn-primary btn-block" disabled="disabled"/>
+                }             
+            }
+        </div>
+    </div>
+
+    
+}

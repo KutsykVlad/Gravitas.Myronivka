@@ -1,0 +1,1940 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.8.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.8.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ED55A9C8-24BE-4647-9991-E12203E0A231}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gravitas.Platform.Web</RootNamespace>
+    <AssemblyName>Gravitas.Platform.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.3.0-preview5-19254-05\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.3.0-preview5-19254-05\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IronPdf, Version=4.4.9.15720, Culture=neutral, PublicKeyToken=94e1c31412563c75, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronPdf.4.4.9\lib\net40\IronPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.6.2\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.6.2\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.6.2\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.6.2\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.6.2\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.6.2\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.3.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.3.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.3\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.5.4.0\lib\net461\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.5.4.0\lib\net461\Microsoft.IdentityModel.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.4.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.10\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c">
+      <HintPath>..\packages\NLog.Web.4.7.0\lib\net35\NLog.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp, Version=1.50.4845.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.4845-RC2a\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.50.4845.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.4845-RC2a\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.6\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.6\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="Topshelf, Version=4.1.0.172, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Topshelf.4.1.0\lib\net452\Topshelf.dll</HintPath>
+    </Reference>
+    <Reference Include="Topshelf.NLog, Version=4.1.0.172, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Topshelf.NLog.4.1.0\lib\net452\Topshelf.NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.3.3.0\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Configuration, Version=5.2.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.8.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception, Version=5.5.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Interception.5.5.3\lib\net47\Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception.Configuration, Version=5.1.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mvc5, Version=1.3.0.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Mvc5.1.3.0\lib\net45\Unity.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RegistrationByConvention, Version=2.1.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ServiceLocation, Version=2.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.WebApi, Version=5.3.0.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.WebAPI.5.3.0\lib\net45\Unity.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0.6\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attribute\AllowCrossSite.cs" />
+    <Compile Include="Attribute\PerformanceTestFilter.cs" />
+    <Compile Include="Attribute\PerformanceTestFilterProvider.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\AdminApiController.cs" />
+    <Compile Include="Controllers\Api\DashboardController.cs" />
+    <Compile Include="Controllers\Api\EmployeeSeedController.cs" />
+    <Compile Include="Controllers\Api\LaboratoryApiController.cs" />
+    <Compile Include="Controllers\Api\QueueApiController.cs" />
+    <Compile Include="Controllers\Api\SingleWindowController.cs" />
+    <Compile Include="Controllers\BlackListController.cs" />
+    <Compile Include="Controllers\HelperController.cs" />
+    <Compile Include="Controllers\NonStandardController.cs" />
+    <Compile Include="Controllers\OwnTransportController.cs" />
+    <Compile Include="Controllers\PackingTareController.cs" />
+    <Compile Include="Controllers\PreRegister\PreRegisterCompaniesController.cs" />
+    <Compile Include="Controllers\PreRegister\PreRegisterProductsController.cs" />
+    <Compile Include="Controllers\Routine\CentralLaboratoryProcessController.cs" />
+    <Compile Include="Controllers\Routine\CentralLaboratorySamplesController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExternalQueueController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\OpCameraImageController.cs" />
+    <Compile Include="Controllers\RoutesController.cs" />
+    <Compile Include="Controllers\Routine\LaboratoryInController.cs" />
+    <Compile Include="Controllers\Routine\LoadPointGuide2Controller.cs" />
+    <Compile Include="Controllers\Routine\LoadPointGuideController.cs" />
+    <Compile Include="Controllers\Routine\LoadCheckPointController.cs" />
+    <Compile Include="Controllers\Routine\LoadPointType1Controller.cs" />
+    <Compile Include="Controllers\Routine\MixedFeedGuideController.cs" />
+    <Compile Include="Controllers\Routine\MixedFeedLoadController.cs" />
+    <Compile Include="Controllers\Routine\SecurityReviewController.cs" />
+    <Compile Include="Controllers\Routine\UnloadCheckPointController.cs" />
+    <Compile Include="Controllers\Routine\UnloadPointGuide2Controller.cs" />
+    <Compile Include="Controllers\Routine\UnloadPointGuideController.cs" />
+    <Compile Include="Controllers\Routine\UnloadPointType2Controller.cs" />
+    <Compile Include="Controllers\Routine\UnloadPointType1Controller.cs" />
+    <Compile Include="Controllers\Routine\SecurityOutController.cs" />
+    <Compile Include="Controllers\Routine\SingleWindowController.cs" />
+    <Compile Include="AutoMapper\DefaultProfile.cs" />
+    <Compile Include="AutoMapper\DefaultProfile.ExternalData.cs">
+      <DependentUpon>DefaultProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoMapper\DefaultProfile.Node.cs">
+      <DependentUpon>DefaultProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoMapper\DefaultProfile.OpData.cs">
+      <DependentUpon>DefaultProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoMapper\DefaultProfile.OrganizationUnit.cs">
+      <DependentUpon>DefaultProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoMapper\DefaultProfile.Ticket.cs">
+      <DependentUpon>DefaultProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Bootstrapper\Bootstrapper.cs" />
+    <Compile Include="Controllers\DeviceController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NodeController.cs" />
+    <Compile Include="Controllers\OpDataController.cs" />
+    <Compile Include="Controllers\Routine\WeighbridgeController.cs" />
+    <Compile Include="Controllers\SelfServiceLaboratoryController.cs" />
+    <Compile Include="Controllers\TicketContainerController.cs" />
+    <Compile Include="Controllers\Routine\SecurityInController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
+    <Compile Include="Controllers\MixedFeedManageController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="DepedencyInjection\WebTypeResolver.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Hubs\MainHub.cs" />
+    <Compile Include="Manager\Admin\AdminWebManager.cs" />
+    <Compile Include="Manager\Admin\IAdminWebManager.cs" />
+    <Compile Include="Manager\BlackList\BlackListManager.cs" />
+    <Compile Include="Manager\BlackList\IBlackListManager.cs" />
+    <Compile Include="Manager\CollisionManager\CollisionWebManager.cs" />
+    <Compile Include="Manager\CollisionManager\ICollisionWebManager.cs" />
+    <Compile Include="Manager\Device\IDeviceWebManager.cs" />
+    <Compile Include="Manager\Device\DeviceWebManager.cs" />
+    <Compile Include="Manager\Employee\EmployeeWebManager.cs" />
+    <Compile Include="Manager\Employee\IEmployeeWebManager.cs" />
+    <Compile Include="Manager\ExternalData\ExternalDataManager.cs" />
+    <Compile Include="Manager\ExternalData\IExternalDataManager.cs" />
+    <Compile Include="Manager\MixedFeedManage\IMixedFeedWebManager.cs" />
+    <Compile Include="Manager\MixedFeedManage\MixedFeedWebManager.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.CentralLabolatory.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.LabolatoryIn.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.LoadPointGuide.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.LoadCheckPoint.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.LoadPointGuide2.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.LoadPointType1.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.MixedFeedGuide.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.MixedFeedLoad.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.UnloadCheckPoint.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.UnloadPointGuide.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.UnloadPointGuide2.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.UnloadPointType1.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.SecurityOut.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.UnloadPointType2.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.Weighbridge.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.SecurityIn.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.SingleWindow.cs" />
+    <Compile Include="Manager\Routes\IRoutesWebManager.cs" />
+    <Compile Include="Manager\Routes\RoutesWebManager.cs" />
+    <Compile Include="Manager\Test\ITestManager.cs" />
+    <Compile Include="Manager\Test\TestManager.cs" />
+    <Compile Include="Manager\TicketContainer\ITicketContainerWebManager.cs" />
+    <Compile Include="Manager\TicketContainer\TicketContainerWebManager.cs" />
+    <Compile Include="Manager\Report\IReportWebManager.cs" />
+    <Compile Include="Manager\Report\ReportWebManager.cs" />
+    <Compile Include="Manager\Ticket\ITicketManager.cs" />
+    <Compile Include="Manager\Ticket\TicketWebManager.cs" />
+    <Compile Include="Manager\OpData\IOpDataWebManager.cs" />
+    <Compile Include="Manager\OpData\OpDataWebManager.cs" />
+    <Compile Include="Manager\OpRoutine\IOpRoutineWebManager.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.cs" />
+    <Compile Include="Manager\OrganizationUnit\IOrganizationUnitWebManager.cs" />
+    <Compile Include="Manager\OrganizationUnit\OrganizationUnitWebManager.cs" />
+    <Compile Include="Manager\Node\INodeManager.cs" />
+    <Compile Include="Manager\Node\NodeManager.cs" />
+    <Compile Include="Manager\Workstation\IWorkstationWebManager.cs" />
+    <Compile Include="Manager\Workstation\WorkstationWebManager.cs" />
+    <Compile Include="Manager\User\IUserWebManager.cs" />
+    <Compile Include="Manager\User\UserWebManager.cs" />
+    <Compile Include="PdfConvert.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\Admin\LoginModel.cs" />
+    <Compile Include="ViewModel\Admin\NodeDetails\NodeEditListVm.cs" />
+    <Compile Include="ViewModel\Admin\NodeDetails\NodeEditVm.cs" />
+    <Compile Include="ViewModel\Admin\NodeTraffic\NodesTrafficListVm.cs" />
+    <Compile Include="ViewModel\Admin\NodeTraffic\NodeTrafficItem.cs" />
+    <Compile Include="ViewModel\Admin\NodeTraffic\NodeTrafficListVm.cs" />
+    <Compile Include="ViewModel\Admin\NodeTraffic\TerminatedTrafficListVm.cs" />
+    <Compile Include="ViewModel\Admin\QueuePriority\QueuePatternItemVm.cs" />
+    <Compile Include="ViewModel\Admin\QueuePriority\QueuePatternVm.cs" />
+    <Compile Include="ViewModel\Admin\Role\AssignmentVm.cs" />
+    <Compile Include="ViewModel\Admin\Role\RoleTableVm.cs" />
+    <Compile Include="ViewModel\Admin\Role\RoleVm.cs" />
+    <Compile Include="ViewModel\Admin\Version\VersionVm.cs" />
+    <Compile Include="ViewModel\BlackList\List\BlackListDriversListVm.cs" />
+    <Compile Include="ViewModel\BlackList\List\BlackListPartnersListVm.cs" />
+    <Compile Include="ViewModel\BlackList\BlackListTableVm.cs" />
+    <Compile Include="ViewModel\BlackList\List\BlackListTrailersListVm.cs" />
+    <Compile Include="ViewModel\BlackList\List\BlackListTransportListVm.cs" />
+    <Compile Include="ViewModel\BlackList\Record\BlackListDriverRecordVm.cs" />
+    <Compile Include="ViewModel\BlackList\Record\BlackListPartnerRecordToAddVm.cs" />
+    <Compile Include="ViewModel\BlackList\Record\BlackListPartnerRecordVm.cs" />
+    <Compile Include="ViewModel\BlackList\Record\BlackListTrailerRecordVm.cs" />
+    <Compile Include="ViewModel\BlackList\Record\BlackListTransportRecordVm.cs" />
+    <Compile Include="ViewModel\Dashboard\ProductViewModel.cs" />
+    <Compile Include="ViewModel\Dashboard\StatisticModel.cs" />
+    <Compile Include="ViewModel\Dashboard\TruckViewModel.cs" />
+    <Compile Include="ViewModel\Device\StateDialog\LabAnalyserStateDialogVm.cs" />
+    <Compile Include="ViewModel\Device\State\DocNetValueStateVm.cs" />
+    <Compile Include="ViewModel\Device\State\LabBrukerStateVm.cs" />
+    <Compile Include="ViewModel\Device\State\LabFossStateVm.cs" />
+    <Compile Include="ViewModel\Device\State\LabInfroscanStateVm.cs" />
+    <Compile Include="ViewModel\Device\State\WeightbridgeStateVm.cs" />
+    <Compile Include="ViewModel\Employee\EmployeeDetailsVm.cs" />
+    <Compile Include="ViewModel\Employee\EmployeeListVm.cs" />
+    <Compile Include="ViewModel\Employee\EmployeeRoleVm.cs" />
+    <Compile Include="ViewModel\Employee\InformEmployeeVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Budget\List\BudgetItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Budget\List\BudgetItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\FixedAsset\List\FixedTrailerItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\FixedAsset\List\FixedTrailerItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\Detail\LabEffectiveСlassifierItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\Detail\LabHumidityClassifierDetailVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\Detail\LabImpurityClassifierDetailVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\Detail\LabInfectionedClassifierDetailVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\List\LabEffectiveClassifierItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\List\LabHumidityClassifierItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\List\LabHumidityClassifierItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\List\LabImpurityClassifierItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\List\LabImpurityClassifierItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\List\LabInfectionedClassifierItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\LabClassifier\List\LabInfectionedClassifierItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Product\List\ProductItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Product\List\ProductItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Stock\List\StockItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Stock\List\StockItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Partner\List\PartnerItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Partner\List\PartnerItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\FixedAsset\List\FixedAssetItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\FixedAsset\List\FixedAssetItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Employee\List\EmployeeItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Employee\List\EmployeeItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Organisation\OrganisationItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\Organisation\OrganisationItemsVm.cs" />
+    <Compile Include="ViewModel\ExternalData\SupplyTransportType\List\SupplyTransportTypeItemVm.cs" />
+    <Compile Include="ViewModel\ExternalData\SupplyTransportType\List\SupplyTransportTypeItemsVm.cs" />
+    <Compile Include="ViewModel\Helper\GetShrotLinkVm.cs" />
+    <Compile Include="ViewModel\Helper\GetTareValue.cs" />
+    <Compile Include="ViewModel\LabAverageRates\LabAverageRatesComponent.cs" />
+    <Compile Include="ViewModel\LabAverageRates\LabAverageRatesItem.cs" />
+    <Compile Include="ViewModel\LabAverageRates\LabAverageRatesItems.cs" />
+    <Compile Include="ViewModel\MixedFeedManage\01_WorkstationSiloVm.cs" />
+    <Compile Include="ViewModel\MixedFeedManage\MixedFeedProtocolVm.cs" />
+    <Compile Include="ViewModel\MixedFeedManage\SiloDetailVm.cs" />
+    <Compile Include="ViewModel\Node\Detail\NodeDetailVm.cs" />
+    <Compile Include="ViewModel\Node\Detail\NodeRoutineVm.cs" />
+    <Compile Include="ViewModel\Node\Detail\NodeProgresVm.cs" />
+    <Compile Include="ViewModel\Node\List\NodeItemsVm.cs" />
+    <Compile Include="ViewModel\Node\List\NodeItemVm.cs" />
+    <Compile Include="ViewModel\Node\NodeContextVm.cs" />
+    <Compile Include="ViewModel\Node\NodeProcessingMsgVm.cs" />
+    <Compile Include="ViewModel\Node\NodeProcessingMsgItemVm.cs" />
+    <Compile Include="ViewModel\NonStandard\TruckBaseData.cs" />
+    <Compile Include="ViewModel\OpCameraImage\List\OpCameraImageItemsVm.cs" />
+    <Compile Include="ViewModel\OpCameraImage\List\OpCameraImageItemVm.cs" />
+    <Compile Include="ViewModel\OpData\CentralLabolatory\Detail\CentralLabOpDataDetailVm.cs" />
+    <Compile Include="ViewModel\OpData\LabolatoryIn\AnalysisValueDescriptorVm.cs" />
+    <Compile Include="ViewModel\OpData\LabolatoryIn\ComponentDetail\LabFacelessOpDataComponentDetailVm.cs" />
+    <Compile Include="ViewModel\OpData\LabolatoryIn\ComponentList\LabFacelessOpDataComponentItemVm.cs" />
+    <Compile Include="ViewModel\OpData\LabolatoryIn\Detail\LabFacelessOpDataDetailVm.cs" />
+    <Compile Include="ViewModel\OpData\LabolatoryIn\ComponentList\LabFacelessOpDataComponentItemsVm.cs" />
+    <Compile Include="ViewModel\OpData\List\OpDataItemExternalUser.cs" />
+    <Compile Include="ViewModel\OpData\List\OpDataItemsVm.cs" />
+    <Compile Include="ViewModel\OpData\List\OpDataItemVm.cs" />
+    <Compile Include="ViewModel\OpData\NonStandart\NodeInfo.cs" />
+    <Compile Include="ViewModel\OpData\NonStandart\NonStandartRegistryItemsVm.cs" />
+    <Compile Include="ViewModel\OpData\NonStandart\NonStandartRegistryItemVm.cs" />
+    <Compile Include="ViewModel\OpData\SingleWindow\ProductContentItemVm.cs" />
+    <Compile Include="ViewModel\OpData\SingleWindow\ProductContentListVm.cs" />
+    <Compile Include="ViewModel\OpData\SingleWindow\SingleWindowOpDataDetailVm.cs" />
+    <Compile Include="ViewModel\OpData\Base\_BaseOpDataDetailVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatoryProcess\02_AddSampleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatoryProcess\03_AddSampleVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatoryProcess\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatoryProcess\06_PrintAddOpVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatoryProcess\05_PrintCollisionInitVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatoryProcess\04_PrintDataDiscloseVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatoryProcess\07_PrintDocument.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatoryProcess\CentralLabolatoryLabelVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatoryProcess\CentralLabolatorySamplePrintoutVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatorySamples\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatorySamples\03_CentralLabSampleAddOpVisa.cs" />
+    <Compile Include="ViewModel\OpRoutine\CentralLabolatorySamples\02_CentralLabSampleBindTray.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\24_PrintCollisionInitVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\23_PrintDataDiscloseVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\25_PrintCollisionManage.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\27_PrintLaboratoryProtocol.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\PrintoutOpVisaItemsVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\PrintoutOpVisaItemVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\SamplePrintoutVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\26_PrintAddOpVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\21_PrintReadTrayRfidVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\13_ResultAddOpVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\12_ResultEditAnalysisVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\22_PrintAnalysisResultsVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\11_ResultReadTrayRfidVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\05_SampleAddOpVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\04_SampleBindAnalysisTrayVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\03_SampleBindTrayVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\02_SampleReadTruckRfidVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LabolatoryIn\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadCheckPoint\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadPointGuide2\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadPointGuide2\02_BindLoadPoint.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadPointGuide2\03_AddOpVisa.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadPointGuide\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadPointGuide\02_BindLoadPoint.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadPointGuide\03_AddOpVisa.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadCheckPoint\02_GetTareValue.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadCheckPoint\03_AddOperationVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadPointType1\GetTareValue.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadPointType1\IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\LoadPointType1\AddOperationVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\MixedFeedGuide\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\MixedFeedGuide\02_BindLoadPoint.cs" />
+    <Compile Include="ViewModel\OpRoutine\MixedFeedGuide\03_AddOpVisa.cs" />
+    <Compile Include="ViewModel\OpRoutine\MixedFeedLoad\02_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\MixedFeedLoad\03_AddOperationVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\MixedFeedLoad\04_CleanupVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\MixedFeedLoad\05_AddCleanupVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityIn\02_CheckOwnTransport.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityIn\TruckBaseInfo.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityOut\02_CheckOwnTransport.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityOut\04_EditStampList.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityOut\03_ShowOperationsList.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityOut\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityOut\05_AddRouteControlVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityOut\06_AddTransportInspectionVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityOut\08_OpenBarrier.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityOut\07_GetCamSnapshotVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityOut\10_NonStandartPassVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityIn\10_NonStandartPassVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityIn\06_GetCamSnapshotVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityIn\04_AddOperationVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityIn\03_BindLongRangeRfidVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityIn\05_OpenBarrier.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityIn\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityReview\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SecurityReview\02_AddOperationVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\03. ShowTicketMenu.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\04. ContainerCloseAddOpVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\32. RouteAddOpVisa.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\22. ClosePostApiData.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\21. CloseAddOpVisa.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\14. EditPostApiData.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\13. EditAddOpVisa.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\ProtocolPrintoutVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\RoutePrintoutVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\TechnologicalRoutePrintoutVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadCheckPoint\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadCheckPoint\02_GetTareValue.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadCheckPoint\03_AddOperationVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointGuide2\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointGuide2\02_BindUnloadPoint.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointGuide2\03_AddOpVisa.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointGuide\03_AddOpVisa.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointGuide\02_BindUnloadPoint.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointGuide\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointType2\AddOperationVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointType2\AcceptancePointVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointType2\IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointType1\GetTareValue.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointType1\IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\16_WeightResultsValidationVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\14_GetGuardianTrailerWeightPermissionVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\11_GetGuardianTruckWeightPermissionVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\09_GuardianTrailerEnableCheckVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\07_GuardianCardPromptVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\06_DriverTrailerEnableCheckVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\08_GuardianTruckVerificationVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\UnloadPointType1\AddOperationVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\_BaseWeightPromptVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\18_CheckScaleEmptyVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\04_CheckScaleNotEmptyVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\17_OpenBarrierOutVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\03_OpenBarrierInVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\02_GetScaleZeroVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\13_TrailerWeightPromptVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\10_TruckWeightPromptVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\15_GetTrailerWeightVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\12_GetTruckWeightVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\05_GetTicketCardVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\01. Idle.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\02. GetTicket.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\12. EditGetApiData.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\11. EditTicketForm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\31. RouteEditData.cs" />
+    <Compile Include="ViewModel\OpRoutine\Weightbridge\_WeightingPromptVm.cs" />
+    <Compile Include="ViewModel\OpVisa\List\OpVisaItemVm.cs" />
+    <Compile Include="ViewModel\OpVisa\List\OpVisaItemsVm.cs" />
+    <Compile Include="ViewModel\OrganizationUnit\Detail\OrganizationUnitDetailVm.cs" />
+    <Compile Include="ViewModel\OrganizationUnit\List\OrganizationUnitItemVm.cs" />
+    <Compile Include="ViewModel\OrganizationUnit\List\OrganizationUnitItemsVm.cs" />
+    <Compile Include="ViewModel\OrganizationUnit\OrganizationUnitType.cs" />
+    <Compile Include="ViewModel\PreRegistration\AdminPanel\AddProductVm.cs" />
+    <Compile Include="ViewModel\PreRegistration\Company\PreRegisterCompanyVm.cs" />
+    <Compile Include="ViewModel\Queue\ExternalQueueItemVm.cs" />
+    <Compile Include="ViewModel\Queue\ExternalQueueVm.cs" />
+    <Compile Include="ViewModel\Queue\FilteredExternalQueueItem\FilteredExternalQueueItemVm.cs" />
+    <Compile Include="ViewModel\Queue\FilteredExternalQueueItem\FilteredExternalQueueVm.cs" />
+    <Compile Include="ViewModel\RouteEditor\CreateMainRouteViewModel.cs" />
+    <Compile Include="ViewModel\RouteEditor\RouteQuataVm.cs" />
+    <Compile Include="ViewModel\RouteEditor\RouteConstructorVm.cs" />
+    <Compile Include="ViewModel\RouteEditor\RenderVm.cs" />
+    <Compile Include="ViewModel\RouteEditor\RoutesListItemVm.cs" />
+    <Compile Include="ViewModel\RouteEditor\RoutesListVm.cs" />
+    <Compile Include="ViewModel\SelfServiceLaboratory\SelfServiceLaboratoryDetailVm.cs" />
+    <Compile Include="ViewModel\Shared\_ActionLinkVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\GetRegistryVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\CentralLabTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\CentralLabTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\LabFacelessTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\LoadGuideTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\LoadGuideTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\LoadPointTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\LoadPointTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\MixedFeedGuideTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\MixedFeedGuideTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\MixedFeedLoadTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\MixedFeedLoadTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\MixedFeedUnloadTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\MixedFeedUnloadTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\PreRegisterTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\PreRegisterTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\SingleWindowTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\SingleWindowTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\UnloadGuideTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\UnloadGuideTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\LabFacelessTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\UnloadPointTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\UnloadPointTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\UnloadQueueTicketContainerItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\UnloadQueueTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\Ticket\History\TicketHistoryDetails.cs" />
+    <Compile Include="ViewModel\Ticket\History\TicketHistoryItem.cs" />
+    <Compile Include="ViewModel\Ticket\History\TicketHistoryItems.cs" />
+    <Compile Include="ViewModel\Ticket\List\TicketItemVm.cs" />
+    <Compile Include="ViewModel\Ticket\List\TicketItemsVm.cs" />
+    <Compile Include="ViewModel\MixedFeedManage\02_EditVm.cs" />
+    <Compile Include="ViewModel\MixedFeedManage\03_AddOperationVisaVm.cs" />
+    <Compile Include="ViewModel\User\UserDetailsVm.cs" />
+    <Compile Include="ViewModel\User\UserListVm.cs" />
+    <Compile Include="ViewModel\User\CardProcessingMsgVm.cs" />
+    <Compile Include="ViewModel\Device\_Base\BaseEntityVm.cs" />
+    <Compile Include="ViewModel\Workstation\WorkstationStateItemVm.cs" />
+    <Compile Include="ViewModel\Workstation\WorkstationStateVm.cs" />
+    <Compile Include="Views\Filters\NonStandartDataFilters.cs" />
+    <Compile Include="Views\Filters\OpDataRegistryFilters.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\font-awesome\all.css" />
+    <Content Include="Content\css\font-awesome\brands.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-grid.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-grid.min.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-reboot.css" />
+    <Content Include="Content\css\bootstrap\bootstrap-reboot.min.css" />
+    <Content Include="Content\css\bootstrap\bootstrap.css" />
+    <Content Include="Content\css\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\css\font-awesome\fontawesome.css" />
+    <Content Include="Content\css\local\nonstandart.css" />
+    <Content Include="Content\css\select2.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome4.2\readme.txt" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\bulat.png" />
+    <Content Include="Content\images\logo-ble.png" />
+    <Content Include="Content\images\logo-wht.png" />
+    <Content Include="Content\css\font-awesome\regular.css" />
+    <Content Include="Content\css\font-awesome\solid.css" />
+    <Content Include="Content\css\font-awesome\svg-with-js.css" />
+    <Content Include="Content\css\font-awesome\v4-shims.css" />
+    <Content Include="Content\css\font-awesome\v4-shims.min.css" />
+    <Content Include="Content\images\spinner.gif" />
+    <Content Include="Content\reports\centralLabReportLabel.html" />
+    <Content Include="Content\reports\centralLabReportTemplate.html" />
+    <Content Include="Content\reports\errorTemplate.html" />
+    <Content Include="Content\reports\labReportTemplate.html" />
+    <Content Include="Content\reports\mixedFeedSiloReport.html" />
+    <Content Include="Content\reports\ProtocolTemplate.html" />
+    <Content Include="Content\reports\RouteTemplate.html" />
+    <Content Include="Content\reports\TechnologicalRouteTemplate.html" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\css\site.css" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\angular\angular-touch.js" />
+    <Content Include="Scripts\angular\angular-touch.min.js" />
+    <Content Include="Content\css\bootstrap\bootstrap.min.css.map" />
+    <Content Include="Content\css\bootstrap\bootstrap.css.map" />
+    <Content Include="Content\css\bootstrap\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\css\bootstrap\bootstrap-reboot.css.map" />
+    <Content Include="Content\css\bootstrap\bootstrap-grid.min.css.map" />
+    <Content Include="Content\css\bootstrap\bootstrap-grid.css.map" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\check-actual-data\check-actual.data.v.1.0.0.js" />
+    <Content Include="Content\font\font-mhp\gilroy-extrabold.ttf" />
+    <Content Include="Content\font\font-mhp\newton-italic.ttf" />
+    <Content Include="Content\font\font-mhp\proxima-nova-regular.ttf" />
+    <Content Include="..\Solution Items\appSettings.config">
+      <Link>appSettings.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="package.json" />
+    <Content Include="libman.json" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome4.2\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\angular\angular-touch.min.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <None Include="Properties\PublishProfiles\ToGravitasFTP.pubxml" />
+    <None Include="Properties\PublishProfiles\ToZIP.pubxml" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.3.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.3.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\mixed-feed\MixedFeedController.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\pre-registration\PreRegistration.js" />
+    <Content Include="Scripts\routes-constructor\dropdownConstructor.js" />
+    <Content Include="Scripts\manual-reload\manual-reload.js" />
+    <Content Include="Scripts\spinner\spinner.js" />
+    <Content Include="Scripts\Weighbride-routine\scale-process.v.1.0.2.js" />
+    <Content Include="Scripts\Weighbride-routine\trailer-weight-process.v.1.0.1.js" />
+    <Content Include="Scripts\Weighbride-routine\truck-weight-process.v.1.0.1.js" />
+    <Content Include="Views\Admin\AddCard.cshtml" />
+    <Content Include="Views\Admin\CardList.cshtml" />
+    <Content Include="Views\Admin\GetEmployeePhones.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Admin\Settings.cshtml" />
+    <Content Include="Views\Admin\Version.cshtml" />
+    <Content Include="Views\CentralLaboratoryProcess\PrintDataDisclose_DownloadFile.cshtml" />
+    <Content Include="Views\Device\_LabInfrascanState.cshtml" />
+    <Content Include="Views\Errors\400.cshtml" />
+    <Content Include="Views\Errors\404.cshtml" />
+    <Content Include="Views\Errors\500.cshtml" />
+    <Content Include="Views\Errors\GenericError.html" />
+    <Content Include="Views\Helper\GetTareValue.cshtml" />
+    <Content Include="Views\Helper\_GetLinkTemplate.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\MixedFeedManage\SiloWorkstationItem.cshtml" />
+    <Content Include="Views\Node\Routine.cshtml" />
+    <Content Include="Views\Node\_NodeInEmergencyMode.cshtml" />
+    <Content Include="Views\Node\_NodeProcessigMessage.cshtml" />
+    <Content Include="Views\Node\_RoutineSingle.cshtml" />
+    <Content Include="Views\NonStandard\Registry.cshtml" />
+    <Content Include="Views\NonStandard\_Registry.cshtml" />
+    <Content Include="Views\OpCameraImage\List\_OpCameraImageListLinks.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatoryProcess\04_PrintLabel.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatoryProcess\06_PrintCollisionStartVisa.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatoryProcess\08_PrintCollisionInitVisa.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\23_PrintAnalysisAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\26_PrintCollisionManage.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\28_PrintLaboratoryProtocol.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointGuide2\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointGuide2\02_BindLoadPoint.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointGuide2\03_AddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointGuide\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointGuide\02_BindLoadPoint.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointGuide\02_BindUnloadPoint.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointGuide\03_AddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\LoadCheckPoint\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointType1\GetTareValue.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointType1\Workstation.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointType1\Idle.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointType1\AddOperationVisa.cshtml" />
+    <Content Include="Views\OpRoutine\LoadPointType1\AddChangeStateVisa.cshtml" />
+    <Content Include="Views\OpRoutine\MixedFeedGuide\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\MixedFeedGuide\02_BindLoadPoint.cshtml" />
+    <Content Include="Views\OpRoutine\MixedFeedGuide\03_AddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\MixedFeedLoad\01_Workstation.cshtml" />
+    <Content Include="Views\OpRoutine\MixedFeedLoad\02_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\MixedFeedLoad\03_AddOperationVisa.cshtml" />
+    <Content Include="Views\OpRoutine\MixedFeedLoad\04_Cleanup.cshtml" />
+    <Content Include="Views\OpRoutine\MixedFeedLoad\05_AddCleanupVisa.cshtml" />
+    <Content Include="Views\OpRoutine\MixedFeedLoad\06_AddChangeStateVisa.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityIn\02_CheckOwnTransport.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityOut\02_CheckOwnTransport.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\15_SupplyChangeAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\16_DivideTicketAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\17_DeleteTicketAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadCheckPoint\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointGuide2\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointGuide2\02_BindUnloadPoint.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointGuide2\03_AddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointGuide\04_EntryAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointType1\Workstation.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointType1\AddChangeStateVisa.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointType1\GetTareValue.cshtml" />
+    <Content Include="Views\OwnTransport\Add.cshtml" />
+    <Content Include="Views\OwnTransport\Get.cshtml" />
+    <Content Include="Views\PackingTare\Add.cshtml" />
+    <Content Include="Views\PackingTare\Get.cshtml" />
+    <Content Include="Views\PreRegisterCompanies\Get.cshtml" />
+    <Content Include="Views\PreRegisterProducts\Add.cshtml" />
+    <Content Include="Views\PreRegisterProducts\Get.cshtml" />
+    <Content Include="Views\Routes\Constructor.cshtml" />
+    <Content Include="Views\Routes\CreateMainRoute.cshtml" />
+    <Content Include="Views\Routes\List.cshtml" />
+    <Content Include="Views\Routes\_GetRouteView.cshtml" />
+    <Content Include="Views\SelfServiceLaboratory\DetailByTicketContainer.cshtml" />
+    <Content Include="Views\SelfServiceLaboratory\Index.cshtml" />
+    <Content Include="Views\SingleWindow\ShowTicketMenu_GetLabCertificate.cshtml" />
+    <Content Include="Views\SingleWindow\ShowTicketMenu_PrintDoc.cshtml" />
+    <Content Include="Views\TicketContainer\_GetRegistry.cshtml" />
+    <Content Include="Views\TicketContainer\_CentralLabTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_LoadGuideTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_LoadPointTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_MixedFeedGuideTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_MixedFeedLoadTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_PreRegisterTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_RejectedLoadGuideTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_RejectedMixedFeedLoadTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_RejectedMixedFeedUnloadTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_RejectedUnloadGuideTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_SelfServiceLabTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_UnloadPointTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_UnloadQueueTicketContainerList.cshtml" />
+    <Content Include="Views\Ticket\LabAverageRates.cshtml" />
+    <Content Include="Views\Ticket\_GetTicketFiles.cshtml" />
+    <Content Include="Views\Ticket\History.cshtml" />
+    <Content Include="Views\Ticket\HistoryGetDetails.cshtml" />
+    <Content Include="Views\MixedFeedManage\01_Workstation.cshtml" />
+    <Content Include="Views\MixedFeedManage\02_Edit.cshtml" />
+    <Content Include="Views\MixedFeedManage\03_AddOperationVisa.cshtml" />
+    <Content Include="Web.base.config" />
+    <Content Include="Views\TicketContainer\_LabFacelessTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_SingleWindowTicketContainerList.cshtml" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\angular-datatables.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\angular-datatables.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\css\angular-datatables.css" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\css\angular-datatables.min.css" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\bootstrap\angular-datatables.bootstrap.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\bootstrap\angular-datatables.bootstrap.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\bootstrap\datatables.bootstrap.min.css" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\buttons\angular-datatables.buttons.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\buttons\angular-datatables.buttons.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\colreorder\angular-datatables.colreorder.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\colreorder\angular-datatables.colreorder.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\columnfilter\angular-datatables.columnfilter.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\columnfilter\angular-datatables.columnfilter.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\colvis\angular-datatables.colvis.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\colvis\angular-datatables.colvis.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\fixedcolumns\angular-datatables.fixedcolumns.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\fixedcolumns\angular-datatables.fixedcolumns.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\fixedheader\angular-datatables.fixedheader.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\fixedheader\angular-datatables.fixedheader.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\light-columnfilter\angular-datatables.light-columnfilter.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\light-columnfilter\angular-datatables.light-columnfilter.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\scroller\angular-datatables.scroller.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\scroller\angular-datatables.scroller.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\select\angular-datatables.select.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\select\angular-datatables.select.min.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\tabletools\angular-datatables.tabletools.js" />
+    <Content Include="wwwroot\lib\angular-datatables\dist\plugins\tabletools\angular-datatables.tabletools.min.js" />
+    <Content Include="wwwroot\lib\angular-i18n\angular-locale_uk-ua.js" />
+    <Content Include="wwwroot\lib\angular-i18n\bower.json" />
+    <Content Include="wwwroot\lib\angular-i18n\LICENSE.md" />
+    <Content Include="wwwroot\lib\angular-i18n\package.json" />
+    <Content Include="wwwroot\lib\angular-i18n\README.md" />
+    <Content Include="wwwroot\lib\angular-i18n\uk-ua.js" />
+    <Content Include="wwwroot\lib\angular-messages\angular-messages.js" />
+    <Content Include="wwwroot\lib\angular-messages\angular-messages.min.js" />
+    <Content Include="wwwroot\lib\angular-messages\index.js" />
+    <Content Include="wwwroot\lib\angular-moment-picker\dist\angular-moment-picker.css" />
+    <Content Include="wwwroot\lib\angular-moment-picker\dist\angular-moment-picker.js" />
+    <Content Include="wwwroot\lib\angular-moment-picker\dist\angular-moment-picker.min.css" />
+    <Content Include="wwwroot\lib\angular-moment-picker\dist\angular-moment-picker.min.js" />
+    <Content Include="wwwroot\lib\angular-moment-picker\dist\themes\material-ui.css" />
+    <Content Include="wwwroot\lib\angular-moment-picker\dist\themes\material-ui.min.css" />
+    <Content Include="wwwroot\lib\angular-moment-picker\karma.conf.js" />
+    <Content Include="wwwroot\lib\angular-moment-picker\src\template.tpl.html" />
+    <Content Include="wwwroot\lib\angular-moment-picker\webpack.config.js" />
+    <Content Include="wwwroot\lib\angular-tree-control\angular-tree-control.js" />
+    <Content Include="wwwroot\lib\angular-tree-control\context-menu.js" />
+    <Content Include="wwwroot\lib\angular-tree-control\css\tree-control-attribute.css" />
+    <Content Include="wwwroot\lib\angular-tree-control\css\tree-control.css" />
+    <Content Include="wwwroot\lib\angular-tree-control\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="wwwroot\lib\angular-tree-control\images\file.png" />
+    <Content Include="wwwroot\lib\angular-tree-control\images\folder-closed.png" />
+    <Content Include="wwwroot\lib\angular-tree-control\images\folder.png" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\angular.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\directives\stateDirectives.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\directives\viewDirective.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\injectables.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\interface.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\legacy\resolveService.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\legacy\stateEvents.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\locationServices.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\services.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\statebuilders\onEnterExitRetain.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\statebuilders\views.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\stateFilters.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\stateProvider.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\templateFactory.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\urlRouterProvider.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\viewScroll.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\angular.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\directives\stateDirectives.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\directives\viewDirective.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\injectables.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\interface.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\legacy\resolveService.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\legacy\stateEvents.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\locationServices.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\services.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\statebuilders\onEnterExitRetain.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\statebuilders\views.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\stateFilters.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\stateProvider.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\templateFactory.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\urlRouterProvider.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\viewScroll.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\angular-ui-router.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\angular-ui-router.min.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\resolveService.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\resolveService.min.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\stateEvents.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\stateEvents.min.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\ui-router-angularjs.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\ui-router-angularjs.min.js" />
+    <Content Include="wwwroot\lib\angular-ui-router\rollup.config.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\demo\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\gruntFile.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\alias\alias.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\event\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\event\event.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\event\test\eventSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\format\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\format\format.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\format\test\formatSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\highlight\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\highlight\highlight.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\highlight\test\highlightSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\ie-shiv\ie-shiv.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\include\demo\fragments.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\include\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\include\include.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\include\test\includeSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\indeterminate\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\indeterminate\indeterminate.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\indeterminate\test\indeterminateSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\inflector\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\inflector\inflector.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\inflector\test\inflectorSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\jq\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\jq\jq.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\jq\test\jqSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\keypress\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\keypress\keypress.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\keypress\test\keydownSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\keypress\test\keypressSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\keypress\test\keyupSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\mask\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\mask\mask.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\mask\test\maskSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\reset\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\reset\reset.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\reset\test\resetSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\route\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\route\route.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\route\test\routeSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\scrollfix\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\scrollfix\scrollfix.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\scrollfix\test\scrollfixSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\scroll\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\scroll\scroll-jqlite.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\scroll\scroll.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\scroll\test\jqliteExtrasSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\scroll\test\ScrollerSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\showhide\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\showhide\showhide.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\showhide\test\showhideSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\unique\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\unique\test\uniqueSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\unique\unique.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\utils.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\validate\demo\index.html" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\validate\test\validateSpec.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\validate\validate.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\publish.js" />
+    <Content Include="wwwroot\lib\angular-ui-utils\test\karma.conf.js" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\bootstrap-ui-datetime-picker-tests.js" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\datetime-picker.js" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\dist\datetime-picker.js" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\dist\datetime-picker.min.js" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\dist\datetime-picker.tpls.js" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\example\index.html" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\example\index.js" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\example\style.css" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\gruntfile.js" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\module-export.js" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\package.js" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\template\date-picker.html" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\template\time-picker.html" />
+    <Content Include="wwwroot\lib\jquery\AUTHORS.txt" />
+    <Content Include="wwwroot\lib\jquery\dist\core.js" />
+    <Content Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <Content Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <Content Include="wwwroot\lib\jquery\dist\jquery.slim.js" />
+    <Content Include="wwwroot\lib\jquery\dist\jquery.slim.min.js" />
+    <Content Include="wwwroot\lib\jquery\external\sizzle\dist\sizzle.js" />
+    <Content Include="wwwroot\lib\jquery\external\sizzle\dist\sizzle.min.js" />
+    <Content Include="wwwroot\lib\jquery\external\sizzle\LICENSE.txt" />
+    <Content Include="wwwroot\lib\jquery\LICENSE.txt" />
+    <Content Include="wwwroot\lib\jquery\src\ajax.js" />
+    <Content Include="wwwroot\lib\jquery\src\ajax\jsonp.js" />
+    <Content Include="wwwroot\lib\jquery\src\ajax\load.js" />
+    <Content Include="wwwroot\lib\jquery\src\ajax\parseXML.js" />
+    <Content Include="wwwroot\lib\jquery\src\ajax\script.js" />
+    <Content Include="wwwroot\lib\jquery\src\ajax\var\location.js" />
+    <Content Include="wwwroot\lib\jquery\src\ajax\var\nonce.js" />
+    <Content Include="wwwroot\lib\jquery\src\ajax\var\rquery.js" />
+    <Content Include="wwwroot\lib\jquery\src\ajax\xhr.js" />
+    <Content Include="wwwroot\lib\jquery\src\attributes.js" />
+    <Content Include="wwwroot\lib\jquery\src\attributes\attr.js" />
+    <Content Include="wwwroot\lib\jquery\src\attributes\classes.js" />
+    <Content Include="wwwroot\lib\jquery\src\attributes\prop.js" />
+    <Content Include="wwwroot\lib\jquery\src\attributes\support.js" />
+    <Content Include="wwwroot\lib\jquery\src\attributes\val.js" />
+    <Content Include="wwwroot\lib\jquery\src\callbacks.js" />
+    <Content Include="wwwroot\lib\jquery\src\core.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\access.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\camelCase.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\DOMEval.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\init.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\nodeName.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\parseHTML.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\ready-no-deferred.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\ready.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\readyException.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\stripAndCollapse.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\support.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\toType.js" />
+    <Content Include="wwwroot\lib\jquery\src\core\var\rsingleTag.js" />
+    <Content Include="wwwroot\lib\jquery\src\css.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\addGetHookIf.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\adjustCSS.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\curCSS.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\hiddenVisibleSelectors.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\showHide.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\support.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\var\cssExpand.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\var\getStyles.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\var\isHiddenWithinTree.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\var\rboxStyle.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\var\rnumnonpx.js" />
+    <Content Include="wwwroot\lib\jquery\src\css\var\swap.js" />
+    <Content Include="wwwroot\lib\jquery\src\data.js" />
+    <Content Include="wwwroot\lib\jquery\src\data\Data.js" />
+    <Content Include="wwwroot\lib\jquery\src\data\var\acceptData.js" />
+    <Content Include="wwwroot\lib\jquery\src\data\var\dataPriv.js" />
+    <Content Include="wwwroot\lib\jquery\src\data\var\dataUser.js" />
+    <Content Include="wwwroot\lib\jquery\src\deferred.js" />
+    <Content Include="wwwroot\lib\jquery\src\deferred\exceptionHook.js" />
+    <Content Include="wwwroot\lib\jquery\src\deprecated.js" />
+    <Content Include="wwwroot\lib\jquery\src\dimensions.js" />
+    <Content Include="wwwroot\lib\jquery\src\effects.js" />
+    <Content Include="wwwroot\lib\jquery\src\effects\animatedSelector.js" />
+    <Content Include="wwwroot\lib\jquery\src\effects\Tween.js" />
+    <Content Include="wwwroot\lib\jquery\src\event.js" />
+    <Content Include="wwwroot\lib\jquery\src\event\ajax.js" />
+    <Content Include="wwwroot\lib\jquery\src\event\alias.js" />
+    <Content Include="wwwroot\lib\jquery\src\event\focusin.js" />
+    <Content Include="wwwroot\lib\jquery\src\event\support.js" />
+    <Content Include="wwwroot\lib\jquery\src\event\trigger.js" />
+    <Content Include="wwwroot\lib\jquery\src\exports\amd.js" />
+    <Content Include="wwwroot\lib\jquery\src\exports\global.js" />
+    <Content Include="wwwroot\lib\jquery\src\jquery.js" />
+    <Content Include="wwwroot\lib\jquery\src\manipulation.js" />
+    <Content Include="wwwroot\lib\jquery\src\manipulation\buildFragment.js" />
+    <Content Include="wwwroot\lib\jquery\src\manipulation\getAll.js" />
+    <Content Include="wwwroot\lib\jquery\src\manipulation\setGlobalEval.js" />
+    <Content Include="wwwroot\lib\jquery\src\manipulation\support.js" />
+    <Content Include="wwwroot\lib\jquery\src\manipulation\var\rcheckableType.js" />
+    <Content Include="wwwroot\lib\jquery\src\manipulation\var\rscriptType.js" />
+    <Content Include="wwwroot\lib\jquery\src\manipulation\var\rtagName.js" />
+    <Content Include="wwwroot\lib\jquery\src\manipulation\wrapMap.js" />
+    <Content Include="wwwroot\lib\jquery\src\manipulation\_evalUrl.js" />
+    <Content Include="wwwroot\lib\jquery\src\offset.js" />
+    <Content Include="wwwroot\lib\jquery\src\queue.js" />
+    <Content Include="wwwroot\lib\jquery\src\queue\delay.js" />
+    <Content Include="wwwroot\lib\jquery\src\selector-native.js" />
+    <Content Include="wwwroot\lib\jquery\src\selector-sizzle.js" />
+    <Content Include="wwwroot\lib\jquery\src\selector.js" />
+    <Content Include="wwwroot\lib\jquery\src\serialize.js" />
+    <Content Include="wwwroot\lib\jquery\src\traversing.js" />
+    <Content Include="wwwroot\lib\jquery\src\traversing\findFilter.js" />
+    <Content Include="wwwroot\lib\jquery\src\traversing\var\dir.js" />
+    <Content Include="wwwroot\lib\jquery\src\traversing\var\rneedsContext.js" />
+    <Content Include="wwwroot\lib\jquery\src\traversing\var\siblings.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\arr.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\class2type.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\concat.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\document.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\documentElement.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\fnToString.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\getProto.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\hasOwn.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\indexOf.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\isFunction.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\isWindow.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\ObjectFunctionString.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\pnum.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\push.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\rcssNum.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\rnothtmlwhite.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\slice.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\support.js" />
+    <Content Include="wwwroot\lib\jquery\src\var\toString.js" />
+    <Content Include="wwwroot\lib\jquery\src\wrap.js" />
+    <Content Include="wwwroot\src\apps\admin\adminQueuePatternController.js" />
+    <Content Include="wwwroot\src\apps\admin\adminService.js" />
+    <Content Include="wwwroot\src\apps\admin\appAdmin.js" />
+    <Content Include="wwwroot\src\apps\node-routine\appNodeRoutine.js" />
+    <Content Include="wwwroot\src\apps\node-routine\nodeReloadController.js" />
+    <Content Include="wwwroot\src\apps\node-routine\nodeRoutineEditController.js" />
+    <Content Include="wwwroot\src\apps\node-routine\nodeRoutineService.js" />
+    <Content Include="wwwroot\src\apps\node-routine\propsFilter.js" />
+    <Content Include="Scripts\signalr\utils.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Node\_NodeProgres.cshtml" />
+    <Content Include="Views\TicketContainer\_TicketList.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityIn\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityIn\03_BindLongRangeRfid.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityIn\04_AddOperationVisa.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityIn\10_NonStandartPass.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityIn\06_GetCamSnapshot.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityIn\05_OpenBarrier.cshtml" />
+    <Content Include="Content\font\font-awesome\fa-brands-400.svg" />
+    <Content Include="Content\font\font-awesome\fa-regular-400.svg" />
+    <Content Include="Content\font\font-awesome\fa-solid-900.svg" />
+    <Content Include="Content\font\font-awesome\fa-solid-900.woff2" />
+    <Content Include="Content\font\font-awesome\fa-solid-900.woff" />
+    <Content Include="Content\font\font-awesome\fa-solid-900.ttf" />
+    <Content Include="Content\font\font-awesome\fa-solid-900.eot" />
+    <Content Include="Content\font\font-awesome\fa-regular-400.woff2" />
+    <Content Include="Content\font\font-awesome\fa-regular-400.woff" />
+    <Content Include="Content\font\font-awesome\fa-regular-400.ttf" />
+    <Content Include="Content\font\font-awesome\fa-regular-400.eot" />
+    <Content Include="Content\font\font-awesome\fa-brands-400.woff2" />
+    <Content Include="Content\font\font-awesome\fa-brands-400.woff" />
+    <Content Include="Content\font\font-awesome\fa-brands-400.ttf" />
+    <Content Include="Content\font\font-awesome\fa-brands-400.eot" />
+    <Content Include="Views\OpRoutine\Weightbridge\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\05_GetTicketCard.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\10_TruckWeightPrompt.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\12_GetTruckWeight.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\02_GetScaleZero.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\03_OpenBarrierIn.cshtml" />
+    <Content Include="Views\Device\_ScaleState.cshtml" />
+    <Content Include="Views\Device\_ScaleWidget.cshtml" />
+    <Content Include="Views\OpData\_List.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\13_TrailerWeightPrompt.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\15_GetTrailerWeight.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\17_OpenBarrierOut.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\04_CheckScaleNotEmpty.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\18_CheckScaleEmpty.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityOut\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityOut\03_ShowOperationsList.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityOut\04_EditStampList.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityOut\06_AddTransportInspectionVisa.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityOut\07_OpenBarrier.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityOut\08_GetCamSnapshot.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityOut\10_NonStandartPass.cshtml" />
+    <Content Include="Views\OpData\_CameraFrameDetail.cshtml" />
+    <Content Include="Views\OpCameraImage\List\_OpCameraImageList.cshtml" />
+    <Content Include="Views\OpCameraImage\GetImageFromByteArray.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityOut\05_AddRouteControlVisa.cshtml" />
+    <Content Include="Views\OpCameraImage\List\_TicketCameraImageList.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\02_SampleReadTruckRfid.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\13_ResultAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\12_ResultEditAnalysis.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\22_PrintAnalysisResult.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\11_ResultReadTrayRfid.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\05_SampleAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\04_SampleBindAnalysisTray.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\03_SampleBindTray.cshtml" />
+    <Content Include="Views\OpData\LabolatoryIn\_ListComponentItems.cshtml" />
+    <Content Include="Views\OpData\LabolatoryIn\_LabFacelessOpDataComponentDetail.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\21_PrintReadTrayRfid.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\27_PrintAddOpVisa.cshtml" />
+    <Content Include="Views\OpData\LabolatoryIn\_LabFacelessOpDataDetail.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\02_GetTicket.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\12_EditGetApiData.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\11_EditTicketForm.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\13_EditAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\03_ShowTicketMenu.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\14_EditPostApiData.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\32_RouteAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\22_ClosePostApiData.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\31_RouteEditData.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\21_CloseAddOpVisa.cshtml" />
+    <Content Include="Views\OpData\SingleWindow\_Detail.cshtml" />
+    <Content Include="Views\OpData\SingleWindow\_ProductContentsDetail.cshtml" />
+    <Content Include="wwwroot\lib\angular-sanitize\angular-sanitize.js" />
+    <Content Include="wwwroot\lib\angular-sanitize\angular-sanitize.min.js" />
+    <Content Include="wwwroot\lib\angular-sanitize\index.js" />
+    <Content Include="wwwroot\lib\angular-toastr\dist\angular-toastr.css" />
+    <Content Include="wwwroot\lib\angular-toastr\dist\angular-toastr.js" />
+    <Content Include="wwwroot\lib\angular-toastr\dist\angular-toastr.min.css" />
+    <Content Include="wwwroot\lib\angular-toastr\dist\angular-toastr.min.js" />
+    <Content Include="wwwroot\lib\angular-toastr\dist\angular-toastr.tpls.js" />
+    <Content Include="wwwroot\lib\angular-toastr\dist\angular-toastr.tpls.min.js" />
+    <Content Include="wwwroot\lib\angular-toastr\gulpfile.js" />
+    <Content Include="wwwroot\lib\angular-toastr\index.js" />
+    <Content Include="wwwroot\lib\angular-toastr\src\directives\progressbar\progressbar.directive.js" />
+    <Content Include="wwwroot\lib\angular-toastr\src\directives\progressbar\progressbar.html" />
+    <Content Include="wwwroot\lib\angular-toastr\src\directives\toast\toast.controller.js" />
+    <Content Include="wwwroot\lib\angular-toastr\src\directives\toast\toast.directive.js" />
+    <Content Include="wwwroot\lib\angular-toastr\src\directives\toast\toast.html" />
+    <Content Include="wwwroot\lib\angular-toastr\src\toastr.config.js" />
+    <Content Include="wwwroot\lib\angular-toastr\src\toastr.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\dist\ui-bootstrap-csp.css" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\dist\ui-bootstrap-tpls.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\dist\ui-bootstrap.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\accordion\accordion.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\accordion\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\accordion\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\accordion\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\accordion\test\accordion.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\alert\alert.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\alert\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\alert\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\alert\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\alert\test\alert.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\buttons\buttons.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\buttons\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\buttons\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\buttons\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\buttons\test\buttons.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\carousel\carousel.css" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\carousel\carousel.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\carousel\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\carousel\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\carousel\index-nocss.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\carousel\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\carousel\test\carousel.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\collapse\collapse.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\collapse\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\collapse\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\collapse\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\collapse\test\collapse.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\collapse\test\collapseHorizontally.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dateparser\dateparser.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dateparser\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dateparser\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dateparser\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dateparser\test\dateparser.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepickerPopup\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepickerPopup\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepickerPopup\index-nocss.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepickerPopup\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepickerPopup\popup.css" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepickerPopup\popup.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepickerPopup\test\popup.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepicker\datepicker.css" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepicker\datepicker.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepicker\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepicker\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepicker\index-nocss.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepicker\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepicker\test\datepicker.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\debounce\debounce.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\debounce\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\debounce\test\debounce.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dropdown\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dropdown\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dropdown\dropdown.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dropdown\index-nocss.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dropdown\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dropdown\test\dropdown.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\isClass\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\isClass\isClass.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\isClass\test\isClass.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\modal\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\modal\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\modal\index-nocss.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\modal\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\modal\modal.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\modal\test\modal.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\multiMap\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\multiMap\multiMap.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\multiMap\test\multiMap.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pager\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pager\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pager\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pager\pager.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pager\test\pager.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pagination\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pagination\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pagination\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pagination\pagination.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pagination\test\pagination.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\paging\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\paging\paging.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\paging\test\paging.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\popover\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\popover\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\popover\index-nocss.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\popover\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\popover\popover.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\popover\test\popover-html.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\popover\test\popover-template.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\popover\test\popover.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\position\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\position\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\position\index-nocss.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\position\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\position\position.css" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\position\position.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\position\test\position.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\position\test\test.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\progressbar\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\progressbar\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\progressbar\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\progressbar\progressbar.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\progressbar\test\progressbar.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\rating\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\rating\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\rating\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\rating\rating.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\rating\test\rating.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\stackedMap\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\stackedMap\stackedMap.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\stackedMap\test\stackedMap.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tabindex\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tabindex\tabindex.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tabindex\test\tabindex.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tabs\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tabs\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tabs\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tabs\tabs.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tabs\test\tabs.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\timepicker\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\timepicker\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\timepicker\index-nocss.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\timepicker\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\timepicker\test\timepicker.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\timepicker\timepicker.css" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\timepicker\timepicker.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tooltip\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tooltip\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tooltip\index-nocss.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tooltip\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tooltip\test\tooltip-template.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tooltip\test\tooltip.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tooltip\test\tooltip2.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tooltip\tooltip.css" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tooltip\tooltip.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\docs\demo.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\docs\demo.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\index-nocss.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\index.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\test\typeahead-highlight-ngsanitize.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\test\typeahead-highlight.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\test\typeahead-parser.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\test\typeahead-popup.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\test\typeahead.spec.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\typeahead.css" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\typeahead.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\accordion\accordion-group.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\accordion\accordion-group.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\accordion\accordion.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\accordion\accordion.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\alert\alert.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\alert\alert.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\carousel\carousel.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\carousel\carousel.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\carousel\slide.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\carousel\slide.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepickerPopup\popup.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepickerPopup\popup.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepicker\datepicker.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepicker\datepicker.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepicker\day.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepicker\day.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepicker\month.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepicker\month.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepicker\popup.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepicker\year.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\datepicker\year.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\modal\backdrop.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\modal\window.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\modal\window.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\pager\pager.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\pager\pager.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\pagination\pagination.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\pagination\pagination.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\popover\popover-html.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\popover\popover-html.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\popover\popover-template.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\popover\popover-template.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\popover\popover.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\popover\popover.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\progressbar\bar.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\progressbar\bar.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\progressbar\progress.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\progressbar\progress.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\progressbar\progressbar.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\progressbar\progressbar.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\rating\rating.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\rating\rating.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\tabs\tab.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\tabs\tab.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\tabs\tabset.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\tabs\tabset.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\timepicker\timepicker.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\timepicker\timepicker.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\tooltip\tooltip-html-popup.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\tooltip\tooltip-html-popup.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\tooltip\tooltip-popup.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\tooltip\tooltip-popup.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\tooltip\tooltip-template-popup.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\tooltip\tooltip-template-popup.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\typeahead\typeahead-match.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\typeahead\typeahead-match.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\typeahead\typeahead-popup.html" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\template\typeahead\typeahead-popup.html.js" />
+    <Content Include="wwwroot\lib\angular-ui-select\select.css" />
+    <Content Include="wwwroot\lib\angular-ui-select\select.js" />
+    <Content Include="wwwroot\lib\angular-ui-select\select.min.css" />
+    <Content Include="wwwroot\lib\angular-ui-select\select.min.js" />
+    <Content Include="wwwroot\lib\angular\angular-csp.css" />
+    <Content Include="wwwroot\lib\angular\angular.js" />
+    <Content Include="wwwroot\lib\angular\angular.min.js" />
+    <Content Include="wwwroot\lib\angular\index.js" />
+    <Content Include="wwwroot\src\apps\non-standart-data\nonStandartDataApp.js" />
+    <Content Include="wwwroot\src\apps\non-standart-data\nonStandartDataController.js" />
+    <Content Include="wwwroot\src\apps\queue\appQueue.js" />
+    <Content Include="wwwroot\src\apps\queue\queueController.js" />
+    <Content Include="wwwroot\src\apps\queue\queueService.js" />
+    <Content Include="wwwroot\src\css\node-routine.css" />
+    <Content Include="wwwroot\src\css\routes-editor.css" />
+    <Content Include="yarn.lock" />
+    <Content Include="wwwroot\lib\angular\angular.min.js.gzip" />
+    <Content Include="wwwroot\lib\angular\angular.min.js.map" />
+    <Content Include="wwwroot\lib\angular\bower.json" />
+    <Content Include="wwwroot\lib\angular\LICENSE.md" />
+    <Content Include="wwwroot\lib\angular\package.json" />
+    <Content Include="wwwroot\lib\angular\README.md" />
+    <Content Include="wwwroot\lib\angular-toastr\.jshintrc" />
+    <Content Include="wwwroot\lib\angular-toastr\.npmignore" />
+    <Content Include="wwwroot\lib\angular-toastr\.travis.yml" />
+    <Content Include="wwwroot\lib\angular-toastr\bower.json" />
+    <Content Include="wwwroot\lib\angular-toastr\CHANGELOG.md" />
+    <Content Include="wwwroot\lib\angular-toastr\CONTRIBUTING.md" />
+    <Content Include="wwwroot\lib\angular-toastr\LICENSE" />
+    <Content Include="wwwroot\lib\angular-toastr\package.json" />
+    <Content Include="wwwroot\lib\angular-toastr\README.md" />
+    <Content Include="wwwroot\lib\angular-toastr\src\toastr.less" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\CHANGELOG.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\dist\.DS_Store" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\LICENSE" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\package.json" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\README.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\accordion\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\alert\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\buttons\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\carousel\docs\README.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\collapse\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dateparser\docs\README.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepickerPopup\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\datepicker\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\dropdown\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\modal\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pager\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\pagination\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\popover\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\position\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\progressbar\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\rating\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tabs\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\timepicker\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\tooltip\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-bootstrap\src\typeahead\docs\readme.md" />
+    <Content Include="wwwroot\lib\angular-ui-select\bower.json" />
+    <Content Include="wwwroot\lib\angular-ui-select\LICENSE" />
+    <Content Include="wwwroot\lib\angular-ui-select\package.json" />
+    <Content Include="wwwroot\lib\angular-ui-select\README.md" />
+    <Content Include="wwwroot\lib\angular-sanitize\angular-sanitize.min.js.map" />
+    <Content Include="wwwroot\lib\angular-sanitize\bower.json" />
+    <Content Include="wwwroot\lib\angular-sanitize\LICENSE.md" />
+    <Content Include="wwwroot\lib\angular-sanitize\package.json" />
+    <Content Include="wwwroot\lib\angular-sanitize\README.md" />
+    <Content Include="Views\Device\_LabFossState.cshtml" />
+    <Content Include="Views\Device\_LabBrukerState.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\24_PrintDataDisclose.cshtml" />
+    <Content Include="Views\OpRoutine\LabolatoryIn\25_PrintCollisionInit.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointType1\Idle.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointType1\AddOperationVisa.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointGuide\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\04_ContainerCloseAddOpVisa.cshtml" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\bower.json" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\LICENSE" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\package.json" />
+    <Content Include="wwwroot\lib\bootstrap-ui-datetime-picker\README.md" />
+    <Content Include="wwwroot\lib\angular-moment-picker\.travis.yml" />
+    <Content Include="wwwroot\lib\angular-moment-picker\.vscode\settings.json" />
+    <Content Include="wwwroot\lib\angular-moment-picker\.vscode\tasks.json" />
+    <Content Include="wwwroot\lib\angular-moment-picker\bower.json" />
+    <Content Include="wwwroot\lib\angular-moment-picker\dist\themes\README.md" />
+    <Content Include="wwwroot\lib\angular-moment-picker\LICENSE" />
+    <Content Include="wwwroot\lib\angular-moment-picker\package.json" />
+    <Content Include="wwwroot\lib\angular-moment-picker\README.md" />
+    <Content Include="wwwroot\lib\angular-moment-picker\src\index.less" />
+    <Content Include="wwwroot\lib\angular-moment-picker\src\themes\material-ui.less" />
+    <Content Include="wwwroot\lib\angular-moment-picker\tsconfig.json" />
+    <Content Include="wwwroot\lib\angular-moment-picker\tslint.json" />
+    <Content Include="Views\Device\StateDialog\_LabAnalyserStateDialog.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointGuide\02_BindUnloadPoint.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointGuide\03_AddOpVisa.cshtml" />
+    <Content Include="wwwroot\lib\angular-messages\angular-messages.min.js.map" />
+    <Content Include="wwwroot\lib\angular-messages\bower.json" />
+    <Content Include="wwwroot\lib\angular-messages\LICENSE.md" />
+    <Content Include="wwwroot\lib\angular-messages\package.json" />
+    <Content Include="wwwroot\lib\angular-messages\README.md" />
+    <Content Include="Views\TicketContainer\_UnloadGuideTicketContainerList.cshtml" />
+    <Content Include="wwwroot\lib\angular-ui-utils\.bowerrc" />
+    <Content Include="wwwroot\lib\angular-ui-utils\.jshintrc" />
+    <Content Include="wwwroot\lib\angular-ui-utils\.npmignore" />
+    <Content Include="wwwroot\lib\angular-ui-utils\.travis.yml" />
+    <Content Include="wwwroot\lib\angular-ui-utils\bower.json" />
+    <Content Include="wwwroot\lib\angular-ui-utils\CHANGELOG.md" />
+    <Content Include="wwwroot\lib\angular-ui-utils\CONTRIBUTING.md" />
+    <Content Include="wwwroot\lib\angular-ui-utils\LICENSE" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\alias\README.md" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\highlight\highlight.less" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\ie-shiv\README.md" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\jq\README.md" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\reset\stylesheets\reset.less" />
+    <Content Include="wwwroot\lib\angular-ui-utils\modules\scroll\README.md" />
+    <Content Include="wwwroot\lib\angular-ui-utils\package.json" />
+    <Content Include="wwwroot\lib\angular-ui-utils\README.md" />
+    <Content Include="wwwroot\lib\jquery\bower.json" />
+    <Content Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <Content Include="wwwroot\lib\jquery\dist\jquery.slim.min.map" />
+    <Content Include="wwwroot\lib\jquery\external\sizzle\dist\sizzle.min.map" />
+    <Content Include="wwwroot\lib\jquery\package.json" />
+    <Content Include="wwwroot\lib\jquery\README.md" />
+    <Content Include="wwwroot\lib\jquery\src\.eslintrc.json" />
+    <Content Include="Views\User\AssignCardToUser.cshtml" />
+    <Content Include="Views\User\UserDetails.cshtml" />
+    <Content Include="Views\User\UserList.cshtml" />
+    <Content Include="Views\User\_AssignCardToUser.cshtml" />
+    <Content Include="Views\User\_UserDetails.cshtml" />
+    <Content Include="Views\User\_UserList.cshtml" />
+    <Content Include="wwwroot\lib\angular-ui-router\artifacts.json" />
+    <Content Include="wwwroot\lib\angular-ui-router\CHANGELOG.md" />
+    <Content Include="wwwroot\lib\angular-ui-router\CONTRIBUTING.md" />
+    <Content Include="wwwroot\lib\angular-ui-router\DOCS.md" />
+    <Content Include="wwwroot\lib\angular-ui-router\downstream_projects.json" />
+    <Content Include="wwwroot\lib\angular-ui-router\ISSUE_TEMPLATE.md" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\angular.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\directives\stateDirectives.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\directives\viewDirective.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\index.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\injectables.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\interface.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\legacy\resolveService.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\legacy\stateEvents.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\locationServices.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\services.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\statebuilders\onEnterExitRetain.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\statebuilders\views.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\stateFilters.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\stateProvider.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\templateFactory.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\urlRouterProvider.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib-esm\viewScroll.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\angular.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\directives\stateDirectives.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\directives\viewDirective.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\index.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\injectables.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\interface.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\legacy\resolveService.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\legacy\stateEvents.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\locationServices.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\services.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\statebuilders\onEnterExitRetain.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\statebuilders\views.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\stateFilters.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\stateProvider.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\templateFactory.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\urlRouterProvider.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\lib\viewScroll.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\LICENSE" />
+    <Content Include="wwwroot\lib\angular-ui-router\package.json" />
+    <Content Include="wwwroot\lib\angular-ui-router\README.md" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\angular-ui-router.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\angular-ui-router.min.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\resolveService.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\resolveService.min.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\stateEvents.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\stateEvents.min.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\ui-router-angularjs.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\release\ui-router-angularjs.min.js.map" />
+    <Content Include="wwwroot\lib\angular-ui-router\typedoc.json" />
+    <Content Include="wwwroot\lib\angular-ui-router\yarn.lock" />
+    <Content Include="Views\Admin\Panel.cshtml" />
+    <Content Include="Views\Admin\QueuePattern\QueuePatternItemsTable.cshtml" />
+    <Content Include="Views\Admin\QueuePattern\_QueuePatternItem.cshtml" />
+    <Content Include="Views\Admin\NodesEdit\NodesEditTable.cshtml" />
+    <Content Include="Views\Admin\NodesEdit\_NodeEditItem.cshtml" />
+    <Content Include="Views\Admin\Traffic\TrafficTable.cshtml" />
+    <Content Include="Views\Admin\Traffic\_NodeTrafficListItem.cshtml" />
+    <Content Include="Views\Admin\Traffic\_NodeTrafficItem.cshtml" />
+    <Content Include="Views\Admin\Traffic\_TerminatedTrafficList.cshtml" />
+    <Content Include="Views\Admin\Traffic\_TerminatedTrafficItem.cshtml" />
+    <Content Include="Views\Admin\RolesEdit\RolesEditTable.cshtml" />
+    <Content Include="Views\Admin\RolesEdit\_RoleTableRecord.cshtml" />
+    <Content Include="Views\Employee\EmployeeList.cshtml" />
+    <Content Include="Views\Employee\_EmployeeList.cshtml" />
+    <Content Include="Views\Employee\EmployeeDetails.cshtml" />
+    <Content Include="Views\Employee\_EmployeeDetails.cshtml" />
+    <Content Include="Views\Employee\AssignCardToEmployee.cshtml" />
+    <Content Include="Views\Employee\_AssignCardToEmployee.cshtml" />
+    <Content Include="Views\BlackList\BlackListTable.cshtml" />
+    <Content Include="Views\BlackList\_BlackListTable.cshtml" />
+    <Content Include="Views\BlackList\Trailers\_TrailersList.cshtml" />
+    <Content Include="Views\BlackList\Trailers\_TrailerRecord.cshtml" />
+    <Content Include="Views\BlackList\Partners\_PartnersList.cshtml" />
+    <Content Include="Views\BlackList\Partners\_PartnerRecord.cshtml" />
+    <Content Include="Views\BlackList\Drivers\_DriversList.cshtml" />
+    <Content Include="Views\BlackList\Drivers\_DriverRecord.cshtml" />
+    <Content Include="Views\BlackList\Trailers\_TrailerRecordEdit.cshtml" />
+    <Content Include="Views\BlackList\Partners\_PartnerRecordEdit.cshtml" />
+    <Content Include="Views\BlackList\Drivers\_DriverRecordEdit.cshtml" />
+    <Content Include="Views\BlackList\Transport\_TransportList.cshtml" />
+    <Content Include="Views\BlackList\Transport\_TransportRecord.cshtml" />
+    <Content Include="Views\BlackList\Transport\_TransportRecordEdit.cshtml" />
+    <Content Include="wwwroot\lib\angular-tree-control\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="wwwroot\lib\angular-tree-control\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="wwwroot\lib\angular-tree-control\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Views\Device\_CurrentDocNetValueWidget.cshtml" />
+    <Content Include="Views\Device\_CurrentDocNetValue.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\06_DriverTrailerEnableCheck.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\07_GuardianCardPrompt.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\08_GuardianTruckVerification.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\09_GuardianTrailerEnableCheck.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\11_GetGuardianTruckWeightPermission.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\14_GetGuardianTrailerWeightPermission.cshtml" />
+    <Content Include="Views\OpRoutine\Weightbridge\16_WeightResultsValidation.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatorySamples\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatorySamples\02_CentralLabSampleBindTray.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatorySamples\03_CentralLabAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatoryProcess\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatoryProcess\02_AddSample.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatoryProcess\03_AddSampleVisa.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatoryProcess\05_PrintDataDisclose.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatoryProcess\07_PrintCollisionInit.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatoryProcess\09_PrintAddOpVisa.cshtml" />
+    <Content Include="Views\Routes\Quata.cshtml" />
+    <Content Include="Views\ExternalQueue\List.cshtml" />
+    <Content Include="Views\ExternalQueue\FilteredList\List.cshtml" />
+    <Content Include="Views\OpRoutine\CentralLabolatoryProcess\10_PrintDocument.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityReview\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\SecurityReview\02_AddOperationVisa.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointType2\AddChangeStateVisa.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointType2\AddOperationVisa.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointType2\SelectAcceptancePoints.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointType2\Idle.cshtml" />
+    <Content Include="Views\OpRoutine\UnloadPointType2\Workstation.cshtml" />
+    <None Include="Web.DebugDevDb.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.DebugProdDb.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.ReleaseDevDb.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.ReleaseProdDb.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModel\OpData\Detail\" />
+    <Folder Include="ViewModel\OpData\LabolatoryIn\List\" />
+    <Folder Include="ViewModel\OpVisa\Detail\" />
+    <Folder Include="ViewModel\OwnTransport\" />
+    <Folder Include="Views\OpData\List\" />
+    <Folder Include="wwwroot\lib\angular-datatables\node_modules\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gravitas.DAL\Gravitas.DAL.csproj">
+      <Project>{9ce72020-bc13-46ef-aa62-f1721324ebd9}</Project>
+      <Name>Gravitas.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gravitas.Infrastrructure\Gravitas.Infrastructure.Common.csproj">
+      <Project>{d1a0c172-f6d1-4f6f-ae77-63d89e11ec63}</Project>
+      <Name>Gravitas.Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gravitas.Infrastructure.Platform\Gravitas.Infrastructure.Platform.csproj">
+      <Project>{5da83e62-b7d5-4ed9-9482-c38172de9877}</Project>
+      <Name>Gravitas.Infrastructure.Platform</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gravitas.Model\Gravitas.Model.csproj">
+      <Project>{8a4ef9f5-fb46-4f7a-a659-4a6505174db0}</Project>
+      <Name>Gravitas.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\definitions.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\directive.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\helpers.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\index.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\provider.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\utility.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\views\dayView.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\views\decadeView.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\views\hourView.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\views\index.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\views\minuteView.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\views\monthView.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-moment-picker\src\views\yearView.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\angular.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\directives\stateDirectives.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\directives\viewDirective.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\injectables.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\interface.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\legacy\resolveService.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\legacy\stateEvents.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\locationServices.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\services.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\statebuilders\onEnterExitRetain.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\statebuilders\views.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\stateFilters.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\stateProvider.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\templateFactory.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\urlRouterProvider.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib-esm\viewScroll.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\angular.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\directives\stateDirectives.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\directives\viewDirective.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\injectables.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\interface.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\legacy\resolveService.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\legacy\stateEvents.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\locationServices.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\services.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\statebuilders\onEnterExitRetain.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\statebuilders\views.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\stateFilters.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\stateProvider.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\templateFactory.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\urlRouterProvider.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\angular-ui-router\lib\viewScroll.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugDevDb|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseDevDb|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugProdDb|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseProdDb|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3142</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:3142/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.8.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.8.0\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="AfterCompile" Condition="Exists('Web.$(Configuration).config')">
+    <!--Generate transformed app config in the intermediate directory-->
+    <TransformXml Source="web.base.config" Destination="Web.config" Transform="Web.$(Configuration).config" />
+  </Target>
+</Project>

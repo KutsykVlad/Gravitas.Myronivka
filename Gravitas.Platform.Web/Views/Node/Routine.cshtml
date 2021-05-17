@@ -1,0 +1,35 @@
+@model Gravitas.Platform.Web.ViewModel.NodeRoutineVm
+@{
+    ViewBag.Title = "Gravitas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input data-val="true" data-val-number="The field NodeId must be a number." data-val-required="The NodeId field is required." id="nodeId" name="NodeId" type="hidden" value="@Model.NodeId" autocomplete="off">
+<input data-val="true" data-val-number="The field NodeId must be a number." data-val-required="The WorkstationId field is required." id="workstationId" name="WorkstationId" type="hidden" value="@Model.WorkstationId" autocomplete="off">
+
+<div ng-app="nodeRoutineApp" ng-cloak>
+    <div ng-controller="nodeReloadController">
+        <button type="button" ng-click="reload()" hidden="hidden" id="reloadPage_@Model.NodeId">Render</button>
+        <button type="button" ng-click="updateProcessingMessage()" hidden="hidden" id="updateProcessingMessage_@Model.NodeId">Render</button>
+        <button type="button" ng-click="reload()" hidden="hidden" id="reloadPage_@Model.WorkstationId">Render</button>
+        <div id="body" >
+            
+        </div>
+    </div>
+</div>
+
+
+<link href="~/wwwroot/lib/select2-bootstrap-theme/dist/select2-bootstrap.min.css" rel="stylesheet" />
+<script src="~/wwwroot/src/apps/node-routine/appNodeRoutine.js"></script>
+<script src="~/wwwroot/src/apps/node-routine/nodeRoutineService.js"></script>
+<script src="~/wwwroot/src/apps/node-routine/nodeRoutineEditController.js"></script>
+<script src="~/wwwroot/src/apps/node-routine/nodeReloadController.js"></script>
+<script src="~/wwwroot/src/apps/node-routine/propsFilter.js"></script>
+<script src="~/Scripts/Weighbride-routine/scale-process.v.1.0.2.js"></script>
+<script src="~/Scripts/mixed-feed/mixedFeedController.js"></script>
+
+<script>
+    $(document).ready(function() {
+        document.getElementById('reloadPage_@Model.NodeId').click();
+    });
+</script>

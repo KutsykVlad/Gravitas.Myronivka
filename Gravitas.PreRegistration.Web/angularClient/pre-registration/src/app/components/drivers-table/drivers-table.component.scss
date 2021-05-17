@@ -1,0 +1,32 @@
+.chart-title {
+  text-align: center;
+  margin: 1vw;
+}
+
+.table-container {
+  padding-right: 4px;
+  padding-left: 4px;
+  table {
+    width: 100%;
+  }
+  .paginator-container {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .button-margin {
+      button {
+        margin: 1vw;
+      }
+    }
+  }
+  .past-date {
+    color: #f44336 !important;
+  }
+}
+
+.mat-column-notice {
+  max-width: 20vw;
+}

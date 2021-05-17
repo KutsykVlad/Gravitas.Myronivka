@@ -1,0 +1,29 @@
+<form [formGroup]="loginFormGroup" class="flex-form">
+  <div class="main-flex-block">
+    <h3 class="align-center">Вхід</h3>
+    <mat-form-field>
+      <input matInput formControlName="email" placeholder="Електронна пошта" />
+      <mat-error *ngIf="loginFormGroup?.get('email')?.invalid">
+        Електронна пошта введена невірно
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        placeholder="Пароль"
+        class="input-width"
+      />
+      <mat-error *ngIf="loginFormGroup?.get('password')?.invalid">
+        Будь ласка ведіть пароль
+      </mat-error>
+    </mat-form-field>
+
+    <div class="flex-buttons">
+      <button mat-raised-button (click)="login()">
+        Увійти
+      </button>
+    </div>
+  </div>
+</form>

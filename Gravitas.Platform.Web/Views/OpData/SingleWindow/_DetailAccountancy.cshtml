@@ -1,0 +1,40 @@
+﻿@using Gravitas.Platform.Web.Models
+@using Gravitas.Platform.Web.ViewModel
+@using Newtonsoft.Json
+@model SingleWindowVms.SingleWindowOpDataDetailVm
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+<div class="form-row">
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.BuyBudgetId, htmlAttributes: new { @class = "" })
+    @Html.DropDownListFor(
+      model => model.BuyBudgetId,
+      ((BudgetItemsVm) ViewBag.BudgetItems).Items.Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }), new { @class = "form-control" })
+
+    @*
+      @Html.EditorFor(model => model.BuyBudgetId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.BuyBudgetId, "", new { @class = "text-danger" })
+      @Html.EditorFor(model => model.BuyBudgetName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.BuyBudgetName, "", new { @class = "text-danger" })
+    *@
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.SellBudgetId, htmlAttributes: new { @class = "" })
+    @Html.DropDownListFor(
+      model => model.SellBudgetId,
+      ((BudgetItemsVm) ViewBag.BudgetItems).Items.Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }), new { @class = "form-control" })
+
+    @*
+      @Html.LabelFor(model => model.SellBudgetId, htmlAttributes: new { @class = "" })
+      @Html.EditorFor(model => model.SellBudgetId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.SellBudgetId, "", new { @class = "text-danger" })
+      @Html.EditorFor(model => model.SellBudgetName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.SellBudgetName, "", new { @class = "text-danger" })
+    *@
+  </div>
+</div>

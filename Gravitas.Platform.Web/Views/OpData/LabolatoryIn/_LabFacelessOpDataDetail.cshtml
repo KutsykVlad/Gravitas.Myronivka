@@ -1,0 +1,92 @@
+﻿@using Gravitas.Platform.Web.ViewModel
+@model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.LabFacelessOpDataDetailVm
+
+@using (Ajax.BeginForm("PrintAnalysisResult_Save", "LaboratoryIn", FormMethod.Post, null, new {@class = "col-12 form-group"}))
+{
+    @Html.AntiForgeryToken()
+<h4>Підсумкові показники</h4>
+<div class="form-group">
+    @Html.HiddenFor(m => m.NodeId)
+    @Html.HiddenFor(m => m.TicketId)
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="row ">
+        <div class="col-lg-6 col-xs-12 form-group">
+            @Html.LabelFor(m => m.ImpurityValue)
+            @Html.EditorFor(m => m.ImpurityValue, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+        </div>
+        <div class="col-lg-6 col-xs-12 form-group">
+            @Html.LabelFor(m => m.ImpurityClassId)
+            @Html.DropDownListFor(
+                m => m.ImpurityClassId,
+                ((LabImpurityСlassifierItemsVm) ViewBag.LabImpurityСlassifierItems).Items.Select(d => new SelectListItem {Value = d.Id, Text = d.Name}),
+                "- - - Оберіть значення - - -",
+                new {@class = "form-control"})
+            @Html.ValidationMessageFor(model => model.ImpurityClassId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-lg-6 col-xs-12 form-group">
+            @Html.LabelFor(m => m.HumidityValue)
+            @Html.EditorFor(m => m.HumidityValue, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+        </div>
+        <div class="col-lg-6 col-xs-12 form-group">
+            @Html.LabelFor(m => m.HumidityClassId)
+            @Html.DropDownListFor(
+                m => m.HumidityClassId,
+                ((LabHumidityСlassifierItemsVm) ViewBag.LabHumidityСlassifierItems).Items.Select(d => new SelectListItem {Value = d.Id, Text = d.Name}),
+                "- - - Оберіть значення - - -",
+                new {@class = "form-control"})
+            @Html.ValidationMessageFor(model => model.HumidityClassId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-lg-6 col-xs-12 form-group">
+            @Html.LabelFor(m => m.EffectiveValue)
+            @Html.EditorFor(m => m.EffectiveValue, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+        </div>
+         <div class="col-lg-6 col-xs-12 form-group">
+             @Html.LabelFor(m => m.IsEffectiveClassId)
+             @Html.DropDownListFor(
+                 m => m.IsEffectiveClassId,
+                 ((LabEffectiveClassifierItemsVm) ViewBag.LabEffectiveСlassifierItems).Items.Select(d => new SelectListItem {Value = d.Id, Text = d.Name}),
+                 "Без перерахунку",
+                 new {@class = "form-control disabled", @onchange="EffectiveValueCalc()"})
+         </div>
+        <div class="offset-6 col-lg-6 col-xs-12 form-group">
+            @Html.LabelFor(m => m.IsInfectionedClassId)
+            @Html.EditorFor(m => m.IsInfectionedClassId, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+        </div>
+        <div class="col-lg-12 col-xs-12 form-group">
+            @Html.LabelFor(m => m.Comment)
+            @Html.EditorFor(m => m.Comment, new {htmlAttributes = new {@class = "form-control"}})
+        </div>
+    </div>
+</div>
+
+    <div>
+        @Html.Partial("../OpData/LabolatoryIn/_ListComponentItems", Model.LabFacelessOpDataComponentItemSet)
+    </div>
+    <input id="formSubmit" hidden="hidden" type="submit" value="Перевірено" class="btn btn-primary btn-lg btn-block"/>
+}
+
+
+<script>
+    var effectiveValue = Number.parseFloat(document.getElementById('EffectiveValue').value.replace(',', '.'));
+    var humidityValue = Number.parseFloat(document.getElementById('HumidityValue').value.replace(',', '.'));
+
+    function EffectiveValueCalc() {
+        if (isNaN(humidityValue)) return;
+        var index = document.getElementById("IsEffectiveClassId").selectedIndex;
+
+        var result = effectiveValue;
+        switch (index) {
+        case 1:
+            result = (((100 - humidityValue) * effectiveValue) / 100);
+            break;
+        case 2:
+            result = ((effectiveValue / (100 - humidityValue)) * 100);
+            break;
+        }
+
+        document.getElementById('EffectiveValue').value = (Math.round(result*100)/100).toString().replace('.', ',');
+    }
+</script>

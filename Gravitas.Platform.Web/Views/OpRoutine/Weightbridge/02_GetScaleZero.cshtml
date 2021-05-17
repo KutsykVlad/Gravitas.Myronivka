@@ -1,0 +1,9 @@
+﻿@model Gravitas.Platform.Web.ViewModel.WeightbridgeVms.GetScaleZeroVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="d-flex align-items-center icon-container">
+    <div class="flex-shrink-1"><i class="fas fa-weight"></i></div>
+    <div class="p-3 w-100"><h3>Обнулення ваг</h3></div>
+</div>
+
+@Html.Partial("~/Views/Device/_ScaleWidget.cshtml")

@@ -1,0 +1,36 @@
+@using Gravitas.Model
+@model Gravitas.Platform.Web.ViewModel.NodeProcessingMsgVm
+
+@{
+    string alertClass = string.Empty;
+}
+
+@if (Model != null)
+{
+    foreach (var item in Model.Items)
+    {
+        switch (item.TypeId)
+        {
+            case Dom.Node.ProcessingMsg.Type.Error:
+                alertClass = "alert-danger";
+                break;
+            case Dom.Node.ProcessingMsg.Type.Warning:
+                alertClass = "alert-warning";
+                break;
+            case Dom.Node.ProcessingMsg.Type.Info:
+                alertClass = "alert-info";
+                break;
+            case Dom.Node.ProcessingMsg.Type.Success:
+                alertClass = "alert-success";
+                break;
+        }
+
+        <div class="alert @alertClass alert-dismissible fade show" role="alert">
+            <strong>@item.Time</strong> @item.Text
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="clearNodeProcessingMessage(document.getElementById('nodeId').value);">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+}
+

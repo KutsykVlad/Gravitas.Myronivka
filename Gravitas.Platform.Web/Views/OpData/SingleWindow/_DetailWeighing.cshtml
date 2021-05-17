@@ -1,0 +1,181 @@
+﻿@using Gravitas.Platform.Web.Models
+@using Gravitas.Platform.Web.ViewModel
+@using Newtonsoft.Json
+@model SingleWindowVms.SingleWindowOpDataDetailVm
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+
+<div class="form-row">
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.LoadTarget, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.LoadTarget, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.LoadTarget, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.IncomeDocDateTime, htmlAttributes: new { @class = "" })
+
+    <p class="input-group date-time">
+      <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="incomeDocDateTimePicker.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="incomeDocDateTimePickerOpen()"><i class="fa fa-calendar"></i></button>
+      </span>
+    </p>
+
+    @*<input type="text" class="form-control" datetime-picker="MM/dd/yyyy HH:mm" ng-model="incomeDocDateTimePicker.date" is-open="incomeDocDateTimePicker.open" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'incomeDocDateTimePicker')"><i class="fa fa-calendar"></i></button>
+      </span>*@
+
+    @*  @Html.Hidden("IncomeDocDateTime", Model.IncomeDocDateTime, new { htmlAttributes = new { @class = "form-control", @type="hidden" } })*@
+    @Html.ValidationMessageFor(model => model.IncomeDocDateTime, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.PackingWeightValue, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.PackingWeightValue, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.PackingWeightValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.IncomeDocGrossValue, htmlAttributes: new { @class = "" })
+    <input ng-model='incomeDocGrossValue'
+           ng-model-options='{ debounce: 300 }'
+           ng-change='weightsChanged()'
+           class="form-control text-box single-line valid"
+           data-val="true"
+           data-val-number="Стороннє Брутто (За документами) повинна бути числом."
+           id="IncomeDocGrossValue"
+           name="IncomeDocGrossValue"
+           type="text"
+           value=""
+           aria-describedby="IncomeDocGrossValue-errosr"
+           aria-invalid="false"
+           placeholder="Введіть число" />
+    @Html.ValidationMessageFor(model => model.IncomeDocGrossValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.IncomeDocTareValue, htmlAttributes: new { @class = "" })
+
+    <input ng-model='incomeDocTareValue'
+           ng-model-options='{ debounce: 300 }'
+           ng-change='weightsChanged()'
+           class="form-control text-box single-line"
+           data-val="true" data-val-number="Стороння Тара (За документами) повинна бути числом." id="IncomeDocTareValue" name="IncomeDocTareValue" type="text" value=""
+           placeholder="Введіть число">
+    @Html.ValidationMessageFor(model => model.IncomeDocTareValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.DocNetValue, htmlAttributes: new { @class = "" })
+
+    <input ng-model='docNetValue'
+           class="form-control text-box single-line"
+           readonly
+           data-val="true"
+           data-val-number="Стороннє Нетто (за документами) повинне бути числом."
+           id="DocNetValue"
+           name="DocNetValue"
+           type="text" value="">
+    @Html.ValidationMessageFor(model => model.DocNetValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.DocNetDateTime, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.DocNetDateTime, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.DocNetDateTime, "", new { @class = "text-danger" })
+  </div>
+  <hr>
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.TareValue, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.TareValue, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.TareValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.GrossValue, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.GrossValue, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.GrossValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.NetValue, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.NetValue, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.NetValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.WeightDeltaValue, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.WeightDeltaValue, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.WeightDeltaValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.ScaleInNumber, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.ScaleInNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.ScaleInNumber, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.ScaleOutNumber, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.ScaleOutNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.ScaleOutNumber, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.TareOperatorNameAd, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.TareOperatorNameAd, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.TareOperatorNameAd, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.GrossOperatorNameAd, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.GrossOperatorNameAd, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.GrossOperatorNameAd, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.FirstTareTime, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.FirstTareTime, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.FirstTareTime, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.LastTareTime, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.LastTareTime, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.LastTareTime, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.FirstGrossTime, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.FirstGrossTime, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.FirstGrossTime, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.LastGrossTime, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.LastGrossTime, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.LastGrossTime, "", new { @class = "text-danger" })
+  </div>
+</div>

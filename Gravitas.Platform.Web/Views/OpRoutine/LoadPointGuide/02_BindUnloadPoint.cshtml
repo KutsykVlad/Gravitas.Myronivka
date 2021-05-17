@@ -1,0 +1,87 @@
+﻿@using Gravitas.Model.Dto
+@model Gravitas.Platform.Web.ViewModel.LoadPointGuideVms.BindDestPointVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card ">
+            <div class="card-header">
+                <h5 class="card-title">Показники за документами</h5>
+            </div>
+            <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.Card)
+                        @Html.EditorFor(m => m.Card, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.ProductName)
+                        @Html.EditorFor(m => m.ProductName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.TransportNo)
+                        @Html.EditorFor(m => m.TransportNo, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.TrailerNo)
+                        @Html.EditorFor(m => m.TrailerNo, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.IsThirdPartyCarrier)
+                        @{
+                            var transport = Model.IsThirdPartyCarrier ? "Сторонній" : "Власний";
+                        }
+                        <input value="@transport" class="form-control" disabled="disabled"/>
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        @Html.Label("Отримувач")
+                        @Html.EditorFor(m => m.ReceiverName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.WeightValue)
+                        @Html.EditorFor(m => m.WeightValue, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.PackingWeightValue)
+                        @Html.EditorFor(m => m.PackingWeightValue, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.LoadTargetDeviationPlus)
+                        @Html.EditorFor(m => m.LoadTargetDeviationPlus, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                    </div>     
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.LoadTargetDeviationMinus)
+                        @Html.EditorFor(m => m.LoadTargetDeviationMinus, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                    </div>
+                </div>
+                @using (Ajax.BeginForm("BindLoadPoint_Next", "LoadPointGuide", null, null, FormMethod.Post)) {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+                    <div class="row">
+                        <div class="col-lg-12 form-group">
+                            @Html.LabelFor(m => m.DestNodeId)
+                            @Html.DropDownListFor(
+                                m => m.DestNodeId,
+                                ((ICollection<NodeItem>) ViewBag.NodeItems).Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }),
+                                "- - - Оберіть значення - - -",
+                                new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <diw class="row justify-content-between">
+                        <div class="col-md-3 col-sm-6">
+                            @Ajax.ActionLink(@"Назад", "BindLoadPoint_Back", "LoadPointGuide", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-danger btn-lg btn-block" })
+                        </div>
+                        <div class="col-6">
+                            <input type="submit" value="Призначити пункт розвантаження" class="btn btn-lg btn-primary btn-block"/>
+                        </div>
+                    </diw>
+                }
+            </div>
+        </div>
+    </div>
+</div>

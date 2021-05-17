@@ -1,0 +1,41 @@
+﻿@model Gravitas.Platform.Web.ViewModel.RoleTableVm
+
+@{
+    ViewBag.Title = "Редактор ролей";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.NodeName = "Редактор ролей";
+}
+
+<div class="col-md-3 col-sm-3 col-lg-3">
+    @Html.ActionLink(@"До панелі адміністратора", "Panel", "Admin", null, new { @class = "btn btn-primary btn-block" })
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-3 text-lg-center"> <div class="text-capitalize inline"><h4>Редактор ролей</h4></div></div>
+</div>
+<table class="table">
+    <thead class="thead-light container">
+    <tr>
+        <th class="w-75">
+            @Html.DisplayNameFor(model => model.Roles.FirstOrDefault().RoleName)
+        </th>
+        <th class="w-25">
+            <div>
+                Деталі
+            </div>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Roles)
+    {
+        @Html.Partial("RolesEdit/_RoleTableRecord", item)
+    }
+    </tbody>
+</table>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        @Html.ActionLink("Додати роль", "AddNewRole", null, new { @class = "btn btn-primary btn-sm btn-block" })
+    </div>
+</div>

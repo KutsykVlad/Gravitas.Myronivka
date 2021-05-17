@@ -1,0 +1,50 @@
+﻿@using Gravitas.Model
+@model Gravitas.Platform.Web.ViewModel.BlackListTableVm
+
+@if (!String.IsNullOrEmpty(Model.ErrorMessage))
+{
+    var alertClass = string.Empty;
+    switch (Model.ErrorType)
+    {
+        case Dom.User.ProcessingMsg.Type.Error:
+            alertClass = "alert-danger";
+            break;
+        case Dom.User.ProcessingMsg.Type.Success:
+            alertClass = "alert-success";
+            break;
+    }
+
+    <div class="alert @alertClass alert-dismissible fade show mb-3 mt-3" role="alert">
+         <span style="white-space: pre-line">@Model.ErrorMessage</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+
+<div class="row justify-content-center">
+    <div class="col-3 text-lg-center"> <div class="text-capitalize inline"><h2>Чорний список</h2></div></div>
+</div>
+
+@Html.Partial("Partners/_PartnersList", Model.Partners)
+
+@Html.Partial("Drivers/_DriversList", Model.Drivers)
+
+@Html.Partial("Trailers/_TrailersList", Model.Trailers)
+
+@Html.Partial("Transport/_TransportList", Model.Transport)
+
+<script>
+
+    $(document).ready(function () {
+
+        $('[data-toggle="popover"]').popover({
+            placement: 'top'
+
+        });
+
+    });
+
+</script>

@@ -1,0 +1,7 @@
+﻿@using Gravitas.Model
+@model Gravitas.Platform.Web.ViewModel.UnloadPointType1Vms.GetTareValue
+@Html.HiddenFor(m => m.NodeId, new { id = "nodeId" })
+
+@{
+    Html.RenderAction("GetTareValue", "Helper", new { nodeId = Model.NodeId, returnRoutineStateId = Dom.OpRoutine.UnloadPointType1.State.Idle });
+}

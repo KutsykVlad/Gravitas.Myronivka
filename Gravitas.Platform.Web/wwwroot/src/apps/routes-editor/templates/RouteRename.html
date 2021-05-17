@@ -1,0 +1,21 @@
+﻿<div class="modal-header route-new">
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelRename()"><span aria-hidden="true">&times;</span></button>
+	<h4 class="modal-title">Rename Your Route</h4>
+</div>
+<div class="modal-body survey-new">
+	
+		<p class="dialog-message alert alert-info">
+			Provide new name for your route
+		</p>
+		<div class="form-inline">
+			<div class="form-group name-wrapper">
+				<label for="survey-name">Route Name: </label>
+				<input type="text" class="form-control" id="survey-name" placeholder="Enter route name" ng-model="routeNewName" select-on-click="true" auto-focus />
+			</div>
+		</div>
+	
+</div>
+<div class="modal-footer route-new">
+	<button type="button" class="btn btn-primary ok-button" ng-click="okRename()" ng-class="{'disabled': isEmptyRenamedRouteName() }" ng-disabled="isEmptyRenamedRouteName()">Ok</button>
+	<button type="button" class="btn btn-default cancel-button" ng-click="cancelRename()">Cancel</button>
+</div>

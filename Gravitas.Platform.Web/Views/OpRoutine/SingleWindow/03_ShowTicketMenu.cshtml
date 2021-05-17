@@ -1,0 +1,191 @@
+﻿@using Gravitas.Infrastructure.Platform.ApiClient.OneC
+@using Gravitas.Model
+@model Gravitas.Platform.Web.ViewModel.SingleWindowVms.ShowTicketMenuVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+@{
+    var closedAttribute = "";
+    var processingAttribute = "";
+    if (Model.DeliveryBillId == null
+         || Model.TicketStatusId == Dom.Ticket.Status.Closed
+         || Model.TicketStatusId == Dom.Ticket.Status.Canceled)
+    {
+        closedAttribute = " disabled";
+    }
+    if (Model.TicketStatusId != Dom.Ticket.Status.Completed)
+    {
+        processingAttribute = " disabled";
+    }
+}
+
+<div class="row justify-content-between">
+
+    <div class="col-lg-4 col-sm-6 mb-2">
+        @Ajax.ActionLink(@"Назад", "ShowTicketMenu_Back", "SingleWindow", new { nodeId = Model.NodeId, isConfirmed = false }, null, new { @class = "btn btn-outline-danger btn-lg btn-block" })
+    </div>
+    @if (Model.IsEditable)
+    {
+        <div class="col-lg-4 col-sm-6 mb-2">
+            <div class="dropdown" style="min-width: 20rem">
+                <button class="btn btn-primary btn-lg btn-block dropdown-toggle @closedAttribute" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="supplyCodeDropdown">
+                    Код поставки
+                </button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item">
+                        @using (Ajax.BeginForm("ChangeTicketSupplyCode", "SingleWindow", FormMethod.Post, null, new { @class = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+                            @Html.HiddenFor(m => m.TicketId)
+
+                            <div class="row">
+                                @Html.EditorFor(model => Model.SupplyCode, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SupplyCode, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="row mt-1">
+                                <button type="submit" class="btn btn-primary btn-block" onclick="supplyChangeClick()">Змінити</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-2">
+            @Ajax.ActionLink(@"Маршрут", "ShowTicketMenu_Route", "SingleWindow",
+                new {nodeId = Model.NodeId, isConfirmed = false}, null,
+                new {@class = $"btn btn-primary btn-lg btn-block {(Model.IsPhoneNumberAvailable ? "" : " disabled")} {closedAttribute}"})
+             
+        </div>
+    }
+    <div class="col-lg-4 col-sm-6 mb-2">
+        @Ajax.ActionLink(@"Правка ТТН", "ShowTicketMenu_Edit", "SingleWindow",
+             new { nodeId = Model.NodeId, isConfirmed = false }, null,
+            new { @class = $"btn btn-primary btn-lg btn-block {closedAttribute}" })
+    </div>
+    <div class="col-lg-4 col-sm-6 mb-2">
+        <div class="dropdown">
+            <button class="btn btn-lg btn-primary btn-block dropdown-toggle @(Model.DeliveryBillId == null ? " disabled" : "")" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Друк
+            </button>
+
+            <div class="dropdown-menu">
+                @if (Model.SupplyCode != Dom.SingleWindowOpData.TechnologicalSupplyCode)
+                {
+                    @Html.ActionLink(@"Протокол", "GenerateProtocol", "Report",
+                             new { nodeId = Model.NodeId }, new { @class = "dropdown-item", @target = "_blank" })
+                    @Html.ActionLink(@"Посвідчення про якість комбікорму (до 04.06.2018)", "ShowTicketMenu_PrintDoc", "SingleWindow",
+                             new { nodeId = Model.NodeId, printoutTypeId = OneCApiClient.GetBillFileDto.Request.PrintoutType.QualityBill },
+                             new { @class = "dropdown-item", @target = "_blank" })
+                    @Html.ActionLink(@"Посвідчення про якість комбікорму (від 04.06.2018) New", "ShowTicketMenu_PrintDoc", "SingleWindow",
+                             new { nodeId = Model.NodeId, printoutTypeId = OneCApiClient.GetBillFileDto.Request.PrintoutType.QualityBillV2 },
+                             new { @class = "dropdown-item", @target = "_blank" })
+                    @Html.ActionLink(@"TTH №1 (Додаток 7)", "ShowTicketMenu_PrintDoc", "SingleWindow",
+                             new { nodeId = Model.NodeId, printoutTypeId = OneCApiClient.GetBillFileDto.Request.PrintoutType.DeliveryBill },
+                             new { @class = "dropdown-item", @target = "_blank" })
+                    @Html.ActionLink(@"TTH №1 (Хлібопродукти)", "ShowTicketMenu_PrintDoc", "SingleWindow",
+                             new { nodeId = Model.NodeId, printoutTypeId = OneCApiClient.GetBillFileDto.Request.PrintoutType.CompositeDeliveryBill },
+                             new { @class = "dropdown-item", @target = "_blank" })
+                    @Html.ActionLink(@"Акт різниці ваги", "ShowTicketMenu_PrintDoc", "SingleWindow",
+                             new { nodeId = Model.NodeId, printoutTypeId = OneCApiClient.GetBillFileDto.Request.PrintoutType.ActOfDisagreementBill },
+                             new { @class = "dropdown-item", @target = "_blank" })
+                    @Html.ActionLink(@"Видаткова накладна", "ShowTicketMenu_PrintDoc", "SingleWindow",
+                             new { nodeId = Model.NodeId, printoutTypeId = OneCApiClient.GetBillFileDto.Request.PrintoutType.GetInvoiceBillFile },
+                             new { @class = "dropdown-item", @target = "_blank" })
+                    @Html.ActionLink(@"Сертифікат лабораторії", "ShowTicketMenu_GetLabCertificate", "SingleWindow",
+                             new { nodeId = Model.NodeId }, new { @class = "dropdown-item", @target = "_blank" })
+                }
+                else
+                {
+                    @Html.ActionLink(@"Технологічна накладна", "GenerateTechnicalRouteReport", "Report",
+                    new { nodeId = Model.NodeId }, new { @class = "dropdown-item", @target = "_blank" })
+                    }
+                </div>
+        </div>
+    </div>
+    @if (Model.IsEditable)
+    {
+        <div class="col-lg-4 col-sm-6 mb-2">
+            @Ajax.ActionLink(@"Провести ТТН", "ShowTicketMenu_Commit", "SingleWindow",
+                new { nodeId = Model.NodeId, isConfirmed = false }, null,
+                new { @class = $"btn btn-primary btn-lg btn-block {closedAttribute} {processingAttribute}" })
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-2">
+            @Ajax.ActionLink(@"Повторна відправка СМС", "ShowTicketMenu_SendSms", "SingleWindow",
+                new { nodeId = Model.NodeId }, null,
+                new { @class = $"btn btn-primary btn-lg btn-block {(Model.IsPhoneNumberAvailable ? "" : " disabled")} {closedAttribute}" })
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-2">
+            <div class="dropdown" style="min-width: 20rem">
+                <button class="btn btn-primary btn-lg btn-block dropdown-toggle @processingAttribute" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="newWeightDropdown">
+                    Розбити ТТН
+                </button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item">
+                        @using (Ajax.BeginForm("DivideTicketCode", "SingleWindow", FormMethod.Post, null, new { @class = "" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.NodeId, new {@id = "nodeId"})
+                            @Html.HiddenFor(m => m.TicketId)
+
+                            <div class="row">
+                                @Html.EditorFor(model => Model.NewWeightValue, new {htmlAttributes = new {@class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.NewWeightValue, "", new {@class = "text-danger"})
+                            </div>
+                            <div class="row mt-1">
+                                <button type="submit" class="btn btn-primary btn-block" onclick="$('#newWeightDropdown').dropdown('toggle')">Розбити</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-2">
+            @Ajax.ActionLink(@"Кінець роботи", "ShowTicketMenu_Exit", "SingleWindow",
+                new {nodeId = Model.NodeId}, null,
+                new {@class = "btn btn-danger btn-lg btn-block"})
+        </div>
+    }
+</div>
+
+<div class="row mt-3">
+    <div class="form-group col-lg-4">
+        @Html.LabelFor(model => model.CardNumber, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.CardNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+    <div class="form-group col-lg-4">
+        @Html.LabelFor(model => model.TransportNo, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TransportNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+
+    <div class="form-group col-lg-4">
+        @Html.LabelFor(model => model.IsThirdPartyCarrier, htmlAttributes: new { @class = "" })
+        @{
+            var transport = Model.IsThirdPartyCarrier ? "Сторонній" : "Власний";
+        }
+        @Html.EditorFor(model => transport, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="form-group col-lg-4">
+        @Html.LabelFor(model => model.Nomenclature, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.Nomenclature, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+    <div class="form-group col-lg-4">
+        @Html.LabelFor(model => model.TrailerNo, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TrailerNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+    <div class="form-group col-lg-4">
+        @Html.LabelFor(model => model.SupplyCode, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.SupplyCode, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+</div>
+
+<h5 class="mt-3">Список операцій</h5>
+@Html.Action("List", "OpData", new { ticketId = Model.TicketId, showPhotoIcons = true })
+
+<script>
+    function supplyChangeClick() {
+        $("#supplyCodeDropdown").dropdown("toggle");
+    };
+
+</script>

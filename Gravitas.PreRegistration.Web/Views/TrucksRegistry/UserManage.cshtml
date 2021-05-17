@@ -1,0 +1,58 @@
+﻿@using Newtonsoft.Json
+@model Gravitas.PreRegistration.Web.Models.Registry.UserTruckRegistryVm
+
+@*model=@JsonConvert.SerializeObject(Model); Trucks = $scope.model.Items;*@
+<div ng-init="begin(@JsonConvert.SerializeObject(Model))" ng-controller="userManageController">
+    @*<button ng-click="begin()">LoadData</button>*@
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th colspan="2">
+                    Номер авто
+                </th>
+                <th colspan="3">
+                    Номер причепу
+                </th>
+                <th colspan="2">
+                    Телефон водія
+                </th>
+                <th colspan="2">
+                    Час прибуття
+                </th>
+                <th colspan="1">
+                    Видалити
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in Trucks">
+                <td colspan="2">{{item.TruckNo}}</td>
+                <td colspan="3">{{item.TrailerNo}}</td>
+                <td colspan="2">{{item.PhoneNo}}</td>
+                <td colspan="2">{{item.EntranceTime}}</td>
+                <td colspan="1">
+                    <button class="btn btn-primary btn-block" ng-click="deleteRecord(item)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    @*<button ng-click="postData()">PostData</button>*@
+</div>
+@if (ViewBag.allowed)
+{
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            @Html.ActionLink(@"Зареєструвати машину", "RegisterTruck", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-lg btn-block", onclick = "location.reload();" })
+        </div>
+    </div>
+}
+else
+{
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            Реєструвати машини не дозволено
+        </div>
+    </div>
+}

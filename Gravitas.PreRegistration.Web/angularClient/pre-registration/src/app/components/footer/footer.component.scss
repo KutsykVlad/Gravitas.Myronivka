@@ -1,0 +1,31 @@
+footer {
+  width: 80vw;
+  position: absolute;
+  bottom: 0;
+  height: 2.5rem;
+
+  .logo img {
+    width: 6rem;
+  }
+
+  .footer-items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+
+    padding-left: 4vw;
+    padding-right: 4vw;
+
+    span,
+    div {
+      color: black;
+    }
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 800px) {
+  footer {
+    width: 100vw;
+  }
+}

@@ -1,0 +1,130 @@
+﻿@using Gravitas.Model;
+@model Gravitas.Platform.Web.ViewModel.SingleWindowVms.GetTicketVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+@using (Ajax.BeginForm("GetTicket", "SingleWindow", FormMethod.Post, null, new { @class = "" }))
+{
+    if (Model.IsEditable)
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+        <div class="form-row">
+            <div class="col-md-8 col-sm-6">
+                @Html.LabelFor(model => model.SupplyBarCode, htmlAttributes: new { @class = "" })
+            </div>
+        </div>
+    }
+    <div class="form-row">
+        @if (Model.IsEditable)
+        {
+            <div class="col-md-8 col-sm-6 mb-1">
+                @Html.EditorFor(model => Model.SupplyBarCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SupplyBarCode, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2 col-sm-3 mb-1">
+                <button type="submit" class="btn btn-primary btn-block">Додати</button>
+            </div>
+        }
+        <div class="col-md-2 col-sm-3 mb-1">
+            @Ajax.ActionLink(@"Вийти", "GetTicket_Back", "SingleWindow", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-primary btn-block bg-danger" })
+        </div>
+    </div>
+}
+
+
+<div class="row mt-3">
+    <div class="form-group col-lg-3">
+        @Html.LabelFor(model => model.CardNumber, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.CardNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+    <div class="form-group col-lg-3">
+        @Html.LabelFor(model => model.TransportNo, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TransportNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+    <div class="form-group col-lg-3">
+        @Html.LabelFor(model => model.TrailerNo, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TrailerNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+    <div class="form-group col-lg-3">
+        @Html.LabelFor(model => model.IsThirdPartyCarrier, htmlAttributes: new { @class = "" })
+        @{
+            var transport = Model.IsThirdPartyCarrier ? "Сторонній" : "Власний";
+        }
+        @Html.EditorFor(model => transport, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+</div>
+
+<section class="ticket-list">
+    @if (Model.TicketList == null
+        || !Model.TicketList.Items.Any())
+    {
+        <div class="jumbotron mt-3">
+            <h4>Контейнер не містить жодного документу</h4>
+        </div>
+    }
+    else
+    {
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TicketList.Items.FirstOrDefault().Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TicketList.Items.FirstOrDefault().StatusName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TicketList.Items.FirstOrDefault().Product)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TicketList.Items.FirstOrDefault().SupplyCode)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.TicketList.Items)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StatusName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SupplyCode)
+                        </td>
+                        <td>
+                            <div class="btn-group float-right" role="group">
+
+                                @if (item.StatusId != Dom.Ticket.Status.Canceled)
+                                {
+                                    @Ajax.ActionLink("Деталі", "GetTicket_Detail", "SingleWindow", new { nodeId = Model.NodeId, ticketId = item.Id }, null, new { @class = "btn btn-primary btn-sm" })
+
+                                    if (Model.IsEditable)
+                                    {
+                                        @Ajax.ActionLink("Видалити", "GetTicket_Delete", "SingleWindow", new { nodeId = Model.NodeId, ticketId = item.Id }, null, new { @class = "btn btn-danger btn-sm ml-1" })
+                                    }
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+@if (Model.IsEditable)
+{
+    <div class="form-row">
+        <div class="col-12">
+            @Ajax.ActionLink(@"Вилучити картку та закрити маршрутний лист", "GetTicket_Close", "SingleWindow", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-lg btn-primary btn-block bg-danger" })
+        </div>
+    </div>
+}

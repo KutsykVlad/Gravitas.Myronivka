@@ -1,0 +1,18 @@
+<h3 class="chart-title">{{ barChartInfo?.productTitle }}</h3>
+<div class="chart-containers-box">
+  <div class="chart-container">
+    <canvas
+      class="canvas"
+      baseChart
+      [data]="barChartInfo.data"
+      [labels]="barChartInfo.labels"
+      [options]="barChartOptions"
+      [colors]="barChartColors"
+      [chartType]="barChartType"
+    >
+    </canvas>
+    <div class="labels">
+      <span *ngFor="let item of barChartInfo.labels">{{ item }}</span>
+    </div>
+  </div>
+</div>

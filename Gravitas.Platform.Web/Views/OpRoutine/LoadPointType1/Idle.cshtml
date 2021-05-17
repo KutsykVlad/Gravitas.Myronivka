@@ -1,0 +1,93 @@
+﻿@using Gravitas.Model.DomainValue
+@using Gravitas.Platform.Web.ViewModel
+@using Microsoft.Ajax.Utilities
+@model Gravitas.Platform.Web.ViewModel.LoadPointType1Vms.IdleVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+
+@if (Model.BindedTruck?.TransportNo == null)
+{
+    <div class="d-flex align-items-center icon-container">
+        <div class="flex-shrink-1"><i class="fas fa-id-card"></i></div>
+        <div class="p-3 w-100"><h3>Очікування картки автомобіля</h3></div>
+    </div>
+}
+else
+{
+    <div class="row mb-3">
+        <div class="col-12">
+            @Html.LabelFor(m => m.BindedTruck.ProductName)
+            @Html.TextBoxFor(m => m.BindedTruck.ProductName, new {@class = "form-control", @readonly = "true", title = Model.BindedTruck.ProductName})
+        </div>
+        <div class="col-6">
+            @Html.LabelFor(m => m.BindedTruck.ReceiverName)
+            @Html.EditorFor(m => m.BindedTruck.ReceiverName, new { htmlAttributes = new { @class = "form-control", @readonly = "true", title = Model.BindedTruck.ReceiverName } })
+        </div>
+        <div class="col-6">
+            @Html.LabelFor(m => m.BindedTruck.ReceiverDepotName)
+            @Html.EditorFor(m => m.BindedTruck.ReceiverDepotName, new { htmlAttributes = new { @class = "form-control", @readonly = "true", title = Model.BindedTruck.ReceiverDepotName } })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            @Html.LabelFor(m => m.BindedTruck.TransportNo)
+            @Html.EditorFor(m => m.BindedTruck.TransportNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+        </div>
+        <div class="col-3">
+            @Html.LabelFor(m => m.BindedTruck.LoadTarget)
+            @Html.EditorFor(m => m.BindedTruck.LoadTarget, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+        </div>
+        <div class="col-3">
+            @Html.LabelFor(m => m.BindedTruck.LoadTargetDeviationPlus)
+            @Html.EditorFor(m => m.BindedTruck.LoadTargetDeviationPlus, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+        </div>
+        <div class="col-3">
+            @Html.LabelFor(m => m.BindedTruck.LoadTargetDeviationMinus)
+            @Html.EditorFor(m => m.BindedTruck.LoadTargetDeviationMinus, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+        </div>
+    </div>
+    
+    <div class="row mb-5 justify-content-between">
+        <div class="col-3">
+            @Ajax.ActionLink("Очистка авто", "Idle_Cancel", "LoadPointType1", new {nodeId = Model.NodeId}, null, new {@class = $"btn btn-warning btn-lg btn-block mt-2 {(Model.PartLoadUnload || !Model.IsActive? " disabled" : "")}"})
+        </div>
+        <div class="col-3">
+            @Ajax.ActionLink("Відхилити", "Idle_Reject", "LoadPointType1", new {nodeId = Model.NodeId}, null, new {@class = $"btn btn-danger btn-lg btn-block mt-2 {(Model.PartLoadUnload || !Model.IsActive ? " disabled" : "")}"})
+        </div>    
+        <div class="col-3">
+            @Ajax.ActionLink("Тара", "Idle_GetTareValue", "LoadPointType1", new {nodeId = Model.NodeId}, null, new {@class = $"btn btn-primary btn-lg btn-block mt-2"})
+        </div>   
+        <div class="col-3">
+            @Ajax.ActionLink("Завершити", "Idle_Confirm", "LoadPointType1", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-success btn-lg btn-block mt-2"})</div>
+    </div>
+}
+
+<div class="row justify-content-between mt-4 mb-2">
+    <div class="col-md-3">
+        @Ajax.ActionLink(@"Деактивувати вузол", "Idle_ChangeState", "LoadPointType1", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-warning btn-lg btn-block" })
+    </div>
+    <div class="col-md-3">
+        @Ajax.ActionLink(@"Назад", "IdleWorkstation_Back", "LoadPointType1", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-danger btn-lg btn-block" })
+    </div>
+</div>
+
+@if (Model.ProductContentList != null && Model.ProductContentList.Items.Any())
+{
+    <div class="col-12">
+        @Html.Partial("../OpData/SingleWindow/_ProductContentsDetail", Model.ProductContentList)
+    </div>
+}
+
+@{ Html.RenderAction(
+       "GetRegistry",
+       "TicketContainer",
+       new {
+           nodeId = Model.NodeId,
+           registerType = TicketRegisterType.LoadPointsType2,
+           detailActionLink = new ActionLinkVm {
+               NodeId = Model.NodeId,
+               ControllerName = "LoadPointType1",
+               ActionName = "Idle"
+           }
+       });
+}

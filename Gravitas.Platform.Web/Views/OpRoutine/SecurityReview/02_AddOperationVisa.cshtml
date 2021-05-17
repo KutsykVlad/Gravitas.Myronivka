@@ -1,0 +1,36 @@
+﻿@model Gravitas.Platform.Web.ViewModel.SecurityReviewVms.AddOperationVisaVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="d-flex align-items-center icon-container">
+    <div class="flex-shrink-1">
+        <i class="fas fa-id-card"></i>
+    </div>
+    <div class="p-3 w-100">
+        <h3>Піднесіть картку Охоронця до зчитувача</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        @Html.LabelFor(model => model.TruckBaseInfo.TransportNo, htmlAttributes: new {@class = ""})
+        @Html.EditorFor(model => model.TruckBaseInfo.TransportNo, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+    </div>
+    <div class="col-6">
+        @Html.LabelFor(model => model.TruckBaseInfo.TrailerNo, htmlAttributes: new {@class = ""})
+        @Html.EditorFor(model => model.TruckBaseInfo.TrailerNo, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+    </div>
+    <div class="col-6">
+        @Html.LabelFor(model => model.TruckBaseInfo.ProductName, htmlAttributes: new {@class = ""})
+        @Html.EditorFor(model => model.TruckBaseInfo.ProductName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+    </div>
+    <div class="col-6">
+        @Html.LabelFor(model => model.TruckBaseInfo.StampList, htmlAttributes: new {@class = ""})
+        @Html.EditorFor(model => model.TruckBaseInfo.StampList, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+    </div>
+</div>
+
+<hr />
+<h4>
+    Піднесенням картки працівник охорони підтверджує:
+    <p> - дозвіл на заїзд автотранспорту на територію підприємства згідно з поточною посадовою інструкцією</p>
+</h4>

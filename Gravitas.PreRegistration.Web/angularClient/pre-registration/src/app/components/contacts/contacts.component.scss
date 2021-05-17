@@ -1,0 +1,29 @@
+.main-flex-block {
+  width: 80vw;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+
+  .info-block {
+    width: 40vw;
+    font-size: large;
+    text-align: center;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 800px) {
+  .main-flex-block {
+    width: 100vw;
+    h2 {
+      font-size: smaller;
+    }
+    .info-block {
+      width: 100vw;
+      font-size: small;
+      text-align: center;
+    }
+  }
+}

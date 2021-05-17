@@ -1,0 +1,27 @@
+﻿@model HangfireDemo.DTO.JobScheduleDto
+
+@{
+    ViewData["Title"] = "Schedule A Job";
+}
+
+<h2>Schedule a Job</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("ScheduleJob", "Schedule", FormMethod.Post))
+        {
+        <div class="form-group">
+            <div>Schedule</div>
+            <div>@Html.TextBoxFor(m => m.Name)</div>
+        </div>
+        <div class="form-group">
+            <div>Schedule</div>
+            <div>@Html.TextBoxFor(m => m.Schedule)</div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" />
+        </div>
+        }
+    </div>
+</div>

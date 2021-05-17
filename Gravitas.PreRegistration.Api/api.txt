@@ -1,0 +1,79 @@
+// get products
+GET http://localhost:61229/api/preregistration/get-products
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+// register
+POST http://localhost:61229/api/account/register
+Accept: */*
+Cache-Control: no-cache
+
+{ email:'testName@test.xxx', password:'test1test1', confirmPassword:'test1test1'}
+
+###
+
+// get token
+POST http://localhost:61229/Token
+Accept: */*
+Cache-Control: no-cache
+Content-Type: x-www-form-urlencoded
+
+grant_type=password&username=testName@test.xxx&password=test1test1
+
+###
+
+// add to queue
+POST http://localhost:61229/api/preregistration/add
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer a-T3OGKzMC2GbCLXN7TJqwfRr1EePgcFHDUJm4-DebwKXQO4NmsiZr_9kDx2uMrtpNCJvazl3VskkV52C0U3gXp-zysOEizafF9ADMgwaCproI--VrjCOs4l_EZOSeK_Ym1SzF5X7e2mCE5Zrgl8tlV2vQqpLK9arBYRE0GY_7NZXJct3KbBIkuAYNna029SAAx1inxgcJ7xn753B_GGQ__aA-mhhbMyBsPdwInX9MzcD7vfshOnMGRZwdVgrG6F
+
+{ routeId:20, phoneNo:'06742816216', registerDateTime:'11:00:00 10.10.2019' }
+
+###
+
+// delete to queue
+DELETE http://localhost:61229/api/preregistration/delete?phoneNo=38077777777
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer a-T3OGKzMC2GbCLXN7TJqwfRr1EePgcFHDUJm4-DebwKXQO4NmsiZr_9kDx2uMrtpNCJvazl3VskkV52C0U3gXp-zysOEizafF9ADMgwaCproI--VrjCOs4l_EZOSeK_Ym1SzF5X7e2mCE5Zrgl8tlV2vQqpLK9arBYRE0GY_7NZXJct3KbBIkuAYNna029SAAx1inxgcJ7xn753B_GGQ__aA-mhhbMyBsPdwInX9MzcD7vfshOnMGRZwdVgrG6F
+
+###
+
+// change password
+POST http://localhost:61229/api/account/ChangePassword
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eR4udKBlLFui_XxDfEy_jpp8OqMyxYKR5zmz8v6qGdPqfxwbth577Sv84CRQfOuCdV8KV0XNV5eFwAVzfWdyAvc9ioXeaWVkjGPrTQ4Nvbn24_nnzLCr2SVHExko5lgjA3FzijmYJ65IbIL6bXaq4c3vH9rSv7KCD9yI1HA59O8Obw0S-ZiOgMebw6XR4_e18IfbnOfgDSmi4crhazREPRWJevjI3KgmZeVeJiSL3_SmaouRs0YZYX8yO8KPTHbZlCNetwgoT_xSKcLKNjjgFyPnad8l-lopxHufPU_eLcNKhazaFitBDgPzl9KNv2cUb1xYJU6QAjVkcy6CKXWNJ_AtZTu1n-7uWCXyipVCZGjdauPEc-RH2bPkqCZ5yWOua5ntdhlCGxhpaQ3LrJr2OQ
+
+{ oldPassword:'test1test1', newPassword:'test2test2', confirmPassword:'test2test2'}
+
+###
+
+// delete user
+DELETE http://localhost:61229/api/account/Delete
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eR4udKBlLFui_XxDfEy_jpp8OqMyxYKR5zmz8v6qGdPqfxwbth577Sv84CRQfOuCdV8KV0XNV5eFwAVzfWdyAvc9ioXeaWVkjGPrTQ4Nvbn24_nnzLCr2SVHExko5lgjA3FzijmYJ65IbIL6bXaq4c3vH9rSv7KCD9yI1HA59O8Obw0S-ZiOgMebw6XR4_e18IfbnOfgDSmi4crhazREPRWJevjI3KgmZeVeJiSL3_SmaouRs0YZYX8yO8KPTHbZlCNetwgoT_xSKcLKNjjgFyPnad8l-lopxHufPU_eLcNKhazaFitBDgPzl9KNv2cUb1xYJU6QAjVkcy6CKXWNJ_AtZTu1n-7uWCXyipVCZGjdauPEc-RH2bPkqCZ5yWOua5ntdhlCGxhpaQ3LrJr2OQ
+
+###
+
+// get company details
+GET http://localhost:61229/api/preregistration/get-details
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer mi-KrK_8c4ei9MZOteONUYwQylYL5Ql5HVQKU_rAosNfsrfBZhg-t_WzepskWUuN0EHx9Iq8kOV-4jRNSBTsCJZ2hiMbtdpHjudjcKjFjWK8S8v6cP8oHsVLz6N85rtEviXS47Yg0NcoKfnU4-Vzm0NW_LMUZ0JBkGD3VkKwYjSkX9kHXYfjtBSO8QlQ15PscX4Yf-6BFTd9BOanq3mkcP3NkBuW8tqVWdOdpzv0fjwBmXfmA1bp8P7UbTAzRdFof-5P0adDqOAuGVIxJ7eCSZAV2Ix7pej7UwAPy75zyk6e2doUnIvqFv7m7UKcbIjEhYsPXbWoQ_GjsWFFvfheNSF9KgcZXesbFVo-INEUJBHdtcNAuG7KHgZDYv-HD-i7AkpQFxJPQ_1-hPY-AbqoeQ
+
+###
+
+GET http://localhost:61229/api/preregistration/get-trucks?skip=0&pageSize=5
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer mi-KrK_8c4ei9MZOteONUYwQylYL5Ql5HVQKU_rAosNfsrfBZhg-t_WzepskWUuN0EHx9Iq8kOV-4jRNSBTsCJZ2hiMbtdpHjudjcKjFjWK8S8v6cP8oHsVLz6N85rtEviXS47Yg0NcoKfnU4-Vzm0NW_LMUZ0JBkGD3VkKwYjSkX9kHXYfjtBSO8QlQ15PscX4Yf-6BFTd9BOanq3mkcP3NkBuW8tqVWdOdpzv0fjwBmXfmA1bp8P7UbTAzRdFof-5P0adDqOAuGVIxJ7eCSZAV2Ix7pej7UwAPy75zyk6e2doUnIvqFv7m7UKcbIjEhYsPXbWoQ_GjsWFFvfheNSF9KgcZXesbFVo-INEUJBHdtcNAuG7KHgZDYv-HD-i7AkpQFxJPQ_1-hPY-AbqoeQ
+
+<> 2019-05-24T033343.200.json
+<> 2019-05-24T025715.200.json
+
+###

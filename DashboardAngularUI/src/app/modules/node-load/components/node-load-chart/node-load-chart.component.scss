@@ -1,0 +1,16 @@
+.node-load-data {
+  position: absolute;
+  color: white;
+  padding: 1vh;
+  bottom: 0;
+  font-size: 3vh;
+}
+
+.chart-container {
+  height: 100%;
+  width: 100%;
+
+  canvas {
+    border-radius: 5px;
+  }
+}

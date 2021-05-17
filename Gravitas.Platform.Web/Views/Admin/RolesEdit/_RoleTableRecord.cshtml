@@ -1,0 +1,58 @@
+﻿@model Gravitas.Platform.Web.ViewModel.RoleVm
+@{int id;
+id = Convert.ToInt32(Model.RoleId); 
+}
+
+    @using (Html.BeginForm("ChangeRoleRecord", "Admin", FormMethod.Post))
+    {
+       
+        <tr>
+            <td>
+                @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RoleName, "Неправильна назва", new { @class = "text-danger" })
+            </td>
+            <td>
+                <div hidden="hidden"> @Html.EditorFor(model => model.RoleId)</div>
+                <button type="button" class="btn btn-primary btn-sm btn-block mt-1" data-toggle="collapse" data-target=".collapse_@id">
+                    Деталі
+                </button>
+            </td>
+        </tr>
+        <tr id="collapse_@id" class="collapse collapse_@id">
+            <td>
+                <div class="container row">
+                    
+                    @for (int i = 0; i < Model.Assignments.Count; i++)
+                    {
+                        <div class="col-4 checkbox">
+                            @Html.EditorFor(model => model.Assignments[i].IsAssigned)
+                            <div hidden="hidden">@Html.EditorFor(model => model.Assignments[i].NodeInfo.NodeId)</div>
+                            @Model.Assignments[i].NodeInfo.NodeName
+                        </div>
+                    }
+                </div>
+            </td>
+            <td>
+                <div class="container">
+                    <div class="row-border">
+                        <button type="submit" class="btn btn-primary btn-sm btn-block">Зберегти</button>
+                    </div>
+                    <div class="row-border mt-3">
+                         @Html.ActionLink(@"Видалити", "DeleteRoleRecord", "Admin", new {roleId = Model.RoleId}, new {@class = "btn btn-danger btn-sm btn-block"})
+                    </div>
+                </div>
+            </td>
+        </tr>
+            
+    }
+
+       
+            
+    
+
+    
+    
+      
+       
+        
+   

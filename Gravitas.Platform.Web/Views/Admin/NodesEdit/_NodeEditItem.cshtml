@@ -1,0 +1,25 @@
+﻿
+@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@model Gravitas.Platform.Web.ViewModel.NodeEditVm
+
+<tr>
+    @using (Html.BeginForm("ChangeNodeItems", "Admin", FormMethod.Post))
+    {
+        <td>
+            @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @data_val = "false", @class = "form-control", @readonly = "true" } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @data_val = "false", @class = "form-control", @readonly = "true" } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.MaximumProcessingTime, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Quota, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
+        </td>
+        <td>
+            <button type="submit" class="btn btn-primary btn-sm btn-block">Змінити</button>
+        </td>
+    }
+</tr>

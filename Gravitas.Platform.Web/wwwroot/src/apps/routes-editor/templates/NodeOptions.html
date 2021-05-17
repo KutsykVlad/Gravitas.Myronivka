@@ -1,0 +1,29 @@
+﻿<div class="node-type">
+	<i class="fa fa-fw item-icon" ng-class='node.Icon'></i>
+	<span class="node-template-name">{{ getNodeName(node) }}</span>
+</div>
+<div class="form-group node-option">
+	<!--{{node}}-->
+	<div class="checkbox">
+		<label for="isRequired">
+			<input type="checkbox" id="isRequired" class="checkbox style-0" ng-model="node.IsRequired" ng-click="nodeIsRequired(node)">
+			<span>Is Required</span>
+		</label>
+	</div>
+	<hr />
+	<div class="checkbox" ng-repeat="dot in node.Dots">
+		<label for="d_{{node.Id}}_{{$index}}">
+			<input type="checkbox" id="d_{{node.Id}}_{{$index}}" class="checkbox style-0" ng-model="dot.selected" ng-click="dotClick($event, node, dot)">
+			<span class="small"><span>{{$index+1}}. </span><strong>#{{dot.Id}}</strong> - {{ dot.Name }} <span class="small" ng-bind-html="dot.IsActive | nodeStatus"></span></span><br />
+			<!--<span class="small">{{ dot.Code }}</span>-->
+			<span class="pull-right">
+
+				<!--<div style="margin-top: 5px;" uib-tooltip="Not Start & Not Finish"><i class="material-icons">{{dot | dotType}}</i></div>-->
+			</span>
+
+		</label>
+	</div>
+	<hr />
+	<button class="btn btn-primary center node-options-apply" ng-click="updateRouteNode($event, node)">Apply</button>
+</div>
+

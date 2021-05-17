@@ -1,0 +1,50 @@
+<div class="main-container">
+  <h2 class="chart-title">Особистий кабінет</h2>
+  <div class="info-container">
+    <div>
+      <div *ngIf="companyHasAllDetails">
+        <p>Компанія: {{ preRegistrationService.companyInfo.name }}</p>
+        <p>
+          Код ЄДРПОУ або ФОП:
+          {{ preRegistrationService.companyInfo.enterpriseCode }}
+        </p>
+        <p>
+          Контактний телефон:
+          {{ preRegistrationService.companyInfo.contactPhoneNumber }}
+        </p>
+      </div>
+      <p>Електронна пошта: {{ authService.getEmail() }}</p>
+      <div *ngIf="preRegistrationService.companyInfo?.isApproved">
+        <p>Реєстрація дозволена</p>
+        <p>
+          Кількість доступних реєстрацій:
+          {{ preRegistrationService.companyInfo.trucksAllowed }}
+        </p>
+      </div>
+      <p
+        *ngIf="
+          !preRegistrationService.companyInfo?.isApproved &&
+          companyHasAllDetails
+        "
+      >
+        Очікується підтвердження адміністратора
+      </p>
+    </div>
+    <div class="actions-container">
+      <div *ngIf="!companyHasAllDetails">
+        <button mat-raised-button (click)="showSendEmailForAdmin()">
+          Отримати дозвіл на реєстрацію
+        </button>
+      </div>
+      <button mat-raised-button (click)="showChangePassword()">
+        Змінити пароль
+      </button>
+      <button mat-raised-button (click)="confirmUserDeleting()">
+        Видалити обліковий запис
+      </button>
+      <button mat-raised-button (click)="logout()">
+        Вийти із системи
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,151 @@
+﻿@model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.PrintCollisionInitVm
+
+@using (Ajax.BeginForm("PrintCollisionInit_Process", "LaboratoryIn", FormMethod.Post, null, new {enctype = "multipart/form-data"}))
+{
+    @Html.HiddenFor(m => m.NodeId, new {id = "nodeId"})
+    @Html.HiddenFor(m => m.TicketId)
+
+    <h3>Відправка на погодження</h3>
+
+    <div class="form-row">
+        <div class="form-group col-lg-2 align-bottom">
+            <label></label>
+            @Html.Label("Для узгодження", null, new {@class = "form-control", @readonly = "true"})
+        </div>
+        <div class="form-group col-lg-3">
+            @Html.LabelFor(m => m.Email1, new {@class = ""})
+            @Html.EditorFor(m => m.Email1, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(model => model.Email1, "", new {@class = "text-danger"})
+        </div>
+        <div class="form-group col-lg-4">
+            @Html.LabelFor(m => m.Phone1, new {@class = ""})
+            <div class="row">
+                <div class="col-1">
+                    <span class="ml-3" style="line-height: 2.3;">+</span>
+                </div>
+                <div class="col-11">
+
+                    @Html.EditorFor(m => m.Phone1, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Phone1, "", new {@class = "text-danger"})
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-lg-3">
+            @Html.LabelFor(m => m.Manager1, new {@class = ""})
+            @Html.DropDownListFor(m => m.Manager1, Model.ManagerList.Select(d => new SelectListItem {Value = d.Key, Text = d.Value.ShortName}),
+                "-- Виберіть менеджера --",
+                new {@class = "form-control mt-1", @id = "manager1", @onchange = "addManager(this)"})
+        </div>
+
+        <div class="form-group col-lg-2">
+            @Html.Label("Для сповіщення", null, new {@class = "form-control", @readonly = "true"})
+        </div>
+        <div class="form-group col-lg-3">
+            @Html.EditorFor(m => m.Email2, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(model => model.Email2, "", new {@class = "text-danger"})
+        </div>
+        <div class="form-group col-lg-4">
+            <div class="row">
+                <div class="col-1">
+                    <span class="ml-3" style="line-height: 2.3;">+</span>
+                </div>
+                <div class="col-11">
+                    @Html.EditorFor(m => m.Phone2, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Phone2, "", new {@class = "text-danger"})
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-lg-3">
+            @Html.DropDownListFor(m => m.Manager2, Model.ManagerList.Select(d => new SelectListItem {Value = d.Key, Text = d.Value.ShortName}),
+                "-- Виберіть менеджера --",
+                new {@class = "form-control mt-1", @id = "manager2", @onchange = "addManager(this)"})
+        </div>
+
+        <div class="form-group col-lg-2">
+            @Html.Label("Для сповіщення", null, new {@class = "form-control", @readonly = "true"})
+        </div>
+        <div class="form-group col-lg-3">
+            @Html.EditorFor(m => m.Email3, new {htmlAttributes = new {@class = "form-control"}})
+            @Html.ValidationMessageFor(model => model.Email3, "", new {@class = "text-danger"})
+        </div>
+        <div class="form-group col-lg-4">
+            <div class="row">
+                <div class="col-1">
+                    <span class="ml-3" style="line-height: 2.3;">+</span>
+                </div>
+                <div class="col-11">
+
+                    @Html.EditorFor(m => m.Phone3, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.Phone3, "", new {@class = "text-danger"})
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-lg-3">
+            @Html.DropDownListFor(m => m.Manager3, Model.ManagerList.Select(d => new SelectListItem {Value = d.Key, Text = d.Value.ShortName}),
+                "-- Виберіть менеджера --",
+                new {@class = "form-control mt-1", @id = "manager3", @onchange="addManager(this)"})
+        </div>
+
+        <div class="form-group col-lg-2">
+            @Html.Label("Коментар лаборанта для узгодження", null, new {@class = "form-control", @readonly = "true"})
+        </div>
+        <div class="form-group col-lg-10">
+            @Html.TextAreaFor(model => model.Comment, 3, 1, new {@class = "form-control"})
+        </div>
+    </div>
+
+    <div class="row justify-content-between mb-5">
+        <div class="col-sm-4">
+            @Ajax.ActionLink(@"Назад", "PrintCollisionInit_Return", "LaboratoryIn", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-danger btn-lg btn-block"})
+        </div>
+
+        <div class="col-sm-4">
+            <input type="submit" value="Відправити" class="btn btn-lg btn-primary btn-block"/>
+        </div>
+    </div>
+}
+
+<script>
+    function addManager(e) {
+        var url = window.location.href;
+        var arr = url.split("/");
+        var host = arr[0] + "//" + arr[2] + "/api/LaboratoryApi/GetEmployeeData";
+        var emailId = '';
+        var phoneId = '';
+        var managerId = '';
+        switch (e.id) {
+            case "manager1":
+                emailId = 'Email1';
+                phoneId = 'Phone1';
+                managerId = 'manager1';
+                break;
+            case "manager2":
+                emailId = 'Email2';
+                phoneId = 'Phone2';
+                managerId = 'manager2';
+                break;
+            case "manager3":
+                emailId = 'Email3';
+                phoneId = 'Phone3';
+                managerId = 'manager3';
+                break;
+        }
+        if (e.selectedIndex != 0) {
+            $.ajax({
+                url: host,
+                data: { 'id': document.getElementById(managerId).value },
+                dataType: "json",
+                success: function(data) {
+                    document.getElementById(emailId).value = data.Email;
+                    document.getElementById(phoneId).value = data.PhoneNo;
+                },
+                error: function(e) {
+                    console.log('Error while retrieving employee data: ' + e);
+                }
+            });
+        } else {
+            document.getElementById(emailId).value = '';
+            document.getElementById(phoneId).value = '';
+        }
+    }
+</script>

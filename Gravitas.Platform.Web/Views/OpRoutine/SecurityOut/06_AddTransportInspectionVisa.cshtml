@@ -1,0 +1,17 @@
+﻿@model Gravitas.Platform.Web.ViewModel.SecurityOutVms.AddTransportInspectionVisaVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="d-flex align-items-center icon-container">
+    <div class="flex-shrink-1"><i class="fas fa-id-card"></i></div>
+    <div class="p-3 w-100"><h3>Піднесіть картку Охоронця до зчитувача на вулиці (смуга виїзду)</h3></div>
+</div>
+
+@if (Model.IsTechRoute)
+{
+    <h4 style="color: red; text-align: center">Увага! Автомобіль з технологічним маршрутом</h4>
+}
+
+<h4>
+    Піднесенням картки працівник охорони підтверджує:
+    <p> - Дозвіл на виїзд автотранспорту з території підприємства згідно з поточною посадовою інструкцією</p>
+</h4>

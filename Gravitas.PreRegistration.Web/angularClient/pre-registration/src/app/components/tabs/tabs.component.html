@@ -1,0 +1,5 @@
+<mat-tab-group>
+  <mat-tab class="base-font" label="Інформаційна сторінка"> <app-information-page></app-information-page> </mat-tab>
+  <mat-tab *ngIf="authService.isAuthenticated()" label="Мої автомобілі"> <app-drivers-table></app-drivers-table> </mat-tab>
+  <mat-tab *ngIf="authService.isAuthenticated()" label="Реєстрація"> <app-add-driver></app-add-driver> </mat-tab>
+</mat-tab-group>

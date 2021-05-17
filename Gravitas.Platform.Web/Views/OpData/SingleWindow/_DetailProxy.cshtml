@@ -1,0 +1,60 @@
+﻿@using Gravitas.Platform.Web.Models
+@using Gravitas.Platform.Web.ViewModel
+@using Newtonsoft.Json
+@model SingleWindowVms.SingleWindowOpDataDetailVm
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+<div class="form-row">
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.TripTicketNumber, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.TripTicketNumber, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.TripTicketNumber, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.TripTicketDateTime, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.TripTicketDateTime, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
+    @Html.ValidationMessageFor(model => model.TripTicketDateTime, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.RuleNumber, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.RuleNumber, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.RuleNumber, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.WarrantSeries, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.WarrantSeries, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.WarrantSeries, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.WarrantNumber, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.WarrantNumber, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.WarrantNumber, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.WarrantDatetime, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.WarrantDatetime, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.WarrantDatetime, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.WarrantManagerName, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.WarrantManagerName, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.WarrantManagerName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.BatchNumber, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.BatchNumber, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.BatchNumber, "", new { @class = "text-danger" })
+  </div>
+
+</div>

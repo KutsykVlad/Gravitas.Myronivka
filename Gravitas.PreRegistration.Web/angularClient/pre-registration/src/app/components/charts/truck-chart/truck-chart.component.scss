@@ -1,0 +1,89 @@
+.chart-containers-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .chart-container {
+    width: 30vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1vh;
+    margin-bottom: 1vh;
+
+    position: relative;
+
+    .counter {
+      position: absolute;
+      z-index: -1;
+      font-size: 35px;
+    }
+  }
+
+  .legend-container {
+    width: 30vw;
+    padding: 20px 0 0;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    .legend-item-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+      align-content: flex-start;
+
+      .legend-color {
+        background-color: lightgray;
+        margin: 0 1vw;
+        width: 3vw;
+        height: 2vh;
+      }
+    }
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.chart-title {
+  text-align: center;
+  margin: 1vw;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 800px) {
+  .chart-containers-box {
+    .chart-container {
+      width: 100vw;
+
+      .counter {
+        position: absolute;
+        z-index: -1;
+        font-size: 32px;
+      }
+    }
+    .legend-container {
+      width: 100vw;
+
+      .legend-item-container {
+        .legend-color {
+          margin: 0 1vw;
+          width: 4vw;
+          height: 2vh;
+        }
+      }
+    }
+  }
+}

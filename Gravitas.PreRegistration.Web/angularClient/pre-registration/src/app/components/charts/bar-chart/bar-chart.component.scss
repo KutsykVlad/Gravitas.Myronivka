@@ -1,0 +1,47 @@
+.chart-containers-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: flex-start;
+}
+
+.chart-container {
+  width: 60vw;
+  padding-top: 1vh;
+  margin-bottom: 1vh;
+
+  .canvas {
+    max-height: 5vh;
+  }
+  .labels {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.chart-title {
+  text-align: center;
+  margin: 1vw;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 800px) {
+  .chart-container {
+    width: 90vw;
+    padding-top: 1vh;
+    margin-bottom: 1vh;
+    .labels {
+      font-size: small;
+    }
+  }
+}

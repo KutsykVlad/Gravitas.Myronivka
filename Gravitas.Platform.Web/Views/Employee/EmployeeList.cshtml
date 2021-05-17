@@ -1,0 +1,12 @@
+﻿@model Gravitas.Platform.Web.ViewModel.Employee.EmployeeListVm
+@{
+    ViewBag.Title = "Робітники";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.NodeName = "Робітники";
+}
+
+<div class="col-md-3 col-sm-3 col-lg-3">
+    @Html.ActionLink(@"До панелі адміністратора", "Panel", "Admin", null, new { @class = "btn btn-primary btn-block" })
+</div>
+
+@Html.Partial("_EmployeeList", Model)

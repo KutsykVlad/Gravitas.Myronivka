@@ -1,0 +1,4 @@
+﻿@model Gravitas.Platform.Web.ViewModel.DeviceStateVms.DocNetValueStateVm
+
+@Html.LabelFor(model => model.CurrentDocNetValue, htmlAttributes: new { @class = "" })
+@Html.EditorFor(model => model.CurrentDocNetValue, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })

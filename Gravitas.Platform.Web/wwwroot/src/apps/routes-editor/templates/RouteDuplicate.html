@@ -1,0 +1,20 @@
+﻿<div class="modal-header route-duplicate">
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelDuplicate()"><span aria-hidden="true">&times;</span></button>
+	<h4 class="modal-title">Duplicate Route</h4>
+</div>
+<div class="modal-body route-duplicate">
+	
+		<div class="alert alert-info">
+			<div class="form-inline">
+				<div class="form-group name-wrapper">
+					<label for="route-name">Route Name: </label>
+					<input type="text" class="form-control" id="survey-name" placeholder="Enter Route Name" ng-model="duplicatedRouteName" select-on-click="true" auto-focus />
+				</div>
+			</div>
+		</div>
+	
+</div>
+<div class="modal-footer route-duplicate">
+	<button type="button" class="btn btn-primary ok-button" ng-click="okDuplicate()" ng-class="{'disabled': isEmptyDuplicatedRouteName() }" ng-disabled="isEmptyDuplicatedRouteName()">Ok</button>
+	<button type="button" class="btn btn-default cancel-button" ng-click="cancelDuplicate()">Cancel</button>
+</div>

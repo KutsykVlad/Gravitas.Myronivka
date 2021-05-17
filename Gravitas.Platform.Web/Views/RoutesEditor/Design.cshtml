@@ -1,0 +1,52 @@
+﻿@Scripts.Render("~/bundles/angular")
+@Styles.Render("~/Content/angular-css")
+<link href="~/wwwroot/src/css/routes-editor.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+@{
+	ViewBag.Title = "Design";
+	Layout = "~/Views/Shared/_SmartLayout.cshtml";
+}
+
+<div ng-app="routesEditorApp">
+	<div ng-controller="routesEditorController" id="routes-designer-wrapper" class="container">
+		<h2 class="title">Design</h2>
+		<div class="panel panel-primary">
+			<div class="panel-heading" style="height: 48px;">
+				<i class="fa fa-edit"></i>
+				Name:&nbsp;<span id="route-name-edit">{{ route.Name }}</span>
+				<ul class="nav nav-tabs pull-right">
+					<li class="active">
+						<a data-toggle="tab" href="#builder"> <i class="fa fa-lg fa-pencil-square-o"></i> <span class="hidden-mobile hidden-tablet"> Design </span> </a>
+					</li>
+					<li>
+						<a data-toggle="tab" href="#preview"> <i class="fa fa-lg fa-eye"></i> <span class="hidden-mobile hidden-tablet"> Preview </span></a>
+					</li>
+				</ul>
+			</div>
+			<div class="panel-body">
+				
+				<div class="tab-content">
+
+					<div id="builder" class="tab-pane fade in active">
+						@Html.Partial("_Builder")
+					</div>
+					<div id="preview" class="tab-pane fade">
+
+					</div>
+					@Html.Partial("_Preview")
+				</div>
+				
+			</div>
+				<!-- /.panel-body -->
+			</div>
+		
+	</div>
+</div>
+
+
+
+
+<script src="~/wwwroot/src/apps/routes-editor/routesEditorApp.js"></script>
+<script src="~/wwwroot/src/apps/routes-editor/routesEditorController.js"></script>
+<script src="~/wwwroot/src/apps/routes-editor/routesEditorService.js"></script>
+<script src="~/wwwroot/src/apps/routes-editor/propsFilter.js"></script>

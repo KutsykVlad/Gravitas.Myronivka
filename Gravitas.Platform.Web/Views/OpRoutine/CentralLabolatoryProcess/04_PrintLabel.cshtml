@@ -1,0 +1,26 @@
+﻿@model Gravitas.Platform.Web.ViewModel.CentralLaboratoryProcess.PrintDocumentVm
+
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div id="PrintInfo" class="d-flex align-items-center icon-container">
+    <div class="flex-shrink-1"><i class="fas fa-print"></i></div>
+    <div class="p-3 w-100"><h3>Роздрукуйте ярлик, щоб продовжити</h3></div>
+</div>
+
+<div class="row justify-content-between">
+    <div class="col-sm-5">
+        @Html.ActionLink(@"Друк", "GenerateCentralLabLabel", "Report",
+            new {id = Model.OpDataId, nodeId = Model.NodeId},
+            new {@class = "btn btn-primary btn-lg btn-block", @onclick = "allowContinue()" })
+    </div>
+
+    <div class="col-sm-5">
+        @Ajax.ActionLink(@"Продовжити", "PrintLabel_Confirm", "CentralLaboratoryProcess", new { nodeId = Model.NodeId}, null, new { @class = "btn btn-success btn-lg btn-block disabled", @id = "ContinueButton" })
+    </div>
+</div>
+
+<script>
+    function allowContinue() {
+        document.getElementById('ContinueButton').classList.remove('disabled');
+    }
+</script>

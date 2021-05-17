@@ -1,0 +1,66 @@
+﻿@model  Gravitas.Platform.Web.ViewModel.NodesTrafficListVm
+
+@{
+    ViewBag.Title = "Трафік";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.NodeName = "Трафік";
+}
+
+<div class="row col-md-3 col-sm-3 col-lg-3 mb-4">
+    @Html.ActionLink(@"До панелі адміністратора", "Panel", "Admin", null, new { @class = "btn btn-primary btn-block" })
+</div>
+
+<div class="container">
+    @if (Model.WholeList)
+     {
+        <div class="row justify-content-center">
+            <div class="col-8 text-lg-center">
+                <div class="text-capitalize inline">
+                    <h4>Повна історія перевезень</h4>
+                </div>
+            </div>
+            <div class="col-4">
+                @Html.ActionLink(@"Поточні перевезення", "GetCurrentTrafficTable", "Admin", new { @class = "btn btn-primary btn-lg btn-block" })
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-8 text-lg-center">
+                <div class="text-capitalize inline">
+                    <h4>Поточні перевезення</h4>
+                </div>
+            </div>
+            <div class="col-4">
+                @Html.ActionLink(@"Повний список перевезень", "GetWholeTrafficTable", "Admin", new { @class = "btn btn-primary btn-lg btn-block" })
+            </div>
+        </div>
+    }
+    
+        <ul class="list-group">
+            @if (Model.TerminatedItems.Any())
+            {
+                <li class="list-group-item">
+                    @Html.Partial("Traffic/_TerminatedTrafficList", Model.TerminatedItems)
+                </li>
+            }
+            <li class="list-group-item">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <div class="col-3">@Html.DisplayNameFor(model => model.Items.FirstOrDefault().NodeName)</div>
+                        <div class="col-3">@Html.DisplayNameFor(model => model.Items.FirstOrDefault().ElementsInQueue)</div>
+                        <div class="col-3">@Html.DisplayNameFor(model => model.Items.FirstOrDefault().AverageTime)</div>
+                        <div class="col-2"></div>
+                    </div>
+                </div>
+            </li>
+            @foreach (var item in Model.Items)
+            {
+                <li class="list-group-item">
+                    @Html.Partial("Traffic/_NodeTrafficListItem", item)
+                </li>
+            }
+        </ul>
+
+</div>

@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1251" />
+    <title></title>
+
+    <style type="text/css">
+        body, div, table, thead, tbody, tfoot, tr, th, td, p {
+            font-family: "Calibri";
+            font-size: small
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        p {
+            padding: 2px;
+            margin: 0;
+        }
+
+        .row {
+            display: inline-block;
+        }
+
+        .second-table tr {
+            height: 25px;
+        }
+
+        .text-left {
+            text-align: left;
+            width: 50%;
+        }
+
+        .text-right {
+            width: 49%;
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .bold {
+            font-weight: 900;
+        }
+    </style>
+
+</head>
+<body>
+<div style="text-align: center">
+    <div class="row">
+        <table style="width: 860px; ">
+            <tr>
+                <td class="bold">
+                    Картка
+                </td>
+                <td class="bold">
+                    Транспорт No.
+                </td>
+                <td class="bold">
+                    Причеп No.
+                </td>
+
+                <td class="bold">
+                    Дата
+                </td>
+            </tr>
+            <tr>
+                <td>##field CardNumber##</td>
+                <td>##field TransportNo##</td>
+                <td>##field TrailerNo##</td>
+                <td>##field Date##</td>
+            </tr>
+        </table>
+        <h1>Маршрут</h1>
+        <br>
+        
+        ##forEach Route##
+
+        ##forEach NodeTitles##
+        <div style="display: inline;">
+            <span style="font-size: 20px; padding: 10px; border: solid black 1px">##field Title##</span>
+        </div>
+        ##forEachEnd NodeTitles##
+        
+        <div style="margin: 15px; font-size: large">&#8595;</div>
+
+        ##forEachEnd Route##
+
+        <span style="font-size: 20px; padding: 10px; border: solid black 1px">Єдине вікно</span>
+    </div>
+</div>
+
+</body>
+</html>

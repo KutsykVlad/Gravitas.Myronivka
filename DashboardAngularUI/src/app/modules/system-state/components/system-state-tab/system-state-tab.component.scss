@@ -1,0 +1,135 @@
+@import './../../../../../styles/colors.scss';
+@import './map-style.scss';
+
+.system-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .system-state-title {
+    display: flex;
+    align-items: center;
+    height: 8vh;
+    font-size: 2vh;
+    color: $main-text-color;
+    font-weight: 600;
+  }
+
+  .system-state {
+    display: flex;
+    height: 80vh;
+    width: 100%;
+    position: relative;
+
+    .statistic-table {
+      display: flex;
+      padding: 1vh;
+      border: 0.2vh solid $chart-dark-blue-color;
+      align-self: flex-start;
+      margin-left: 5vw;
+      position: absolute;
+
+      .title-column {
+        padding: 0 2vw 0 0;
+
+        .title {
+          padding: 0.5vh;
+          font-size: 1.5vh;
+        }
+      }
+
+      .data-column {
+        .data {
+          padding: 0.5vh;
+          font-size: 1.5vh;
+        }
+      }
+    }
+
+    .map-legend-table {
+      padding: 1vh;
+      margin-top: 2vh;
+      border: 0.2vh solid $chart-dark-blue-color;
+      align-self: flex-start;
+      position: absolute;
+      margin: 15vh 5vw;
+
+      .table-row {
+        display: flex;
+        align-items: center;
+        padding: 0.5vh;
+
+        .node-color {
+          margin: 0 1vw 0 0;
+          width: 3vw;
+          height: 2vh;
+
+          &.active {
+            background-color: rgb(65, 182, 44);
+          }
+
+          &.inactive {
+            background-color: #d81313;
+          }
+
+          &.in-work {
+            background-color: #dfc90a;
+          }
+        }
+
+        .description {
+          font-size: 1.5vh;
+        }
+      }
+    }
+
+    .system-state-map {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      height: 83vh;
+
+      svg {
+        width: 95%;
+        height: 100%;
+        margin: -8vh;
+      }
+    }
+  }
+
+  .node-details-table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    margin-bottom: 2vh;
+
+    table {
+      width: 90%;
+    }
+
+    .accordion {
+      display: none;
+    }
+
+    .table-spinner {
+      width: 90%;
+      left: auto;
+    }
+
+    .node-title {
+      font-size: 2vh;
+      color: $main-text-color;
+      font-weight: 600;
+      padding: 1vh;
+    }
+
+    .no-data-text {
+      font-size: 1.6vh;
+      color: $text-color;
+    }
+  }
+}
+
+@import './system-state-tab.component.responsive.scss';

@@ -1,0 +1,69 @@
+<div class="spinner-container" *ngIf="isDataLoading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div class="node-load-container">
+  <div class="node-load-title">НАВАНТАЖЕННЯ ВУЗЛА</div>
+
+  <div class="charts-container">
+    <div class="chart-container">
+      <mat-form-field class="nodes-selector">
+        <mat-select [(value)]="selectedNodes[0]" (selectionChange)="onSelectionChanged()">
+          <mat-option class="select-option" *ngFor="let node of nodes; let i of index" [value]="node"
+            [disabled]="node.IsSelected">
+            {{node.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="chart">
+        <app-node-load-chart [node]="selectedNodes[0]"></app-node-load-chart>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <mat-form-field class="nodes-selector">
+        <mat-select [(value)]="selectedNodes[1]" (selectionChange)="onSelectionChanged()">
+          <mat-option class="select-option" *ngFor="let node of nodes; let i of index" [value]="node"
+            [disabled]="node.IsSelected">
+            {{node.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="chart" [ngStyle]="{'background-color': '#9289ca'}">
+        <app-node-load-chart [node]="selectedNodes[1]" [chartColor]="'#7166ba'"></app-node-load-chart>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <mat-form-field class="nodes-selector">
+        <mat-select [(value)]="selectedNodes[2]" (selectionChange)="onSelectionChanged()">
+          <mat-option class="select-option" *ngFor="let node of nodes; let i of index" [value]="node"
+            [disabled]="node.IsSelected">
+            {{node.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="chart">
+        <app-node-load-chart [node]="selectedNodes[2]"></app-node-load-chart>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <mat-form-field class="nodes-selector">
+        <mat-select [(value)]="selectedNodes[3]" (selectionChange)="onSelectionChanged()">
+          <mat-option class="select-option" *ngFor="let node of nodes; let i of index" [value]="node"
+            [disabled]="node.IsSelected">
+            {{node.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="chart" [ngStyle]="{'background-color': '#9289ca'}">
+        <app-node-load-chart [node]="selectedNodes[3]" [chartColor]="'#7166ba'"></app-node-load-chart>
+      </div>
+    </div>
+  </div>
+</div>

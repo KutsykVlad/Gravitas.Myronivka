@@ -1,0 +1,38 @@
+@media only screen and (max-width: 767px) {
+  // node selector
+  .mat-select-panel {
+    .mat-option {
+      .mat-option-text {
+        .color-preview {
+          width: 5vw;
+          border: 1px solid darkgrey;
+        }
+      }
+    }
+  }
+
+  // mat-chip styles
+  .mat-chip-list {
+    .mat-chip-list-wrapper {
+      margin: 0;
+    }
+  }
+
+  .mat-standard-chip {
+    min-height: unset;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .mat-chip-list {
+    .mat-chip-list-wrapper {
+      margin: 0;
+    }
+  }
+
+  .mat-chip {
+    &.mat-standard-chip {
+      min-height: unset;
+    }
+  }
+}

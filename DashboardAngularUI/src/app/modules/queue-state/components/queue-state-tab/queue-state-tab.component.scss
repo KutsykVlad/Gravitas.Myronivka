@@ -1,0 +1,41 @@
+@import './../../../../../styles/colors.scss';
+
+.queue-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+
+  .queue-state-title {
+    display: flex;
+    align-items: center;
+    height: 10%;
+    font-size: 2vh;
+    color: $main-text-color;
+    font-weight: 600;
+  }
+
+  .queue-state-charts {
+    display: flex;
+    width: 100%;
+    height: 90%;
+
+    .small-charts-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 35%;
+      height: 100%;
+
+      .queue-state-chart {
+        height: 50%;
+        width: 95%;
+      }
+    }
+
+    .queue-state-chart {
+      width: 65%;
+      height: 100%;
+    }
+  }
+}

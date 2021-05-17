@@ -1,0 +1,61 @@
+﻿@model Gravitas.Platform.Web.ViewModel.WeightbridgeVms.GuardianTrailerEnableCheckVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+@Html.Partial("~/Views/Device/_ScaleWidget.cshtml")
+
+<hr />
+
+<div class="row">
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.DriverName, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.DriverName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+
+    <div class="form-group col-md-3">
+        @Html.LabelFor(model => model.TruckNo, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TruckNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+
+    <div class="form-group col-md-3">
+        @Html.LabelFor(model => model.TrailerNo, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.TrailerNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.ReceiverName, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.ReceiverName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.IncomeDocGrossValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.IncomeDocGrossValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.IncomeDocTareValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.IncomeDocTareValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(model => model.DocNetValue, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.DocNetValue, new { htmlAttributes = new { @class = "form-control", @style = "font-size: 2rem;", @readonly = "true" } })
+    </div>
+</div>
+
+<div class="row justify-content-between">
+    <div class="col-sm-6">
+        <div style='text-align:center;vertical-align:middle'><h5>ОХОРОНА</h5></div>
+        @Ajax.ActionLink(@"Зважування з розщепленням", "GuardianTrailerEnable_Accept", "Weighbridge", new { nodeId = Model.NodeId, isTrailerAccepted = true }, null, new { @class = "btn btn-danger btn-lg btn-block", @style = "height:70px; line-height:50px; font-size: large;" })
+    </div>
+    <div class="col-sm-6">
+        <div style='text-align:center;vertical-align:middle'><h5>ОХОРОНА</h5></div>
+        @Ajax.ActionLink(@"Зважування без розщеплення", "GuardianTrailerEnable_Accept", "Weighbridge", new { nodeId = Model.NodeId, isTrailerAccepted = false }, null, new { @class = "btn btn-success btn-lg btn-block", @style = "height:70px; line-height:50px; font-size: large;" })
+    </div>
+</div>

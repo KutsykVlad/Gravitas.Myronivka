@@ -1,0 +1,65 @@
+<h1 mat-dialog-title>Лист для адміністратора</h1>
+<div mat-dialog-content>
+  <form class="flex-form" [formGroup]="emailForm">
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="companyName"
+        placeholder="Назва компанії"
+      />
+      <mat-error *ngIf="emailForm?.get('companyName')?.invalid">
+        Введіть назву компанії
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="phoneNo" placeholder="Номер телефону" />
+      <mat-error *ngIf="emailForm?.get('phoneNo')?.invalid">
+        Номер телефону неправильний
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="enterpriseCode"
+        placeholder="Код ЄДРПОУ або ФОП"
+      />
+      <mat-error *ngIf="emailForm?.get('enterpriseCode')?.invalid">
+        Введіть код ЄДРПОУ або ФОП
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        type="number"
+        matInput
+        formControlName="numberOfRegistrations"
+        placeholder="Кількість реєстрацій в черзі"
+      />
+      <mat-error *ngIf="emailForm?.get('numberOfRegistrations')?.invalid">
+        Введіть кількість реєстрацій
+      </mat-error>
+    </mat-form-field>
+
+    <span class="file-message" *ngIf="attachment === undefined">
+      Файл не прикріплено <span class="asterisk-required-field">*</span>
+    </span>
+    <div class="flex-buttons">
+      <button mat-raised-button class="fileContainer">
+        Прикріпити файл
+        <mat-icon>attach_file</mat-icon>
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          placeholder="Завантажити файл"
+          accept="image/x-png,image/jpeg"
+        />
+      </button>
+    </div>
+
+    <div class="flex-buttons">
+      <button mat-raised-button (click)="close()">
+        Відмінити
+      </button>
+      <button mat-raised-button (click)="sendEmail()">Надіслати</button>
+    </div>
+  </form>
+</div>

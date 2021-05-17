@@ -1,0 +1,22 @@
+﻿@model Gravitas.Platform.Web.ViewModel.OpCameraImageItemsVm
+
+@if (Model?.Items == null) {
+    <div class="jumbotron">
+        <h4>Стоп-кадрів не знайдено</h4>
+    </div>
+}
+else {
+
+    foreach (var item in Model.Items) {
+        <div class="row">
+            <div class="col-12">
+                @Html.Action("GetImageFromByteArray", new {imgPath = item.ImagePath })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                @Html.DisplayFor(m => item.DateTime) - @Html.DisplayFor(m => item.SourceDeviceName)
+            </div>
+        </div>
+    }
+}

@@ -1,0 +1,36 @@
+﻿@using Gravitas.Model.DomainValue
+@using Gravitas.Platform.Web.ViewModel
+@model Gravitas.Platform.Web.ViewModel.OpRoutine.UnloadPointGuide.UnloadPointGuideVms.IdleVm
+@{
+    ViewBag.NodeId = Model.NodeId;
+}
+
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+@{ Html.RenderAction(
+       "GetRegistry",
+       "TicketContainer",
+       new {
+           nodeId = Model.NodeId,
+           registerType = TicketRegisterType.UnloadQueue,
+           detailActionLink = new ActionLinkVm {
+               NodeId = Model.NodeId,
+               ControllerName = "UnloadPointGuide",
+               ActionName = "Idle_AskFromQueue"
+           }
+       });
+}
+
+@{ Html.RenderAction(
+       "GetRegistry",
+       "TicketContainer",
+       new {
+           nodeId = Model.NodeId,
+           registerType = TicketRegisterType.UnloadGuide,
+           detailActionLink = new ActionLinkVm {
+               NodeId = Model.NodeId,
+               ControllerName = "UnloadPointGuide",
+               ActionName = "Idle_SelectTicketContainer"
+           }
+       });
+}

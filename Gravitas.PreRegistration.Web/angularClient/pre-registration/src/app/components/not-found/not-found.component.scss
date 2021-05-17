@@ -1,0 +1,25 @@
+@import "../../../assets/override-material.scss";
+.container {
+  margin-top: 64px;
+  font-size: 200px;
+  color: $main-green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .text {
+    font-size: 40px;
+    text-align: center;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  /* Styles */
+  .container {
+    margin-top: 56px !important;
+    font-size: 15vmin !important;
+    padding: 15px;
+    .text {
+      font-size: 6vmin !important;
+    }
+  }
+}

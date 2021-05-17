@@ -1,0 +1,12 @@
+﻿@model Gravitas.Platform.Web.ViewModel.BlackListTableVm
+
+@{
+    ViewBag.Title = "Чорний список";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-4 mt-4">
+    @Html.ActionLink(@"До панелі адміністратора", "Panel", "Admin", null, new { @class = "btn btn-primary btn-block" })
+</div>
+
+@Html.Partial("_BlackListTable", Model)

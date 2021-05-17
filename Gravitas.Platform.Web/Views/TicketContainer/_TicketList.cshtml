@@ -1,0 +1,55 @@
+﻿@using Gravitas.Model;
+@model Gravitas.Platform.Web.ViewModel.TicketItemsVm
+
+@if (!Model.Items.Any()) {
+    <div class="jumbotron">
+        <h4>Контейнер не містить жодного документу</h4>
+    </div>
+}
+else { 
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items.FirstOrDefault().Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items.FirstOrDefault().StatusName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items.FirstOrDefault().SupplyCode)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplyCode)
+                </td>
+                <td>
+@*                     <div class="btn-group float-right" role="group"> *@
+@*                         @if (item.StatusId == Dom.Ticket.Status.New) { *@
+@*                             @Html.ActionLink("Повторно", "GetTicket_ReProcess", "WindowIn", new { nodeId = item., ticketId = item.Id }, new { @class = "btn btn-primary btn-sm" }) *@
+@*                         } else if (item.StatusId == Dom.Ticket.Status.Blank *@
+@*                                 || item.StatusId == Dom.Ticket.Status.ToBeProcessed) { *@
+@*                         @Html.ActionLink("Копія", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" }) *@
+@*                         @Html.ActionLink("Правка", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) *@
+@*                         @Html.ActionLink("Скасувати", "Edit", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" }) *@
+@*                         } else if (item.StatusId == Dom.Ticket.Status.Completed) { *@
+@*                             @Html.ActionLink("Оформити", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) *@
+@*                         } *@
+@*                     </div> *@
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

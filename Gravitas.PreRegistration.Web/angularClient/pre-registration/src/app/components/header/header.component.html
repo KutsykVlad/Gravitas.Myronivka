@@ -1,0 +1,51 @@
+<header class="mb-0">
+  <div class="header-container">
+    <div>
+      <div class="row align-items-center">
+        <div class="logo">
+          <img
+            routerLink="/trucks-info"
+            src="../../../assets/Logo-Horizontal.png"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="nav-bar">
+      <div>
+        <a mat-list-item routerLink="/trucks-info" routerLinkActive="active">
+          <span>Головна</span></a
+        >
+      </div>
+      <div>
+        <a mat-list-item routerLink="/contact-us" routerLinkActive="active">
+          <span>Контакти</span></a
+        >
+      </div>
+      <div>
+        <a mat-list-item routerLink="/instruction" routerLinkActive="active">
+          <span>Інструкція</span></a
+        >
+      </div>
+      <div *ngIf="!authService.isAuthenticated()">
+        <a mat-list-item routerLink="/login" routerLinkActive="active">
+          <span>Вхід</span></a
+        >
+      </div>
+      <div *ngIf="!authService.isAuthenticated()">
+        <a mat-list-item routerLink="/registration" routerLinkActive="active">
+          <span>Реєстрація</span></a
+        >
+      </div>
+      <div *ngIf="authService.isAuthenticated()">
+        <a mat-list-item routerLink="/profile" routerLinkActive="active">
+          <span>Особистий кабінет</span></a
+        >
+      </div>
+      <div *ngIf="authService.isAuthenticated()">
+        <a mat-list-item (click)="confirmLogout()" routerLinkActive="active">
+          <span>Вихід</span></a
+        >
+      </div>
+    </div>
+  </div>
+</header>

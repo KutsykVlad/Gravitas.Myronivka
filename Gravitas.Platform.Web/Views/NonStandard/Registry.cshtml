@@ -1,0 +1,20 @@
+﻿@model Gravitas.Platform.Web.ViewModel.OpData.NonStandart.NonStandartRegistryItemsVm
+@{
+    ViewBag.Title = "Реєстр нестандартних ситуацій";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.NodeName = "Реєстр нестандартних ситуацій";
+}
+
+<link href="~/wwwroot/lib/select2-bootstrap-theme/dist/select2-bootstrap.min.css" rel="stylesheet" />
+<script src="~/wwwroot/src/apps/non-standart-data/nonStandartDataApp.js"></script>
+<script src="~/wwwroot/src/apps/non-standart-data/nonStandartDataController.js"></script>
+
+<div class="row col-md-3 col-sm-3 col-lg-3 mb-4">
+    @Html.ActionLink(@"До панелі адміністратора", "Panel", "Admin", null, new { @class = "btn btn-primary btn-block" })
+</div>
+
+<div ng-app="nonStandartDataApp">
+    @Html.Partial("_Registry", Model)
+</div>
+
+

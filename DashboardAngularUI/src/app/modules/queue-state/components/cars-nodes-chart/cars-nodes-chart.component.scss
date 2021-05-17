@@ -1,0 +1,56 @@
+.component-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .nodes-selector {
+    height: 9.9%;
+    width: 90%;
+    font-size: 1.2vh;
+  }
+
+  .chart-and-legend-container {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    .chart-legend {
+      height: 25%;
+      width: 90%;
+      overflow: auto;
+
+      ul {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+
+        li {
+          display: flex;
+          align-items: center;
+          font-size: 1.2vh;
+          color: #666666;
+          padding: 0.2vh;
+          padding-right: 2vh;
+
+          span {
+            display: inline-block;
+            width: 4.3vh;
+            height: 1.3vh;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+
+    .chart-container {
+      width: 90%;
+      height: 75%;
+    }
+  }
+}

@@ -1,0 +1,153 @@
+﻿@using Gravitas.Platform.Web.Models
+@using Gravitas.Platform.Web.ViewModel
+@using Newtonsoft.Json
+@model SingleWindowVms.SingleWindowOpDataDetailVm
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="form-row">
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.DeliveryBillCode, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.DeliveryBillCode, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.DeliveryBillCode, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.CreateDate, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.DocumentTypeId, htmlAttributes: new { @class = "" })
+
+    @*@Html.EditorFor(model => model.DocumentTypeId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.DocumentTypeId, "", new { @class = "text-danger" })*@
+
+    @Html.EditorFor(model => model.DocumentTypeName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.DocumentTypeName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.ReceiverTypeId, htmlAttributes: new { @class = "" })
+
+    @*@Html.EditorFor(model => model.ReceiverTypeId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.ReceiverTypeId, "", new { @class = "text-danger" })*@
+
+    @Html.EditorFor(model => model.ReceiverTypeName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.ReceiverTypeName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.IncomeInvoiceSeries, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.IncomeInvoiceSeries, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.IncomeInvoiceSeries, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.IncomeInvoiceNumber, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.IncomeInvoiceNumber, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.IncomeInvoiceNumber, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.OrganizationId, htmlAttributes: new { @class = "" })
+    @*@Html.EditorFor(model => model.OrganizationId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.OrganizationId, "", new { @class = "text-danger" })*@
+    @Html.EditorFor(model => model.OrganizationName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.OrganizationName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.ReceiverId, htmlAttributes: new { @class = "" })
+
+    @*@Html.EditorFor(model => model.ReceiverId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.ReceiverId, "", new { @class = "text-danger" })*@
+
+    @Html.EditorFor(model => model.ReceiverName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.ReceiverName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.ProductId, htmlAttributes: new { @class = "" })
+
+    @*@Html.EditorFor(model => model.ProductId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })*@
+
+    @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.StockId, htmlAttributes: new { @class = "" })
+
+    @*@Html.EditorFor(model => model.SenderDepotId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.SenderDepotId, "", new { @class = "text-danger" })*@
+
+    @Html.EditorFor(model => model.StockName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.StockName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.SupplyTypeId, htmlAttributes: new { @class = "" })
+
+    @*@Html.EditorFor(model => model.SupplyTypeId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.SupplyTypeId, "", new { @class = "text-danger" })*@
+
+    @Html.EditorFor(model => model.SupplyTypeName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.SupplyTypeName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.HarvestId, htmlAttributes: new { @class = "" })
+
+    @*@Html.EditorFor(model => model.HarvestId, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+      @Html.ValidationMessageFor(model => model.HarvestId, "", new { @class = "text-danger" })*@
+
+    @Html.EditorFor(model => model.HarvestName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.HarvestName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.OrderCode, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.OrderCode, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.OrderCode, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-12">
+    @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.ReceiverDepotId, htmlAttributes: new { @class = "" })
+    <ui-select ng-model="stockItems.selected" theme="select2" style="min-width: 300px;">
+      <ui-select-match class="ui-select-match" placeholder="Виберіть контрагента зі списку або скористуйтеся пошуком...">{{$select.selected.ShortName}}</ui-select-match>
+      <ui-select-choices class="ui-select-choices" repeat="item in stockItems | propsFilter: {ShortName: $select.search, FullName: $select.search, Code: $select.search}">
+        <div ng-bind-html="item.ShortName | highlight: $select.search"></div>
+        <small>
+          Код: <span ng-bind-html="''+item.Code | highlight: $select.search"></span>
+        </small>
+      </ui-select-choices>
+    </ui-select>
+    @Html.ValidationMessageFor(model => model.ReceiverDepotId, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.SupplyType, htmlAttributes: new { @class = "" })
+    @Html.DropDownListFor(
+      model => model.SupplyType,
+      ((SupplyTransportTypeItemsVm)ViewBag.SupplyTransportTypeItems).Items.Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }), new { @class = "form-control" })
+    @*@Html.EditorFor(model => model.SupplyType, new { htmlAttributes = new { @class = "form-control" } })*@
+    @Html.ValidationMessageFor(model => model.SupplyType, "", new { @class = "text-danger" })
+  </div>
+
+</div>

@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8A4EF9F5-FB46-4F7A-A659-4A6505174DB0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gravitas.Model</RootNamespace>
+    <AssemblyName>Gravitas.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Hangfire.Core, Version=1.6.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.6.19\lib\net45\Hangfire.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.6.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.6.19\lib\net45\Hangfire.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.6\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DomainModel\BlackList\DAO\DriversBlackListRecord.cs" />
+    <Compile Include="DomainModel\BlackList\DAO\PartnersBlackListRecord.cs" />
+    <Compile Include="DomainModel\BlackList\DAO\TrailersBlackListRecord.cs" />
+    <Compile Include="DomainModel\BlackList\DAO\TransportBlackListRecord.cs" />
+    <Compile Include="DomainModel\BlackList\TDO\BlackListDto.cs" />
+    <Compile Include="DomainModel\Device\DAO\Device.cs" />
+    <Compile Include="DomainModel\Device\DAO\DeviceType.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceParam\DisplayParam.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceParam\LabBrukerParam.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceParam\LabFossParam.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceParam\ScaleMettlerPT6S3Param.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceParam\RfidZebraFx9500AntenaParam.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceParam\RfidZebraFx9500HeadParam.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceParam\DigitalInOutParam.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceParam\CameraParam.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceParam\VkModuleSocketXParam.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Base\_DeviceState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\DigitalOutState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\LabBrukerInJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\LabFoss2InJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\LabFossInJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\LabBrukerOutJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\LabFossOutJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\LabInfrascanInJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\LabInfrascanOutJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\ScaleInJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\ScaleOutJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\RfidObidRwOutJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\RfidZebraFx9500AntennaOutJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\RfidZebraFx9500HeadOutJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\DigitalInJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\DigitalOutJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\VkModuleI4O0InJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\VkModuleI4O0OutJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\VkModuleI2O2OutJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\LabBrukerState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\LabFossState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\LabInfrascanState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\ScaleState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\RfidObidRwState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\RfidZebraFx9500AntennaInJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\RfidZebraFx9500AntenaState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\RfidZebraFx9500HeadInJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\RfidZebraFx9500HeadState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\VkModuleI2O2InJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\DigitalInState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\VkModuleSocket1State.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Base\_BaseDeviceState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\VkModuleSocket2State.cs" />
+    <Compile Include="Common\_BaseJsonConverter.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceState\Json\RfidObidRwInJsonState.cs" />
+    <Compile Include="DomainModel\Device\TDO\DeviceParam\RfidObidRwParam.cs" />
+    <Compile Include="DomainModel\EmployeeRoles\DAO\RoleAssignment.cs" />
+    <Compile Include="DomainModel\EmployeeRoles\DAO\EmployeeRole.cs" />
+    <Compile Include="DomainModel\EmployeeRoles\DAO\Role.cs" />
+    <Compile Include="DomainModel\EmployeeRoles\DTO\RolesDto.cs" />
+    <Compile Include="DomainModel\EmployeeRoles\DTO\RoleDetail.cs" />
+    <Compile Include="DomainModel\EndPointNodes\DAO\EndPointNode.cs" />
+    <Compile Include="DomainModel\ExternalData\AcceptancePoint\DTO\Detail\AcceptancePointDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\AcceptancePoint\DTO\List\AcceptancePointItems.cs" />
+    <Compile Include="DomainModel\ExternalData\AcceptancePoint\DTO\List\AcceptancePointItem.cs" />
+    <Compile Include="DomainModel\ExternalData\Budget\DTO\Detail\BudgetDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Budget\DTO\List\BudgetItems.cs" />
+    <Compile Include="DomainModel\ExternalData\Budget\DTO\List\BudgetItem.cs" />
+    <Compile Include="DomainModel\ExternalData\Contract\DAO\Contract.cs" />
+    <Compile Include="DomainModel\ExternalData\Contract\DTO\ContractDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Crop\DTO\CropDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\DeliveryBill\DTO\DeliveryBillStatusDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\DeliveryBill\DTO\DeliveryBillTypeDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Employee\DTO\Detail\Employee.cs" />
+    <Compile Include="DomainModel\ExternalData\Employee\DTO\List\EmployeeItems.cs" />
+    <Compile Include="DomainModel\ExternalData\Employee\DTO\List\EmployeeItem.cs" />
+    <Compile Include="DomainModel\ExternalData\ExternalUser\DTO\ExternalUserDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\FixedAsset\DTO\Detail\FixedAssetDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\FixedAsset\DTO\List\FixedTrailerItem.cs" />
+    <Compile Include="DomainModel\ExternalData\FixedAsset\DTO\List\FixedAssetItem.cs" />
+    <Compile Include="DomainModel\ExternalData\FixedAsset\DTO\List\FixedTrailerItems.cs" />
+    <Compile Include="DomainModel\ExternalData\FixedAsset\DTO\List\FixedAssetItems.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DAO\LabDeviceResultType.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\Detail\LabHumidityClassifierDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\Detail\LabImpurityClassifierDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\Detail\LabInfectionedClassifierDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\List\LabDeviceResultTypeItem.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\List\LabDeviceResultTypeItems.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\List\LabHumidityClassifierItems.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\List\LabHumidityClassifierItem.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\List\LabImpurityClassifierItems.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\List\LabImpurityClassifierItem.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\List\LabInfectionedClassifierItems.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DTO\List\LabInfectionedClassifierItem.cs" />
+    <Compile Include="DomainModel\ExternalData\MeasureUnit\DTO\MeasureUnitDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Organization\DTO\Detail\OrganisationTypeDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Organization\DTO\Detail\OrganizationDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Organization\DTO\List\OrganisationItems.cs" />
+    <Compile Include="DomainModel\ExternalData\Organization\DTO\List\OriginTypeItems.cs" />
+    <Compile Include="DomainModel\ExternalData\Organization\DTO\List\OriginTypeItem.cs" />
+    <Compile Include="DomainModel\ExternalData\Organization\DTO\List\OrganisationItem.cs" />
+    <Compile Include="DomainModel\ExternalData\Partner\DTO\Detail\PartnerDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Partner\DTO\List\PartnerItem.cs" />
+    <Compile Include="DomainModel\ExternalData\Partner\DTO\List\PartnerItems.cs" />
+    <Compile Include="DomainModel\ExternalData\Product\DTO\ProductDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Product\List\ProductItem.cs" />
+    <Compile Include="DomainModel\ExternalData\Product\List\ProductItems.cs" />
+    <Compile Include="DomainModel\ExternalData\ReasonForRefund\DTO\ReasonForRefundDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Route\DTO\RouteDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Stock\DTO\Detail\StockDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\Stock\DTO\List\StockItems.cs" />
+    <Compile Include="DomainModel\ExternalData\Stock\DTO\List\StockItem.cs" />
+    <Compile Include="DomainModel\ExternalData\Subdivision\DTO\SubdivisionDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\SupplyTransportType\DAO\SupplyTransportType.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DAO\LabInfectionedClassifier.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DAO\LabHumidityClassifier.cs" />
+    <Compile Include="DomainModel\ExternalData\LabClassifier\DAO\LabImpurityClassifier.cs" />
+    <Compile Include="DomainModel\ExternalData\DeliveryBill\DAO\DeliveryBillStatus.cs" />
+    <Compile Include="DomainModel\ExternalData\SupplyTransportType\DTO\Detail\SupplyTransportTypeDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\SupplyTransportType\DTO\List\SupplyTransportTypeItems.cs" />
+    <Compile Include="DomainModel\ExternalData\SupplyTransportType\DTO\List\SupplyTransportTypeItem.cs" />
+    <Compile Include="DomainModel\ExternalData\SupplyType\DAO\SupplyType.cs" />
+    <Compile Include="DomainModel\ExternalData\Organization\DAO\OrganisationType.cs" />
+    <Compile Include="DomainModel\ExternalData\DeliveryBill\DAO\DeliveryBillType.cs" />
+    <Compile Include="DomainModel\ExternalData\FixedAsset\DAO\FixedAsset.cs" />
+    <Compile Include="DomainModel\ExternalData\Product\DAO\Product.cs" />
+    <Compile Include="DomainModel\ExternalData\DeliveryBill\DAO\DeliveryBill.cs" />
+    <Compile Include="DomainModel\ExternalData\MeasureUnit\DAO\MeasureUnit.cs" />
+    <Compile Include="DomainModel\ExternalData\SupplyType\DTO\SupplyTypeDetail.cs" />
+    <Compile Include="DomainModel\ExternalData\YearOfHarvest\DAO\YearOfHarvest.cs" />
+    <Compile Include="DomainModel\ExternalData\ReasonForRefund\DAO\ReasonForRefund.cs" />
+    <Compile Include="DomainModel\ExternalData\Budget\DAO\Budget.cs" />
+    <Compile Include="DomainModel\ExternalData\Route\DAO\Route.cs" />
+    <Compile Include="DomainModel\ExternalData\Crop\DAO\Crop.cs" />
+    <Compile Include="DomainModel\ExternalData\AcceptancePoint\DAO\AcceptancePoint.cs" />
+    <Compile Include="DomainModel\ExternalData\Partner\DAO\Partner.cs" />
+    <Compile Include="DomainModel\ExternalData\ExternalUser\DAO\ExternalUser.cs" />
+    <Compile Include="DomainModel\ExternalData\Employee\DAO\Employee.cs" />
+    <Compile Include="DomainModel\ExternalData\Subdivision\DAO\Subdivision.cs" />
+    <Compile Include="DomainModel\ExternalData\Stock\DAO\Stock.cs" />
+    <Compile Include="DomainModel\ExternalData\Organization\DAO\Organization.cs" />
+    <Compile Include="DomainModel\ExternalData\YearOfHarvest\DTO\YearOfHarvestDetail.cs" />
+    <Compile Include="DomainModel\MixedFeed\DAO\MixedFeedSilo.cs" />
+    <Compile Include="DomainModel\MixedFeed\DAO\MixedFeedSiloDevice.cs" />
+    <Compile Include="DomainModel\MixedFeed\DTO\MixedFeedSiloDto.cs" />
+    <Compile Include="DomainModel\Node\DAO\Node.cs" />
+    <Compile Include="DomainModel\Node\TDO\List\NodeItems.cs" />
+    <Compile Include="DomainModel\Node\TDO\List\NodeItem.cs" />
+    <Compile Include="DomainModel\Node\TDO\Json\NodeProcessingMsgItem.cs" />
+    <Compile Include="DomainModel\Node\TDO\Json\NodeProcessingMsg.cs" />
+    <Compile Include="DomainModel\Node\TDO\Json\NodeContext.cs" />
+    <Compile Include="DomainModel\OpData\DAO\SecurityCheckReviewOpData.cs" />
+    <Compile Include="DomainModel\PhoneInformTicketAssignment\DAO\PhoneInformTicketAssignment.cs" />
+    <Compile Include="DomainModel\OpDataEvent\DAO\OpDataEvent.cs" />
+    <Compile Include="DomainModel\OpDataEvent\DTO\OpDataEventDto.cs" />
+    <Compile Include="DomainModel\OpDataState\DTO\Detail\OpDataStateDetail.cs" />
+    <Compile Include="DomainModel\OpDataState\DTO\List\OpDataStateItems.cs" />
+    <Compile Include="DomainModel\OpDataState\DTO\List\OpDataStateItem.cs" />
+    <Compile Include="DomainModel\OpData\DAO\CentralLabOpData.cs" />
+    <Compile Include="DomainModel\OpData\DAO\LoadGuideOpData.cs" />
+    <Compile Include="DomainModel\OpData\DAO\LoadPointOpData.cs" />
+    <Compile Include="DomainModel\OpData\DAO\MixedFeedGuideOpData.cs" />
+    <Compile Include="DomainModel\OpData\DAO\MixedFeedLoadOpData.cs" />
+    <Compile Include="DomainModel\OpData\DAO\NonStandartOpData.cs" />
+    <Compile Include="DomainModel\OpData\DAO\Base\_BaseOpData.cs" />
+    <Compile Include="DomainModel\Card\DAO\Card.cs" />
+    <Compile Include="DomainModel\Card\DAO\CardType.cs" />
+    <Compile Include="DomainModel\Device\DAO\DeviceParam.cs" />
+    <Compile Include="DomainModel\Device\DAO\DeviceState.cs" />
+    <Compile Include="DomainModel\OpDataState\DAO\OpDataState.cs" />
+    <Compile Include="DomainModel\OpData\DAO\SingleWindowOpData.cs" />
+    <Compile Include="DomainModel\OpData\DAO\UnloadGuideOpData.cs" />
+    <Compile Include="DomainModel\OpData\TDO\Detail\LabFacelessOpData.cs" />
+    <Compile Include="DomainModel\OpData\TDO\Detail\SingleWindowOpDataDetail.cs" />
+    <Compile Include="DomainModel\OpData\TDO\Detail\_BaseOpDataDetail.cs" />
+    <Compile Include="DomainModel\OpData\TDO\Json\ProductContentItem.cs" />
+    <Compile Include="DomainModel\OpData\TDO\Json\ProductContentList.cs" />
+    <Compile Include="DomainModel\OpData\DAO\Json\ProductContent.cs" />
+    <Compile Include="DomainModel\OpData\TDO\Json\AnalysisValueDescriptor.cs" />
+    <Compile Include="DomainModel\OpRoutine\DAO\OpRoutineTransition.cs" />
+    <Compile Include="DomainModel\OpRoutine\DAO\OpRoutineProcessor.cs" />
+    <Compile Include="DomainModel\OpData\DAO\LabFacelessOpData.cs" />
+    <Compile Include="DomainModel\Node\TDO\Detail\NodeDetail.cs" />
+    <Compile Include="DomainModel\Node\DAO\NodeConstraint.cs" />
+    <Compile Include="DomainModel\OpCameraImage\OpCameraImage.cs" />
+    <Compile Include="DomainModel\Node\TDO\Json\NodeConfig.cs" />
+    <Compile Include="DomainModel\OpVisa\DTO\List\OpVisaItems.cs" />
+    <Compile Include="DomainModel\OpVisa\DTO\List\OpVisaItem.cs" />
+    <Compile Include="DomainModel\OpVisa\DAO\OpVisa.cs" />
+    <Compile Include="DomainModel\OpRoutine\DAO\OpRoutine.cs" />
+    <Compile Include="DomainModel\OpRoutine\DAO\OpRoutineState.cs" />
+    <Compile Include="DomainModel\OrganizationUnit\DAO\OrganizationUnitType.cs" />
+    <Compile Include="DomainModel\OrganizationUnit\DAO\OrganizationUnit.cs" />
+    <Compile Include="DomainModel\OpData\DAO\SecurityCheckOutOpData.cs" />
+    <Compile Include="DomainModel\OrganizationUnit\DTO\Detail\OrganizationUnitDetail.cs" />
+    <Compile Include="DomainModel\OrganizationUnit\DTO\List\OrganizationUnitItems.cs" />
+    <Compile Include="DomainModel\OrganizationUnit\DTO\List\OrganizationUnitItem.cs" />
+    <Compile Include="DomainModel\OwnTransport\DAO\OwnTransport.cs" />
+    <Compile Include="DomainModel\OwnTransport\DTO\OwnTransportVm.cs" />
+    <Compile Include="DomainModel\PackingTare\DAO\PackingTare.cs" />
+    <Compile Include="DomainModel\PackingTare\DAO\TicketPackingTare.cs" />
+    <Compile Include="DomainModel\PackingTare\DTO\PackingTareVm.cs" />
+    <Compile Include="DomainModel\PackingTare\DTO\TicketPackingTareVm.cs" />
+    <Compile Include="DomainModel\PhoneDictionary\DAO\PhoneDictionary.cs" />
+    <Compile Include="DomainModel\PredefinedRoute\DAO\RouteTemplate.cs" />
+    <Compile Include="DomainModel\PreRegistration\DAO\PreRegisterCompany.cs" />
+    <Compile Include="DomainModel\PreRegistration\DAO\PreRegisterProduct.cs" />
+    <Compile Include="DomainModel\PreRegistration\DAO\PreRegisterQueue.cs" />
+    <Compile Include="DomainModel\PreRegistration\DTO\PreRegistrationProductVm.cs" />
+    <Compile Include="DomainModel\Queue\DAO\QueueItemCategory.cs" />
+    <Compile Include="DomainModel\Queue\DAO\QueueItemPriority.cs" />
+    <Compile Include="DomainModel\Settings\DAO\Settings.cs" />
+    <Compile Include="DomainModel\Sms\DAO\SmsTemplate.cs" />
+    <Compile Include="DomainModel\Sms\DTO\SmsTemplates.cs" />
+    <Compile Include="DomainModel\Ticket\DAO\TicketContainerStatus.cs" />
+    <Compile Include="DomainModel\Ticket\DAO\TicketFileType.cs" />
+    <Compile Include="DomainModel\Ticket\DAO\TicketStatus.cs" />
+    <Compile Include="DomainModel\Ticket\DAO\TicketContainer.cs" />
+    <Compile Include="DomainModel\Ticket\TDO\List\TicketItems.cs" />
+    <Compile Include="DomainModel\Ticket\TDO\List\TicketItem.cs" />
+    <Compile Include="DomainModel\Traffic\DAO\TrafficHistory.cs" />
+    <Compile Include="DomainModel\Queue\DAO\QueueRegister.cs" />
+    <Compile Include="DomainModel\Traffic\TDO\NodeTrafficHistory.cs" />
+    <Compile Include="DomainModel\Traffic\TDO\TrafficRecord.cs" />
+    <Compile Include="DomainModel\_Base\BaseEntity.cs" />
+    <Compile Include="DomainModel\_Base\BaseFilter.cs" />
+    <Compile Include="DomainValue\BlackList.cs" />
+    <Compile Include="DomainValue\CentralLaboratoryStates.cs" />
+    <Compile Include="DomainValue\Email.cs" />
+    <Compile Include="DomainValue\LabEffectiveClassifier.cs" />
+    <Compile Include="DomainValue\Node.cs" />
+    <Compile Include="DomainValue\Common.cs" />
+    <Compile Include="DomainValue\Connect.cs" />
+    <Compile Include="DomainValue\ExternalData.cs" />
+    <Compile Include="DomainValue\Device.cs" />
+    <Compile Include="DomainValue\NodeGroup.cs" />
+    <Compile Include="DomainValue\NodeId.cs" />
+    <Compile Include="DomainValue\NodeProcesses\ScaleProcess.cs" />
+    <Compile Include="DomainValue\OpData.cs" />
+    <Compile Include="DomainValue\OpDataEventType.cs" />
+    <Compile Include="DomainValue\OpRoutine.cs" />
+    <Compile Include="DomainValue\CollisionDeepLink.cs" />
+    <Compile Include="DomainValue\Pdf.cs" />
+    <Compile Include="DomainValue\Phone.cs" />
+    <Compile Include="DomainValue\Queue.cs" />
+    <Compile Include="DomainValue\SingleWindowReadonly.cs" />
+    <Compile Include="DomainValue\SingleWindowOpData.cs" />
+    <Compile Include="DomainValue\UserRole.cs" />
+    <Compile Include="DomainValue\Route.cs" />
+    <Compile Include="DomainValue\SingleWindowRegisterFilter.cs" />
+    <Compile Include="DomainValue\Sms.cs" />
+    <Compile Include="DomainValue\TicketContainer.cs" />
+    <Compile Include="DomainValue\Ticket.cs" />
+    <Compile Include="DomainValue\OrganizationUnit.cs" />
+    <Compile Include="DomainValue\Card.cs" />
+    <Compile Include="DomainValue\TicketFile.cs" />
+    <Compile Include="DomainValue\TicketRegisterType.cs" />
+    <Compile Include="DomainValue\TruckState.cs" />
+    <Compile Include="DomainValue\TypeOfTransaction.cs" />
+    <Compile Include="DomainValue\User.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DomainModel\OpData\DAO\ScaleOpData.cs" />
+    <Compile Include="DomainModel\OpData\DAO\SecurityCheckInOpData.cs" />
+    <Compile Include="DomainModel\Ticket\DAO\Ticket.cs" />
+    <Compile Include="DomainModel\OpData\DAO\UnloadPointOpData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Solution Items\appSettings.config">
+      <Link>appSettings.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DomainModel\Card\TDO\" />
+    <Folder Include="DomainModel\OpRoutine\TDO\" />
+    <Folder Include="DomainModel\Queue\DTO\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DomainModel\Ticket\DAO\TicketFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DomainModel\Queue\DAO\QueuePatternItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gravitas.Infrastrructure\Gravitas.Infrastructure.Common.csproj">
+      <Project>{d1a0c172-f6d1-4f6f-ae77-63d89e11ec63}</Project>
+      <Name>Gravitas.Infrastructure.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

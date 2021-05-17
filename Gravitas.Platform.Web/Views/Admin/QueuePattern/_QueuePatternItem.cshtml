@@ -1,0 +1,58 @@
+﻿@model Gravitas.Platform.Web.ViewModel.QueuePatternItemVm
+
+<tr>
+    @using (Html.BeginForm("ChangeQueuePatternItem", "Admin", FormMethod.Post))
+    {
+        <td>
+            @Html.EditorFor(model => model.Count, new { htmlAttributes = new { @class = "form-control", type = "number", min=0 } })
+            @Html.ValidationMessageFor(model => model.Count, "", new { @class = "text-danger" })
+        </td>
+        
+        if (Model.IsFixed)
+        {
+            <td>
+                @Html.DropDownListFor(model=>model.Priority, new SelectList(ViewBag.Priorities.Items, "Id", "Description"), new  { @class = "form-control", @readonly = "true", disabled = "true" })
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.Category, new SelectList(ViewBag.Categories.Items, "Id", "Description"), new  { @class = "form-control", @readonly = "true", disabled = "true" })
+            </td>
+            <td>
+                @Html.EditorFor(model=>model.ReceiverName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.DropDownListFor(model=>model.Priority, new SelectList(ViewBag.Priorities.Items, "Id", "Description"),  new { @class = "form-control" })
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.Category, new SelectList(ViewBag.Categories.Items, "Id", "Description"), new { @class = "form-control", @readonly = "true", disabled = "true"  })
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.ReceiverId, new SelectList(ViewBag.Partners.Items, "Id", "ShortName"), new {@class="form-control selectpicker", data_show_subtext="true",
+                    data_live_search="true"})
+            </td>
+        }
+        <td>
+            <div hidden="hidden">@Html.EditorFor(model => model.QueuePatternItemId)</div>
+            <button type="submit" class="btn btn-primary btn-sm btn-block">Змінити</button>
+        </td>
+       
+    }
+    @using (Html.BeginForm("DeleteQueuePatternItem", "Admin", FormMethod.Post))
+    {
+        
+        <td>
+            <div hidden="hidden">@Html.EditorFor(model => model.QueuePatternItemId)</div>
+            @if (Model.IsFixed)
+            {
+                <button type="submit" class="btn btn-default btn-sm btn-block bg-color-grayDark" disabled="disabled">Видалити</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary btn-sm btn-block">Видалити</button>
+            }
+
+        </td>
+    }
+</tr>

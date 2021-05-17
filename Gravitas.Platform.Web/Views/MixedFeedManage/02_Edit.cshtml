@@ -1,0 +1,124 @@
+﻿@using Gravitas.Model.DomainValue
+@model Gravitas.Platform.Web.ViewModel.MixedFeedManageVms.EditVm
+@Html.Hidden(NodeIdValue.MixedFeedManager.ToString(), new {id = "nodeId"})
+
+<div ng-controller="mixedFeedController">
+    @using (Ajax.BeginForm("Edit_Save", "MixedFeedManage", null, null, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        @Html.HiddenFor(m => m.Id, new {id = "Id"})
+        @Html.HiddenFor(m => m.IsActive, new {id = "IsActive"})
+        <div class="row">
+            <div class="col-6">
+                <div >
+                    <label class="col-12 mb-2">
+                        Вибраний комбікорм: {{selectedMixedFeedItemName}}
+                    </label>
+                    <div class="scroll-wrapper">
+                        <treecontrol class="tree-classic"
+                                     tree-model="mixedFeedItems"
+                                     options="mixedFeedItemsOptions"
+                                     on-node-toggle="fetchChildNodes(node, expanded)"
+                                     on-selection="selectMixedFeedItem(node)"
+                                     filter-expression="mixedFeedFiltering">
+                            {{node.ShortName}} {{node.isEmpty}}
+                        </treecontrol>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                @Html.HiddenFor(m => m.ProductId, new {id = "ProductId"})
+                <div class="col-12">
+                    @Html.LabelFor(m => m.Id)
+                    @Html.EditorFor(m => m.Id, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                </div>
+                <div class="col-12">
+                    @Html.LabelFor(m => m.Drive)
+                    @Html.EditorFor(m => m.Drive, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                </div>
+                <div class="col-12">
+                    @Html.LabelFor(m => m.Specification)
+                    @Html.EditorFor(m => m.Specification, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
+                <div class="col-12">
+                    @Html.LabelFor(m => m.LoadQueue)
+                    @Html.EditorFor(m => m.LoadQueue, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
+                <div class="col-12">
+                    @Html.LabelFor(m => m.SiloWeight)
+                    @Html.EditorFor(m => m.SiloWeight, new {htmlAttributes = new {@class = "form-control", @onkeyup = "siloWeightChanged(this.value)"}})
+                </div>
+                <div class="col-12">
+                    @Html.LabelFor(m => m.SiloEmpty)
+                    @Html.EditorFor(m => m.SiloEmpty, new {htmlAttributes = new {@class = "form-control", @onkeyup = "siloEmptyChanged(this.value)"}})
+                </div>
+                <div class="col-12">
+                    @Html.LabelFor(m => m.SiloFull)
+                    @Html.EditorFor(m => m.SiloFull, new {htmlAttributes = new {@class = "form-control", @onkeyup = "siloFullChanged(this.value)"}})
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-between mt-3">
+            <div class="col-3">
+                @Ajax.ActionLink(@"Назад", "Edit_Back", "MixedFeedManage", null, null, new {@class = "btn btn-danger btn-lg btn-block"})
+            </div>
+            <div class="col-3">
+                @Ajax.ActionLink("Очистити", "Edit_Clear", "MixedFeedManage", null, null, new {@class = "btn btn-warning btn-lg btn-block"})
+            </div>
+            <div class="col-3">
+                <input type="submit" value="Зберегти" class="btn btn-lg btn-primary btn-block"/>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    var maxHeight = 21;
+    var siloRadius = Math.sqrt(8 / 3.14159);
+    var fullValue = 3.14159 * (siloRadius * siloRadius) * maxHeight;
+    var fullWeight = (fullValue * 650) / 1000;
+    
+    function siloWeightChanged(val){
+        if (val < 0 || val > fullWeight || val.includes('.')) {
+            error();
+            return;
+        }
+        val = val.replace(",", ".");
+        document.getElementById("SiloEmpty").value = getCommaSeparatedTwoDecimalsNumber(maxHeight - (val/ (fullWeight / 100) / 100) * maxHeight);
+        document.getElementById("SiloFull").value = getCommaSeparatedTwoDecimalsNumber((val / (fullWeight / 100) / 100) * maxHeight);
+    }
+    
+    function siloEmptyChanged(val){
+        if (val < 0 || val > maxHeight || val.includes('.')) {
+            error();
+            return;
+        }
+        val = val.replace(",", ".");
+        document.getElementById("SiloWeight").value = getCommaSeparatedTwoDecimalsNumber(fullWeight / maxHeight * (maxHeight - val));
+        document.getElementById("SiloFull").value = getCommaSeparatedTwoDecimalsNumber(maxHeight - val);
+    }
+    
+    function siloFullChanged(val){
+        if (val < 0 || val > maxHeight || val.includes('.')) {
+            error();
+            return;
+        }
+        val = val.replace(",", ".");
+        document.getElementById("SiloWeight").value = getCommaSeparatedTwoDecimalsNumber(fullWeight / maxHeight * (val));
+        document.getElementById("SiloEmpty").value = getCommaSeparatedTwoDecimalsNumber(maxHeight - val);
+    }
+    
+    function error() {
+        document.getElementById('SiloEmpty').value = 21;
+        document.getElementById('SiloFull').value = 0;
+        document.getElementById('SiloWeight').value = 0;
+    }
+    
+    function getCommaSeparatedTwoDecimalsNumber(number) {
+        var fixedNumber = Number.parseFloat(number).toFixed(2).replace(".", ",");
+        return fixedNumber;
+
+    }
+</script>

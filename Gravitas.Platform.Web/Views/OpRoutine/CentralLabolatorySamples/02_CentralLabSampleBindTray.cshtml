@@ -1,0 +1,32 @@
+﻿@model Gravitas.Platform.Web.ViewModel.CentralLabolatorySamples.CentralLabSampleBindTrayVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="d-flex align-items-center icon-container">
+    <div class="flex-shrink-1"><i class="fas fa-archive"></i></div>
+    <div class="p-3 w-100"><h3>Піднесіть лоток для відбору проб до зчитувача</h3></div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        @Html.LabelFor(model => model.TransportNo, new { @class = "" })
+        @Html.EditorFor(model => model.TransportNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+    <div class="col-6">
+        @Html.LabelFor(model => model.TrailerNo, new { @class = "" })
+        @Html.EditorFor(model => model.TrailerNo, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+    <div class="col-6">
+        @Html.LabelFor(model => model.ProductName, new { @class = "" })
+        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" , @readonly = "true" }})
+    </div> 
+    <div class="col-6">
+        @{
+            if (!string.IsNullOrWhiteSpace(Model.CardNumber)) {
+                Model.CardNumber = Model.CardNumber.Remove(0, 2);
+            }
+        }
+
+        @Html.LabelFor(model => Model.CardNumber, new { @class = "" })
+        @Html.EditorFor(m => m.CardNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "true" }})
+    </div> 
+</div>

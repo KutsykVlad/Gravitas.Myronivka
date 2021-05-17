@@ -1,0 +1,68 @@
+﻿@model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.SampleBindAnalysisTrayVm
+
+<div class="row justify-content-between">
+    <div class="col-md-4 col-sm-6">
+        @Html.LabelFor(model => model.Product, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(model => model.Product, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    </div>
+    <div class="col-md-3 col-sm-6">
+        @{
+            if (!string.IsNullOrWhiteSpace(Model.Card)) {
+                Model.Card = Model.Card.Remove(0, 2);
+            }
+        }
+        
+        @Html.LabelFor(model => Model.Card, htmlAttributes: new { @class = "" })
+        @Html.EditorFor(m => m.Card, new { htmlAttributes = new { @class = "form-control", @readonly = "true" }})
+    </div>
+    <div class="col-md-3 col-sm-6">
+        @Ajax.ActionLink(@"Далі", "SampleBindAnalysisTray_Next", "LaboratoryIn", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-primary btn-lg btn-block"})
+    </div>
+</div>
+<hr/>
+<div class="jumbotron">
+    @using (Ajax.BeginForm("SampleBindAnalysisTray", "LaboratoryIn", null, null, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+        <div class="row">
+            <h5>Оберіть типи значень за якимим буде виконано аналіз та натисніть кнопку "Привязати"</h5>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="list-group">
+                    <div class="form-check">
+                        @Html.EditorFor(m => m.AnalysisValueDescriptor.EditImpurity, new { @class = "form-check-input" })
+                        @Html.LabelFor(m => m.AnalysisValueDescriptor.EditImpurity, new { @class = "form-check-label" })
+                    </div>
+                    <div class="form-check">
+                        @Html.EditorFor(m => m.AnalysisValueDescriptor.EditHumidity, new { @class = "form-check-input" })
+                        @Html.LabelFor(m => m.AnalysisValueDescriptor.EditHumidity, new { @class = "form-check-label" })
+                    </div>
+                    <div class="form-check">
+                        @Html.EditorFor(m => m.AnalysisValueDescriptor.EditIsInfectioned, new { @class = "form-check-input" })
+                        @Html.LabelFor(m => m.AnalysisValueDescriptor.EditIsInfectioned, new { @class = "form-check-label" })
+                    </div>
+                    <div class="form-check">
+                        @Html.EditorFor(m => m.AnalysisValueDescriptor.EditEffectiveValue, new { @class = "form-check-input" })
+                        @Html.LabelFor(m => m.AnalysisValueDescriptor.EditEffectiveValue, new { @class = "form-check-label" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-9 col-sm-6">
+                
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <input type="submit" value="Прив'язати" class="btn btn-lg btn-primary btn-block" />
+            </div>
+        </div>
+    }
+</div>
+
+<div>
+    @Html.Action("LaboratoryIn_ListComponentItems", "OpData", new { opDataId  = Model.OpDataId})
+</div>

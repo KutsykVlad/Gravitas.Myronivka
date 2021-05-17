@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Редактор шаблону черги";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.NodeName = "Редактор шаблону черги";
+}
+
+<div class="col-md-3 col-sm-3 col-lg-3">
+    @Html.ActionLink(@"До панелі адміністратора", "Panel", "Admin", null, new { @class = "btn btn-primary btn-block" })
+</div>
+<div ng-app="adminApp" data-ng-controller="adminQueuePatternController" ng-cloak>
+
+    <div class="row justify-content-center">
+        <div class="col-3 text-lg-center"> <div class="text-capitalize inline"><h4>Шаблон черги</h4></div></div>
+    </div>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    Кількість машин
+                </th>
+                <th>
+                    Пріоритет
+                </th>
+                <th>
+                    Тип
+                </th>
+                <th>
+                    Ім`я власника
+                </th>
+                <th>
+                    Видалення
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="queueItem in QueuePatterns">
+                <td>
+                    <input type="number" class="form-control" min="0" max="99" ng-model="queueItem.Count" required>
+                </td>
+                <td>
+                    <ui-select ng-model="queueItem.Priority" ng-disabled="queueItem.IsFixed" theme="select2" on-select="onSelectedPriority($item, queueItem)">
+                        <ui-select-match class="ui-select-match" placeholder="Виберіть пріоритет зі списку">{{queueItem.PriorityDescription}}</ui-select-match>
+                        <ui-select-choices class="ui-select-choices" repeat="item in priorities">
+                            <div ng-bind-html="item.Description"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </td>
+                <td>
+                    <ui-select ng-model="queueItem.Category" ng-disabled="true" theme="select2" on-select="onSelectedCategory($item, queueItem)">
+                        <ui-select-match class="ui-select-match" placeholder="Виберіть категорію зі списку">{{queueItem.CategoryDescription}}</ui-select-match>
+                        <ui-select-choices class="ui-select-choices" repeat="item in categories">
+                            <div ng-bind-html="item.Description"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </td>
+                <td>
+                    <ui-select ng-model="queueItem.ReceiverId" ng-disabled="queueItem.IsFixed" theme="select2" on-select="onSelected($item, queueItem)">
+                        <ui-select-match class="ui-select-match" placeholder="Виберіть перевізника зі списку або скористуйтеся пошуком...">{{queueItem.ReceiverName}}</ui-select-match>
+                        <ui-select-choices class="ui-select-choices" refresh="refreshResults($select)" refresh-delay="500" repeat="item in fixedPartnerItems"
+                                           infinite-scroll="fixedPartnerAddMoreItems($select)"
+                                           infinite-scroll-distance="0.001">
+                            <div ng-bind-html="item.ShortName | highlight: $select.search"></div>
+                            Адреса: {{ item.Address }}
+                            <small>
+                                Код: <span ng-bind-html="''+item.Code | highlight: $select.search"></span>
+                            </small>
+                        </ui-select-choices>
+                    </ui-select>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-sm btn-block" ng-model="button" ng-disabled="queueItem.IsFixed" ng-click="deleteResult(queueItem.QueuePatternItemId)">Видалити</button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-6">
+                <div class="btn btn-primary btn-sm btn-block" ng-click="addRecord()">Додати новий запис</div>
+            </div>
+            <div class="col-6">
+                <div class="btn btn-primary btn-sm btn-block" ng-click="postResult()">Зберегти</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/wwwroot/src/apps/admin/appAdmin.js"></script>
+<script src="~/wwwroot/src/apps/admin/adminService.js"></script>
+<script src="~/wwwroot/src/apps/admin/adminQueuePatternController.js"></script>

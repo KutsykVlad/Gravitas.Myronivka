@@ -1,0 +1,23 @@
+﻿@model Gravitas.Platform.Web.ViewModel.SecurityOutVms.AddRouteControlVisaVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="d-flex align-items-center icon-container">
+    <div class="flex-shrink-1"><i class="fas fa-id-card"></i></div>
+    <div class="p-3 w-100"><h3>Піднесіть картку Охоронця до зчитувача в приміщенні КПП</h3></div>
+</div>
+
+@if (Model.IsTechRoute)
+{
+    <h4 style="color: red; text-align: center">Увага! Автомобіль з технологічним маршрутом</h4>
+}
+
+<h4>
+    Піднесенням картки працівник охорони підтверджує:
+</h4>
+<h4>
+    <p> - Дозвіл на виїзд автотранспорту з території підприємства згідно з поточною посадовою інструкцією</p>
+    <p> - Правильість виконання транспортом маршруту</p>
+    <p> - Відсутність порушень на кадрах фотофіксації</p>
+    <p> - Вірне вказання номерів плоб (за їх наявності)</p>
+</h4>
+

@@ -1,0 +1,44 @@
+﻿@model Gravitas.Platform.Web.ViewModel.BlackListPartnerRecordToAddVm
+
+@using (Html.BeginForm("AddPartnerToBlackList", "BlackList", FormMethod.Post))
+{<div class="container">
+     <div class="row">
+         <div class="col-12">
+             <div class="row">
+                 <div class="col-2">
+                     <p>Ім'я партнера :</p>
+                 </div>
+                 <div class="col-10">
+                     @Html.DropDownListFor(model => model.Id, Model.Partners.Items.Select(d => new SelectListItem {Value = d.Id, Text = d.ShortName}), new
+                     {
+                         @class = "form-control selectpicker",
+                         data_show_subtext = "true",
+                         data_live_search = "true"
+                     })
+                 </div>
+             </div>
+
+         </div>
+     </div>
+     <div class="row mt-2">
+         <div class="col-10">
+             <div class="row">
+                 @Html.TextAreaFor(model => model.Comment, 3, 1, new { @class = "form-control", @title = "Причина внесення", @placeholder = "Причина внесення" })
+                 @Html.ValidationMessageFor(model => model.Comment, "Введення причини є обов'язковим", new { @class = "text-danger" })
+             </div>
+            
+         </div>
+         
+             <div class="col-2">
+                     <button class="btn-primary btn btn-block">Внести</button>
+             </div>
+         
+        
+     </div>
+
+ </div>
+    
+    
+}
+
+

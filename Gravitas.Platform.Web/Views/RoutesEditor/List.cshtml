@@ -1,0 +1,235 @@
+﻿@Scripts.Render("~/bundles/angular")
+<script src="~/wwwroot/src/apps/shared/datatables/module.js"></script>
+<script src="~/wwwroot/src/apps/shared/datatables/datatableBasic.js"></script>
+<script src="~/wwwroot/src/apps/shared/datatables/datatableColumnFilter.js"></script>
+<script src="~/wwwroot/src/apps/shared/datatables/datatableColumnReorder.js"></script>
+<script src="~/wwwroot/src/apps/shared/datatables/datatableTableTools.js"></script>
+<link href="~/wwwroot/src/css/routes-editor.css" rel="stylesheet" />
+@{
+	ViewBag.Title = "RouteEditor";
+	Layout = "~/Views/Shared/_SmartLayout.cshtml";
+}
+<div id="routes-list" ng-app="routesEditorApp">
+	<div data-ng-controller="routesListController">
+		<div id="content">
+			<!-- row -->
+			<div class="row">
+
+				<!-- col -->
+				<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+					<h1 class="page-title txt-color-blueDark">
+
+						<!-- PAGE HEADER -->
+						<i class="fa-fw fa fa-road"></i>
+						Routes
+						<span>
+							>
+							Overview
+						</span>
+					</h1>
+				</div>
+				<!-- end col -->
+				<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+					<div class="btn-group actions pull-right">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-gear">&nbsp;</i>Actions
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu pull-right" role="menu">
+							<li>
+								<a ng-click="designNewOpen()" href="#" id="create-route"><i class="fa fa-cube fa-fw">&nbsp;</i>Create Route</a>
+							</li>
+							<li ng-class="{'disabled': selectedRouteId === null }">
+								<a href="#" id="delete-route" ng-click="deleteConfirm(selectedRouteId)" ng-disabled="selectedRouteId === null"><i class="fa fa-recycle fa-fw">&nbsp;</i>Delete</a>
+							</li>
+							<li ng-class="{'disabled': selectedRouteId === null }">
+								<a href="#" id="rename-route" ng-click="renameRoute(selectedRouteId)"><i class="fa fa-edit fa-fw">&nbsp;</i>Rename Route</a>
+							</li>
+							<li ng-class="{'disabled': selectedRouteId === null }">
+								<a href="#" id="duplicate-route" ng-click="duplicateRoute(getRoute(selectedRouteId).Name, selectedRouteId)" ng-disabled="selectedRouteId === null"><i class="fa fa-copy fa-fw">&nbsp;</i>Duplicate</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="#" id="refresh-route-list" ng-click="refreshGrid()">
+									<i class="fa fa-refresh fa-fw"></i> Refresh
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- right side of the page with the sparkline graphs -->
+			</div>
+			<!-- end row -->
+			<!-- widget grid -->
+			<section id="widget-grid" class="widget-grid">
+
+				<section widget-grid id="widget-grid">
+
+
+					<div class="row">
+						<article class="col-sm-12">
+
+							<div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+								<header>
+									<span class="widget-icon"> <i class="fa fa-table"></i> </span>
+									<h2>Routes</h2>
+								</header>
+								<div>
+									<div class="widget-body no-padding">
+
+										<table id="routesTable" dt-options="dtOptions" dt-columns="dtColumns" class="dataTable table table-striped table-bordered table-hover" width="100%" cellspacing="0">
+											<thead>
+												<tr>
+													<th>Id</th>
+													<th>Route Title</th>
+													@*<th><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> EST</th>*@
+													<th>Status</th>
+													<th><i class="fa fa-circle txt-color-darken font-xs"></i> Owner</th>
+													<th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i> Created</th>
+													<th><i class="fa fa-fw fa-calendar text-muted hidden-md hidden-sm hidden-xs"></i> Updated</th>
+													<th>Tickets</th>
+												</tr>
+											</thead>
+											<tr ng-repeat="route in routes" ng-class="{'selected': isRouteSelected(s.id) }">
+												<td>
+													<div class="checkbox">
+														<label for="r_{{$index}}">
+															<input type="checkbox" id="r_{{$index}}" class="checkbox style-0" ng-model="route.selected" ng-click="selectRoute(route.Id)">
+															<span>{{$index+1}}</span>
+														</label>
+													</div>
+												</td>
+												@* <td><a class="route-link" ng-click="gotoRoute(route.Id)" ng-href="@Url.Action("Design", "RoutesEditor")/{{route.Id}}">{{route.Name}}</a></td> *@
+												<td>{{route.Status}}</td>
+												<td>{{route.Target}}</td>
+												<td>{{route.CreatedOn | date:'dd/MM/yyyy'}}</td>
+												<td>{{route.UpdatedAt | date:'dd/MM/yyyy'}}</td>
+												<td>{{route.Tickets}}</td>
+											</tr>
+										</table>
+
+									</div>
+								</div>
+							</div>
+
+						</article>
+
+
+					</div>
+
+				</section>
+
+				<!-- row -->
+				<div class="row">
+					<!-- a blank row to get started -->
+					<div class="col-sm-12">
+						<!-- your contents here -->
+					</div>
+				</div>
+				<!-- end row -->
+			</section>
+			<iframe @*iframe-onload="iframeLoadedCallBack()"*@ ng-src="{{ routePreviewUrl }}" width="100%"
+					height="1200" frameBorder="0"></iframe>
+			<!-- end widget grid -->
+		</div>
+
+		@section pagespecific {
+			<script type="text/javascript">
+
+																											//	$(document).ready(function() {
+																													/* Formatting function for row details - modify as you need */
+																													//function format(d) {
+																													//	// `d` is the original data object for the row
+																													//	return '<table cellpadding="5" cellspacing="0" border="0" class="table table-hover table-condensed">' +
+																													//		'<tr>' +
+																													//		'<td style="width:100px">Project Title:</td>' +
+																													//		'<td>' +
+																													//		d.name +
+																													//		'</td>' +
+																													//		'</tr>' +
+																													//		'<tr>' +
+																													//		'<td>Deadline:</td>' +
+																													//		'<td>' +
+																													//		d.ends +
+																													//		'</td>' +
+																													//		'</tr>' +
+																													//		'<tr>' +
+																													//		'<td>Extra info:</td>' +
+																													//		'<td>And any further details here (images etc)...</td>' +
+																													//		'</tr>' +
+																													//		'<tr>' +
+																													//		'<td>Comments:</td>' +
+																													//		'<td>' +
+																													//		d.comments +
+																													//		'</td>' +
+																													//		'</tr>' +
+																													//		'<tr>' +
+																													//		'<td>Action:</td>' +
+																													//		'<td>' +
+																													//		d.action +
+																													//		'</td>' +
+																													//		'</tr>' +
+																													//		'</table>';
+																													//}
+
+																													//// clears the variable if left blank
+																													//var table = $('#example').DataTable({
+																													////	"ajax": "http://localhost:3142/api/routes/getRoutes",
+																													//	"bDestroy": true,
+																													//	"iDisplayLength": 15,
+																													//	"columns": [
+																													//		{
+																													//			"class": 'details-control',
+																													//			"orderable": false,
+																													//			"data": null,
+																													//			"defaultContent": ''
+																													//		},
+																													//		{ "data": "Id" },
+																													//		{ "data": "Name" },
+																													//		{ "data": "RouteConfig" },
+																													//		{ "data": "status" },
+																													//		{ "data": "target-actual" },
+																													//		{ "data": "starts" },
+																													//		{ "data": "ends" },
+																													//		{ "data": "tracker" },
+																													//	],
+																													//	"order": [[1, 'asc']],
+																													//	"fnDrawCallback": function(oSettings) {
+																													//		runAllCharts();
+																													//	}
+																												//	});
+
+
+																												//	//// Add event listener for opening and closing details
+																												//	$('#example tbody').on('click',
+																												//		'td.details-control',
+																												//		function() {
+																												//			var tr = $(this).closest('tr');
+																												//			var row = table.row(tr);
+
+																												//			if (row.child.isShown()) {
+																												//				// This row is already open - close it
+																												//				row.child.hide();
+																												//				tr.removeClass('shown');
+																												//			} else {
+																												//				// Open this row
+																												//				row.child(format(row.data())).show();
+																												//				tr.addClass('shown');
+																												//			}
+																												//		});
+
+																												//});
+
+			</script>
+		}
+
+	</div>
+</div>
+
+
+
+<script src="~/wwwroot/src/apps/routes-editor/routesEditorApp.js"></script>
+<script src="~/wwwroot/src/apps/routes-editor/routesEditorController.js"></script>
+<script src="~/wwwroot/src/apps/routes-editor/routesEditorService.js"></script>
+<script src="~/wwwroot/src/apps/routes-editor/propsFilter.js"></script>
+<script src="~/wwwroot/src/apps/routes-editor/routesListController.js"></script>

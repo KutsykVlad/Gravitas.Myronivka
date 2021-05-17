@@ -1,0 +1,826 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9CE72020-BC13-46EF-AA62-F1721324EBD9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gravitas.DAL</RootNamespace>
+    <AssemblyName>Gravitas.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.3.0-preview5-19254-05\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.3.0-preview5-19254-05\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DbContext\BaseDbContext.cs" />
+    <Compile Include="DbContext\GravitasDbContext.cs" />
+    <Compile Include="DeviceTransfer\DeviceStateTransfer.cs" />
+    <Compile Include="Extension\EntityExtensions.cs" />
+    <Compile Include="Extension\SingleWindowOpDataExtensions.cs" />
+    <Compile Include="Mapping\BlackList\DriverBlackListMap.cs" />
+    <Compile Include="Mapping\BlackList\PartnerBlackListMap.cs" />
+    <Compile Include="Mapping\BlackList\TrailerBlackListMap.cs" />
+    <Compile Include="Mapping\BlackList\TransportBlackListMap.cs" />
+    <Compile Include="Mapping\Card\CardMap.cs" />
+    <Compile Include="Mapping\Card\CardTypeMap.cs" />
+    <Compile Include="Mapping\Device\DeviceMap.cs" />
+    <Compile Include="Mapping\Device\DeviceStateMap.cs" />
+    <Compile Include="Mapping\Device\DeviceTypeMap.cs" />
+    <Compile Include="Mapping\Device\DeviceParamMap.cs" />
+    <Compile Include="Mapping\EmployeeRoles\AssignmentMap.cs" />
+    <Compile Include="Mapping\EmployeeRoles\EmployeeRolesMap.cs" />
+    <Compile Include="Mapping\EmployeeRoles\RoleMap.cs" />
+    <Compile Include="Mapping\EndPointNode\EndPointNode.cs" />
+    <Compile Include="Mapping\ExternalData\AcceptancePointMap.cs" />
+    <Compile Include="Mapping\ExternalData\BudgetMap.cs" />
+    <Compile Include="Mapping\ExternalData\ContractMap.cs" />
+    <Compile Include="Mapping\ExternalData\CropMap.cs" />
+    <Compile Include="Mapping\ExternalData\DeliveryBillStatusMap.cs" />
+    <Compile Include="Mapping\ExternalData\LabDeviceResultTypeMap.cs" />
+    <Compile Include="Mapping\ExternalData\MeasureUnitMap.cs" />
+    <Compile Include="Mapping\ExternalData\SupplyTransportTypeMap.cs" />
+    <Compile Include="Mapping\ExternalData\DeliveryBillTypeMap.cs" />
+    <Compile Include="Mapping\ExternalData\EmployeeMap.cs" />
+    <Compile Include="Mapping\ExternalData\FixedAssetMap.cs" />
+    <Compile Include="Mapping\ExternalData\LabHumidityСlassifierMap.cs" />
+    <Compile Include="Mapping\ExternalData\LabImpurityСlassifierMap.cs" />
+    <Compile Include="Mapping\ExternalData\LabInfectionedСlassifierMap.cs" />
+    <Compile Include="Mapping\ExternalData\OriginTypeMap.cs" />
+    <Compile Include="Mapping\ExternalData\OrganizationMap.cs" />
+    <Compile Include="Mapping\ExternalData\PartnerMap.cs" />
+    <Compile Include="Mapping\ExternalData\ProductMap.cs" />
+    <Compile Include="Mapping\ExternalData\ReasonForRefundMap.cs" />
+    <Compile Include="Mapping\ExternalData\RouteMap.cs" />
+    <Compile Include="Mapping\ExternalData\StockMap.cs" />
+    <Compile Include="Mapping\ExternalData\SubdivisionMap.cs" />
+    <Compile Include="Mapping\ExternalData\SupplyTypeMap.cs" />
+    <Compile Include="Mapping\ExternalData\ExternalUserMap.cs" />
+    <Compile Include="Mapping\ExternalData\YearOfHarvestMap.cs" />
+    <Compile Include="Mapping\MixedFeed\MixedFeedSiloDeviceMap.cs" />
+    <Compile Include="Mapping\MixedFeed\MixedFeedSiloMap.cs" />
+    <Compile Include="Mapping\Node\NodeMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\SecurityCheckReviewOpDataMap.cs" />
+    <Compile Include="Mapping\PhoneInformTicketAssignment\PhoneInformTicketAssignmentMap.cs" />
+    <Compile Include="Mapping\OpDataEvent\OpDataEventMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\CentralLabOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\LabFacelessOpDataComponentMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\LoadGuideOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\LoadPointOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\MixedFeedGuideOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\MixedFeedLoadOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\SingleWindowOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\UnloadGuideOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\_BaseOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\NonRoutineOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\OpCameraImageMap.cs" />
+    <Compile Include="Mapping\OpData\OpDataStateMap.cs" />
+    <Compile Include="Mapping\OpData\OpVisaMap.cs" />
+    <Compile Include="Mapping\OpRoutine\OpRoutineTransitionMap.cs" />
+    <Compile Include="Mapping\OpRoutine\OpRoutineMap.cs" />
+    <Compile Include="Mapping\OpRoutine\OpRoutineProcessorMap.cs" />
+    <Compile Include="Mapping\OpRoutine\OpRoutineStateMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\LabFacelessOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\ScaleOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\SecurityCheckInOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\SecurityCheckOutOpDataMap.cs" />
+    <Compile Include="Mapping\OpData\NodeOpData\UnloadPointOpDataMap.cs" />
+    <Compile Include="Mapping\OrganizationUnit\OrganizationUnitTypeMap.cs" />
+    <Compile Include="Mapping\OrganizationUnit\OrganizationUnitMap.cs" />
+    <Compile Include="Mapping\OwnTransport\OwnTransportMap.cs" />
+    <Compile Include="Mapping\PackingTare\PackingTareMap.cs" />
+    <Compile Include="Mapping\PackingTare\TicketPackingTare.cs" />
+    <Compile Include="Mapping\PhoneDictionary\PhoneDictionary.cs" />
+    <Compile Include="Mapping\PreRegistration\PreRegisterCompanyMap.cs" />
+    <Compile Include="Mapping\PreRegistration\PreRegisterProductMap.cs" />
+    <Compile Include="Mapping\PreRegistration\PreRegisterQueueMap.cs" />
+    <Compile Include="Mapping\Queue\QueueRegisterMap.cs" />
+    <Compile Include="Mapping\Queue\CategoryMap.cs" />
+    <Compile Include="Mapping\Queue\PriorityMap.cs" />
+    <Compile Include="Mapping\Queue\QueuePatternItemMap.cs" />
+    <Compile Include="Mapping\RouteTemplate\RouteTemplateMap.cs" />
+    <Compile Include="Mapping\Settings\SettingsMap.cs" />
+    <Compile Include="Mapping\SmsTemplates\SmsTemplateMap.cs" />
+    <Compile Include="Mapping\Ticket\TicketContainerStatusMap.cs" />
+    <Compile Include="Mapping\Ticket\TicketContainerMap.cs" />
+    <Compile Include="Mapping\Ticket\TicketFileMap.cs" />
+    <Compile Include="Mapping\Ticket\TicketFileTypeMap.cs" />
+    <Compile Include="Mapping\Ticket\TicketStatusMap.cs" />
+    <Compile Include="Mapping\Ticket\TicketMap.cs" />
+    <Compile Include="Mapping\Traffic\TrafficHistoryMap.cs" />
+    <Compile Include="Migrations\201809181943400_InitDB.cs" />
+    <Compile Include="Migrations\201809181943400_InitDB.Designer.cs">
+      <DependentUpon>201809181943400_InitDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809281433135_Route-Editor-Changes.cs" />
+    <Compile Include="Migrations\201809281433135_Route-Editor-Changes.Designer.cs">
+      <DependentUpon>201809281433135_Route-Editor-Changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809281511553_UpdateDateTimeColumns.cs" />
+    <Compile Include="Migrations\201809281511553_UpdateDateTimeColumns.Designer.cs">
+      <DependentUpon>201809281511553_UpdateDateTimeColumns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809300811435_OpDataState-Updates.cs" />
+    <Compile Include="Migrations\201809300811435_OpDataState-Updates.Designer.cs">
+      <DependentUpon>201809300811435_OpDataState-Updates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810090945365_Create-Route-Tables.cs" />
+    <Compile Include="Migrations\201810090945365_Create-Route-Tables.Designer.cs">
+      <DependentUpon>201810090945365_Create-Route-Tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810240943265_Add-TicketFile-Table.cs" />
+    <Compile Include="Migrations\201810240943265_Add-TicketFile-Table.Designer.cs">
+      <DependentUpon>201810240943265_Add-TicketFile-Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810241320184_Queue-Tables.cs" />
+    <Compile Include="Migrations\201810241320184_Queue-Tables.Designer.cs">
+      <DependentUpon>201810241320184_Queue-Tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810250702166_Add-TicketFile-Type.cs" />
+    <Compile Include="Migrations\201810250702166_Add-TicketFile-Type.Designer.cs">
+      <DependentUpon>201810250702166_Add-TicketFile-Type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810251433540_Sms-templates.cs" />
+    <Compile Include="Migrations\201810251433540_Sms-templates.Designer.cs">
+      <DependentUpon>201810251433540_Sms-templates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810291514145_Traffic-History.cs" />
+    <Compile Include="Migrations\201810291514145_Traffic-History.Designer.cs">
+      <DependentUpon>201810291514145_Traffic-History.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810301251597_Node-Maximum-Processing-time.cs" />
+    <Compile Include="Migrations\201810301251597_Node-Maximum-Processing-time.Designer.cs">
+      <DependentUpon>201810301251597_Node-Maximum-Processing-time.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811021346284_OpVisa-Bind-To-OpRoutineState.cs" />
+    <Compile Include="Migrations\201811021346284_OpVisa-Bind-To-OpRoutineState.Designer.cs">
+      <DependentUpon>201811021346284_OpVisa-Bind-To-OpRoutineState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811061351072_Bigger-OpRoutineState-Name.cs" />
+    <Compile Include="Migrations\201811061351072_Bigger-OpRoutineState-Name.Designer.cs">
+      <DependentUpon>201811061351072_Bigger-OpRoutineState-Name.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811070937398_Employee-Roles-Assignment.cs" />
+    <Compile Include="Migrations\201811070937398_Employee-Roles-Assignment.Designer.cs">
+      <DependentUpon>201811070937398_Employee-Roles-Assignment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811091402471_Black-List.cs" />
+    <Compile Include="Migrations\201811091402471_Black-List.Designer.cs">
+      <DependentUpon>201811091402471_Black-List.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811121202401_Black-list-transport-table.cs" />
+    <Compile Include="Migrations\201811121202401_Black-list-transport-table.Designer.cs">
+      <DependentUpon>201811121202401_Black-list-transport-table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811151319546_Single-Window-Custon-Partner-Name.cs" />
+    <Compile Include="Migrations\201811151319546_Single-Window-Custon-Partner-Name.Designer.cs">
+      <DependentUpon>201811151319546_Single-Window-Custon-Partner-Name.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811191700112_ScaleOpData-Columns.cs" />
+    <Compile Include="Migrations\201811191700112_ScaleOpData-Columns.Designer.cs">
+      <DependentUpon>201811191700112_ScaleOpData-Columns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811290934382_LoadPionts-Tables.cs" />
+    <Compile Include="Migrations\201811290934382_LoadPionts-Tables.Designer.cs">
+      <DependentUpon>201811290934382_LoadPionts-Tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811301605007_PredictionTime.cs" />
+    <Compile Include="Migrations\201811301605007_PredictionTime.Designer.cs">
+      <DependentUpon>201811301605007_PredictionTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812030959115_Logging.cs" />
+    <Compile Include="Migrations\201812030959115_Logging.Designer.cs">
+      <DependentUpon>201812030959115_Logging.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812200710242_QueueRegisterRouteChanges.cs" />
+    <Compile Include="Migrations\201812200710242_QueueRegisterRouteChanges.Designer.cs">
+      <DependentUpon>201812200710242_QueueRegisterRouteChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812200852080_Product-FullName-MaxLength.cs" />
+    <Compile Include="Migrations\201812200852080_Product-FullName-MaxLength.Designer.cs">
+      <DependentUpon>201812200852080_Product-FullName-MaxLength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812251611022_SingleWindow-CarrierId-Field.cs" />
+    <Compile Include="Migrations\201812251611022_SingleWindow-CarrierId-Field.Designer.cs">
+      <DependentUpon>201812251611022_SingleWindow-CarrierId-Field.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812270549416_SMSField.cs" />
+    <Compile Include="Migrations\201812270549416_SMSField.Designer.cs">
+      <DependentUpon>201812270549416_SMSField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812271442451_Sms-field-time.cs" />
+    <Compile Include="Migrations\201812271442451_Sms-field-time.Designer.cs">
+      <DependentUpon>201812271442451_Sms-field-time.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901220644058_QueueRegister-Add-RouteId.cs" />
+    <Compile Include="Migrations\201901220644058_QueueRegister-Add-RouteId.Designer.cs">
+      <DependentUpon>201901220644058_QueueRegister-Add-RouteId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901241331155_Add-CarrierDriverId-Partners.cs" />
+    <Compile Include="Migrations\201901241331155_Add-CarrierDriverId-Partners.Designer.cs">
+      <DependentUpon>201901241331155_Add-CarrierDriverId-Partners.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901250927439_Add-CustomerId-Stock.cs" />
+    <Compile Include="Migrations\201901250927439_Add-CustomerId-Stock.Designer.cs">
+      <DependentUpon>201901250927439_Add-CustomerId-Stock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901251337103_RouteNameLength.cs" />
+    <Compile Include="Migrations\201901251337103_RouteNameLength.Designer.cs">
+      <DependentUpon>201901251337103_RouteNameLength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901301153385_Central-Labolatory-OpData.cs" />
+    <Compile Include="Migrations\201901301153385_Central-Labolatory-OpData.Designer.cs">
+      <DependentUpon>201901301153385_Central-Labolatory-OpData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901301312121_SingleWindow-LoadTargetDeviation.cs" />
+    <Compile Include="Migrations\201901301312121_SingleWindow-LoadTargetDeviation.Designer.cs">
+      <DependentUpon>201901301312121_SingleWindow-LoadTargetDeviation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901311108084_Add-ParentCardId-Card.cs" />
+    <Compile Include="Migrations\201901311108084_Add-ParentCardId-Card.Designer.cs">
+      <DependentUpon>201901311108084_Add-ParentCardId-Card.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901311118005_Add-LabManagerList.cs" />
+    <Compile Include="Migrations\201901311118005_Add-LabManagerList.Designer.cs">
+      <DependentUpon>201901311118005_Add-LabManagerList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902080814578_Remove-LoadOpData.cs" />
+    <Compile Include="Migrations\201902080814578_Remove-LoadOpData.Designer.cs">
+      <DependentUpon>201902080814578_Remove-LoadOpData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902080851004_Add-EffectiveClassCollisionComment-Lab.cs" />
+    <Compile Include="Migrations\201902080851004_Add-EffectiveClassCollisionComment-Lab.Designer.cs">
+      <DependentUpon>201902080851004_Add-EffectiveClassCollisionComment-Lab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902081014216_Add-CollisionComment-CentralLabOpData.cs" />
+    <Compile Include="Migrations\201902081014216_Add-CollisionComment-CentralLabOpData.Designer.cs">
+      <DependentUpon>201902081014216_Add-CollisionComment-CentralLabOpData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902110751336_Add-PhoneDictionary.cs" />
+    <Compile Include="Migrations\201902110751336_Add-PhoneDictionary.Designer.cs">
+      <DependentUpon>201902110751336_Add-PhoneDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902251136224_Add-MixedFeed-Tables.cs" />
+    <Compile Include="Migrations\201902251136224_Add-MixedFeed-Tables.Designer.cs">
+      <DependentUpon>201902251136224_Add-MixedFeed-Tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902260708417_Add-BarCore-SingleWindowOpData.cs" />
+    <Compile Include="Migrations\201902260708417_Add-BarCore-SingleWindowOpData.Designer.cs">
+      <DependentUpon>201902260708417_Add-BarCore-SingleWindowOpData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902261157029_Add-OpDataEvent-Table.cs" />
+    <Compile Include="Migrations\201902261157029_Add-OpDataEvent-Table.Designer.cs">
+      <DependentUpon>201902261157029_Add-OpDataEvent-Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902261420349_Add-NewColumns-SingleWindowOpData.cs" />
+    <Compile Include="Migrations\201902261420349_Add-NewColumns-SingleWindowOpData.Designer.cs">
+      <DependentUpon>201902261420349_Add-NewColumns-SingleWindowOpData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902281457281_Add-MixedFeedSiloDevice-Table.cs" />
+    <Compile Include="Migrations\201902281457281_Add-MixedFeedSiloDevice-Table.Designer.cs">
+      <DependentUpon>201902281457281_Add-MixedFeedSiloDevice-Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903041217286_Remove-MixedFeedTables-Relations.cs" />
+    <Compile Include="Migrations\201903041217286_Remove-MixedFeedTables-Relations.Designer.cs">
+      <DependentUpon>201903041217286_Remove-MixedFeedTables-Relations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903041222494_Add-MixedFeedTable-Relations.cs" />
+    <Compile Include="Migrations\201903041222494_Add-MixedFeedTable-Relations.Designer.cs">
+      <DependentUpon>201903041222494_Add-MixedFeedTable-Relations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903081513168_Update-OrganizationUnit.cs" />
+    <Compile Include="Migrations\201903081513168_Update-OrganizationUnit.Designer.cs">
+      <DependentUpon>201903081513168_Update-OrganizationUnit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903201423049_Add-OnRegisterInformEmployee-SingleWindow.cs" />
+    <Compile Include="Migrations\201903201423049_Add-OnRegisterInformEmployee-SingleWindow.Designer.cs">
+      <DependentUpon>201903201423049_Add-OnRegisterInformEmployee-SingleWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903201425503_Add-LaboratoryComment-CentralLaboratory.cs" />
+    <Compile Include="Migrations\201903201425503_Add-LaboratoryComment-CentralLaboratory.Designer.cs">
+      <DependentUpon>201903201425503_Add-LaboratoryComment-CentralLaboratory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904010714230_Change-DeviceName-Length.cs" />
+    <Compile Include="Migrations\201904010714230_Change-DeviceName-Length.Designer.cs">
+      <DependentUpon>201904010714230_Change-DeviceName-Length.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904020647147_Add-PredictionEntranceTime-SingleWindow.cs" />
+    <Compile Include="Migrations\201904020647147_Add-PredictionEntranceTime-SingleWindow.Designer.cs">
+      <DependentUpon>201904020647147_Add-PredictionEntranceTime-SingleWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904062020388_ChagneType-MixedFeedSilo-SiloWeight.cs" />
+    <Compile Include="Migrations\201904062020388_ChagneType-MixedFeedSilo-SiloWeight.Designer.cs">
+      <DependentUpon>201904062020388_ChagneType-MixedFeedSilo-SiloWeight.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904101347150_Add-NodeGroup-Node.cs" />
+    <Compile Include="Migrations\201904101347150_Add-NodeGroup-Node.Designer.cs">
+      <DependentUpon>201904101347150_Add-NodeGroup-Node.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904101402586_Remove-Unused-Tables.cs" />
+    <Compile Include="Migrations\201904101402586_Remove-Unused-Tables.Designer.cs">
+      <DependentUpon>201904101402586_Remove-Unused-Tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904111332426_Remove-LabManager-Table.cs" />
+    <Compile Include="Migrations\201904111332426_Remove-LabManager-Table.Designer.cs">
+      <DependentUpon>201904111332426_Remove-LabManager-Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904120743512_Add-MixedFeedSiloId-MixedFeedLoadOpData.cs" />
+    <Compile Include="Migrations\201904120743512_Add-MixedFeedSiloId-MixedFeedLoadOpData.Designer.cs">
+      <DependentUpon>201904120743512_Add-MixedFeedSiloId-MixedFeedLoadOpData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904120848492_Add-EndPointNode-table.cs" />
+    <Compile Include="Migrations\201904120848492_Add-EndPointNode-table.Designer.cs">
+      <DependentUpon>201904120848492_Add-EndPointNode-table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904240614013_Add-EmergencyFlag-Node.cs" />
+    <Compile Include="Migrations\201904240614013_Add-EmergencyFlag-Node.Designer.cs">
+      <DependentUpon>201904240614013_Add-EmergencyFlag-Node.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904250731200_Add-PreRegisterProduct-Table.cs" />
+    <Compile Include="Migrations\201904250731200_Add-PreRegisterProduct-Table.Designer.cs">
+      <DependentUpon>201904250731200_Add-PreRegisterProduct-Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905130601289_Add-SingleWindow-IsPreRegistered.cs" />
+    <Compile Include="Migrations\201905130601289_Add-SingleWindow-IsPreRegistered.Designer.cs">
+      <DependentUpon>201905130601289_Add-SingleWindow-IsPreRegistered.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905151223345_AddPreRegisterCompanyTable.cs" />
+    <Compile Include="Migrations\201905151223345_AddPreRegisterCompanyTable.Designer.cs">
+      <DependentUpon>201905151223345_AddPreRegisterCompanyTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905160759110_AddIsOwnCard.cs" />
+    <Compile Include="Migrations\201905160759110_AddIsOwnCard.Designer.cs">
+      <DependentUpon>201905160759110_AddIsOwnCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905161009405_AddOwnTransportTable.cs" />
+    <Compile Include="Migrations\201905161009405_AddOwnTransportTable.Designer.cs">
+      <DependentUpon>201905161009405_AddOwnTransportTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905201218317_UpdatePreRegistrationProductsColumns.cs" />
+    <Compile Include="Migrations\201905201218317_UpdatePreRegistrationProductsColumns.Designer.cs">
+      <DependentUpon>201905201218317_UpdatePreRegistrationProductsColumns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905211328468_AddTareTables.cs" />
+    <Compile Include="Migrations\201905211328468_AddTareTables.Designer.cs">
+      <DependentUpon>201905211328468_AddTareTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905221330589_AddSettingsTable.cs" />
+    <Compile Include="Migrations\201905221330589_AddSettingsTable.Designer.cs">
+      <DependentUpon>201905221330589_AddSettingsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905241230436_AddPreRegisterCompanyId.cs" />
+    <Compile Include="Migrations\201905241230436_AddPreRegisterCompanyId.Designer.cs">
+      <DependentUpon>201905241230436_AddPreRegisterCompanyId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905271154094_AddPreRegisterQueue.cs" />
+    <Compile Include="Migrations\201905271154094_AddPreRegisterQueue.Designer.cs">
+      <DependentUpon>201905271154094_AddPreRegisterQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906030603237_AddRegisterDateTimeField.cs" />
+    <Compile Include="Migrations\201906030603237_AddRegisterDateTimeField.Designer.cs">
+      <DependentUpon>201906030603237_AddRegisterDateTimeField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906121126496_AddSecondaryRouteFields.cs" />
+    <Compile Include="Migrations\201906121126496_AddSecondaryRouteFields.Designer.cs">
+      <DependentUpon>201906121126496_AddSecondaryRouteFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906121159024_RemoveUnusedFields.cs" />
+    <Compile Include="Migrations\201906121159024_RemoveUnusedFields.Designer.cs">
+      <DependentUpon>201906121159024_RemoveUnusedFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906131014194_AddIsInQueueRouteTemplate.cs" />
+    <Compile Include="Migrations\201906131014194_AddIsInQueueRouteTemplate.Designer.cs">
+      <DependentUpon>201906131014194_AddIsInQueueRouteTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906200558178_AddEmployeePhoneAssigment.cs" />
+    <Compile Include="Migrations\201906200558178_AddEmployeePhoneAssigment.Designer.cs">
+      <DependentUpon>201906200558178_AddEmployeePhoneAssigment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906240655052_PreRegisterCompanyUpdate.cs" />
+    <Compile Include="Migrations\201906240655052_PreRegisterCompanyUpdate.Designer.cs">
+      <DependentUpon>201906240655052_PreRegisterCompanyUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906241340494_Add-PreRegistrationAdmin-For-Settings.cs" />
+    <Compile Include="Migrations\201906241340494_Add-PreRegistrationAdmin-For-Settings.Designer.cs">
+      <DependentUpon>201906241340494_Add-PreRegistrationAdmin-For-Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906251441022_PreRegister-Duration-And-Truck-Info.cs" />
+    <Compile Include="Migrations\201906251441022_PreRegister-Duration-And-Truck-Info.Designer.cs">
+      <DependentUpon>201906251441022_PreRegister-Duration-And-Truck-Info.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908230548121_AddLastNodeIdToTicket.cs" />
+    <Compile Include="Migrations\201908230548121_AddLastNodeIdToTicket.Designer.cs">
+      <DependentUpon>201908230548121_AddLastNodeIdToTicket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010161256017_AddSecurityReviewNode.cs" />
+    <Compile Include="Migrations\202010161256017_AddSecurityReviewNode.Designer.cs">
+      <DependentUpon>202010161256017_AddSecurityReviewNode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010200732295_AddTechnologicalRouteFields.cs" />
+    <Compile Include="Migrations\202010200732295_AddTechnologicalRouteFields.Designer.cs">
+      <DependentUpon>202010200732295_AddTechnologicalRouteFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010211122234_AddProductTitleToSingleWindowOpData.cs" />
+    <Compile Include="Migrations\202010211122234_AddProductTitleToSingleWindowOpData.Designer.cs">
+      <DependentUpon>202010211122234_AddProductTitleToSingleWindowOpData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202105141512331_Add-Valves.cs" />
+    <Compile Include="Migrations\202105141512331_Add-Valves.Designer.cs">
+      <DependentUpon>202105141512331_Add-Valves.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PostDeployment\EmployeeRoles.cs" />
+    <Compile Include="PostDeployment\EndPointNodes.cs" />
+    <Compile Include="PostDeployment\MixedFeed.cs" />
+    <Compile Include="PostDeployment\Nodes.cs" />
+    <Compile Include="PostDeployment\QueueItemCategory.cs" />
+    <Compile Include="PostDeployment\QueueItemPriority.cs" />
+    <Compile Include="PostDeployment\Roles.cs" />
+    <Compile Include="PostDeployment\Routes.cs" />
+    <Compile Include="PostDeployment\PhoneNumbers.cs" />
+    <Compile Include="PostDeployment\SmsTemplates.cs" />
+    <Compile Include="PostDeployment\TicketContainer.cs" />
+    <Compile Include="PostDeployment\TicketFile.cs" />
+    <Compile Include="Mapping\_Base\BaseEntityMap.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="PostDeployment\Device.cs" />
+    <Compile Include="PostDeployment\OpDataState.cs" />
+    <Compile Include="PostDeployment\OpRoutineTransition.cs" />
+    <Compile Include="PostDeployment\OpRoutineState.cs" />
+    <Compile Include="PostDeployment\OrganisationUnit.cs" />
+    <Compile Include="PostDeployment\_PostDeploymet.cs" />
+    <Compile Include="PostDeployment\OpRoutine.cs" />
+    <Compile Include="PostDeployment\Ticket.cs" />
+    <Compile Include="PostDeployment\Card.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\BlackList\BlackListRepository.cs" />
+    <Compile Include="Repository\BlackList\IBlackListRepository.cs" />
+    <Compile Include="Repository\Device\DeviceRepository.cs" />
+    <Compile Include="Repository\Device\IDeviceRepository.cs" />
+    <Compile Include="Repository\EmployeeRoles\EmployeeRolesRepository.cs" />
+    <Compile Include="Repository\EmployeeRoles\IEmployeeRolesRepository.cs" />
+    <Compile Include="Repository\ExternalData\IExternalDataRepository.cs" />
+    <Compile Include="Repository\ExternalData\ExternalDataRepository.cs" />
+    <Compile Include="Repository\PhoneInformTicketAssignment\IPhoneInformTicketAssignmentRepository.cs" />
+    <Compile Include="Repository\PhoneInformTicketAssignment\PhoneInformTicketAssignmentRepository.cs" />
+    <Compile Include="Repository\OpWorkflow\Routes\IRoutesRepository.cs" />
+    <Compile Include="Repository\OpWorkflow\Routes\RoutesRepository.cs" />
+    <Compile Include="Repository\OwnTransport\IOwnTransportRepository.cs" />
+    <Compile Include="Repository\OwnTransport\OwnTransportRepository.cs" />
+    <Compile Include="Repository\PackingTare\IPackingTareRepository.cs" />
+    <Compile Include="Repository\PackingTare\PackingTareRepository.cs" />
+    <Compile Include="Repository\Phones\IPhonesRepository.cs" />
+    <Compile Include="Repository\Phones\PhonesRepository.cs" />
+    <Compile Include="Repository\PreRegistration\IPreRegistrationRepository.cs" />
+    <Compile Include="Repository\PreRegistration\PreRegistrationRepository.cs" />
+    <Compile Include="Repository\Queue\IQueueRegisterRepository.cs" />
+    <Compile Include="Repository\Queue\IQueueSettingsRepository.cs" />
+    <Compile Include="Repository\Queue\QueueRegisterRepository.cs" />
+    <Compile Include="Repository\Queue\QueueSettingsRepository.cs" />
+    <Compile Include="Repository\Sms\ISmsTemplatesRepository.cs" />
+    <Compile Include="Repository\Sms\SmsTemplatesRepository.cs" />
+    <Compile Include="Repository\Ticket\ITicketRepository.cs" />
+    <Compile Include="Repository\Ticket\TicketRepository.cs" />
+    <Compile Include="Repository\Node\NodeRepository.cs" />
+    <Compile Include="Repository\Node\INodeRepository.cs" />
+    <Compile Include="Repository\OrganizationUnit\IOrganizationUnitRepository.cs" />
+    <Compile Include="Repository\OrganizationUnit\OrganizationUnitRepository.cs" />
+    <Compile Include="Repository\OpWorkflow\OpData\IOpDataRepository.cs" />
+    <Compile Include="Repository\OpWorkflow\OpData\OpDataRepository.cs" />
+    <Compile Include="Repository\_Base\IBaseRepository.cs" />
+    <Compile Include="Repository\_Base\BaseRepository.cs" />
+    <Compile Include="Repository\Card\CardRepository.cs" />
+    <Compile Include="Repository\Card\ICardRepository.cs" />
+    <Compile Include="Repository\Traffic\TrafficRepository.cs" />
+    <Compile Include="Repository\Traffic\ITrafficRepository.cs" />
+    <Compile Include="TestData\Testdata.CardAssignment.cs" />
+    <Compile Include="TestData\TestData.Device.cs" />
+    <Compile Include="TestData\TestData.DeviceState.cs" />
+    <Compile Include="TestData\TestData.DeviceParam.cs" />
+    <Compile Include="TestData\TestData.ExternalData.cs" />
+    <Compile Include="TestData\TestData.Card.cs" />
+    <Compile Include="TestData\TestData.cs" />
+    <Compile Include="TestData\TestData.MixedFeedDevices.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gravitas.Model\Gravitas.Model.csproj">
+      <Project>{8a4ef9f5-fb46-4f7a-a659-4a6505174db0}</Project>
+      <Name>Gravitas.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Solution Items\appSettings.config">
+      <Link>appSettings.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="create_opd.ScaleDataHistory_table.sql" />
+    <Content Include="create_trigger_trgOpdScaleDataHistory.sql" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+    <Compile Include="TestData\TestData.QueuePatternItems.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201809181943400_InitDB.resx">
+      <DependentUpon>201809181943400_InitDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809281433135_Route-Editor-Changes.resx">
+      <DependentUpon>201809281433135_Route-Editor-Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809281511553_UpdateDateTimeColumns.resx">
+      <DependentUpon>201809281511553_UpdateDateTimeColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809300811435_OpDataState-Updates.resx">
+      <DependentUpon>201809300811435_OpDataState-Updates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810090945365_Create-Route-Tables.resx">
+      <DependentUpon>201810090945365_Create-Route-Tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810240943265_Add-TicketFile-Table.resx">
+      <DependentUpon>201810240943265_Add-TicketFile-Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810241320184_Queue-Tables.resx">
+      <DependentUpon>201810241320184_Queue-Tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810250702166_Add-TicketFile-Type.resx">
+      <DependentUpon>201810250702166_Add-TicketFile-Type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810251433540_Sms-templates.resx">
+      <DependentUpon>201810251433540_Sms-templates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810291514145_Traffic-History.resx">
+      <DependentUpon>201810291514145_Traffic-History.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301251597_Node-Maximum-Processing-time.resx">
+      <DependentUpon>201810301251597_Node-Maximum-Processing-time.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811021346284_OpVisa-Bind-To-OpRoutineState.resx">
+      <DependentUpon>201811021346284_OpVisa-Bind-To-OpRoutineState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811061351072_Bigger-OpRoutineState-Name.resx">
+      <DependentUpon>201811061351072_Bigger-OpRoutineState-Name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811070937398_Employee-Roles-Assignment.resx">
+      <DependentUpon>201811070937398_Employee-Roles-Assignment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811091402471_Black-List.resx">
+      <DependentUpon>201811091402471_Black-List.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811121202401_Black-list-transport-table.resx">
+      <DependentUpon>201811121202401_Black-list-transport-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811151319546_Single-Window-Custon-Partner-Name.resx">
+      <DependentUpon>201811151319546_Single-Window-Custon-Partner-Name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811191700112_ScaleOpData-Columns.resx">
+      <DependentUpon>201811191700112_ScaleOpData-Columns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811290934382_LoadPionts-Tables.resx">
+      <DependentUpon>201811290934382_LoadPionts-Tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811301605007_PredictionTime.resx">
+      <DependentUpon>201811301605007_PredictionTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812030959115_Logging.resx">
+      <DependentUpon>201812030959115_Logging.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812200710242_QueueRegisterRouteChanges.resx">
+      <DependentUpon>201812200710242_QueueRegisterRouteChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812200852080_Product-FullName-MaxLength.resx">
+      <DependentUpon>201812200852080_Product-FullName-MaxLength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812251611022_SingleWindow-CarrierId-Field.resx">
+      <DependentUpon>201812251611022_SingleWindow-CarrierId-Field.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812270549416_SMSField.resx">
+      <DependentUpon>201812270549416_SMSField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812271442451_Sms-field-time.resx">
+      <DependentUpon>201812271442451_Sms-field-time.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901220644058_QueueRegister-Add-RouteId.resx">
+      <DependentUpon>201901220644058_QueueRegister-Add-RouteId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901241331155_Add-CarrierDriverId-Partners.resx">
+      <DependentUpon>201901241331155_Add-CarrierDriverId-Partners.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901250927439_Add-CustomerId-Stock.resx">
+      <DependentUpon>201901250927439_Add-CustomerId-Stock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901251337103_RouteNameLength.resx">
+      <DependentUpon>201901251337103_RouteNameLength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901301153385_Central-Labolatory-OpData.resx">
+      <DependentUpon>201901301153385_Central-Labolatory-OpData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901301312121_SingleWindow-LoadTargetDeviation.resx">
+      <DependentUpon>201901301312121_SingleWindow-LoadTargetDeviation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901311108084_Add-ParentCardId-Card.resx">
+      <DependentUpon>201901311108084_Add-ParentCardId-Card.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901311118005_Add-LabManagerList.resx">
+      <DependentUpon>201901311118005_Add-LabManagerList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902080814578_Remove-LoadOpData.resx">
+      <DependentUpon>201902080814578_Remove-LoadOpData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902080851004_Add-EffectiveClassCollisionComment-Lab.resx">
+      <DependentUpon>201902080851004_Add-EffectiveClassCollisionComment-Lab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902081014216_Add-CollisionComment-CentralLabOpData.resx">
+      <DependentUpon>201902081014216_Add-CollisionComment-CentralLabOpData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902110751336_Add-PhoneDictionary.resx">
+      <DependentUpon>201902110751336_Add-PhoneDictionary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902251136224_Add-MixedFeed-Tables.resx">
+      <DependentUpon>201902251136224_Add-MixedFeed-Tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902260708417_Add-BarCore-SingleWindowOpData.resx">
+      <DependentUpon>201902260708417_Add-BarCore-SingleWindowOpData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902261157029_Add-OpDataEvent-Table.resx">
+      <DependentUpon>201902261157029_Add-OpDataEvent-Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902261420349_Add-NewColumns-SingleWindowOpData.resx">
+      <DependentUpon>201902261420349_Add-NewColumns-SingleWindowOpData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902281457281_Add-MixedFeedSiloDevice-Table.resx">
+      <DependentUpon>201902281457281_Add-MixedFeedSiloDevice-Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903041217286_Remove-MixedFeedTables-Relations.resx">
+      <DependentUpon>201903041217286_Remove-MixedFeedTables-Relations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903041222494_Add-MixedFeedTable-Relations.resx">
+      <DependentUpon>201903041222494_Add-MixedFeedTable-Relations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903081513168_Update-OrganizationUnit.resx">
+      <DependentUpon>201903081513168_Update-OrganizationUnit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903201423049_Add-OnRegisterInformEmployee-SingleWindow.resx">
+      <DependentUpon>201903201423049_Add-OnRegisterInformEmployee-SingleWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903201425503_Add-LaboratoryComment-CentralLaboratory.resx">
+      <DependentUpon>201903201425503_Add-LaboratoryComment-CentralLaboratory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904010714230_Change-DeviceName-Length.resx">
+      <DependentUpon>201904010714230_Change-DeviceName-Length.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904020647147_Add-PredictionEntranceTime-SingleWindow.resx">
+      <DependentUpon>201904020647147_Add-PredictionEntranceTime-SingleWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904062020388_ChagneType-MixedFeedSilo-SiloWeight.resx">
+      <DependentUpon>201904062020388_ChagneType-MixedFeedSilo-SiloWeight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904101347150_Add-NodeGroup-Node.resx">
+      <DependentUpon>201904101347150_Add-NodeGroup-Node.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904101402586_Remove-Unused-Tables.resx">
+      <DependentUpon>201904101402586_Remove-Unused-Tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904111332426_Remove-LabManager-Table.resx">
+      <DependentUpon>201904111332426_Remove-LabManager-Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904120743512_Add-MixedFeedSiloId-MixedFeedLoadOpData.resx">
+      <DependentUpon>201904120743512_Add-MixedFeedSiloId-MixedFeedLoadOpData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904120848492_Add-EndPointNode-table.resx">
+      <DependentUpon>201904120848492_Add-EndPointNode-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904240614013_Add-EmergencyFlag-Node.resx">
+      <DependentUpon>201904240614013_Add-EmergencyFlag-Node.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904250731200_Add-PreRegisterProduct-Table.resx">
+      <DependentUpon>201904250731200_Add-PreRegisterProduct-Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905130601289_Add-SingleWindow-IsPreRegistered.resx">
+      <DependentUpon>201905130601289_Add-SingleWindow-IsPreRegistered.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905151223345_AddPreRegisterCompanyTable.resx">
+      <DependentUpon>201905151223345_AddPreRegisterCompanyTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905160759110_AddIsOwnCard.resx">
+      <DependentUpon>201905160759110_AddIsOwnCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905161009405_AddOwnTransportTable.resx">
+      <DependentUpon>201905161009405_AddOwnTransportTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905201218317_UpdatePreRegistrationProductsColumns.resx">
+      <DependentUpon>201905201218317_UpdatePreRegistrationProductsColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905211328468_AddTareTables.resx">
+      <DependentUpon>201905211328468_AddTareTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905221330589_AddSettingsTable.resx">
+      <DependentUpon>201905221330589_AddSettingsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905241230436_AddPreRegisterCompanyId.resx">
+      <DependentUpon>201905241230436_AddPreRegisterCompanyId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905271154094_AddPreRegisterQueue.resx">
+      <DependentUpon>201905271154094_AddPreRegisterQueue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906030603237_AddRegisterDateTimeField.resx">
+      <DependentUpon>201906030603237_AddRegisterDateTimeField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906121126496_AddSecondaryRouteFields.resx">
+      <DependentUpon>201906121126496_AddSecondaryRouteFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906121159024_RemoveUnusedFields.resx">
+      <DependentUpon>201906121159024_RemoveUnusedFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906131014194_AddIsInQueueRouteTemplate.resx">
+      <DependentUpon>201906131014194_AddIsInQueueRouteTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906200558178_AddEmployeePhoneAssigment.resx">
+      <DependentUpon>201906200558178_AddEmployeePhoneAssigment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906240655052_PreRegisterCompanyUpdate.resx">
+      <DependentUpon>201906240655052_PreRegisterCompanyUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906241340494_Add-PreRegistrationAdmin-For-Settings.resx">
+      <DependentUpon>201906241340494_Add-PreRegistrationAdmin-For-Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906251441022_PreRegister-Duration-And-Truck-Info.resx">
+      <DependentUpon>201906251441022_PreRegister-Duration-And-Truck-Info.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908230548121_AddLastNodeIdToTicket.resx">
+      <DependentUpon>201908230548121_AddLastNodeIdToTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010161256017_AddSecurityReviewNode.resx">
+      <DependentUpon>202010161256017_AddSecurityReviewNode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010200732295_AddTechnologicalRouteFields.resx">
+      <DependentUpon>202010200732295_AddTechnologicalRouteFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010211122234_AddProductTitleToSingleWindowOpData.resx">
+      <DependentUpon>202010211122234_AddProductTitleToSingleWindowOpData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105141512331_Add-Valves.resx">
+      <DependentUpon>202105141512331_Add-Valves.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

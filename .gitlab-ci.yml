@@ -1,0 +1,5 @@
+build:
+  stage: build
+  script:
+          - C:\Tools\nuget.exe restore
+          - cmd.exe /C " "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /p:Configuration=ReleaseProdDb /t:Clean;Build Gravitas.Everything.sln " && exit %%ERRORLEVEL%%

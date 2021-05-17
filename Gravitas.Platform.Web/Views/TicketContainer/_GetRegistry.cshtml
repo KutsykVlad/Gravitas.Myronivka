@@ -1,0 +1,105 @@
+@using Gravitas.Model.DomainValue
+@using Gravitas.Platform.Web.Controllers
+@model Gravitas.Platform.Web.ViewModel.TicketContainer.GetRegistryVm
+@{
+    var markupId = $"{Model.RegisterType.ToString().ToLower()}-register-list";                                                                   
+    var budgeId = $"{Model.RegisterType.ToString().ToLower()}-register-list-budge";                                                                   
+    var budgeSource = $"{Model.RegisterType.ToString().ToLower()}-register-list-budge-source";                                                                   
+    string actionName;
+    switch (Model.RegisterType)
+    {
+        case TicketRegisterType.CentralLaboratory:
+            actionName = nameof(TicketContainerController.CentralLabTicketContainerList);
+            break;
+        case TicketRegisterType.SingleWindow:
+            actionName = nameof(TicketContainerController.SingleWindowTicketContainerList);
+            break;
+        case TicketRegisterType.LoadGuide:
+            actionName = nameof(TicketContainerController.LoadGuideTicketContainerList);
+            break;
+        case TicketRegisterType.RejectedLoadGuide:
+            actionName = nameof(TicketContainerController.RejectedLoadGuideContainerList);
+            break;
+        case TicketRegisterType.RejectedUnloadGuide:
+            actionName = nameof(TicketContainerController.RejectedUnloadGuideContainerList);
+            break;
+        case TicketRegisterType.LoadPointsType1:
+            actionName = nameof(TicketContainerController.LoadPointContainerList);
+            break;
+        case TicketRegisterType.UnloadPoints:
+            actionName = nameof(TicketContainerController.UnloadPointContainerList);
+            break;
+        case TicketRegisterType.UnloadGuide:
+            actionName = nameof(TicketContainerController.UnloadGuideTicketContainerList);
+            break;
+        case TicketRegisterType.MixedFeedGuide:
+            actionName = nameof(TicketContainerController.MixedFeedGuideTicketContainerList);
+            break;
+        case TicketRegisterType.RejectedMixedFeedLoad:
+            actionName = nameof(TicketContainerController.RejectedMixedFeedLoadTicketContainerList);
+            break;
+        case TicketRegisterType.RejectedMixedFeedUnLoad:
+            actionName = nameof(TicketContainerController.RejectedMixedFeedUnLoadTicketContainerList);
+            break;
+        case TicketRegisterType.MixedFeedLoad:
+            actionName = nameof(TicketContainerController.MixedFeedLoadTicketContainerList);
+            break;
+        case TicketRegisterType.LoadPointsType2:
+            actionName = nameof(TicketContainerController.LoadPointContainerList);
+            break; 
+        case TicketRegisterType.SelfServiceLaboratory:
+            actionName = nameof(TicketContainerController.SelfServiceLabTicketContainerList);
+            break;   
+        case TicketRegisterType.PreRegisterTicketContainerList:
+            actionName = nameof(TicketContainerController.PreRegisterTicketContainerList);
+            break;
+        case TicketRegisterType.UnloadQueue:
+            actionName = nameof(TicketContainerController.UnloadQueueContainerList);
+            break;
+        default:
+            throw new ArgumentOutOfRangeException();
+    }
+}
+<div id="@markupId"></div>
+
+<script>
+    function @(actionName)_register() {
+        var markup = document.getElementById('@markupId');
+        if (!markup) return;
+        var json = JSON.stringify({
+            'nodes': @Model.NodeId,
+            'detailActionLink': {
+                'NodeId': @Model.DetailActionLink.NodeId,
+                'ControllerName': "@Model.DetailActionLink.ControllerName",
+                'ActionName': "@Model.DetailActionLink.ActionName"
+            }
+        });
+    
+        $.ajax({
+            url: '@Url.Action(actionName, "TicketContainer")',
+            method: 'POST',
+            contentType: "application/json; charset=utf-8",
+            data: json,
+            success: function(data) {
+                markup.innerHTML = data;
+                var budgeSource = document.getElementById('@budgeSource');
+                if (budgeSource) {
+                    var num = Number(budgeSource.value);
+                    if (num === 0) {
+                        document.getElementById('@budgeId').style.visibility = 'hidden';
+                    } else {
+                        document.getElementById('@budgeId').style.visibility = 'visible';
+                        document.getElementById('@budgeId').textContent = budgeSource.value;
+                    }
+                }
+                setTimeout(@(actionName)_register, 20000);
+            },
+            error: function(e) {
+                console.log('Error while retrieving ticket registry: ' + e);
+                markup.innerHTML = "Server error";
+            }
+        });
+    }
+
+    @(actionName)_register();
+</script>

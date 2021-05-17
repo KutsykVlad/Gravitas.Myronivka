@@ -1,0 +1,31 @@
+﻿@model Gravitas.Platform.Web.ViewModel.BlackListTrailersListVm
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-3 text-lg-center"> <div class="text-capitalize inline"><h4>Трейлери</h4></div></div>
+    </div>
+    <div class="col-12">
+        @if (Model.Items.Count > 0)
+        {
+            
+            foreach (var item in Model.Items)
+            {
+                @Html.Partial("Trailers/_TrailerRecord", item)
+            }
+        }
+        else
+        {
+            <div class="row">
+                <h6>Чорний список трейлерів пустий</h6>
+            </div>
+        }
+        <div class="row mt-3 mb-3 justify-content-center">
+            <div class="col-8">
+                <button class="btn btn-primary btn-block" data-toggle="collapse" data-target="#collapse_Trailer">Внести запис</button>
+            </div>
+        </div>
+        <div class="collapse mt-2" id="collapse_Trailer">
+            @Html.Partial("Trailers/_TrailerRecordEdit", Model.TrailerToAdd)
+        </div>
+    </div>
+</div>

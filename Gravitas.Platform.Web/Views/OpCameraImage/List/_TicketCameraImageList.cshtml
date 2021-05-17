@@ -1,0 +1,13 @@
+﻿@model Gravitas.Platform.Web.ViewModel.OpDataItemsVm
+
+@if (Model?.Items == null
+    || !Model.Items.Any(e => e.OpCameraImageCount > 0)) {
+    <div class="jumbotron">
+        <h4>Стоп-кадрів не знайдено</h4>
+    </div>
+}
+else {
+    foreach (var item in Model.Items) {
+         @Html.Action("OperationFrameList", "OpCameraImage", new {opDataId = item.Id})
+    }
+}

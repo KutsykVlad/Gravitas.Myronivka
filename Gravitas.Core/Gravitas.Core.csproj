@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E05CA125-8FA1-4991-8093-9A9FB6338FE0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Gravitas.Core</RootNamespace>
+    <AssemblyName>Gravitas.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.3.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NReco.VideoConverter, Version=1.1.3.0, Culture=neutral, PublicKeyToken=395ccb334978a0cd, processorArchitecture=MSIL">
+      <HintPath>..\packages\NReco.VideoConverter.1.1.3\lib\net20\NReco.VideoConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="Symbol.RFID3.Host, Version=1.2.0.0, Culture=neutral, PublicKeyToken=68ec8db391f150ca">
+      <HintPath>..\packages\Symbol.RFID3.Host.1.2.0.4\lib\Symbol.RFID3.Host.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\..\..\..\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Web.Extensions\v4.0_4.0.0.0__31bf3856ad364e35\System.Web.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Topshelf, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Topshelf.4.0.4\lib\net452\Topshelf.dll</HintPath>
+    </Reference>
+    <Reference Include="Topshelf.NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Topshelf.NLog.4.0.4\lib\net452\Topshelf.NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.3.3.0\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Configuration, Version=5.2.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.8.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception, Version=5.5.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Interception.5.5.3\lib\net47\Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception.Configuration, Version=5.1.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RegistrationByConvention, Version=2.1.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ServiceLocation, Version=2.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.ServiceLocation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bootstrapper\Bootstrapper.cs" />
+    <Compile Include="DependencyInjection\CoreTypeResolver.cs" />
+    <Compile Include="DeviceManager\Card\CardHelper.cs" />
+    <Compile Include="DeviceManager\Card\CardManager.cs" />
+    <Compile Include="DeviceManager\Card\CardReadResult.cs" />
+    <Compile Include="DeviceManager\Card\ICardManager.cs" />
+    <Compile Include="DeviceManager\DeviceStateHelper.cs" />
+    <Compile Include="DeviceManager\Device\DeviceManager.cs" />
+    <Compile Include="DeviceManager\Device\IDeviceManager.cs" />
+    <Compile Include="DeviceManager\ScaleDataValidator.cs" />
+    <Compile Include="DeviceManager\SocketHelper.cs" />
+    <Compile Include="DeviceManager\User\IUserManager.cs" />
+    <Compile Include="DeviceManager\User\UserManager.cs" />
+    <Compile Include="Manager\DeviceSyncManager.cs" />
+    <Compile Include="Manager\IBaseSyncManager.cs" />
+    <Compile Include="Manager\IDeviceSyncManager.cs" />
+    <Compile Include="Manager\IOpRoutineCoreManager.cs" />
+    <Compile Include="Manager\LabBruker\ILabBrukerManager.cs" />
+    <Compile Include="Manager\LabBruker\LabBrukerManager.cs" />
+    <Compile Include="Manager\LabFoss2\ILabFossManager2.cs" />
+    <Compile Include="Manager\LabFoss2\LabFoss2Manager2.cs" />
+    <Compile Include="Manager\LabFoss\ILabFossManager.cs" />
+    <Compile Include="Manager\LabFoss\LabFossManager.cs" />
+    <Compile Include="Manager\LabInfrascan\ILabInfrascanManager.cs" />
+    <Compile Include="Manager\LabInfrascan\LabInfrascanManager.cs" />
+    <Compile Include="Manager\OpRoutineCoreManager.cs" />
+    <Compile Include="Manager\RfidObidRwAutoAnswer\IRfidObidRwManager.cs" />
+    <Compile Include="Manager\RfidObidRwAutoAnswer\RfidObidRwManager.cs" />
+    <Compile Include="Manager\RfidZebraFx9500\IRfidZebraFx9500Manager.cs" />
+    <Compile Include="Manager\RfidZebraFx9500\RfidZebraFx9500Manager.cs" />
+    <Compile Include="Manager\ScaleMettlerPT6S3\IScaleMettlerPT6S3Manager.cs" />
+    <Compile Include="Manager\ScaleMettlerPT6S3\ScaleMettlerPT6S3Manager.cs" />
+    <Compile Include="Manager\VkModuleRelay\VkModuleRelayHelper.cs" />
+    <Compile Include="Manager\VkModuleSocket1\IVkModuleSocket1Manager.cs" />
+    <Compile Include="Manager\VkModuleSocket1\VkModule4In0OutStateXml.cs" />
+    <Compile Include="Manager\VkModuleSocket1\VkModuleSocket1Manager.cs" />
+    <Compile Include="Manager\VkModuleSocket2\IVkModuleSocket2Manager.cs" />
+    <Compile Include="Manager\VkModuleSocket2\VkModule2In2OutStateXml.cs" />
+    <Compile Include="Manager\VkModuleSocket2\VkModuleSocket2Manager.cs" />
+    <Compile Include="Processor\OpRoutine\IOpRoutineProcessor.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.CentralLabolatoryProcess.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.CentralLabolatorySamples.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.LabolatoryIn.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.LoadPointGuide.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.LoadCheckPoint.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.LoadPointGuide2.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.LoadPointType1.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.MixedFeedGuide.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.MixedFeedLoad.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.MixedFeedManage.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.SecurityReview.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.UnloadCheckPoint.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.UnloadPointGuide.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.UnloadPointGuide2.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.UnloadPointType1.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.SecurityOut.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.UnloadPointType2.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.Weightbridge.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.SingleWindow.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.SecurityIn.cs" />
+    <Compile Include="Processor\OpRoutine\_BaseOpRoutineProcessor.cs" />
+    <Compile Include="Processor\QueueDisplay\QueueDisplayProcessor.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Processor\QueueDisplay\IQueueDisplayProcessor.cs" />
+    <Compile Include="Valves\IValveService.cs" />
+    <Compile Include="Valves\Valve.cs" />
+    <Compile Include="Valves\ValveService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Solution Items\appSettings.config">
+      <Link>appSettings.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="App.config" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="uninstall.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gravitas.DAL\Gravitas.DAL.csproj">
+      <Project>{9ce72020-bc13-46ef-aa62-f1721324ebd9}</Project>
+      <Name>Gravitas.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gravitas.Infrastrructure\Gravitas.Infrastructure.Common.csproj">
+      <Project>{d1a0c172-f6d1-4f6f-ae77-63d89e11ec63}</Project>
+      <Name>Gravitas.Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gravitas.Infrastructure.Platform\Gravitas.Infrastructure.Platform.csproj">
+      <Project>{5da83e62-b7d5-4ed9-9482-c38172de9877}</Project>
+      <Name>Gravitas.Infrastructure.Platform</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gravitas.Model\Gravitas.Model.csproj">
+      <Project>{8a4ef9f5-fb46-4f7a-a659-4a6505174db0}</Project>
+      <Name>Gravitas.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

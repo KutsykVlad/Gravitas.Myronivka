@@ -1,0 +1,35 @@
+﻿@model Gravitas.Platform.Web.ViewModel.DeviceStateVms.LabBrukerStateVm
+
+@if (Model == null)
+{
+    <div class="jumbotron">
+        Відсутні дані
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-6 form-group">
+            @Html.LabelFor(m => m.AcquisitionDate)
+            @Html.EditorFor(m => m.AcquisitionDate, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+        <div class="col-6 form-group">
+            @Html.LabelFor(m => m.SampleName)
+            @Html.EditorFor(m => m.SampleName, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 form-group">
+            @Html.LabelFor(m => m.SampleMass)
+            @Html.EditorFor(m => m.SampleMass, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+        <div class="col-4 form-group">
+            @Html.LabelFor(m => m.Result1)
+            @Html.EditorFor(m => m.Result1, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+        <div class="col-4 form-group">
+            @Html.LabelFor(m => m.Result2)
+            @Html.EditorFor(m => m.Result2, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+    </div>
+}

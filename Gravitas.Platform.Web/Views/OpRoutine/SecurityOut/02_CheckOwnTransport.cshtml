@@ -1,0 +1,12 @@
+﻿@model Gravitas.Platform.Web.ViewModel.SecurityOutVms.CheckOwnTransport
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="row justify-content-between mb-5">
+    <div class="col-sm-4">
+        @Ajax.ActionLink(@"Відмовити", "CheckOwnTransport_Reject", "SecurityOut", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-danger btn-lg btn-block disabled"})
+    </div>
+
+    <div class="col-sm-4">
+        @Ajax.ActionLink(@"Підтвердити", "CheckOwnTransport_Next", "SecurityOut", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-warning btn-lg btn-block" })
+    </div>
+</div>

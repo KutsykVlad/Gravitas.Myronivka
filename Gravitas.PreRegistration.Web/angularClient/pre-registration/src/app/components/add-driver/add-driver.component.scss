@@ -1,0 +1,48 @@
+@import "../../../assets/override-material.scss";
+h3 {
+  margin: 0 0 10px;
+}
+
+pre {
+  background-color: #f5f5f5;
+  padding: 15px;
+}
+
+.manu-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+  justify-content: space-between;
+
+  .manu-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    button {
+      margin: 0.5vw;
+    }
+    .active, .btn:hover {
+      background-color: $main-green;
+      color: white;
+    }
+    }
+}
+
+.calendar {
+  padding-bottom: 3vh;
+  padding-left: 4vw;
+  padding-right: 4vw;
+}
+
+.select-form {
+  display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+}
+
+.header {
+  text-align: center;
+}
+

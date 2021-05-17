@@ -1,0 +1,63 @@
+<h2 class="chart-title">Зареєстровані автомобілі</h2>
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 + skip }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Культура</th>
+      <td mat-cell *matCellDef="let element">{{ element?.routeTitle }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Дата прибуття</th>
+      <td mat-cell *matCellDef="let element" [ngClass]="{'past-date': isPastDate(element?.registerDateTime)}">
+        {{ element?.registerDateTime | date: "dd-MM-yyyy HH:mm"}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef>Телефон</th>
+      <td mat-cell *matCellDef="let element">{{ element?.phoneNo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="truckNumber">
+      <th mat-header-cell *matHeaderCellDef>Номер автомобіля</th>
+      <td mat-cell *matCellDef="let element">{{ element?.truckNumber }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="notice">
+      <th mat-header-cell *matHeaderCellDef>Нотатки</th>
+      <td mat-cell *matCellDef="let element">{{ element?.notice }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef>Видалити</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          (click)="confirmTruckDeleting(element?.phoneNo)"
+        >
+          <mat-icon>delete_forever</mat-icon>
+          <span></span>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <div class="paginator-container">
+    <mat-paginator
+      #paginator
+      [length]="totalTrucksCount"
+      [pageSize]="paginatorPageSize"
+      [pageSizeOptions]="paginatorPageSizeOptions"
+      (page)="getPagingTruckData($event)"
+    >
+    </mat-paginator>
+  </div>
+</div>

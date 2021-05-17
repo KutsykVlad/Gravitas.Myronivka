@@ -1,0 +1,19 @@
+﻿@model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.PrintLaboratoryProtocol
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="d-flex align-items-center icon-container justify-content-between">
+    <div class="col-sm-4">
+        @Html.ActionLink(@"Друк", "Generate", "Report", 
+            new {id = Model.OpDataId, nodeId = Model.NodeId},
+            new {@class = "btn btn-primary btn-lg btn-block", @onclick = "showNextButton();", @target = "_blank"})
+    </div>
+    <div class="col-sm-4">
+        @Ajax.ActionLink(@"Далі", "PrintLaboratoryProtocol_Next", "LaboratoryIn", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-success btn-lg btn-block disabled", @id = "LabPrintNextButton" })
+    </div>
+</div>
+
+<script>
+    function showNextButton() {
+        document.getElementById('LabPrintNextButton').classList.remove('disabled');
+    }
+</script>

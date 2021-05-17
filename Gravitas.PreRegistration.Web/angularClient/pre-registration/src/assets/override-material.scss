@@ -1,0 +1,52 @@
+
+$main-green: #897a27;
+$main-blue: #0f3d5c;
+::ng-deep.mat-table {
+  box-shadow: none !important;
+}
+
+::ng-deep.mat-focused .mat-form-field-placeholder {
+  color: $main-green !important;
+}
+::ng-deep.mat-form-field-underline .mat-form-field-ripple {
+  background-color: $main-green !important;
+}
+
+::ng-deep.mat-focused .mat-form-field-label {
+  color: $main-green !important;
+}
+
+/* to change arrow when focused */
+::ng-deep.mat-select:focus .mat-select-arrow {
+  color: $main-green !important;
+}
+
+/* to change underline when focused */
+::ng-deep.mat-select:focus .mat-select-underline {
+  background-color: $main-green !important;
+}
+
+/* to change plceholder text when focused */
+::ng-deep.mat-select:focus .mat-select-trigger {
+  color: $main-green !important;
+}
+
+::ng-deep.mat-primary .mat-option.mat-selected {
+  color: $main-green !important;
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: $main-green !important;
+}
+
+::ng-deep.mat-tab-label {
+  font-family: GilroyHeader !important;
+}
+
+.mat-select-panel mat-option.mat-option {
+  height: unset;
+}
+
+.mat-option-text.mat-option-text {
+  white-space: normal;
+}

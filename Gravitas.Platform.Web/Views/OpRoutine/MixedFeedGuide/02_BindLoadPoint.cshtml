@@ -1,0 +1,71 @@
+﻿@model Gravitas.Platform.Web.ViewModel.OpRoutine.MixedFeedGuide.MixedFeedGuideVms.BindDestPointVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card ">
+            <div class="card-header">
+                <h5 class="card-title">Показники за документами</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                         @Html.LabelFor(model => Model.Card, htmlAttributes: new { @class = "" })
+                         @Html.EditorFor(m => m.Card, new { htmlAttributes = new { @class = "form-control", @readonly = "true" }})
+                    </div>
+                    <div class="col-lg-2 form-group">
+                        @Html.LabelFor(m => m.LoadTarget)
+                        @Html.EditorFor(m => m.LoadTarget, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                    <div class="col-lg-8 form-group">
+                        @Html.LabelFor(m => m.ProductName)
+                        @Html.EditorFor(m => m.ProductName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.ReceiverName)
+                        @Html.EditorFor(m => m.ReceiverName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.ReceiverDepotName)
+                        @Html.EditorFor(m => m.ReceiverDepotName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.TransportNo)
+                        @Html.EditorFor(m => m.TransportNo, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        @Html.LabelFor(m => m.LastNodeName)
+                        @Html.EditorFor(m => m.LastNodeName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                    </div>
+                </div>
+                @using (Ajax.BeginForm("BindLoadPoint_Next", "MixedFeedGuide", null, null, FormMethod.Post)) {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+                    <div class="row">
+                        <div class="col-lg-12 form-group">
+                            @Html.LabelFor(m => m.DestNodeId)
+                            @Html.DropDownListFor(
+                                m => m.DestNodeId,
+                                Model.NodeItems.Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }),
+                                "- - - Оберіть значення - - -",
+                                new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-between">
+                        <div class="col-md-3 col-sm-6">
+                            @Ajax.ActionLink(@"Назад", "BindLoadPoint_Back", "MixedFeedGuide", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-danger btn-lg btn-block" })
+                        </div>
+                        <div class="col-6">
+                            <input type="submit" value="Призначити проїзд" class="btn btn-lg btn-primary btn-block"/>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+﻿@using Gravitas.Platform.Web.Models
+@using Gravitas.Platform.Web.ViewModel
+@using Newtonsoft.Json
+@model SingleWindowVms.SingleWindowOpDataDetailVm
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+<div class="form-row">
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.DocHumidityValue, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.DocHumidityValue, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.DocHumidityValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.DocImpurityValue, htmlAttributes: new { @class = "" })
+
+    @Html.EditorFor(model => model.DocImpurityValue, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.DocImpurityValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.LabOilContentValue, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.LabOilContentValue, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.LabOilContentValue, "", new { @class = "text-danger" })
+  </div>
+  <hr />
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.LabHumidityTypeId, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.LabHumidityTypeName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.LabHumidityTypeName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.LabHumidityValue, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.LabHumidityValue, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.LabHumidityValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.LabImpurityTypeId, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.LabImpurityTypeName, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.LabImpurityTypeName, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.LabImpurityValue, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.LabImpurityValue, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.LabImpurityValue, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.LabIsInfectioned, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.LabIsInfectioned, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.LabIsInfectioned, "", new { @class = "text-danger" })
+  </div>
+
+  <div class="form-group col-lg-6">
+    @Html.LabelFor(model => model.LabolatoryOperatorNameAd, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.LabolatoryOperatorNameAd, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+    @Html.ValidationMessageFor(model => model.LabolatoryOperatorNameAd, "", new { @class = "text-danger" })
+  </div>
+</div>

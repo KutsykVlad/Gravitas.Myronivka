@@ -1,0 +1,114 @@
+@import './../../../../../styles/colors.scss';
+
+.system-work-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+
+
+  .system-work-title {
+    display: flex;
+    align-items: center;
+    height: 10%;
+    font-size: 2vh;
+    color: $main-text-color;
+    font-weight: 600;
+  }
+
+  .selectors-container {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: space-around;
+
+    .products-container {
+      width: 65%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .product-selector {
+        width: 100%;
+        height: 30%;
+        font-size: 1.2vh;
+      }
+
+      .selected-products-container {
+        width: 100%;
+        height: 70%;
+        margin-bottom: 2vh;
+        overflow: auto;
+
+        .mat-chip {
+          display: flex;
+          align-items: center;
+          background-color: $chart-dark-blue-color;
+          color: white;
+          font-size: 1.2vh;
+          height: auto;
+
+          .mat-icon {
+            font-size: 1.4vh;
+            height: 1.4vh;
+            width: 1.4vh;
+            margin-left: 1vh;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .dates-manipulators-container {
+      width: 30%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .datepicker-container {
+        width: 100%;
+        height: 30%;
+
+        .date-selector {
+          width: 100%;
+          font-size: 1.2vh;
+
+          .clear-button {
+            font-size: 1.4vh;
+            color: rgba(0, 0, 0, .54);
+            cursor: pointer;
+          }
+        }
+      }
+
+      .group-buttons-container {
+        display: flex;
+        align-items: baseline;
+        height: 30%;
+        width: 100%;
+
+        .mat-chip,
+        .mat-chip:focus {
+          display: flex;
+          align-items: center;
+          color: $text-color;
+          font-size: 1.2vh;
+          height: auto;
+
+          &.active {
+            background-color: $chart-dark-purple-color;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  .chart-container {
+    height: 70%;
+    width: 100%;
+  }
+}
+
+@import './system-work-tab.component.responsive.scss';

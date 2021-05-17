@@ -1,0 +1,174 @@
+﻿<div class="row" id="sortable-container">
+	<div class="col-sm-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-file-text"></i>
+				<span>Nodes Pane</span>
+			</div>
+			<div class="panel-body">
+				<div>
+					@*<uib-accordion close-others="oneAtATime">
+							<div uib-accordion-group class="panel-default" ng-repeat="group in groups" is-open="group.open">
+								<uib-accordion-heading>
+									{{group.Name}} <strong>{{group.Description}}</strong><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': group.open, 'glyphicon-chevron-right': !group.open}"></i>
+								</uib-accordion-heading>
+								<div data-ng-model="nodes" as-sortable="sortableCloneOptions">
+									<div data-ng-repeat="node in group.Nodes" data-as-sortable-item class="node-template">
+										<div data-as-sortable-item-handle>
+											<div class="node-template as-sortable-subitem">
+												<i class="material-icons item-icon">transform</i>
+												<span class="node-template-name"><strong>#{{node.Id}}</strong> - {{ node.Name }}</span><br />
+												<span class="small">{{ node.Code }}</span>
+												<div class="pull-right">
+													<span class="small" ng-bind-html="node.IsActive | nodeStatus"></span>
+													<div style="margin-top: 5px;" uib-tooltip="Not Start & Not Finish"><i class="material-icons">{{node | nodeType}}</i></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</uib-accordion>*@
+
+					<div data-ng-model="groups" as-sortable="sortableCloneOptions">
+						<div data-ng-repeat="group in groups" data-as-sortable-item class="group-template panel panel-primary">
+							<div data-as-sortable-item-handle>
+
+								<div class='panel-body'>
+									<div class="group-template as-sortable-subitem">
+										<i class="fa fa-fw fa-5x item-icon" ng-class='group.Icon'></i>
+										<span class="group-template-name">{{ group.Name }}</span>
+									</div>
+								</div>
+								<div class="panel-footer">
+									<span><strong>{{group.Description}}</strong></span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-8">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+
+
+				<div class="page-heading">
+					<i class="fa fa-file-o"></i>&nbsp;&nbsp;<span class="page-position">Total number: {{route.Config.Nodes.length}}</span>, Name: {{route.Name}}
+					<span class="btn btn-xs btn-link pull-right" style="margin-top: -4px;" ng-click="clearAll()">
+						<i class="fa fa-times"></i>
+					</span>
+				</div>
+
+			</div>
+			<div class="panel-body route-design">
+				
+				<div class="sortable-row" as-sortable="sortableOptions" data-ng-model="route.Config.Nodes">
+					
+					<div class="drop-area item" ng-if="showDrop || route.Config.Nodes.length==0" as-sortable-item>
+						<h2 class="title txt-color-greenDark text-center font-xl"><strong>Drop Node</strong></h2>
+					</div>
+
+					<div ng-if="!showDrop || route.Config.Nodes.length!=0" ng-repeat="node in route.Config.Nodes" as-sortable-item class="item" ng-click="selectNode(node)" ng-class="{ 'selected': node.selected }" popover-placement="left" uib-popover-template="optionsUrl()" popover-title="Options" popover-is-open="node.selected && !closeOptions">
+						<div class="item-header" as-sortable-item-handle>
+							@*<span class="node-position">{{ node.Position }}.</span>*@
+							<span class="node-header">#{{ node.RoutineGroupId }} - {{ node.GroupName }}</span>
+							<i class="material-icons required-icon" uib-tooltip="Required" ng-show="node.isRequired">star</i>
+							<i class="fa fa-fw fa-5x item-icon" ng-class='node.Icon'></i>
+							<span class="btn btn-xs btn-link pull-right" ng-click="deleteNode($event, node.Id, node.Position)">
+								<i class="fa fa-times"></i>
+							</span>
+						</div>
+						<div class="item-content" ng-if="route.Config.Nodes.length != 0">
+							<div class="label label-success font-xl" style="padding-top: 6px;">{{node.Position}}</div>
+							<div style="margin-top: 15px;">
+								<div data-ng-repeat="dot in node.NodeDots" class="alert alert-info" style="border: 1px solid #008b8b">
+									<span><strong>#{{dot.Id}}</strong> - {{ dot.Name }}</span>
+									<span class="small">{{ dot.Code }}</span>
+									@*<span>
+										<span class="small" ng-bind-html="dot.IsActive | nodeStatus"></span>
+										<span uib-tooltip="Not Start & Not Finish"><i class="material-icons">{{dot | nodeType}}</i></span>
+									</span>*@
+									<span class="btn btn-xs btn-link pull-right" ng-click="removeDotFromNode($event, node, dot.Id)">
+										<i class="fa fa-times"></i>
+									</span>
+							</div>
+							</div>
+
+							<!-- Multiple Choice -->
+							<div ng-repeat="choice in question.answers.choices" ng-if="isMultiChoice(question)">
+								<div class="po-checkbox checkbox" ng-class="{'unselected': !question.selected }" @*ng-click="selectChoice(choice)" popover-placement="left" uib-popover-template="optionsResponseUrl()" popover-title="{{StringResource.ResponseOptions}}"*@>
+									<input type="checkbox" value="left" id="ch_{{choice.id}}" name="align" ng-model="choice.selected"/>
+									<label for="ch_{{choice.id}}"><span ng-click="editChoice($event, choice)" editable-text="choice.text" onaftersave="updateQuestion($event, question)">{{ choice.text || 'empty' }}</span></label>
+									<span class="btn btn-xs btn-link" ng-show="question.selected" ng-click="deleteChoice($event, choice, question)" uib-tooltip=".DeleteChoice">
+										<i class="fa fa-times"></i>
+									</span>
+									<span class="btn btn-xs btn-link" ng-show="question.selected" uib-tooltip=".DragChoice">
+										<i class="fa fa-sort" aria-hidden="true"></i>
+									</span>
+								</div>
+							</div>
+
+							<!-- Single textbox -->
+							<div ng-show="isSingleTextBox(question)">
+								<div class="form-group">
+									<input type="text" value="" id="txt_{{question.id}}" name="align" class="form-control single-textbox" placeholder=".TypeAnswer"/>
+								</div>
+							</div>
+
+							<!-- Multiple textboxes -->
+							<div ng-show="isMultiTextBox(question)" class="question-multi-textbox" ng-class="{'selected': question.selected }">
+								<div class="form-group">
+									<div ng-repeat="row in question.answers.rows" ng-class="{'unselected': !question.selected }" class="multi-textbox-row">
+										<label for="row_{{row.id}}"><span ng-click="editRow($event, row)" editable-text="row.text" onaftersave="updateQuestion($event, question)">{{ row.text || 'empty' }}</span></label>
+										<div class="row">
+											<input type="text" value="" id="row_{{row.id}}" name="align" class="form-control multi-textbox" placeholder=".TypeAnswer"/>
+											<span class="btn btn-xs btn-link" ng-show="question.selected" ng-click="deleteRow($event, row, question)" uib-tooltip=".DeleteRow" onaftersave="updateQuestion($event, question)">
+												<i class="fa fa-times"></i>
+											</span>
+											<span class="btn btn-xs btn-link" ng-show="question.selected" uib-tooltip=".DragRow">
+												<i class="fa fa-sort" aria-hidden="true"></i>
+											</span>
+										</div>
+									</div>
+								</div>
+
+								<div class="add-choice" ng-show="question.selected">
+									<a href="#" ng-click="addRow($event, question)" ng-if="showAddRow(question)">.AddRow</a>
+								</div>
+							</div>
+
+							<!-- Dropdown-->
+							<div ng-show="isDropdown(question)">
+								<div ng-repeat="choice in question.answers.choices" ng-if="question.selected">
+									<div class="po-radio radio">
+										<input type="radio" value="left" id="ch_{{choice.id}}" name="align" ng-model="choice.selected"/>
+										<label for="ch_{{choice.id}}"><span editable-text="choice.text" onaftersave="updateQuestion($event, question)">{{ choice.text || 'empty' }}</span></label>
+										<span class="btn btn-xs btn-link" ng-show="question.selected" ng-click="deleteChoice($event, choice, question)" uib-tooltip=".DeleteChoice" onaftersave="updateQuestion($event, question)">
+											<i class="fa fa-times"></i>
+										</span>
+										<span class="btn btn-xs btn-link" ng-show="question.selected" uib-tooltip=".DragChoice">
+											<i class="fa fa-sort" aria-hidden="true"></i>
+										</span>
+									</div>
+								</div>
+
+								<select class="form-control dropdown-question" ng-class="{'unselected': !question.selected }" ng-model="question.answers.choices" name="dd_{{question.id}}" id="dd_{{question.id}}" ng-if="!question.selected">
+									<option ng-repeat="ch in question.answers.choices" value="ch.id">{{ch.text}}</option>
+								</select>
+							</div>
+
+							<div class="add-choice" ng-show="question.selected">
+								<a href="#" ng-click="addChoice($event, question)" ng-if="showAddChoice(question)">.AddChoice</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,17 @@
+.flex-form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  .flex-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-bottom: 5px;
+    button {
+      margin-right: 5px;
+      margin-left: 5px;
+    }
+  }
+}

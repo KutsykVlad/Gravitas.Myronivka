@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1251" />
+    <title></title>
+
+    <style type="text/css">
+        body, div, table, thead, tbody, tfoot, tr, th, td, p {
+            font-family: "Calibri";
+            font-size: small
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        p {
+            padding: 2px;
+            margin: 0;
+        }
+
+        .row {
+            display: inline-block;
+        }
+
+        .second-table tr {
+            height: 25px;
+        }
+
+        .text-left {
+            text-align: left;
+            width: 50%;
+        }
+
+        .text-right {
+            width: 49%;
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .bold {
+            font-weight: 900;
+        }
+    </style>
+
+</head>
+<body>
+<div class="row">
+
+</div>
+<div class="row">
+    <table style="width: 850px; ">
+        <tr>
+            <td class="bold">
+                Картка
+            </td>
+            <td class="bold">
+                Транспорт No.
+            </td>
+            <td class="bold">
+                Причеп No.
+            </td>
+         
+            <td colspan="2" class="bold">
+                Коментар
+            </td>
+        </tr>
+        <tr>
+            <td>##field CardNumber##</td>
+            <td>##field TransportNo##</td>
+            <td>##field TrailerNo##</td>
+           
+            <td colspan="2">##field Comments##</td>
+        </tr>
+        <tr>
+            <td class="bold">
+                Номенклатура
+            </td>
+            <td class="bold">
+                Номер ТТН
+            </td>
+            <td class="bold">
+                Відправник/Одержувач
+            </td>
+            <td class="bold">
+                Перевізник
+            </td>
+            <td class="bold">
+                Тип перевізника
+            </td>
+        </tr>
+        <tr>
+            <td>##field Nomenclature##</td>
+            <td>##field DeliveryBillCode##</td>
+            <td>##field ReceiverName##</td>
+            <td>##field PartnerName##</td>
+            <td>##field IsThirdPartyCarrier##</td>
+        </tr>
+    </table>
+    <table style="width: 850px; margin-top: 20px;">
+        <tr>
+            <th colspan="6" style="font-size: larger; ">Протокол операцій.</th>
+        </tr>
+        <tr>
+            <th colspan="1" class='bold'>Дата\час виїзду</th>
+            <th colspan="1" class='bold'>Контрольна точка</th>
+            <th colspan="1" class='bold'>Статус</th>
+            <th colspan="1" class='bold'>Повідомлення</th>
+            <th colspan="2" class='bold'>Підписи</th>
+        </tr>
+        ##forEach OpDataItems.Items##
+        <tr>
+            <td>##field CheckOutDateTime##</td>
+            <td>##field NodeName##</td>
+            <td>##field StateName##</td>
+            <td>##field Message##</td>
+            <td colspan="2">
+                ##forEach Signatures##
+                ##field State## - ##field Time## ##field ExternalUserName## <br/>
+                ##forEachEnd Signatures##
+            </td>
+        </tr>
+        ##forEachEnd OpDataItems.Items##
+    </table>
+</div>
+</body>
+</html>

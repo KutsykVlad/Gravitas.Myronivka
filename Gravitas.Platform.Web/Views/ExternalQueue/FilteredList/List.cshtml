@@ -1,0 +1,73 @@
+﻿<script src="~/wwwroot/src/apps/queue/appQueue.js"></script>
+<script src="~/wwwroot/src/apps/queue/queueService.js"></script>
+<script src="~/wwwroot/src/apps/queue/queueController.js"></script>
+
+@{
+    ViewBag.Title = "Черга";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row col-md-3 col-sm-3 col-lg-3 mb-4">
+    @Html.ActionLink(@"До панелі адміністратора", "Panel", "Admin", null, new { @class = "btn btn-primary btn-block" })
+</div>
+
+<div ng-app="queueApp" ng-cloak>
+    <div data-ng-controller="queueController">
+        <div class="row justify-content-between">
+            <div class="col-6">
+                <h4>Список маршрутів</h4>
+            </div>
+            @* <div class="col-6"> *@
+            @*     <span><h5> Фільтрація за номенклатурою</h5></span> *@
+            @*     <ui-select ng-model="ProductsItems.selected" on-select="refreshQueue()" theme="select2" style="min-width: 300px; width: 500px;"> *@
+            @*         <ui-select-match class="ui-select-match" placeholder="Виберіть номенклатуру з списку або скористуйтеся пошуком...">{{ProductsItems.selected.ShortName}}</ui-select-match> *@
+            @*         <ui-select-choices class="ui-select-choices" refresh="refreshResults($select)" refresh-delay="500" repeat="item in ProductsItems" *@
+            @*                            infinite-scroll="ProductsAddMoreItems($select)" *@
+            @*                            infinite-scroll-distance="0.001"> *@
+            @*             <div ng-bind-html="item.ShortName"></div> *@
+            @*             <small> *@
+            @*                 Код: <span ng-bind-html="''+item.Code"></span> *@
+            @*             </small> *@
+            @*         </ui-select-choices> *@
+            @*     </ui-select> *@
+            @* </div> *@
+        </div>
+        <hr/>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th colspan="2">
+                    ID контейнеру
+                </th>
+                <th colspan="3">
+                    Номенклатура
+                </th>
+                <th colspan="2">
+                    Вологість по документах у відсотках
+                </th>
+                <th colspan="2">
+                    Засміченість по документах у відсотках
+                </th>
+                <th colspan="1">
+                    В'їзд дозволено
+                </th>
+                <th colspan="1">
+                    Виклик
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in Queue">
+                <td colspan="2">{{item.TicketContainerId}}</td>
+                <td colspan="3">{{item.Nomenclature}}</td>
+                <td colspan="2">{{item.DocHumidityValue}}</td>
+                <td colspan="2">{{item.DocImpurityValue}}</td>
+                <td colspan="1">{{item.IsAllowedToEnterTerritory ? 'Так' : 'Ні'}}</td>
+                <td colspan="1">
+                    <a ng-href="/ExternalQueue/Call?ticketContainerId={{item.TicketContainerId}}" class="btn btn-warning btn-sm">Викликати</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

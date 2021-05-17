@@ -1,0 +1,73 @@
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../src/assets/override-material.scss";
+
+@font-face {
+  font-family: GilroyHeader;
+  src: url("/assets/fonts/Gilroy-ExtraBold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: ProximaBase;
+  src: url("/assets/fonts/ProximaNovaRegular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: NewtonNote;
+  src: url("/assets/fonts/NewtonItalic.otf") format("opentype");
+}
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: GilroyHeader !important;
+  color: $main-blue !important;
+}
+
+.base-font,
+span,
+a,
+button,
+p,
+div,
+th,
+td,
+input {
+  font-family: ProximaBase;
+}
+
+.note-font {
+  font-family: NewtonNote !important;
+}
+
+button {
+  outline: none !important;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.loading-shade-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .mat-progress-spinner circle,
+  .mat-spinner circle {
+    stroke: $main-green;
+  }
+}
+

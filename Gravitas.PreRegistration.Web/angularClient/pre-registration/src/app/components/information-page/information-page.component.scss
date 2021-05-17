@@ -1,0 +1,28 @@
+@import "../../../assets/override-material.scss";
+.charts-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+table {
+  width: 45vw;
+  padding-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.table-container {
+  padding: 1vw;
+  margin-bottom: 3vh;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 800px) {
+  table {
+    width: 90vw;
+    padding-top: 1vh;
+    margin-bottom: 1vh;
+  }
+}

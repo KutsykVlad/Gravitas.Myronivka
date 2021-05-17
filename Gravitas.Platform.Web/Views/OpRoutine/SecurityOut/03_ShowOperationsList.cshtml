@@ -1,0 +1,32 @@
+﻿@model Gravitas.Platform.Web.ViewModel.SecurityOutVms.ShowOperationsListVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+@if (Model.IsTechRoute)
+{
+    <h4 style="color: red; text-align: center">Увага! Автомобіль з технологічним маршрутом</h4>
+}
+
+<div class="row">
+    <div class="col-sm-6 col-12">
+        <h5>Автомобіль: @Model.TruckNo </h5>
+    </div>
+    <div class="col-sm-6 col 12">
+        <h5>Причеп: @Model.TrailerNo </h5>
+    </div>
+</div>
+
+<hr />
+<h3> Інформація про виконання маршруту </h3>
+@foreach (var ticket in Model.Tickets)
+{
+    @Html.Action("List", "OpData", new { ticketId = ticket, showPhotoIcons = false, showFullPhotos = true })
+}
+
+<diw class="row justify-content-between">
+    <div class="col-md-3 col-sm-6">
+        @Ajax.ActionLink(@"Скасувати", "ShowOperationsList_Confirm", "SecurityOut", new { nodeId = Model.NodeId, isConfirmed = false }, null, new { @class = "btn btn-outline-danger btn-lg btn-block" })
+    </div>
+    <div class="col-md-3 col-sm-6">
+        @Ajax.ActionLink(@"Перевірено", "ShowOperationsList_Confirm", "SecurityOut", new { nodeId = Model.NodeId, isConfirmed = true }, null, new { @class = "btn btn-primary btn-lg btn-block" })
+    </div>
+</diw>

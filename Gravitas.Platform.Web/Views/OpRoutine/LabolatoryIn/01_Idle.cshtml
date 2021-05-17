@@ -1,0 +1,48 @@
+﻿@using Gravitas.Model.DomainValue
+@using Gravitas.Platform.Web.ViewModel
+@model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.IdleVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="d-flex align-items-center icon-container">
+    <div class="flex-shrink-1"><i class="fas fa-id-card"></i></div>
+    <div class="p-3 w-100"><h3>Очікування</h3></div>
+</div>
+
+<div class="row justify-content-between">
+    <div class="mb-3 col-lg-4 col-sm-12">
+         @if (Model.NodeId == (long) NodeIdValue.Laboratory0)
+         {
+             @Ajax.ActionLink(@"Відбір проб", "Idle_СollectSample", "LaboratoryIn", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-primary btn-lg btn-block disabled"})
+         }
+         else 
+         {
+             if (Model.IsBusy)
+             {
+                 @Ajax.ActionLink(@"Відбір проб", "Idle_СollectSample", "LaboratoryIn", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-warning btn-lg btn-block"})
+             }
+             else
+             {
+                 @Ajax.ActionLink(@"Відбір проб", "Idle_СollectSample", "LaboratoryIn", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-primary btn-lg btn-block"})
+             }
+         } 
+    </div>
+    <div class="mb-3 col-lg-4 col-sm-12">
+        @Ajax.ActionLink(@"Ввід результатів", "Idle_EditAnalysisResult", "LaboratoryIn", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-primary btn-lg btn-block"})
+    </div>
+    <div class="mb-3 col-lg-4 col-sm-12">
+        @Ajax.ActionLink(@"Підтвердження результатів", "Idle_PrintAnalysisResult", "LaboratoryIn", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-primary btn-lg btn-block" })
+    </div>
+</div>
+
+@{ Html.RenderAction(
+       "LabFacelessTicketContainerList",
+       "TicketContainer",
+       new {
+           nodes="503,504,701,702,703,704",
+           detailActionLink = new ActionLinkVm {
+               NodeId = Model.NodeId,
+               ControllerName = "LaboratoryIn",
+               ActionName = "Idle_SelectTicketContainer"
+           }
+       });
+}

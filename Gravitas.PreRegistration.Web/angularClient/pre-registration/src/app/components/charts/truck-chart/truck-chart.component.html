@@ -1,0 +1,24 @@
+<h2 class="chart-title">Кількість автомобілів</h2>
+<div class="chart-containers-box">
+  <div class="chart-container">
+    <div *ngIf="truckCounter!=0" class="counter">{{ truckCounter }}</div>
+    <canvas
+      baseChart
+      [data]="doughnutChartData"
+      [labels]="doughnutChartLabels"
+      [options]="doughnutOptions"
+      [colors]="doughnutColors"
+      [chartType]="doughnutChartType">
+    </canvas>
+  </div>
+  <div class="legend-container">
+    <div
+      *ngFor="let item of productItems; let i = index"
+      class="legend-item-container">
+      <div
+        class="legend-color"
+        [style.background-color]="doughnutColors[0].backgroundColor[i]"></div>
+      <div>{{ item.title }}</div>
+    </div>
+  </div>
+</div>

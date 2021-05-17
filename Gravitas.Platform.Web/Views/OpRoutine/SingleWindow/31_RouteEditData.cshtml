@@ -1,0 +1,50 @@
+﻿@model Gravitas.Platform.Web.ViewModel.SingleWindowVms.Route
+
+@using (Ajax.BeginForm("RouteEditData_Save", "SingleWindow", null, null, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+    <div class="form-row">
+        <div class="col-lg-8 form-group">
+            @Html.LabelFor(m => m.SelectedId)
+            @Html.DropDownListFor(m => m.SelectedId, Model.Items, @"Виберіть маршрут", new { @class = "form-control", onchange="dropdownWatcher()", id = "routes-dropdown" })
+        </div>
+        <div class="col-lg-4">
+            @Html.ActionLink(@"Роздрукувати маршрут", "GenerateRouteReport", "Report", new {nodeId = Model.NodeId, ticketId = Model.TicketId}, new {@class = "btn btn-primary btn-lg btn-block mt-4"})
+        </div>
+    </div>
+    
+    <div class="row offset-3 col-9" id="route-schema"> 
+    </div>
+    
+    <div class="row justify-content-between">
+        <div class="col-md-3 col-sm-6">
+            @Ajax.ActionLink(@"Назад", "RouteEditData_Back", "SingleWindow", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-danger btn-lg btn-block"})
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <input type="submit" value="Присвоїти" class="btn btn-lg btn-primary btn-block"/>
+        </div>
+    </div>
+}
+
+<script>
+    function dropdownWatcher() {
+        var routeId = document.getElementById("routes-dropdown").value;
+            if (routeId !== "") {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetRouteView", "Routes")' + '?ticketId=' + @Model.TicketId + '&routeId=' + routeId + '&disableAppend=false',
+                    success: function(data) {
+                         $("#route-schema").html(data);
+                    },
+                    error: function () { console.log('Error at fetching route'); }
+                });
+            } else {
+                $("#route-schema").html('');
+            }
+    }
+
+    dropdownWatcher();
+</script>

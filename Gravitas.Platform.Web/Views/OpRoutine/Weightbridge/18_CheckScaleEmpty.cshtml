@@ -1,0 +1,10 @@
+﻿@model Gravitas.Platform.Web.ViewModel.WeightbridgeVms.CheckScaleEmptyVm
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+<div class="d-flex align-items-center icon-container">
+    <div class="flex-shrink-1"><i class="fas fa-weight"></i></div>
+    <div class="p-3 w-100" ><h1 style="color: green; font-size: 80px;">Звільніть ваги</h1></div>
+</div>
+<script>
+    stopScaleCountdownTimer();
+</script>

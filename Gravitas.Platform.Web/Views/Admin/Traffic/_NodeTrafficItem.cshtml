@@ -1,0 +1,13 @@
+﻿@model Gravitas.Platform.Web.ViewModel.NodeTrafficItem
+
+<tr>
+    <td>
+        @Html.EditorFor(model => model.TicketContainerId, new {htmlAttributes = new {@data_val = "false", @class = "form-control", @readonly = "true"}})
+    </td>
+    <td>
+        @Html.EditorFor(model => model.EntranceTime, new {htmlAttributes = new {@data_val = "false", @class = "form-control", @readonly = "true"}})
+    </td>
+    <td>
+        @Html.EditorFor(model => model.DepartureTime, new {htmlAttributes = new {@data_val = "false", @class = "form-control", @readonly = "true"}})
+    </td>
+</tr>

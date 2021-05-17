@@ -1,0 +1,98 @@
+﻿@model Gravitas.Platform.Web.ViewModel.DeviceStateVms.WeighbridgeStateVm
+
+@if (Model == null) {
+    <div class="row w-weight">
+        <div class="col-auto">
+            <div class="w-square d-block">
+                <span class="d-block w-square-t"></span>
+                <span class="d-block w-square-r"></span>
+                <span class="d-block w-square-b"></span>
+                <span class="d-block w-square-l"></span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-flex align-items-center bg-danger w-nulled">
+                <div class="p-4 flex-grow-1 text-right">
+                    <h1>Дані відсутні</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+} else { 
+    <div class="row w-weight">
+        <div class="col-2">
+            <div class="w-square d-block">
+                @if (!Model.PerimeterTop) {
+                    <span class="d-block w-square-t"></span>
+                }
+                @if (!Model.PerimeterRight) {
+                    <span class="d-block w-square-r"></span>
+                }
+                @if (!Model.PerimeterBottom) {
+                    <span class="d-block w-square-b"></span>
+                }
+                @if (!Model.PerimeterLeft) {
+                    <span class="d-block w-square-l"></span>
+                }
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="d-flex align-items-center bg-warning w-nulled">
+                <div class="p-4 sign">
+                    <p>
+                        <span class="pr-3 sign1">
+                            @if (Model.ScaleIsGross) {
+                                @: G 
+                            } else {
+                                @: T
+                            }
+                        </span>
+                        <span class="pr-3 sign2">
+                            @if (Model.ScaleIsZero) {
+                                @:>0<
+                            } else {
+                                @:< >
+                            }
+                        </span>
+                        <span class="pr-3 sign3">
+                            @if (Model.ScaleIsImmobile) {
+                                @:*
+                            } else {
+                                @:~
+                            }
+                        </span>
+                        <span class="pr-3 sign4">
+                            @if (Model.ScaleIsError) {
+                                @: EEE
+                            } else {
+                                @:
+                            }
+                        </span>
+                    </p>
+                    <p class="m-0"><date><span class="pr-3">@Html.DisplayFor(m => m.ScaleTime)</span></date></p>
+                </div>
+                <div class="p-1">
+                    <h4 id="operationDescription">
+                    </h4>
+                </div>
+                <div class="p-4 flex-grow-1 text-right">
+                    <h1 id="CurrentScaleValue" style="font-size: 70px;">@Html.DisplayFor(m => m.ScaleValue)кг</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row w-weight align-content-center">
+        @if (!Model.PerimeterTop || !Model.PerimeterRight || !Model.PerimeterBottom || !Model.PerimeterLeft)
+        {
+            <div class="text-align-center" >
+                <h2 style="color: red;" id="perimetrState">Увага! Зважування з розімкненим периметром</h2>
+            </div>
+        }
+        else
+        {
+            <b id="perimetrState"></b>
+        }
+        <div hidden="hidden" id="scaleValueRuntime">@Html.DisplayFor(m => m.ScaleValue)</div>
+
+    </div>
+}

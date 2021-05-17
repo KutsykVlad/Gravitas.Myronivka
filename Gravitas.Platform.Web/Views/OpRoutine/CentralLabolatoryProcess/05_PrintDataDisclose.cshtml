@@ -1,0 +1,147 @@
+﻿@using Gravitas.Model.DomainValue
+@model Gravitas.Platform.Web.ViewModel.CentralLaboratoryProcess.PrintDataDiscloseVm
+
+@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+
+
+<div class="row justify-content-between mb-5">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-2">
+                @Ajax.ActionLink(@"Назад", "PrintDataDisclose_BackToIdle", "CentralLaboratoryProcess", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-primary btn-block"})
+            </div>
+            @if (Model.OpDataDetail.CentralLabState != CentralLabState.CollisionDisapproved && Model.OpDataDetail.CentralLabState != CentralLabState.OnCollision)
+            {
+            <div class="offset-4 col-4">
+                @if (Model.IsLabFile)
+                {
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="@Url.Action("PrintDataDisclose_DownloadFile", "CentralLaboratoryProcess", new {nodeId = Model.NodeId})" target="_blank" class="btn btn-primary">Перегляд якісного</a>
+                            @Ajax.ActionLink(@"Видалити якісний", "PrintDataDisclose_DeleteFile", "CentralLaboratoryProcess", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-danger"})
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    using (Ajax.BeginForm("PrintDataDisclose_SaveFile", "CentralLaboratoryProcess", FormMethod.Post, new AjaxOptions(), new {enctype = "multipart/form-data"}))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.NodeId, new {@id = "nodeId"})
+                        <div class="row">
+                            <div class="col-9">
+                                <input type="file" name="LaboratoryFile" id="LaboratoryFile" class="form-control" accept="image/x-png,image/gif,image/jpeg"/>
+                            </div>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-primary btn-block mt-1">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+       
+            <div class="col-sm-2">
+                @Ajax.ActionLink(@"На відправку", "PrintDataDisclose_Confirm", "CentralLaboratoryProcess", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-success btn-block" + (Model.IsLabFile ? " " : " disabled")})
+            </div>
+        }
+        </div>
+        <div class="form-row mt-2">
+            <div class="form-group col-lg-6">
+                @Html.LabelFor(m => m.OpDataDetail.ProductName, new {@class = ""})
+                @Html.EditorFor(m => m.OpDataDetail.ProductName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+            </div>
+            <div class="form-group col-lg-6">
+                @Html.LabelFor(m => m.OpDataDetail.ReceiverName, new {@class = ""})
+                @Html.EditorFor(m => m.OpDataDetail.ReceiverName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+            </div>
+            <div class="form-group col-lg-4">
+                @Html.LabelFor(m => m.OpDataDetail.State, new {@class = ""})
+                @if (!string.IsNullOrEmpty(Model.CollisionApprovalMessage) 
+                     &&(Model.OpDataDetail.CentralLabState == CentralLabState.CollisionApproved || Model.OpDataDetail.CentralLabState == CentralLabState.CollisionDisapproved))
+                {
+                    @Html.EditorFor(m => m.CollisionApprovalMessage, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                }
+                else
+                {
+                    @Html.EditorFor(m => m.OpDataDetail.State, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                }
+            </div> 
+            <div class="form-group col-lg-4">
+                @Html.LabelFor(m => m.OpDataDetail.TransportNo, new {@class = ""})
+                @Html.EditorFor(m => m.OpDataDetail.TransportNo, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+            </div>
+            <div class="form-group col-lg-4">
+                @Html.LabelFor(m => m.OpDataDetail.TrailerNo, new {@class = ""})
+                @Html.EditorFor(m => m.OpDataDetail.TrailerNo, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                </div>
+            @if (!string.IsNullOrWhiteSpace(Model.OpDataDetail.LabComment))
+            {
+                <div class="form-group col-lg-12">
+                    @Html.LabelFor(m => m.OpDataDetail.LabComment, new {@class = ""})
+                    @Html.EditorFor(m => m.OpDataDetail.LabComment, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                </div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.OpDataDetail.CollisionComment))
+            {
+                <div class="form-group col-lg-12">
+                    @Html.LabelFor(m => m.OpDataDetail.CollisionComment, new {@class = ""})
+                    @Html.EditorFor(m => m.OpDataDetail.CollisionComment, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+                </div>    
+            }
+        </div>
+    </div>
+</div>
+
+@if (Model.IsCollisionMode && !Model.IsLabFile)
+{
+    <div class="row justify-content-between mb-5">
+        @if (Model.OpDataDetail.CentralLabState != CentralLabState.OnCollision && Model.OpDataDetail.CentralLabState != CentralLabState.CollisionApproved)
+        {
+            <div class="col-sm-4">
+                @Ajax.ActionLink(@"Вивантаження на склад", "PrintDataDisclose_UnloadToStoreWithLoad", "CentralLaboratoryProcess", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-warning btn-lg btn-block", @id = "rejectButton"})
+            </div>
+            <div class="col-sm-4">
+                @Ajax.ActionLink(@"Переміщення", "PrintDataDisclose_MoveWithLoad", "CentralLaboratoryProcess", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-warning btn-lg btn-block"})
+            </div>
+            if (Model.OpDataDetail.CentralLabState != CentralLabState.CollisionDisapproved)
+            {
+                <div class="col-sm-4">
+                    @Ajax.ActionLink(@"На погодження", "PrintDataDisclose_ToCollisionInit", "CentralLaboratoryProcess", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-warning btn-lg btn-block"})
+                </div>
+            }
+            else
+            {
+                <div class="col-sm-4"></div>
+            }
+        }
+       
+    </div>
+}
+else
+{
+     <hr/>
+     if (Model.OpDataDetail.CentralLabState == CentralLabState.SamplesCollected)
+     {
+         using (Ajax.BeginForm("PrintCollisionInit_Send", "CentralLaboratoryProcess", FormMethod.Post, null, new {enctype = "multipart/form-data"}))
+         {
+             @Html.HiddenFor(m => m.NodeId, new {@id = "nodeId"})
+             <div class="form-group col-lg-4">
+                 @Html.Label("Коментар лаборанта", null, new {@class = "form-control", @readonly = "true"})
+             </div>
+             <div class="form-group col-lg-12">
+                 @Html.TextArea("Comment", "", 3, 1, new {@class = "form-control"})
+             </div>
+             <div class="row">
+                 <div class="col-sm-4">
+                     <input type="submit" value="На погодження" class="btn btn-lg btn-warning btn-block"/>
+                 </div>
+                 <div class="offset-4 col-sm-4">
+                     <a href="" class="btn btn-warning btn-lg btn-block" id="btnReturnToCollectSamples" onclick="returnToCollectSamples()">Повторний відбір проб</a>
+                 </div>
+             </div>
+         }
+     }
+}
+

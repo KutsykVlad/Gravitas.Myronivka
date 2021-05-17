@@ -1,0 +1,60 @@
+﻿@model Gravitas.Platform.Web.ViewModel.NodeTrafficListVm
+
+@{
+    int i;
+    i = Convert.ToInt32(Model.NodeId);
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-3">
+                @Model.NodeName
+            </div>
+            <div class="col-3">
+                @Html.EditorFor(model => model.ElementsInQueue, new { htmlAttributes = new { @data_val = "false", @class = "form-control", @readonly = "true" } })
+            </div>
+            <div class="col-3">
+                @Html.EditorFor(model => model.AverageTime, new { htmlAttributes = new { @data_val = "false", @class = "form-control", @readonly = "true" } })
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapse_@i">
+                    Деталі
+                </button>
+            </div>
+        </div>
+        <div id="collapse_@i" class="collapse">
+            @if (Model?.Items != null && Model.Items.Any())
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Items.FirstOrDefault().TicketContainerId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Items.FirstOrDefault().EntranceTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Items.FirstOrDefault().DepartureTime)
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.Items)
+                    {
+                        @Html.Partial("Traffic/_NodeTrafficItem", item)
+                    }
+                </table>
+            }
+            else
+            {
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="text-capitalize inline mt-2">
+                            <h5>Записи відсутні</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 text-lg-center">
+                    
+                </div>
+            }
+
+        </div>
+    </div>
+}

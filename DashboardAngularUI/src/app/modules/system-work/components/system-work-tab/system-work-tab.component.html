@@ -1,0 +1,88 @@
+<div class="spinner-container" *ngIf="isDataLoading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div class="system-work-container">
+  <div class="system-work-title">РОБОТА СИСТЕМИ</div>
+
+  <div class="selectors-container">
+    <div class="products-container">
+      <mat-form-field class="product-selector">
+        <input type="text" placeholder="Продукти" matInput [formControl]="productToSearch" [matAutocomplete]="auto"
+          (ngModelChange)="updateProductList()">
+
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let product of productsList" [value]="productToSearch.value">
+            <div (click)="optionClicked($event, product)">
+              <mat-checkbox color="primary" [checked]="product.IsSelected" (change)="selectProduct(product)"
+                (click)="$event.stopPropagation()">
+                {{product.Title}}
+              </mat-checkbox>
+            </div>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-chip-list class="selected-products-container">
+        <mat-chip *ngFor="let product of selectedProducts">
+          <div class="product-title">{{product.Title}}</div>
+
+          <mat-icon (click)="removeProduct(product)">close</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <div class="dates-manipulators-container">
+      <div class="datepicker-container">
+        <mat-form-field class="date-selector">
+          <input matInput [matDatepicker]="dateFromPicker" placeholder="Дата з" [formControl]="dateFrom"
+            (dateChange)="createChart()">
+
+          <mat-datepicker-toggle matSuffix [for]="dateFromPicker"></mat-datepicker-toggle>
+
+          <button mat-icon-button class="clear-button" matSuffix (click)="dateFrom.setValue(''); createChart()">
+            <mat-icon>close</mat-icon>
+          </button>
+
+          <mat-datepicker #dateFromPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="datepicker-container">
+        <mat-form-field class="date-selector">
+          <input matInput [matDatepicker]="dateToPicker" placeholder="Дата до" [formControl]="dateTo"
+            (dateChange)="createChart()">
+
+          <mat-datepicker-toggle matSuffix [for]="dateToPicker"></mat-datepicker-toggle>
+
+          <button mat-icon-button class="clear-button" matSuffix (click)="dateTo.setValue(''); createChart()">
+            <mat-icon>close</mat-icon>
+          </button>
+
+          <mat-datepicker #dateToPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <mat-chip-list class="group-buttons-container">
+        <mat-chip class="group-button" [ngClass]="{'active': groupByParam === groupByParams.default}"
+          (click)="groupByParam = groupByParams.default; createChart();"> Без групування </mat-chip>
+
+        <mat-chip class="group-button" [ngClass]="{'active': groupByParam === groupByParams.days}"
+          (click)="groupByParam = groupByParams.days; createChart();"> По дням </mat-chip>
+
+        <mat-chip class="group-button" [ngClass]="{'active': groupByParam === groupByParams.weeks}"
+          (click)="groupByParam = groupByParams.weeks; createChart();"> По тижням </mat-chip>
+
+        <mat-chip class="group-button" [ngClass]="{'active': groupByParam === groupByParams.months}"
+          (click)="groupByParam = groupByParams.months; createChart();"> По місяцям </mat-chip>
+
+        <mat-chip class="group-button" [ngClass]="{'active': groupByParam === groupByParams.years}"
+          (click)="groupByParam = groupByParams.years; createChart();"> По рокам </mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <canvas #productChart>{{ lineChart }}</canvas>
+  </div>
+</div>

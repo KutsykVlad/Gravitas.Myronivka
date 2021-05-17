@@ -1,0 +1,29 @@
+﻿@model Gravitas.Platform.Web.ViewModel.NodeProgresVm
+
+@{
+    Layout = null;
+
+    double blockSize = 0;
+    if (Model.StatusCount != null && Model.StatusCount.Value > 0) {
+        blockSize = (100.0 / Model.StatusCount.Value);
+    }
+}
+<div hidden="hidden" id ="currentStatusIndex">@Model.CurrentStatusIndex</div>
+    <h2>@Model.CurrentStatusName</h2>
+    <div class="progress mb-4">
+        @for (int i = 1; i <= Model.StatusCount; i++)
+        {
+            if (i < Model.CurrentStatusIndex)
+            {
+                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><i class="fas fa-check"></i></div>
+            }
+            else if (i > Model.CurrentStatusIndex)
+            {
+                <div class="progress-bar bg-secondary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><i class="fas fa-circle"></i></div>
+            }
+            else
+            {
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><i class="fas fa-circle"></i></div>
+            }
+        }
+    </div>

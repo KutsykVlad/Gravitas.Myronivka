@@ -1,0 +1,36 @@
+﻿@model Gravitas.Platform.Web.ViewModel.DeviceStateVms.LabFossStateVm
+
+@if (Model == null) {
+    <div class="jumbotron">
+        Відсутні дані
+    </div>
+} else { 
+    <div class="row">
+        <div class="col-6 form-group">
+            @Html.LabelFor(m => m.AnalysisTime)
+            @Html.EditorFor(m => m.AnalysisTime, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+        <div class="col-6 form-group">
+            @Html.LabelFor(m => m.ProductName)
+            @Html.EditorFor(m => m.ProductName, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3 form-group">
+            @Html.LabelFor(m => m.HumidityValue)
+            @Html.EditorFor(m => m.HumidityValue, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+        <div class="col-3 form-group">
+            @Html.LabelFor(m => m.ProteinValue)
+            @Html.EditorFor(m => m.ProteinValue, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+        <div class="col-3 form-group">
+            @Html.LabelFor(m => m.OilValue)
+            @Html.EditorFor(m => m.OilValue, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+        <div class="col-3 form-group">
+            @Html.LabelFor(m => m.FibreValue)
+            @Html.EditorFor(m => m.FibreValue, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+        </div>
+    </div>
+}

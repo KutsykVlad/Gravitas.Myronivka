@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5DA83E62-B7D5-4ED9-9482-C38172DE9877}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gravitas.Infrastructure.Platform</RootNamespace>
+    <AssemblyName>Gravitas.Infrastructure.Platform</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.3.0-preview5-19254-05\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <HintPath>..\packages\EntityFramework.6.3.0-preview5-19254-05\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.3.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.9\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly, Version=5.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.5.9.0\lib\net45\Polly.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.3.3.0\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Configuration, Version=5.2.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.8.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception, Version=5.5.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Interception.5.5.3\lib\net47\Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception.Configuration, Version=5.1.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RegistrationByConvention, Version=2.1.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ServiceLocation, Version=2.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.6\lib\net47\Unity.ServiceLocation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiClient\BaseApiClient.cs" />
+    <Compile Include="ApiClient\Devices\DeviceSyncManager.cs" />
+    <Compile Include="ApiClient\Devices\IDeviceSyncManager.cs" />
+    <Compile Include="ApiClient\OneC\JsonModel\ChangeSupplyCode.cs" />
+    <Compile Include="ApiClient\OneC\JsonModel\GetDeliveryBill.cs" />
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Unit.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Unit.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\OneCApiClient.PostImageFile.cs">
+      <DependentUpon>OneCApiClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\PostImageFile.cs" />
+    <Compile Include="ApiClient\OneC\JsonModel\UpdateDeliveryBill.cs" />
+    <Compile Include="ApiClient\OneC\JsonModel\GetBillFile.cs" />
+    <Compile Include="ApiClient\OneC\JsonModel\GetDeliveryBillViaId.cs" />
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.AcceptancePoint.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Budget.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Contract.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Crop.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.cs" />
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Employee.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.FixedAsset.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Organisation.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Partner.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Product.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.ReasonForRefund.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Route.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Stock.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Subdivision.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.User.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.YearsOfHarvest.cs">
+      <DependentUpon>GetDictionaryModifiedItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.AcceptancePoint.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Budget.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Contract.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Crop.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Employee.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.FixedAsset.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Organisation.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Partner.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Product.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.ReasonForRefund.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Route.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Stock.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.Subdivision.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.User.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.cs" />
+    <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryValue.YearsOfHarvest.cs">
+      <DependentUpon>GetDictionaryValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\OneCApiClient.GetDictionaryModifiedItems.cs">
+      <DependentUpon>OneCApiClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\JsonModel\_BaseResponse.cs" />
+    <Compile Include="ApiClient\OneC\OneCApiClient.cs" />
+    <Compile Include="ApiClient\OneC\OneCApiClient.GetDictionaryValue.cs">
+      <DependentUpon>OneCApiClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\OneC\OneCApiClient.UpdateDeliveryBill.cs">
+      <DependentUpon>OneCApiClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClient\Messages\IMessageClient.cs" />
+    <Compile Include="ApiClient\Messages\MessageClient.cs" />
+    <Compile Include="ApiClient\SmsMobizon\JsonModel\GetBalance.cs" />
+    <Compile Include="ApiClient\SmsMobizon\JsonModel\SendMessage.cs" />
+    <Compile Include="ApiClient\SmsMobizon\JsonModel\GetMessageStatus.cs" />
+    <Compile Include="ApiClient\SmsMobizon\JsonModel\SmsMobizonJsonModel.cs" />
+    <Compile Include="ApiClient\SmsMobizon\JsonModel\_BaseResponse.cs" />
+    <Compile Include="ApiClient\SmsMobizon\ISmsMobizonApiClient.cs" />
+    <Compile Include="ApiClient\SmsMobizon\SmsMobizonApiClient.cs" />
+    <Compile Include="DependencyInjection\DependencyResolverConfig.cs" />
+    <Compile Include="DependencyInjection\ITypeResolver.cs" />
+    <Compile Include="Helper\SerializationHelper.cs" />
+    <Compile Include="Manager\Camera\ICameraManager.cs" />
+    <Compile Include="Manager\Camera\CameraManager.cs" />
+    <Compile Include="Manager\CentralLaboratory\CentralLaboratoryManager.cs" />
+    <Compile Include="Manager\CentralLaboratory\ICentralLaboratoryManager.cs" />
+    <Compile Include="Manager\Connect\ConnectManager.cs" />
+    <Compile Include="Manager\Connect\IConnectManager.cs" />
+    <Compile Include="Manager\Connect\SmsMessage.cs" />
+    <Compile Include="Manager\Connect\SmsMessageData.cs" />
+    <Compile Include="Manager\Display\QueueDisplay.cs" />
+    <Compile Include="Manager\Display\IQueueDisplay.cs" />
+    <Compile Include="Manager\LoadPoint\ILoadPointManager.cs" />
+    <Compile Include="Manager\LoadPoint\LoadPointManager.cs" />
+    <Compile Include="Manager\Node\INodeManager.cs" />
+    <Compile Include="Manager\Node\NodeManager.cs" />
+    <Compile Include="Manager\OpData\BasicTicketContainerData.cs" />
+    <Compile Include="Manager\OpData\IOpDataManager.cs" />
+    <Compile Include="Manager\OpData\OpDataManager.cs" />
+    <Compile Include="Manager\OpRoutine\IOpRoutineManager.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineManager.cs" />
+    <Compile Include="Manager\OpVisa\IVisaValidationManager.cs" />
+    <Compile Include="Manager\OpVisa\VisaValidationManager.cs" />
+    <Compile Include="Manager\Queue\EndPointNodeLoad.cs" />
+    <Compile Include="Manager\Queue\ExternalQueue.cs" />
+    <Compile Include="Manager\Queue\Infrastructure\IQueueInfrastructure.cs" />
+    <Compile Include="Manager\Queue\Infrastructure\QueueInfrastructure.cs" />
+    <Compile Include="Manager\Queue\IQueueManager.cs" />
+    <Compile Include="Manager\Queue\NodeLoad.cs" />
+    <Compile Include="Manager\Queue\NodeRouteLoad.cs" />
+    <Compile Include="Manager\Queue\QueueLoadBalancer.cs" />
+    <Compile Include="Manager\Queue\QueueManager.cs" />
+    <Compile Include="Manager\Queue\QueueManager.Events.cs" />
+    <Compile Include="Manager\Queue\QueueManager.Helper.cs" />
+    <Compile Include="Manager\Queue\QueueManager.Init.cs" />
+    <Compile Include="Manager\Queue\QueueManager.MixedFeed.cs" />
+    <Compile Include="Manager\Queue\RouteInfo.cs" />
+    <Compile Include="Manager\ReportTool\IReportTool.cs" />
+    <Compile Include="Manager\ReportTool\ReportTool.cs" />
+    <Compile Include="Manager\Routes\IRoutesInfrastructure.cs" />
+    <Compile Include="Manager\Routes\PrintoutModels.cs" />
+    <Compile Include="Manager\Routes\RouteJsonConverter.cs" />
+    <Compile Include="Manager\Routes\RoutesInfrastructure.cs" />
+    <Compile Include="Manager\Routes\RoutesManager.cs" />
+    <Compile Include="Manager\Routes\IRoutesManager.cs" />
+    <Compile Include="Manager\Routes\SecondaryRoute.cs" />
+    <Compile Include="Manager\Scale\IScaleManager.cs" />
+    <Compile Include="Manager\Scale\OnLoadScaleValidationDataModel.cs" />
+    <Compile Include="Manager\Scale\ScaleLimitsValidator.cs" />
+    <Compile Include="Manager\Scale\ScaleManager.cs" />
+    <Compile Include="Manager\Scale\ScaleStateValidator.cs" />
+    <Compile Include="Manager\Scale\ScaleValidationResult.cs" />
+    <Compile Include="Manager\Settings\ISettings.cs" />
+    <Compile Include="Manager\Settings\Settings.cs" />
+    <Compile Include="Manager\UnloadPoint\IUnloadPointManager.cs" />
+    <Compile Include="Manager\UnloadPoint\UnloadPointManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignalRClient\SignalRInvoke.cs" />
+    <Compile Include="SignalRClient\StaticValues.cs" />
+    <Compile Include="Test\INodeTester.cs" />
+    <Compile Include="Test\NodeTester.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Solution Items\appSettings.config">
+      <Link>appSettings.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gravitas.DAL\Gravitas.DAL.csproj">
+      <Project>{9ce72020-bc13-46ef-aa62-f1721324ebd9}</Project>
+      <Name>Gravitas.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gravitas.Infrastrructure\Gravitas.Infrastructure.Common.csproj">
+      <Project>{d1a0c172-f6d1-4f6f-ae77-63d89e11ec63}</Project>
+      <Name>Gravitas.Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gravitas.Model\Gravitas.Model.csproj">
+      <Project>{8a4ef9f5-fb46-4f7a-a659-4a6505174db0}</Project>
+      <Name>Gravitas.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

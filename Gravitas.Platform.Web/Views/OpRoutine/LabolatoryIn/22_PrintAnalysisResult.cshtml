@@ -1,0 +1,37 @@
+﻿@model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.PrintAnalysisResultsVm
+@Html.HiddenFor(m => m.NodeId, new {id = "nodeId"})
+
+<div class="row justify-content-between mb-5">
+    <div class="col-sm-4">
+        @Ajax.ActionLink(@"Назад", "PrintAnalysisResult_Back", "LaboratoryIn", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-outline-danger btn-lg btn-block"})
+    </div>
+    <div class="col-sm-4">
+        <a type="submit" onclick="document.getElementById('formSubmit').click();" class="btn btn-primary btn-lg btn-block">Перевірено</a>
+    </div>
+</div>
+
+<h4>
+    Показники за документами
+</h4>
+
+<div class="row">
+    <div class="col-lg-12 form-group">
+        @Html.LabelFor(m => m.ProductName)
+        @Html.EditorFor(m => m.ProductName, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+    </div>
+    <div class="col-lg-6 form-group">
+        @Html.LabelFor(m => m.DocHumidityValue)
+        @Html.EditorFor(m => m.DocHumidityValue, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+    </div>
+    <div class="col-lg-6 form-group">
+        @Html.LabelFor(m => m.DocImpurityValue)
+        @Html.EditorFor(m => m.DocImpurityValue, new {htmlAttributes = new {@class = "form-control", @readonly = "true"}})
+    </div>
+</div>
+    @{
+        Html.RenderAction("GetTicketFiles", "Ticket", new {nodeId = Model.NodeId});
+    }
+
+<div class="row">
+    @Html.Partial("../OpData/LabolatoryIn/_LabFacelessOpDataDetail", Model.LabFacelessOpDataDetail)
+</div>

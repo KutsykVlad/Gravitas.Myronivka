@@ -1,0 +1,40 @@
+<form [formGroup]="registerFormGroup" class="flex-form">
+  <div class="main-flex-block">
+    <h3 class="align-center">Реєстрація</h3>
+    <br />
+    <mat-form-field>
+      <input matInput formControlName="email" placeholder="Електронна пошта" />
+      <mat-error *ngIf="registerFormGroup?.get('email')?.invalid">
+        Електронна пошта введена невірно
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        placeholder="Пароль"
+        class="input-width"
+      />
+      <mat-error *ngIf="registerFormGroup?.get('password')?.invalid">
+        Ви ввели неправильний пароль
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="password"
+        formControlName="confirmPassword"
+        placeholder="Пароль"
+      />
+      <mat-error *ngIf="registerFormGroup?.get('confirmPassword')?.invalid">
+        Ви ввели неправильний пароль
+      </mat-error>
+    </mat-form-field>
+    <div class="flex-buttons">
+      <button mat-raised-button (click)="signUp()">
+        Зареєструватись
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,109 @@
+﻿@model Gravitas.Platform.Web.ViewModel.OpDataItemsVm
+
+@if (Model?.Items == null)
+{
+    <div class="jumbotron">
+        <h4>Операцій не знайдено</h4>
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items.FirstOrDefault().CheckInDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items.FirstOrDefault().NodeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items.FirstOrDefault().StateName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items.FirstOrDefault().Message)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="@(item.IsNonStandard ? @"table-danger" : string.Empty)">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CheckInDateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NodeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StateName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Message)
+                    </td>
+                    <td>
+                     @if (Model.ShowPhotoIcons)
+                     {
+                         <div data-toggle="collapse" data-target="#collapse_@item.Id">
+                             @if (item.OpCameraImageCount > 0)
+                             {
+                                 <i class="fas fa-file-video"> </i>
+                             }
+                         </div>
+                     }
+
+                        @if (item.OpVisaCount > 0)
+                        {
+                            var data = " ";
+                            foreach (var temp in item.Signatures)
+                            {
+                                data += $"{temp.State} : {temp.ExternalUserName} <br />";
+                            }
+                            <div title="Підпис" data-toggle="popover" data-html="true" popover-trigger="hover" data-placement="left" data-content="@data">
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                        }
+
+                    </td>
+                </tr>
+                if (Model.ShowPhotoIcons)
+                {
+                    <tr id="collapse_@item.Id" class="collapse">
+                        <td colspan="5">
+                            <div>
+                                @Html.Action("OperationFrameList", "OpCameraImage", new { opDataId = item.Id })
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    if (Model.ShowFullPhotos)
+    {
+        <h3> Результати фото фіксацій </h3>
+
+        foreach (var item in Model.Items)
+        {
+            @Html.Action("OperationFrameList", "OpCameraImage", new
+            {
+                opDataId = item.Id
+            })
+        }
+    }
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $('[data-toggle="popover"]').popover({
+            placement: 'top',
+            trigger: 'hover'
+        });
+
+    });
+
+</script>

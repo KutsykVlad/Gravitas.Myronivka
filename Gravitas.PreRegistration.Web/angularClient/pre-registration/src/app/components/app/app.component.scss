@@ -1,0 +1,33 @@
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+
+  .page-container {
+    position: relative;
+    min-height: 100vh;
+    width: 80vw;
+    border-left: 0.01vw solid lightgray;
+    border-right: 0.01vw solid lightgray;
+
+    .main-block {
+      padding-bottom: 2.5rem;
+    }
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 800px) {
+  .flex-container {
+    justify-content: center;
+
+    .page-container {
+      min-height: 100vh;
+      width: 100vw;
+      border-left: none;
+      border-right: none;
+    }
+  }
+}

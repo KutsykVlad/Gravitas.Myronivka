@@ -1,0 +1,144 @@
+﻿@model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.LabFacelessOpDataComponentItemsVm
+
+
+@if (Model?.Items?.Any() != true) {
+    <div class="jumbotron">
+        <h4>Записи аналізів відсутні</h4>
+    </div>
+}
+else {
+    <h4 class="mb-3">Список аналізів</h4>
+    <div class="row">
+        @foreach (Gravitas.Platform.Web.ViewModel.LaboratoryInVms.LabFacelessOpDataComponentItemVm item in Model.Items) {
+            <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="card mb-3" style="min-height: 16rem;">
+                    <div class="card-header text-white bg-primary">
+                        <div class="row justify-content-between">
+                            <div class="col"> Аналіз @item.Id </div>
+                            <div class="col">
+                                <div class="text-right">  @item.StateName </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-between">
+                            <div class="col">
+                                @Html.LabelFor(m => item.DataSourceName):
+                            </div>
+                            <div class="col">
+                                <div class="text-right">
+                                    <div> @item.DataSourceName</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (item.AnalysisValueDescriptor.EditImpurity) {
+                            <div class="row justify-content-between">
+                                <div class="col">
+                                    @Html.LabelFor(m => item.AnalysisValueDescriptor.EditImpurity)
+                                </div>
+                                <div class="col">
+                                    <div class="text-right">
+                                        @if (item.ImpurityValue != null) {
+                                            <div> @item.ImpurityValue </div>
+                                        }
+                                        else {
+                                            <div> - - - </div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="text-right">
+                                        @if (!string.IsNullOrWhiteSpace(item.ImpurityClassName)) {
+                                            <div> @item.ImpurityClassName </div>
+                                        }
+                                        else {
+                                            <div> - - - </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (item.AnalysisValueDescriptor.EditHumidity) {
+                            <div class="row justify-content-between">
+                                <div class="col">
+                                    @Html.LabelFor(m => item.AnalysisValueDescriptor.EditHumidity)
+                                </div>
+                                <div class="col">
+                                    <div class="text-right">
+                                        @if (item.HumidityValue != null) {
+                                            <div> @item.HumidityValue</div>
+                                        }
+                                        else {
+                                            <div> - - - </div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="text-right">
+                                        @if (!string.IsNullOrWhiteSpace(item.HumidityClassName)) {
+                                        <div> @item.HumidityClassName </div>
+                                        }
+                                        else {
+                                            <div> - - - </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (item.AnalysisValueDescriptor.EditIsInfectioned) {
+                            <div class="row justify-content-between">
+                                <div class="col">
+                                    @Html.LabelFor(m => item.AnalysisValueDescriptor.EditIsInfectioned)
+                                </div>
+                                <div class="col">
+                                    <div class="text-right">
+                                        @if (item.IsInfectionedClassId != null) {
+                                            <div> @item.IsInfectionedClassId</div>
+                                        }
+                                        else {
+                                            <div> - - - </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (item.AnalysisValueDescriptor.EditEffectiveValue) {
+                            <div class="row justify-content-between">
+                                <div class="col">
+                                    @Html.LabelFor(m => item.AnalysisValueDescriptor.EditEffectiveValue)
+                                </div>
+                                <div class="col">
+                                    <div class="text-right">
+                                        @if (item.EffectiveValue != null) {
+                                            <div> @item.EffectiveValue</div>
+                                        }
+                                        else {
+                                            <div> - - - </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="row justify-content-between">
+                            <div class="col">
+                                @Html.LabelFor(m => item.Comment):
+                            </div>
+                            <div class="col-12">
+                                <div class="text-right">
+                                    @if (item.Comment != null) {
+                                        <div> @item.Comment</div>
+                                    }
+                                    else {
+                                        <div> - - - </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

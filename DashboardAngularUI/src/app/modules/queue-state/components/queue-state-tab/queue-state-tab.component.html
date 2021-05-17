@@ -1,0 +1,18 @@
+<div class="spinner-container" *ngIf="isDataLoading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div class="queue-state-container">
+  <div class="queue-state-title">СТАН ЧЕРГИ</div>
+
+  <div class="queue-state-charts">
+    <div class="small-charts-container">
+      <app-total-cars-chart class="queue-state-chart" [totalCarsData]="totalCarsData"></app-total-cars-chart>
+
+      <app-cars-realization-chart class="queue-state-chart" [totalCarsRealizationData]="totalCarsRealizationData">
+      </app-cars-realization-chart>
+    </div>
+
+    <app-cars-nodes-chart class="queue-state-chart" [isActive]="isActive"></app-cars-nodes-chart>
+  </div>
+</div>

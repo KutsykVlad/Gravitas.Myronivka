@@ -1,0 +1,198 @@
+@import './colors.scss';
+
+// node selector
+.mat-select-panel {
+  .mat-option {
+    &.mat-selected:not(.mat-option-disabled) {
+      color: $text-color;
+    }
+
+    .mat-option-text {
+      display: flex;
+
+
+      .color-preview {
+        width: 2vw;
+        margin: 10px 5px;
+        border: 2px solid darkgrey;
+      }
+    }
+  }
+}
+
+.cars-nodes-chart-selector {
+  margin-top: 2vh;
+}
+
+// input styles
+.mat-form-field {
+  .mat-form-field-wrapper {
+    .mat-form-field-label {
+      color: $main-text-color;
+    }
+
+    .mat-input-element {
+      caret-color: $main-text-color;
+      color: $main-text-color;
+    }
+
+    .mat-form-field-underline {
+      background-color: rgb(179, 179, 179);
+    }
+
+    .mat-select-arrow {
+      color: $main-text-color;
+    }
+  }
+
+  &.mat-focused {
+    .mat-form-field-wrapper {
+      .mat-form-field-label {
+        color: $main-text-color;
+      }
+
+      .mat-form-field-ripple {
+        background-color: rgb(179, 179, 179);
+      }
+
+      .mat-select-arrow-wrapper {
+        .mat-select-arrow {
+          color: $main-text-color;
+        }
+      }
+    }
+  }
+}
+
+app-node-load-tab {
+  .mat-form-field {
+    .mat-form-field-wrapper {
+
+      .mat-input-element {
+        caret-color: white;
+        color: white;
+      }
+
+      .mat-form-field-underline {
+        background-color: transparent;
+      }
+
+      .mat-select-arrow {
+        color: transparent;
+      }
+
+      .mat-select-value {
+        color: white;
+      }
+    }
+
+    &.mat-focused {
+      .mat-form-field-wrapper {
+
+        .mat-form-field-ripple {
+          background-color: transparent;
+        }
+
+        .mat-select-arrow-wrapper {
+          .mat-select-arrow {
+            color: transparent;
+          }
+        }
+      }
+    }
+  }
+}
+
+// spinner styles  
+.spinner-container {
+  position: absolute;
+  z-index: 10000;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0000006b;
+
+  .mat-spinner {
+    circle {
+      stroke: $main-text-color;
+    }
+  }
+}
+
+.chart-and-legend-container {
+  .spinner-container {
+    background-color: #ffffff9e;
+  }
+}
+
+// snackbar styles
+snack-bar-container {
+  box-shadow: 2px 1px 10px 2px rgba(0, 0, 0, 0.39);
+
+  &.error {
+    background-color: red;
+    color: white;
+  }
+
+  &.success {
+    background-color: yellowgreen;
+    color: white;
+  }
+
+  .mat-button {
+    color: white;
+  }
+}
+
+// tab styles 
+.mat-tab-group {
+  .mat-tab-body {
+    height: calc(90vh - 49px);
+  }
+
+  .mat-tab-list {
+    .mat-tab-labels {
+      .mat-tab-label {
+        opacity: 1;
+        color: $text-color;
+      }
+    }
+
+    mat-ink-bar {
+      &.mat-ink-bar {
+        background-color: $main-accent-color;
+      }
+    }
+  }
+}
+
+// mat-chip styles
+.mat-chip-list-wrapper {
+  width: 100%;
+
+  .mat-standard-chip::after {
+    background-color: unset;
+  }
+}
+
+.group-buttons-container {
+  .mat-chip-list-wrapper {
+    width: 100%;
+    justify-content: space-between;
+
+    .mat-standard-chip::after {
+      background-color: unset;
+    }
+  }
+}
+
+// mat-tab styles
+.mat-tab-label {
+  font-size: 1.5vh;
+}
+
+@import './material-override.responsive.scss';
