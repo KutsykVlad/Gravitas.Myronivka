@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO.Base;
+using Gravitas.Model.DomainModel.OpData.TDO.Detail;
+using Gravitas.Model.DomainModel.OpDataState.DTO.Detail;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DAL
 {
@@ -127,7 +130,7 @@ namespace Gravitas.DAL
             dao.DriverTwoId = dto.DriverTwoId;
             dao.TransportId = dto.TransportId;
             dao.HiredDriverCode = dto.HiredDriverCode;
-            dao.HiredTransportNumber = dto.HiredTansportNumber;
+            dao.HiredTransportNumber = dto.HiredTransportNumber;
             dao.IncomeInvoiceSeries = dto.IncomeInvoiceSeries;
             dao.IncomeInvoiceNumber = dto.IncomeInvoiceNumber;
             dao.ReceiverDepotId = dto.ReceiverDepotId;

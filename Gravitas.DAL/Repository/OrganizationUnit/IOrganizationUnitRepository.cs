@@ -1,4 +1,5 @@
-﻿using Gravitas.Model.Dto;
+﻿using Gravitas.Model.DomainModel.OrganizationUnit.DTO.Detail;
+using Gravitas.Model.Dto;
 
 namespace Gravitas.DAL
 {

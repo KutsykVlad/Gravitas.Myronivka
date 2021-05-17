@@ -3,7 +3,9 @@ using System.Linq;
 using Gravitas.DAL;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.Queue.DAO;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure
 {

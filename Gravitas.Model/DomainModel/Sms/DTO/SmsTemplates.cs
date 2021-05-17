@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Sms.DAO;
+using SmsTemplate = Gravitas.Model.DomainValue.SmsTemplate;
 
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainModel.Sms.DTO
 {
     public class SmsTemplates
     {

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.List;
+using Gravitas.Model.DomainModel.OrganizationUnit.DTO.Detail;
 using Gravitas.Model.Dto;
 
 namespace Gravitas.DAL

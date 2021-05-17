@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
 
 namespace Gravitas.DAL
 {

@@ -7,14 +7,16 @@ using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO.Base;
+using Gravitas.Model.DomainModel.OpData.TDO.Json;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.Models;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.NonStandard;
 using Gravitas.Platform.Web.ViewModel.OpData.NonStandart;
 using Microsoft.Ajax.Utilities;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
-using LabFacelessOpDataComponent = Gravitas.Model.Dto.LabFacelessOpDataComponent;
+using LabFacelessOpDataComponent = Gravitas.Model.DomainModel.OpData.TDO.Detail.LabFacelessOpDataComponent;
 
 namespace Gravitas.Platform.Web.Manager.OpData
 {
@@ -222,7 +224,7 @@ namespace Gravitas.Platform.Web.Manager.OpData
             if (dao == null) return null;
 
             // TODO: Move to repository
-            var dto = new Model.Dto.LabFacelessOpData
+            var dto = new Model.DomainModel.OpData.TDO.Detail.LabFacelessOpData
             {
                 Id = dao.Id,
                 TicketContainerId = dao.TicketContainerId,

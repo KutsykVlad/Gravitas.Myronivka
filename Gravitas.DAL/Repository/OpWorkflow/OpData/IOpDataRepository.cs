@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO.Base;
+using Gravitas.Model.DomainModel.OpData.TDO.Detail;
+using Gravitas.Model.DomainModel.OpDataState.DTO.Detail;
 using Gravitas.Model.Dto;
 
 namespace Gravitas.DAL

@@ -17,10 +17,13 @@ using Gravitas.Model.DomainModel.MixedFeed.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
+using Gravitas.Model.DomainModel.OpVisa.DAO;
+using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.DomainValue.NodeProcesses;
 using Gravitas.Model.Dto;
 using Newtonsoft.Json;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 

@@ -9,6 +9,7 @@ using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Scale

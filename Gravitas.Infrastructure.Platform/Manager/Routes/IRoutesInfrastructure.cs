@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
 using Gravitas.Model.DomainValue;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Routes

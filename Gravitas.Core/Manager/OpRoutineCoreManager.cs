@@ -12,6 +12,7 @@ using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.Node.DAO;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Core.Manager
 {

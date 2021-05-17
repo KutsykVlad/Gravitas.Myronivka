@@ -5,6 +5,7 @@ using System.Text;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Model;
 using Newtonsoft.Json;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 {

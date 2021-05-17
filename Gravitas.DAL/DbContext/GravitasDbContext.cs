@@ -14,11 +14,21 @@ using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Model.DomainModel.OpCameraImage;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
+using Gravitas.Model.DomainModel.OpDataState.DAO;
+using Gravitas.Model.DomainModel.OpRoutine.DAO;
+using Gravitas.Model.DomainModel.OpVisa.DAO;
+using Gravitas.Model.DomainModel.OrganizationUnit.DAO;
 using Gravitas.Model.DomainModel.OwnTransport.DAO;
 using Gravitas.Model.DomainModel.PackingTare.DAO;
+using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Model.DomainModel.PhoneInformTicketAssignment.DAO;
+using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
 using Gravitas.Model.DomainModel.PreRegistration.DAO;
+using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainModel.Settings.DAO;
+using Gravitas.Model.DomainModel.Sms.DAO;
+using Gravitas.Model.DomainModel.Ticket.DAO;
+using Gravitas.Model.DomainModel.Traffic.DAO;
 using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.DAL

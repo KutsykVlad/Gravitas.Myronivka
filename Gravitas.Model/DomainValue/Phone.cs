@@ -1,13 +1,10 @@
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainValue
 {
-    public static partial class Dom
+    public enum Phone
     {
-        public static class Phone
-        {
-            public const int Security = 1;
-            public const int Dispatcher = 2;
-            public const int CentralLaboratoryWorker = 3;
-            public const int MixedFeedManager = 4;
-        }
+        Security = 1,
+        Dispatcher = 2,
+        CentralLaboratoryWorker = 3,
+        MixedFeedManager = 4
     }
 }

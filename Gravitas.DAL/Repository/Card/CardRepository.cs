@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Gravitas.Model;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DAL
 {

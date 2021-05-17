@@ -1,16 +1,10 @@
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainValue
 {
-    public static partial class Dom
+    public enum TicketFileType
     {
-        public static class TicketFile
-        {
-            public static class Type
-            {
-                public const int Other = 1;
-                public const int CustomerLabCertificate = 2;
-                public const int LabCertificate = 3;
-                public const int CentralLabCertificate = 4;
-            }
-        }
+        Other = 1,
+        CustomerLabCertificate = 2,
+        LabCertificate = 3,
+        CentralLabCertificate = 4
     }
 }

@@ -4,7 +4,9 @@ using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Platform.Web.ViewModel.Queue;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {

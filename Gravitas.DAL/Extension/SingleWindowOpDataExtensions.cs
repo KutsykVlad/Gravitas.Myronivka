@@ -2,6 +2,7 @@
 using System.Linq;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DAL
 {

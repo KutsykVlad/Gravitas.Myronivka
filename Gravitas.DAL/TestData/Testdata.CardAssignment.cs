@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.DAL.TestData

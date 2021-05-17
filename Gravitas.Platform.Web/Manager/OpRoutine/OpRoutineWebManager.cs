@@ -12,6 +12,7 @@ using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.Manager.CollisionManager;
 using Gravitas.Platform.Web.Manager.OpData;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {

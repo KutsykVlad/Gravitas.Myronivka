@@ -8,6 +8,7 @@ using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.OneC;
 using Gravitas.Model;
 using Gravitas.Platform.Web.Manager;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {

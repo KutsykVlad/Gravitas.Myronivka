@@ -8,6 +8,7 @@ using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel;
 using Newtonsoft.Json;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {

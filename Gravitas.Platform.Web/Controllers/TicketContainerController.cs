@@ -8,11 +8,13 @@ using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.PreRegistration.DAO;
+using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.TicketContainer;
 using Gravitas.Platform.Web.ViewModel.TicketContainer.List;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {

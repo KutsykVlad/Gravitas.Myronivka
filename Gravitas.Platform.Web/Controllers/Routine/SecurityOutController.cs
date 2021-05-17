@@ -5,6 +5,7 @@ using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.ViewModel;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers.Routine
 {

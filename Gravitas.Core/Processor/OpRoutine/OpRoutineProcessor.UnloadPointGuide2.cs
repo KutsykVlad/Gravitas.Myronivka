@@ -6,6 +6,7 @@ using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {

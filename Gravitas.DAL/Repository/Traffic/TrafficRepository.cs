@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Traffic.DAO;
 
 namespace Gravitas.DAL
 {

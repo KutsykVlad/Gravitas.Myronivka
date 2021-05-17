@@ -4,6 +4,7 @@ using System.Web.Http.Filters;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.CollisionCoordination.Messages
 {

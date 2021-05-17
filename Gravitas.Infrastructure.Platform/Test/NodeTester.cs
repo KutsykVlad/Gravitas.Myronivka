@@ -9,6 +9,7 @@ using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 using Gravitas.Model.Dto;
 using Newtonsoft.Json;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Test
 {

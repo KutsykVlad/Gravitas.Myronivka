@@ -45,6 +45,6 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public string DataSourceName { get; set; }
 
         public virtual LabFacelessOpData LabFacelessOpData { get; set; }
-        public virtual ICollection<OpVisa> OpVisaSet { get; set; }
+        public virtual ICollection<OpVisa.DAO.OpVisa> OpVisaSet { get; set; }
     }
 }

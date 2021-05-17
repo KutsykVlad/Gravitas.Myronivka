@@ -10,6 +10,7 @@ using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Platform.Web.Attribute;
 using Gravitas.Platform.Web.ViewModel.Dashboard;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers.Api
 {

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Queue.DAO;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DAL.TestData
 {

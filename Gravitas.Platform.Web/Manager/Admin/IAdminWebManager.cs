@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Platform.Web.ViewModel;
 
 namespace Gravitas.Platform.Web.Manager

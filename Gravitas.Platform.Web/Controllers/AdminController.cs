@@ -8,10 +8,12 @@ using Gravitas.Infrastructure.Platform.ApiClient.OneC;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin;
 using Gravitas.Platform.Web.ViewModel.Admin.Version;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 using Settings = Gravitas.Model.DomainModel.Settings.DAO.Settings;
 

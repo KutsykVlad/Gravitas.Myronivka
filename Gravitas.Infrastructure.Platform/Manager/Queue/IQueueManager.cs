@@ -1,4 +1,5 @@
 ﻿using Gravitas.Model;
+using Gravitas.Model.DomainModel.Ticket.DAO;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {

@@ -2,8 +2,10 @@ using System;
 using System.Linq;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainValue;
 using Newtonsoft.Json;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {

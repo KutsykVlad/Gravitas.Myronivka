@@ -4,6 +4,7 @@ using Gravitas.Model;
 using Gravitas.Platform.Web.Manager.Employee;
 using Gravitas.Platform.Web.ViewModel.Employee;
 using Gravitas.Platform.Web.ViewModel.User;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {

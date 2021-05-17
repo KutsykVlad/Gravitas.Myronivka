@@ -1,5 +1,7 @@
 ﻿using System.Data.Entity.Migrations;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OrganizationUnit.DAO;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DAL.PostDeployment {
 
@@ -30,11 +32,11 @@ namespace Gravitas.DAL.PostDeployment {
 				//context.Set<Model.OrganizationUnit>().AddOrUpdate(new Model.OrganizationUnit { Id = Dom.OrganizationUnit.Type.Workstantion.OilLoad, Name = "Погрузка Олії", UnitTypeId = Dom.OrganizationUnit.Type.Workstantion.Id });
 				//context.Set<Model.OrganizationUnit>().AddOrUpdate(new Model.OrganizationUnit { Id = Dom.OrganizationUnit.Type.Workstantion.CustomWarehouse, Name = "Митний склад", UnitTypeId = Dom.OrganizationUnit.Type.Workstantion.Id });
 				//context.Set<Model.OrganizationUnit>().AddOrUpdate(new Model.OrganizationUnit { Id = Dom.OrganizationUnit.Type.Workstantion.MixedFeedLoad, Name = "Погрузка Комбікорму", UnitTypeId = Dom.OrganizationUnit.Type.Workstantion.Id });
-				context.Set<Model.OrganizationUnit>().AddOrUpdate(new Model.OrganizationUnit { Id = Dom.OrganizationUnit.Type.Workstantion.Husk, Name = "Нижня територія", UnitTypeId = Dom.OrganizationUnit.Type.Workstantion.Id });
+				context.Set<Model.DomainModel.OrganizationUnit.DAO.OrganizationUnit>().AddOrUpdate(new Model.DomainModel.OrganizationUnit.DAO.OrganizationUnit { Id = Dom.OrganizationUnit.Type.Workstantion.Husk, Name = "Нижня територія", UnitTypeId = Dom.OrganizationUnit.Type.Workstantion.Id });
 				//context.Set<Model.OrganizationUnit>().AddOrUpdate(new Model.OrganizationUnit { Id = Dom.OrganizationUnit.Type.Workstantion.ShrotLoad, Name = "Завантаження шрота", UnitTypeId = Dom.OrganizationUnit.Type.Workstantion.Id });
 				//context.Set<Model.OrganizationUnit>().AddOrUpdate(new Model.OrganizationUnit { Id = Dom.OrganizationUnit.Type.Workstantion.Stores, Name = "Склади", UnitTypeId = Dom.OrganizationUnit.Type.Workstantion.Id });
 				//context.Set<Model.OrganizationUnit>().AddOrUpdate(new Model.OrganizationUnit { Id = Dom.OrganizationUnit.Type.Workstantion.MPZ, Name = "МПЗ", UnitTypeId = Dom.OrganizationUnit.Type.Workstantion.Id });
-				context.Set<Model.OrganizationUnit>().AddOrUpdate(new Model.OrganizationUnit { Id = Dom.OrganizationUnit.Type.Workstantion.TMC, Name = "ТМЦ", UnitTypeId = Dom.OrganizationUnit.Type.Workstantion.Id });
+				context.Set<Model.DomainModel.OrganizationUnit.DAO.OrganizationUnit>().AddOrUpdate(new Model.DomainModel.OrganizationUnit.DAO.OrganizationUnit { Id = Dom.OrganizationUnit.Type.Workstantion.TMC, Name = "ТМЦ", UnitTypeId = Dom.OrganizationUnit.Type.Workstantion.Id });
 				
 				context.SaveChanges();
 			}

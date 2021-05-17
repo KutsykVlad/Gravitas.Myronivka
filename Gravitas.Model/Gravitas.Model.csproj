@@ -239,8 +239,6 @@
     <Compile Include="DomainModel\OpData\TDO\Json\ProductContentList.cs" />
     <Compile Include="DomainModel\OpData\DAO\Json\ProductContent.cs" />
     <Compile Include="DomainModel\OpData\TDO\Json\AnalysisValueDescriptor.cs" />
-    <Compile Include="DomainModel\OpRoutine\DAO\OpRoutineTransition.cs" />
-    <Compile Include="DomainModel\OpRoutine\DAO\OpRoutineProcessor.cs" />
     <Compile Include="DomainModel\OpData\DAO\LabFacelessOpData.cs" />
     <Compile Include="DomainModel\Node\TDO\Detail\NodeDetail.cs" />
     <Compile Include="DomainModel\OpCameraImage\OpCameraImage.cs" />
@@ -286,20 +284,18 @@
     <Compile Include="DomainModel\Base\BaseEntity.cs" />
     <Compile Include="DomainValue\BlackList.cs" />
     <Compile Include="DomainValue\CentralLaboratoryStates.cs" />
+    <Compile Include="DomainValue\DeviceErrorCode.cs" />
     <Compile Include="DomainValue\Email.cs" />
     <Compile Include="DomainValue\LabEffectiveClassifier.cs" />
     <Compile Include="DomainValue\Node.cs" />
-    <Compile Include="DomainValue\Common.cs" />
-    <Compile Include="DomainValue\Connect.cs" />
     <Compile Include="DomainValue\ExternalData.cs" />
-    <Compile Include="DomainValue\Device.cs" />
+    <Compile Include="DomainValue\DeviceType.cs" />
     <Compile Include="DomainValue\NodeGroup.cs" />
     <Compile Include="DomainValue\NodeId.cs" />
     <Compile Include="DomainValue\NodeProcesses\ScaleProcess.cs" />
     <Compile Include="DomainValue\OpData.cs" />
     <Compile Include="DomainValue\OpDataEventType.cs" />
     <Compile Include="DomainValue\OpRoutine.cs" />
-    <Compile Include="DomainValue\CollisionDeepLink.cs" />
     <Compile Include="DomainValue\Pdf.cs" />
     <Compile Include="DomainValue\Phone.cs" />
     <Compile Include="DomainValue\Queue.cs" />
@@ -338,7 +334,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DomainModel\Card\TDO\" />
-    <Folder Include="DomainModel\OpRoutine\TDO\" />
     <Folder Include="DomainModel\Queue\DTO\" />
   </ItemGroup>
   <ItemGroup>

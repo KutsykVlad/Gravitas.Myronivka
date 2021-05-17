@@ -6,6 +6,7 @@ using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel.OpRoutine.UnloadPointGuide2;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine

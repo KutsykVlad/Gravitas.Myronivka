@@ -15,6 +15,7 @@ using Gravitas.Model.Dto;
 using Newtonsoft.Json;
 using NLog;
 using Topshelf;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Core
 {

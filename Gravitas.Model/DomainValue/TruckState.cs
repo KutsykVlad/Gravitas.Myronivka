@@ -1,13 +1,11 @@
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainValue
 {
-    public static partial class Dom
+    public enum TruckState
     {
-        public static class TruckState
-        {
-            public const int NotRegistered = 1;
-            public const int Registered = 2;
-            public const int AllowToEnter = 3;
-            public const int MissedEntrance = 4;
-        }
+        None = 0,
+        NotRegistered = 1,
+        Registered = 2,
+        AllowToEnter = 3,
+        MissedEntrance = 4
     }
 }

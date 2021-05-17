@@ -7,6 +7,7 @@ using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.DAO;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DeviceMonitor.Monitor
 {

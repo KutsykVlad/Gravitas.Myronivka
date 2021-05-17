@@ -24,6 +24,11 @@ using System.Web.Mvc;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.OpData.TDO.Detail;
+using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
+using Gravitas.Model.DomainModel.Queue.DAO;
+using Gravitas.Model.DomainModel.Ticket.DAO;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine

@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity.Migrations;
 using Gravitas.Model;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DAL.PostDeployment
 {
@@ -10,9 +11,9 @@ namespace Gravitas.DAL.PostDeployment
             {
                 public static void PriorityType(GravitasDbContext context)
                 {
-                    context.Set<Model.QueueItemPriority>().AddOrUpdate(new Model.QueueItemPriority { Id = Dom.Queue.Priority.High, Description = "Високий" });
-                    context.Set<Model.QueueItemPriority>().AddOrUpdate(new Model.QueueItemPriority { Id = Dom.Queue.Priority.Medium, Description = "Середній" });
-                    context.Set<Model.QueueItemPriority>().AddOrUpdate(new Model.QueueItemPriority { Id = Dom.Queue.Priority.Low, Description = "Низький" });
+                    context.Set<Model.DomainModel.Queue.DAO.QueueItemPriority>().AddOrUpdate(new Model.DomainModel.Queue.DAO.QueueItemPriority { Id = Dom.Queue.Priority.High, Description = "Високий" });
+                    context.Set<Model.DomainModel.Queue.DAO.QueueItemPriority>().AddOrUpdate(new Model.DomainModel.Queue.DAO.QueueItemPriority { Id = Dom.Queue.Priority.Medium, Description = "Середній" });
+                    context.Set<Model.DomainModel.Queue.DAO.QueueItemPriority>().AddOrUpdate(new Model.DomainModel.Queue.DAO.QueueItemPriority { Id = Dom.Queue.Priority.Low, Description = "Низький" });
 
                     context.SaveChanges();
                 }

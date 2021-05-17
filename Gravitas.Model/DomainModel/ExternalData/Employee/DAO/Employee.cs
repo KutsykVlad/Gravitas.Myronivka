@@ -9,7 +9,7 @@ namespace Gravitas.Model.DomainModel.ExternalData.Employee.DAO
         public Employee()
         {
             CardSet = new HashSet<Card.DAO.Card>();
-            OpVisaSet = new HashSet<OpVisa>();
+            OpVisaSet = new HashSet<OpVisa.DAO.OpVisa>();
             EmployeeRoles = new HashSet<EmployeeRole>();
         }
 
@@ -23,7 +23,7 @@ namespace Gravitas.Model.DomainModel.ExternalData.Employee.DAO
         public string ParentId { get; set; }
 
         public virtual ICollection<Card.DAO.Card> CardSet { get; set; }
-        public virtual ICollection<OpVisa> OpVisaSet { get; set; }
+        public virtual ICollection<OpVisa.DAO.OpVisa> OpVisaSet { get; set; }
         public virtual ICollection<EmployeeRole> EmployeeRoles { get; set; }
     }
 }

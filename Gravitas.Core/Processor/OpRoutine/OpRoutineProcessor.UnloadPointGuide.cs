@@ -10,6 +10,8 @@ using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.OpVisa.DAO;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Core.Processor.OpRoutine {
 

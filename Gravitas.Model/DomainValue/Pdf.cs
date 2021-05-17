@@ -1,14 +1,8 @@
-﻿namespace Gravitas.Model
+﻿namespace Gravitas.Model.DomainValue
 {
-    public static partial class Dom
+    public static class PdfOrientation
     {
-        public static class Pdf
-        {
-            public static class Orientation
-            {
-                public const string Portrait = "--orientation Portrait ";
-                public const string Landscape = "--orientation Landscape ";
-            }
-        }
+        public const string Portrait = "--orientation Portrait ";
+        public const string Landscape = "--orientation Landscape ";
     }
 }

@@ -8,6 +8,7 @@ using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.Dto;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.DeviceManager.Device

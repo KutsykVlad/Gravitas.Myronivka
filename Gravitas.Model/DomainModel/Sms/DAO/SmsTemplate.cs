@@ -1,6 +1,6 @@
 ﻿using Gravitas.Model.DomainModel.Base;
 
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainModel.Sms.DAO
 {
     public class SmsTemplate : BaseEntity<int>
     {

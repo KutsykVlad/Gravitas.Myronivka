@@ -6,7 +6,8 @@ using Gravitas.CollisionCoordination.Models;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
 using NLog;
-using LabFacelessOpData = Gravitas.Model.Dto.LabFacelessOpData;
+using Dom = Gravitas.Model.DomainValue.Dom;
+using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.TDO.Detail.LabFacelessOpData;
 
 namespace Gravitas.CollisionCoordination.Messages
 {

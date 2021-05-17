@@ -1,6 +1,6 @@
 ﻿using Gravitas.Model.DomainModel.Base;
 
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainModel.PhoneDictionary.DAO
 {
     public class PhoneDictionary : BaseEntity<int>
     {

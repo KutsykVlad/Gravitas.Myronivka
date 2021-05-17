@@ -12,6 +12,7 @@ using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.ViewModel;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {

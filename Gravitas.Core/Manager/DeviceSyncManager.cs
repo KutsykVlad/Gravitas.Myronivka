@@ -16,6 +16,7 @@ using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using NLog;
 using Unity.Resolution;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Core.Manager
 {

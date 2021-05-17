@@ -11,6 +11,7 @@ using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
 using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel.Employee;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Platform.Web.Manager.Employee

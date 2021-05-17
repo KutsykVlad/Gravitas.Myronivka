@@ -1,9 +1,9 @@
 using Gravitas.Model.DomainModel.Base;
 
-namespace Gravitas.Model.Dto {
-	
-	public class OpDataStateItem : BaseEntity<int> {
-		
-		public string Name { get; set; }
-	}
+namespace Gravitas.Model.DomainModel.OpDataState.DTO.List
+{
+    public class OpDataStateItem : BaseEntity<int>
+    {
+        public string Name { get; set; }
+    }
 }

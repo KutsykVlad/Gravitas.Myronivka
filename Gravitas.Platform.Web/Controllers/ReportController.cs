@@ -5,6 +5,7 @@ using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.Manager.Report;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {

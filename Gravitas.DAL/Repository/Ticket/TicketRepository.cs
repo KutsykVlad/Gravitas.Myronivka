@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.Dto;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DAL
 {

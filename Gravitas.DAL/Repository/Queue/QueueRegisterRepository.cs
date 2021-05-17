@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Queue.DAO;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DAL
 {

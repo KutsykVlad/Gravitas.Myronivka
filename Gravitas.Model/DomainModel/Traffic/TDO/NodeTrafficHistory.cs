@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Traffic.DAO;
 
 namespace Gravitas.Model
 {

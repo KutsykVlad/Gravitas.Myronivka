@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
+using Gravitas.Model.DomainModel.Queue.DAO;
 
 namespace Gravitas.DAL.Mapping
 {
-    class QueuePatternItemMap : EntityTypeConfiguration<Gravitas.Model.QueuePatternItem>
+    class QueuePatternItemMap : EntityTypeConfiguration<QueuePatternItem>
     {
         public QueuePatternItemMap()
         {

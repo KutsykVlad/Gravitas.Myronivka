@@ -4,6 +4,7 @@ using AutoMapper;
 using Gravitas.DAL;
 using Gravitas.Model;
 using Gravitas.Platform.Web.ViewModel;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Manager
 {

@@ -8,6 +8,7 @@ using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 using Gravitas.Model.Dto;
 using Newtonsoft.Json;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.ApiClient.Devices
 {

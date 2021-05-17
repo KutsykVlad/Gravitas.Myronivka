@@ -1,10 +1,7 @@
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainValue
 {
-    public static partial class Dom
+    public static class SingleWindowOpData
     {
-        public static class SingleWindowOpData
-        {
-            public const string TechnologicalSupplyCode = "0000000000";
-        }
+        public const string TechnologicalSupplyCode = "0000000000";
     }
 }

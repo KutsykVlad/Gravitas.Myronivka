@@ -1,15 +1,9 @@
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainValue
 {
-    public static partial class Dom
+    public enum EmailTemplate
     {
-        public static class Email
-        {
-            public static class Template
-            {
-                public const int CollisionApproval = 1;
-                public const int CentralLaboratoryCollisionApproval = 2;
-                public const int DeviceInvalidInformation = 3;
-            } 
-        }
-    }
+        CollisionApproval = 1,
+        CentralLaboratoryCollisionApproval = 2,
+        DeviceInvalidInformation = 3
+    } 
 }

@@ -8,7 +8,9 @@ using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.Dto;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 

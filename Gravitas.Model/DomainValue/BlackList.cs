@@ -1,17 +1,10 @@
-﻿using System;
-
-namespace Gravitas.Model
+﻿namespace Gravitas.Model.DomainValue
 {
-    public static partial class Dom
+    public enum BlackListType
     {
-        public static class BlackList
-        {
-            public static class Type
-            {
-                public const int TrailerNo = 1;
-                public const int Partner = 2;
-                public const int Driver = 3;
-            }    
-        }
+        None = 0,
+        TrailerNo = 1,
+        Partner = 2,
+        Driver = 3
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity.Migrations;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DAL.PostDeployment {
 

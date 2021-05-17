@@ -2,18 +2,19 @@
 {
     public enum CentralLabState
     {
-        InQueue = 0,
-        SecurityEntry = 1,
-        Weighbridge = 2,
-        Loaded = 3,
-        WaitForSamplesCollect = 4,
-        SamplesCollected = 5,
-        WaitForOperator = 6,
-        OnCollision = 7,
-        CollisionApproved = 8, 
-        CollisionDisapproved = 9,
-        ReturnToCollectSamples = 10,
-        Moved = 11,
-        Processed = 12
+        None = 0,
+        InQueue = 1,
+        SecurityEntry = 2,
+        Weighbridge = 3,
+        Loaded = 4,
+        WaitForSamplesCollect = 5,
+        SamplesCollected = 6,
+        WaitForOperator = 7,
+        OnCollision = 8,
+        CollisionApproved = 9, 
+        CollisionDisapproved = 10,
+        ReturnToCollectSamples = 11,
+        Moved = 12,
+        Processed = 13
     }
 }

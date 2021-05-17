@@ -1,20 +1,14 @@
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainValue
 {
-    public static partial class Dom
+    public enum RouteType
     {
-        public static class Route
-        {
-            public static class Type
-            {
-                public const int SingleWindow = 0;
-                public const int Temporary = 2;
-                public const int Reload = 3;
-                public const int PartLoad = 4;
-                public const int PartUnload = 5;
-                public const int Move = 6;
-                public const int MixedFeedLoad = 7;
-                public const int Reject = 8;
-            }
-        }
+        SingleWindow = 1,
+        Temporary = 2,
+        Reload = 3,
+        PartLoad = 4,
+        PartUnload = 5,
+        Move = 6,
+        MixedFeedLoad = 7,
+        Reject = 8
     }
 }

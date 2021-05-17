@@ -1,10 +1,11 @@
 ﻿using System;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.OpData.TDO.Detail;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DTO;
 using Gravitas.Model.Dto;
-using LabFacelessOpData = Gravitas.Model.Dto.LabFacelessOpData;
+using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.TDO.Detail.LabFacelessOpData;
 
 namespace Gravitas.Infrastructure.Platform.Manager
 {

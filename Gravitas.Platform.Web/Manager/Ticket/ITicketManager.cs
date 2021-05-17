@@ -4,6 +4,7 @@ using Gravitas.Model;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.LabAverageRates;
 using Gravitas.Platform.Web.ViewModel.Ticket.History;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Manager
 {

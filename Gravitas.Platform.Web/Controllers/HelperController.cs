@@ -12,6 +12,7 @@ using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.PackingTare.DTO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel.Helper;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {

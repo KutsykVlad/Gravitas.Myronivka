@@ -5,12 +5,16 @@ using Gravitas.DAL;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO.Json;
+using Gravitas.Model.DomainModel.OpData.TDO.Detail;
+using Gravitas.Model.DomainModel.OpData.TDO.Json;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DTO;
+using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.Dto;
 using Newtonsoft.Json;
-using LabFacelessOpData = Gravitas.Model.Dto.LabFacelessOpData;
-using LabFacelessOpDataComponent = Gravitas.Model.Dto.LabFacelessOpDataComponent;
+using Dom = Gravitas.Model.DomainValue.Dom;
+using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.TDO.Detail.LabFacelessOpData;
+using LabFacelessOpDataComponent = Gravitas.Model.DomainModel.OpData.TDO.Detail.LabFacelessOpDataComponent;
 
 namespace Gravitas.Infrastructure.Platform.Manager
 {
@@ -117,7 +121,7 @@ namespace Gravitas.Infrastructure.Platform.Manager
                 DriverTwoId = dao.DriverTwoId,
                 TransportId = dao.TransportId,
                 HiredDriverCode = dao.HiredDriverCode,
-                HiredTansportNumber = dao.HiredTransportNumber,
+                HiredTransportNumber = dao.HiredTransportNumber,
                 TrailerNumber = dao.HiredTrailerNumber,
                 IncomeInvoiceSeries = dao.IncomeInvoiceSeries,
                 IncomeInvoiceNumber = dao.IncomeInvoiceNumber,
@@ -227,8 +231,8 @@ namespace Gravitas.Infrastructure.Platform.Manager
                 LabHumidityValue = dao.LabHumidityValue,
                 LabImpurityValue = dao.LabImpurityValue,
                 LabOilContentValue = dao.LabOilContentValue,
-                LabolatoryOperatorId = dao.LabolatoryOperatorId,
-                LabolatoryOperatorName = _externalDataRepository.GetExternalEmployeeDetail(dao.LabolatoryOperatorId)?.ShortName,
+                LaboratoryOperatorId = dao.LabolatoryOperatorId,
+                LaboratoryOperatorName = _externalDataRepository.GetExternalEmployeeDetail(dao.LabolatoryOperatorId)?.ShortName,
                 LabFileId = _ticketRepository.GetFirstOrDefault<TicketFile, long>(item => item.TicketId == dao.TicketId)?.Id,
                 CollectionPointId = dao.CollectionPointId,
                 ReturnCauseId = dao.ReturnCauseId,

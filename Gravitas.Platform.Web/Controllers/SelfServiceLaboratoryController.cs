@@ -3,6 +3,7 @@ using Gravitas.DAL;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Platform.Web.ViewModel.SelfServiceLaboratory;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {

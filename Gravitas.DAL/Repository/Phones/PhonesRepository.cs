@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 
 namespace Gravitas.DAL
 {

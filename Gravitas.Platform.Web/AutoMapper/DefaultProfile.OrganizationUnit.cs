@@ -1,14 +1,16 @@
-﻿using Gravitas.Platform.Web.ViewModel;
+﻿using Gravitas.Model.DomainModel.OrganizationUnit.DTO.Detail;
+using Gravitas.Model.DomainModel.OrganizationUnit.DTO.List;
+using Gravitas.Platform.Web.ViewModel;
 
 namespace Gravitas.Platform.Web.AutoMapper
 {
 	public partial class DefaultProfile {
 		public void ConfigureOrganisationUnit() {
 
-			CreateMap<Model.Dto.OrganizationUnitDetail, OrganizationUnitDetailVm>().ReverseMap();
+			CreateMap<OrganizationUnitDetail, OrganizationUnitDetailVm>().ReverseMap();
 			
-			CreateMap<Model.Dto.OrganizationUnitItem, OrganizationUnitItemVm>();
-			CreateMap<Model.Dto.OrganizationUnitItems, OrganizationUnitItemsVm>();
+			CreateMap<OrganizationUnitItem, OrganizationUnitItemVm>();
+			CreateMap<OrganizationUnitItems, OrganizationUnitItemsVm>();
 		}
 	}
 }

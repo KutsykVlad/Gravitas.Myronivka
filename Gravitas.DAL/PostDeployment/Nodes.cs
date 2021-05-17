@@ -4,6 +4,7 @@ using System.Data.Entity.Migrations;
 using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainValue;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DAL.PostDeployment
 {

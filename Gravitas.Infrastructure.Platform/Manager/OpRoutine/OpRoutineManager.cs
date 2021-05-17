@@ -9,6 +9,7 @@ using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpCameraImage;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.Dto;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine

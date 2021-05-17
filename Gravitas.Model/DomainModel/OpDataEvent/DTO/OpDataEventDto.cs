@@ -2,7 +2,7 @@ namespace Gravitas.Model.DomainModel.OpDataEvent.DTO
 {
     public class OpDataEventDto
     {
-        public long PlatformNumber { get; set; }
+        public int PlatformNumber { get; set; }
         public string User { get; set; }
         public string Period { get; set; }
         public string TypeOfTransaction { get; set; }

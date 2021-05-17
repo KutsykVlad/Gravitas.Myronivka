@@ -14,9 +14,11 @@ using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.DomainModel.OwnTransport.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
+using Dom = Gravitas.Model.DomainValue.Dom;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 

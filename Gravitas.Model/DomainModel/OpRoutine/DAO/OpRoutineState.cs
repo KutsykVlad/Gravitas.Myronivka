@@ -1,24 +1,20 @@
 using System.Collections.Generic;
 using Gravitas.Model.DomainModel.Base;
 
-namespace Gravitas.Model {
-	
-	public class OpRoutineState : BaseEntity<int> {
+namespace Gravitas.Model.DomainModel.OpRoutine.DAO
+{
+    public class OpRoutineState : BaseEntity<int>
+    {
+        public OpRoutineState()
+        {
+            OpVisaSet = new HashSet<OpVisa.DAO.OpVisa>();
+        }
 
-		public OpRoutineState() {
-			OpRoutineTransitionStartSet = new HashSet<OpRoutineTransition>();
-			OpRoutineTransitionStopSet = new HashSet<OpRoutineTransition>();
-            OpVisaSet = new HashSet<OpVisa>();
-		}
-		
-		public long OpRoutineId { get; set; }
-		public int StateNo { get; set; }
-		public string Name { get; set; }
+        public int OpRoutineId { get; set; }
+        public int StateNo { get; set; }
+        public string Name { get; set; }
 
-		// Navigation Properties
-		public virtual OpRoutine OpRoutine { get; set; }
-		public virtual ICollection<OpRoutineTransition> OpRoutineTransitionStartSet { get; set; }
-		public virtual ICollection<OpRoutineTransition> OpRoutineTransitionStopSet { get; set; }
-        public virtual ICollection<OpVisa> OpVisaSet { get; set; }
-	}
+        public virtual OpRoutine OpRoutine { get; set; }
+        public virtual ICollection<OpVisa.DAO.OpVisa> OpVisaSet { get; set; }
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Gravitas.Model.DomainModel.Base;
+using Gravitas.Model.DomainModel.Queue.DAO;
 
 namespace Gravitas.Model.DomainModel.ExternalData.Partner.DAO
 {

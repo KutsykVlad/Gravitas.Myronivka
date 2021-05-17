@@ -13,6 +13,7 @@ using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.Dto;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DeviceMonitor.Monitor
 {

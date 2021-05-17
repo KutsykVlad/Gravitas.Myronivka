@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Gravitas.Model;
 using Gravitas.Platform.Web.Manager.User;
 using Gravitas.Platform.Web.ViewModel.User;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {

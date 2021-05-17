@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Ticket.DAO;
 
 namespace Gravitas.DAL
 {

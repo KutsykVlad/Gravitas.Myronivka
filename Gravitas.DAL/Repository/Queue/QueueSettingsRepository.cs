@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Queue.DAO;
 
 namespace Gravitas.DAL
 {

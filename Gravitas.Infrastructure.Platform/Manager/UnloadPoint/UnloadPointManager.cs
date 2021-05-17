@@ -3,7 +3,9 @@ using System.Linq;
 using Gravitas.DAL;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.OpVisa.DAO;
 using NLog;
+using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Manager.UnloadPoint
 {
