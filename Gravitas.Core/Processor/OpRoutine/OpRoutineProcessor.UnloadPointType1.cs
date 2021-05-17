@@ -12,6 +12,8 @@ using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 using Gravitas.Model.Dto;
 using CardReadResult = Gravitas.Core.DeviceManager.Card.CardReadResult;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;

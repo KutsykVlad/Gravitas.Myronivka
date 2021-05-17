@@ -1,7 +1,9 @@
-﻿namespace Gravitas.Model.Dto {
+﻿using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 
-	public class DigitalInState : DeviceState<DigitalInJsonState, string>{
-
-	}
+namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState
+{
+    public class DigitalInState : DeviceState<DigitalInJsonState, string>
+    {
+    }
 }
-

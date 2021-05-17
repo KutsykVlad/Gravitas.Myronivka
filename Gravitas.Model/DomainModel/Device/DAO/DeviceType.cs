@@ -1,18 +1,18 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.Model.DomainModel.Base;
 
-namespace Gravitas.Model {
+namespace Gravitas.Model.DomainModel.Device.DAO
+{
+    public class DeviceType : BaseEntity<int>
+    {
+        public DeviceType()
+        {
+            DeviceSet = new HashSet<Device>();
+        }
 
-	public partial class DeviceType : BaseEntity<long> {
+        public string Name { get; set; }
 
-		public DeviceType() {
-			DeviceSet = new HashSet<Device>();
-		}
-		
-		public string Name { get; set; }
-
-		// Navigation Properties
-		public virtual ICollection<Device> DeviceSet { get; set; }
-	}
+        // Navigation Properties
+        public virtual ICollection<Device> DeviceSet { get; set; }
+    }
 }

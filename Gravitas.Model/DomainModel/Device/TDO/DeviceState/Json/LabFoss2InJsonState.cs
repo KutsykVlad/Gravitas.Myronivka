@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Gravitas.Model.Dto
+namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json
 {
-    public class LabFoss2InJsonState : BaseJsonConverter<LabFossInJsonState>
+    public class LabFoss2InJsonState
     {
         public DateTime? AnalysisTime { get; set; }
         public string ProductName { get; set; }

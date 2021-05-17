@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model {
 
-	public partial class OpRoutine : BaseEntity<long> {
+	public partial class OpRoutine : BaseEntity<int> {
 
 		public OpRoutine() {
 			OpRoutineStateSet = new HashSet<OpRoutineState>();

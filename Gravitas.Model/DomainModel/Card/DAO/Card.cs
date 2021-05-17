@@ -1,18 +1,19 @@
-namespace Gravitas.Model {
+using Gravitas.Model.DomainModel.Base;
 
-	public class Card : BaseEntity<string> {
-		
-		public long TypeId { get; set; }
-		public int No { get; set; }
-		public bool IsActive { get; set; }
-		public bool IsOwn { get; set; }
-		public string EmployeeId { get; set; }
-		public long? TicketContainerId { get; set; }
-		public string ParentCardId { get; set; } 
+namespace Gravitas.Model.DomainModel.Card.DAO
+{
+    public class Card : BaseEntity<string>
+    {
+        public int TypeId { get; set; }
+        public int No { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsOwn { get; set; }
+        public string EmployeeId { get; set; }
+        public int? TicketContainerId { get; set; }
+        public string ParentCardId { get; set; }
 
-		// Navigation properties
-		public virtual ExternalData.Employee Employee { get; set; }
-		public virtual TicketContainer TicketConteiner { get; set; }
-		public virtual CardType CardType { get; set; }
-	}
+        public virtual ExternalData.Employee Employee { get; set; }
+        public virtual TicketContainer TicketContainer { get; set; }
+        public virtual CardType CardType { get; set; }
+    }
 }

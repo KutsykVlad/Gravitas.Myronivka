@@ -1,9 +1,10 @@
 using System;
+using Gravitas.Model.DomainModel.Base;
 using Gravitas.Model.DomainModel.MixedFeed.DAO;
 
 namespace Gravitas.Model {
 	
-	public class OpVisa : BaseEntity<long> {
+	public class OpVisa : BaseEntity<int> {
 
 		public DateTime? DateTime { get; set; }
 		public string EmployeeId { get; set; }

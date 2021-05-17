@@ -1,10 +1,12 @@
 ﻿using Gravitas.Model;
+using Gravitas.Model.DomainModel.BlackList.DAO;
+using Gravitas.Model.DomainModel.BlackList.TDO;
 
 namespace Gravitas.DAL.Repository
 {
     public interface IBlackListRepository : IBaseRepository<GravitasDbContext>
     {
-        Model.Dto.BlackListDto GetBlackListDto();
+        BlackListDto GetBlackListDto();
 
         void AddPartner(PartnersBlackListRecord partnerRecord);
         void DeletePartner(string partnerId);

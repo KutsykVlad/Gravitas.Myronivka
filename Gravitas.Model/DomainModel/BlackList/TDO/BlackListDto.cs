@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using Gravitas.Model.DomainModel.BlackList.DAO;
 
-namespace Gravitas.Model.Dto
+namespace Gravitas.Model.DomainModel.BlackList.TDO
 {
     public class BlackListDto
     {

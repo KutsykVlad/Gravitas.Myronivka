@@ -1,8 +1,7 @@
-﻿using System;
-
-namespace Gravitas.Model.Dto {
-
-	public class RfidObidRwInJsonState : BaseJsonConverter<RfidObidRwInJsonState> {
-		public string Rifd { get; set; }
-	}
+﻿namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json
+{
+    public class RfidObidRwInJsonState
+    {
+        public string Rifd { get; set; }
+    }
 }

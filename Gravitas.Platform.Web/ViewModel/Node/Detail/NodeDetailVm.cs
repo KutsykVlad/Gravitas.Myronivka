@@ -1,8 +1,9 @@
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Platform.Web.ViewModel 
 {
-	public class NodeDetailVm : BaseEntity<long>
+	public class NodeDetailVm : BaseEntity<int>
 	{
 		public long? OrganisationUnitId { get; set; }
 		public long? OpRoutineId { get; set; }

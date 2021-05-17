@@ -1,11 +1,7 @@
-﻿using System;
-using System.Xml.Serialization;
-
-namespace Gravitas.Model.Dto {
-
-	public class DigitalInJsonState : BaseJsonConverter<DigitalInJsonState>
-	{
-		public bool Value { get; set; }
-	}
+﻿namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json
+{
+    public class DigitalInJsonState
+    {
+        public bool Value { get; set; }
+    }
 }
-

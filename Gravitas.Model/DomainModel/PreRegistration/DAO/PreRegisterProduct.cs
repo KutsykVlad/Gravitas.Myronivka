@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.DomainModel.PreRegistration.DAO
 {
     [Table("PreRegisterProduct")]
-    public class PreRegisterProduct : BaseEntity<long>
+    public class PreRegisterProduct : BaseEntity<int>
     {
         public long RouteTemplateId { get; set; }
         public string Title { get; set; }

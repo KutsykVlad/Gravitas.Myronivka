@@ -4,7 +4,7 @@ namespace Gravitas.Core.DeviceManager.User
 {
     public interface IUserManager
     {
-        Model.Card GetValidatedUsersCardByTableReader(Node nodeDto);
-        Model.Card GetValidatedUsersCardByOnGateReader(Node nodeDto);
+        Model.DomainModel.Card.DAO.Card GetValidatedUsersCardByTableReader(Node nodeDto);
+        Model.DomainModel.Card.DAO.Card GetValidatedUsersCardByOnGateReader(Node nodeDto);
     }
 }

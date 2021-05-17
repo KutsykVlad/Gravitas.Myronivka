@@ -1,6 +1,6 @@
-﻿namespace Gravitas.Model.Dto {
-
-	public class LabFossOutJsonState : BaseJsonConverter<LabFossOutJsonState> {
-
-	}
+﻿namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json
+{
+    public class LabFossOutJsonState
+    {
+    }
 }

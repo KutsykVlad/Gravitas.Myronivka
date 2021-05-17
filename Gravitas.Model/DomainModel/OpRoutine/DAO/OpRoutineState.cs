@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model {
 	
-	public class OpRoutineState : BaseEntity<long> {
+	public class OpRoutineState : BaseEntity<int> {
 
 		public OpRoutineState() {
 			OpRoutineTransitionStartSet = new HashSet<OpRoutineTransition>();

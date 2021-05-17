@@ -7,6 +7,7 @@ using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.OneC;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin;

@@ -10,6 +10,8 @@ using Gravitas.Infrastructure.Platform.ApiClient.Devices;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 using Gravitas.Model.DomainModel.OwnTransport.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;

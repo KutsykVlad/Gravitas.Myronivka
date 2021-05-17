@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model {
 
-	public partial class OrganizationUnit : BaseEntity<long> {
+	public partial class OrganizationUnit : BaseEntity<int> {
 
 		public OrganizationUnit() {
 			NodeSet = new HashSet<Node>();

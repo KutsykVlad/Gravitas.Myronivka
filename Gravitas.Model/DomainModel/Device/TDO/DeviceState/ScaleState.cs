@@ -1,5 +1,9 @@
-﻿namespace Gravitas.Model.Dto {
+﻿using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 
-	public class ScaleState : DeviceState<ScaleInJsonState, ScaleOutJsonState> {
-	}
+namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState
+{
+    public class ScaleState : DeviceState<ScaleInJsonState, ScaleOutJsonState>
+    {
+    }
 }

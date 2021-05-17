@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Gravitas.Model.Dto
+namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json
 {
-    public class LabInfrascanInJsonState : BaseJsonConverter<LabInfrascanInJsonState>
+    public class LabInfrascanInJsonState 
     {
         public DateTime? AnalysisTime { get; set; }
         public double? HumidityValue { get; set; }

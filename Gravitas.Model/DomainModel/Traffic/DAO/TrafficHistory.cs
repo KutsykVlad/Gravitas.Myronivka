@@ -1,8 +1,9 @@
 ﻿using System;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model
 {
-    public class TrafficHistory: BaseEntity<long>
+    public class TrafficHistory: BaseEntity<int>
     {
         public long TicketContainerId { get; set; }
         public long NodeId { get; set; }

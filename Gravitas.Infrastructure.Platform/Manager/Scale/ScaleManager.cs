@@ -5,6 +5,7 @@ using Gravitas.DAL.Repository.PhoneInformTicketAssignment;
 using Gravitas.Infrastructure.Platform.ApiClient.Devices;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.Dto;
 using NLog;
 using Node = Gravitas.Model.Dto.Node;

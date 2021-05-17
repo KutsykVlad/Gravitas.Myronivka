@@ -6,6 +6,7 @@ using System.Net;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
 using Gravitas.Model.Dto;
 using NLog;
 

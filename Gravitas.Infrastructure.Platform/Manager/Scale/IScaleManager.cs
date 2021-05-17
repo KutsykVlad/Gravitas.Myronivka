@@ -1,4 +1,5 @@
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.Dto;
 using Node = Gravitas.Model.Dto.Node;
 

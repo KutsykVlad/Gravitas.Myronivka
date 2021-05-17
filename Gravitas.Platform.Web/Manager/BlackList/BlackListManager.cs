@@ -3,6 +3,7 @@ using System.Linq;
 using Gravitas.DAL;
 using Gravitas.DAL.Repository;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.BlackList.DAO;
 using Gravitas.Platform.Web.ViewModel;
 
 namespace Gravitas.Platform.Web.Manager

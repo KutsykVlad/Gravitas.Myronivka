@@ -1,8 +1,9 @@
 using System;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model {
 	
-    public class TicketFile : BaseEntity<long> {
+    public class TicketFile : BaseEntity<int> {
 
         public string Name { get; set; }
         public string FilePath { get; set; }

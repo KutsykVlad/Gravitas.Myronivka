@@ -4,6 +4,9 @@ using System.Net.Http;
 using System.Web;
 using Gravitas.DAL;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.DAO;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 using Gravitas.Model.Dto;
 using Newtonsoft.Json;
 

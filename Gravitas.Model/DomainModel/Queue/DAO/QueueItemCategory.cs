@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model
 {
-    public class QueueItemCategory : BaseEntity<long>
+    public class QueueItemCategory : BaseEntity<int>
     {
         public string Description { get; set; }
 

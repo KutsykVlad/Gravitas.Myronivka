@@ -9,6 +9,7 @@ using Gravitas.Core.Processor.QueueDisplay;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.DAO;
 using NLog;
 
 namespace Gravitas.Core.Manager

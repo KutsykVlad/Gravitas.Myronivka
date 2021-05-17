@@ -1,7 +1,7 @@
-﻿namespace Gravitas.Model.Dto {
-
-	public class LabFossParam : BaseJsonConverter<LabFossParam> {
-
-		public string Directory { get; set; }
-	}
+﻿namespace Gravitas.Model.DomainModel.Device.TDO.DeviceParam
+{
+    public class LabFossParam
+    {
+        public string Directory { get; set; }
+    }
 }

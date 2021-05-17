@@ -1,6 +1,8 @@
+using Gravitas.Model.DomainModel.Base;
+
 namespace Gravitas.Model.Dto {
 	
-	public class TicketItem : BaseEntity<long> {
+	public class TicketItem : BaseEntity<int> {
 
 		public long StatusId { get; set; }
 		public string StatusName { get; set; }

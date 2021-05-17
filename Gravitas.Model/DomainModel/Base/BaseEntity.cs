@@ -1,4 +1,4 @@
-﻿namespace Gravitas.Model
+﻿namespace Gravitas.Model.DomainModel.Base
 {
     public class BaseEntity<T>
     {

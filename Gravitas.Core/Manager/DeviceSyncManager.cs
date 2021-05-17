@@ -13,6 +13,7 @@ using Gravitas.Core.Manager.ScaleMettlerPT6S3;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.DAO;
 using NLog;
 using Unity.Resolution;
 

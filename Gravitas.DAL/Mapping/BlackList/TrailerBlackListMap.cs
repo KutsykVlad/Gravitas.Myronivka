@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
+using Gravitas.Model.DomainModel.BlackList.DAO;
 
 namespace Gravitas.DAL.Mapping
 {
-    class TrailerBlackListMap : EntityTypeConfiguration<Gravitas.Model.TrailersBlackListRecord>
+    class TrailerBlackListMap : EntityTypeConfiguration<TrailersBlackListRecord>
     {
         public TrailerBlackListMap()
         {

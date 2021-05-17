@@ -5,10 +5,11 @@ using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Gravitas.Model.DomainModel.BlackList.DAO;
 
 namespace Gravitas.DAL.Mapping
 {
-    class TransportBlackListMap :  EntityTypeConfiguration<Gravitas.Model.TransportBlackListRecord>
+    class TransportBlackListMap :  EntityTypeConfiguration<TransportBlackListRecord>
     {
         public TransportBlackListMap()
         {

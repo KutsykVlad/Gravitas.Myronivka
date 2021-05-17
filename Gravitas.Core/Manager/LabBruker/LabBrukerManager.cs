@@ -5,6 +5,9 @@ using System.Linq;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Common.Helper;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.DAO;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 using Gravitas.Model.Dto;
 using Newtonsoft.Json;
 

@@ -568,8 +568,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="create_opd.ScaleDataHistory_table.sql" />
-    <Content Include="create_trigger_trgOpdScaleDataHistory.sql" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

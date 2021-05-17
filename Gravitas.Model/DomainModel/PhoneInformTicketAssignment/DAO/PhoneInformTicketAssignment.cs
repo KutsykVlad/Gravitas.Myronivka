@@ -1,6 +1,8 @@
-﻿namespace Gravitas.Model.DomainModel.PhoneInformTicketAssignment.DAO
+﻿using Gravitas.Model.DomainModel.Base;
+
+namespace Gravitas.Model.DomainModel.PhoneInformTicketAssignment.DAO
 {
-    public class PhoneInformTicketAssignment : BaseEntity<long>
+    public class PhoneInformTicketAssignment : BaseEntity<int>
     {
         public long PhoneDictionaryId { get; set; }
         public PhoneDictionary PhoneDictionary { get; set; }

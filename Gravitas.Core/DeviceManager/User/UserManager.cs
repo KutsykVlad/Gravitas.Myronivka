@@ -4,6 +4,7 @@ using Gravitas.Core.DeviceManager.Card;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.Dto;
 using Node = Gravitas.Model.Dto.Node;
 
@@ -27,17 +28,17 @@ namespace Gravitas.Core.DeviceManager.User
             _context = context;
         }
 
-        public Model.Card GetValidatedUsersCardByTableReader(Node nodeDto)
+        public Model.DomainModel.Card.DAO.Card GetValidatedUsersCardByTableReader(Node nodeDto)
         {
             return GetValidatedUsersCard(nodeDto, Dom.Node.Config.Rfid.TableReader);
         }
 
-        public Model.Card GetValidatedUsersCardByOnGateReader(Node nodeDto)
+        public Model.DomainModel.Card.DAO.Card GetValidatedUsersCardByOnGateReader(Node nodeDto)
         {
             return GetValidatedUsersCard(nodeDto, Dom.Node.Config.Rfid.OnGateReader);
         }
 
-        private Model.Card GetValidatedUsersCard(Node nodeDto, string readerType)
+        private Model.DomainModel.Card.DAO.Card GetValidatedUsersCard(Node nodeDto, string readerType)
         {
             var rfidConfigs = nodeDto.Config.Rfid.Where(x => x.Key.Contains(readerType)).ToList();
             if (rfidConfigs.Count == 0) return null;
@@ -74,7 +75,7 @@ namespace Gravitas.Core.DeviceManager.User
             return null;
         }
 
-        private bool IsCardValid(out NodeProcessingMsgItem msgItem, Model.Card card, long nodeId)
+        private bool IsCardValid(out NodeProcessingMsgItem msgItem, Model.DomainModel.Card.DAO.Card card, long nodeId)
         {
             if (!_opRoutineManager.IsEmployeeBindedRfidCardValid(out var errMsgItem, card))
             {

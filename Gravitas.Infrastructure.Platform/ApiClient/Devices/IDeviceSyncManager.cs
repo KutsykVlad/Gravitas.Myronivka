@@ -1,4 +1,5 @@
-﻿using Gravitas.Model.Dto;
+﻿using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
+using Gravitas.Model.Dto;
 
 namespace Gravitas.Infrastructure.Platform.ApiClient.Devices
 {

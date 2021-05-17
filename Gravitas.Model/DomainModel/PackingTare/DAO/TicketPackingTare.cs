@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.DomainModel.PackingTare.DAO
 {
     [Table("TicketPackingTare")]
-    public class TicketPackingTare : BaseEntity<long>
+    public class TicketPackingTare : BaseEntity<int>
     {
         public long TicketId { get; set; }
         public long PackingTareId { get; set; }

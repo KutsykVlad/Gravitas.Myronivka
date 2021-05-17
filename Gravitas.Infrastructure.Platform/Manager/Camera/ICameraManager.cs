@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
 using Gravitas.Model.Dto;
 
 namespace Gravitas.Infrastructure.Platform.Manager

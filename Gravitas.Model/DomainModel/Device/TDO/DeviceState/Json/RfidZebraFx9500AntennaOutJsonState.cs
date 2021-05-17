@@ -1,6 +1,6 @@
-﻿namespace Gravitas.Model.Dto {
-
-	public class RfidZebraFx9500AntennaOutJsonState : BaseJsonConverter<RfidZebraFx9500AntennaOutJsonState> {
-
-	}
+﻿namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json
+{
+    public class RfidZebraFx9500AntennaOutJsonState
+    {
+    }
 }

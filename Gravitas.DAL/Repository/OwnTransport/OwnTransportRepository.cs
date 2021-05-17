@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.OwnTransport.DTO;
 
 namespace Gravitas.DAL.Repository.OwnTransport

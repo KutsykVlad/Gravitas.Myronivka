@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Gravitas.DAL;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.DAO;
 using NLog;
 using Node = Gravitas.Model.Dto.Node;
 

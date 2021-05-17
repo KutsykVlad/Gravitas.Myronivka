@@ -1,4 +1,5 @@
 ﻿using System;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.Dto {
 

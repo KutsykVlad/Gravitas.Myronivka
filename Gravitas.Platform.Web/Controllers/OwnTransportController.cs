@@ -7,6 +7,7 @@ using Gravitas.DAL.Repository.OwnTransport;
 using Gravitas.Infrastructure.Platform.ApiClient.Devices;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.OwnTransport.DTO;
 using Gravitas.Model.Dto;
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 

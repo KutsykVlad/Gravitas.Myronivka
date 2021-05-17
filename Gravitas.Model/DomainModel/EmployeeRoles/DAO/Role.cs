@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model
 {
-    public class Role: BaseEntity<long>
+    public class Role: BaseEntity<int>
     {
         public Role()
         {

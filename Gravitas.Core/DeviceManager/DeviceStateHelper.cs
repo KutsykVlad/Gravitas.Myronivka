@@ -1,11 +1,14 @@
 ﻿using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 using Gravitas.Model.Dto;
 
 namespace Gravitas.Core.DeviceManager
 {
     public static class DeviceStateHelper
     {
-        public static BaseDeviceState GetState(this Model.Device device)
+        public static BaseDeviceState GetState(this Model.DomainModel.Device.DAO.Device device)
         {
             if (device?.StateId == null)
                 return null;

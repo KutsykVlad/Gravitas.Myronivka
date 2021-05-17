@@ -9,6 +9,7 @@ using Gravitas.DAL;
 using Gravitas.DeviceMonitor.ViewModel.Ip;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.Dto;
 using NLog;
 

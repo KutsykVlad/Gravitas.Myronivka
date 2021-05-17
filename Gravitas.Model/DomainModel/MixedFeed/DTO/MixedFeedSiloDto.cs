@@ -1,6 +1,8 @@
+using Gravitas.Model.DomainModel.Base;
+
 namespace Gravitas.Model.DomainModel.MixedFeed.DTO
 {
-    public class MixedFeedSiloDto : BaseEntity<long>
+    public class MixedFeedSiloDto : BaseEntity<int>
     {
         public bool IsActive { get; set; }
         public int Drive { get; set; }

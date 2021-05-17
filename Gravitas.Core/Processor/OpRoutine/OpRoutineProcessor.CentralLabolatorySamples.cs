@@ -5,6 +5,7 @@ using Gravitas.Core.DeviceManager.User;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.Dto;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
 using Node = Gravitas.Model.Dto.Node;

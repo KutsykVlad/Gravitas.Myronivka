@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model
 {
-    public class RouteTemplate : BaseEntity<long>
+    public class RouteTemplate : BaseEntity<int>
     {
         public RouteTemplate()
         {

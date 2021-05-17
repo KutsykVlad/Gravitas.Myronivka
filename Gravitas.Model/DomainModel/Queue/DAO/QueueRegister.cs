@@ -1,9 +1,10 @@
 ﻿using System;
+using Gravitas.Model.DomainModel.Base;
 using Gravitas.Model.DomainModel.PreRegistration.DAO;
 
 namespace Gravitas.Model
 {
-    public class QueueRegister : BaseEntity<long>
+    public class QueueRegister : BaseEntity<int>
     {
         public DateTime RegisterTime
         {

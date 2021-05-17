@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace Gravitas.Model.Dto {
-
-	public class ScaleInJsonState : BaseJsonConverter<ScaleInJsonState> {
-		public double Value { get; set; }
-		public bool IsZero { get; set; }
-		public bool IsImmobile { get; set; }
-		public bool IsGross { get; set; }
-		public bool IsScaleError { get; set; }
-	}
+﻿namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json
+{
+    public class ScaleInJsonState
+    {
+        public double Value { get; set; }
+        public bool IsZero { get; set; }
+        public bool IsImmobile { get; set; }
+        public bool IsGross { get; set; }
+        public bool IsScaleError { get; set; }
+    }
 }

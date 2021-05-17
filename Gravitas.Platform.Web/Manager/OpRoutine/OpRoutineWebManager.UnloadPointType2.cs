@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
 

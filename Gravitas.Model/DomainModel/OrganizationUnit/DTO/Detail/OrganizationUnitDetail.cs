@@ -1,6 +1,8 @@
+using Gravitas.Model.DomainModel.Base;
+
 namespace Gravitas.Model.Dto
 {
-    public class OrganizationUnitDetail : BaseEntity<long>
+    public class OrganizationUnitDetail : BaseEntity<int>
     {
         public long UnitTypeId { get; set; }
         public string UnitTypeName { get; set; }

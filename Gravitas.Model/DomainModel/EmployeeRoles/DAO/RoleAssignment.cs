@@ -1,6 +1,8 @@
-﻿namespace Gravitas.Model
+﻿using Gravitas.Model.DomainModel.Base;
+
+namespace Gravitas.Model
 {
-    public class RoleAssignment: BaseEntity<long>
+    public class RoleAssignment: BaseEntity<int>
     {
         public long RoleId { get; set; }
         public long NodeId { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity.Migrations;
 using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.DAO;
 
 namespace Gravitas.DAL.TestData
 {

@@ -1,6 +1,8 @@
+using Gravitas.Model.DomainModel.Base;
+
 namespace Gravitas.Model {
 	
-	public partial class OpRoutineTransition : BaseEntity<long> {
+	public partial class OpRoutineTransition : BaseEntity<int> {
 
 		public long OpRoutineId { get; set; }
 		public string Name { get; set; }

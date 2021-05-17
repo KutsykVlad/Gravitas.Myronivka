@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 
-namespace Gravitas.Model {
+namespace Gravitas.Model.DomainModel.Device.DAO
+{
+    public class DeviceState : BaseEntity<int>
+    {
+        public DeviceState()
+        {
+            DeviceSet = new HashSet<Device>();
+        }
 
-	public class DeviceState : BaseEntity<long> {
+        public DateTime? LastUpdate { get; set; }
+        public int ErrorCode { get; set; }
+        public string InData { get; set; }
+        public string OutData { get; set; }
 
-		public DeviceState() {
-			DeviceSet = new HashSet<Device>();
-		}
-
-		public DateTime? LastUpdate { get; set; }
-		public int ErrorCode { get; set; }
-
-		public string InData { get; set; }
-		public string OutData { get; set; }
-
-		//Navigation Properties
-		public virtual ICollection<Device> DeviceSet{ get; set; }
-	}
+        public virtual ICollection<Device> DeviceSet { get; set; }
+    }
 }

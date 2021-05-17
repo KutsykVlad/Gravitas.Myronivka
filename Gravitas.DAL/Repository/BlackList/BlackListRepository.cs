@@ -1,4 +1,6 @@
 ﻿using Gravitas.Model;
+using Gravitas.Model.DomainModel.BlackList.DAO;
+using Gravitas.Model.DomainModel.BlackList.TDO;
 using Gravitas.Model.Dto;
 
 namespace Gravitas.DAL.Repository

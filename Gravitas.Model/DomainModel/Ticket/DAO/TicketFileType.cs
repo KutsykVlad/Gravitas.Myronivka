@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model {
 	
-    public class TicketFileType : BaseEntity<long> {
+    public class TicketFileType : BaseEntity<int> {
 
         public TicketFileType() {
             TicketFileSet = new HashSet<TicketFile>();

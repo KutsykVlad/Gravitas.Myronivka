@@ -1,6 +1,8 @@
-﻿namespace Gravitas.Model
+﻿using Gravitas.Model.DomainModel.Base;
+
+namespace Gravitas.Model
 {
-    public class QueuePatternItem: BaseEntity<long>
+    public class QueuePatternItem: BaseEntity<int>
     {
 		public int Count { get; set; }
    

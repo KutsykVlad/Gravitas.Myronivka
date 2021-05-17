@@ -114,7 +114,6 @@
     <Compile Include="DomainModel\Device\TDO\DeviceState\VkModuleSocket1State.cs" />
     <Compile Include="DomainModel\Device\TDO\DeviceState\Base\_BaseDeviceState.cs" />
     <Compile Include="DomainModel\Device\TDO\DeviceState\VkModuleSocket2State.cs" />
-    <Compile Include="Common\_BaseJsonConverter.cs" />
     <Compile Include="DomainModel\Device\TDO\DeviceState\Json\RfidObidRwInJsonState.cs" />
     <Compile Include="DomainModel\Device\TDO\DeviceParam\RfidObidRwParam.cs" />
     <Compile Include="DomainModel\EmployeeRoles\DAO\RoleAssignment.cs" />
@@ -285,8 +284,7 @@
     <Compile Include="DomainModel\Queue\DAO\QueueRegister.cs" />
     <Compile Include="DomainModel\Traffic\TDO\NodeTrafficHistory.cs" />
     <Compile Include="DomainModel\Traffic\TDO\TrafficRecord.cs" />
-    <Compile Include="DomainModel\_Base\BaseEntity.cs" />
-    <Compile Include="DomainModel\_Base\BaseFilter.cs" />
+    <Compile Include="DomainModel\Base\BaseEntity.cs" />
     <Compile Include="DomainValue\BlackList.cs" />
     <Compile Include="DomainValue\CentralLaboratoryStates.cs" />
     <Compile Include="DomainValue\Email.cs" />

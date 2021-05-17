@@ -1,3 +1,5 @@
+using Gravitas.Model.DomainModel.Base;
+
 namespace Gravitas.Model.DomainModel.Settings.DAO
 {
     public class Settings : BaseEntity<int>

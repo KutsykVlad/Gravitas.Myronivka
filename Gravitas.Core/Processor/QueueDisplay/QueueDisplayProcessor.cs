@@ -7,6 +7,7 @@ using Gravitas.DAL;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
 using NLog;
 using Settings = Gravitas.Model.DomainModel.Settings.DAO.Settings;
 

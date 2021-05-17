@@ -1,7 +1,7 @@
-﻿namespace Gravitas.Model {
-
-	public class DigitalInOutParam : BaseJsonConverter<DigitalInOutParam> {
-
-		public int No { get; set; }
-	}
+﻿namespace Gravitas.Model.DomainModel.Device.TDO.DeviceParam
+{
+    public class DigitalInOutParam
+    {
+        public int No { get; set; }
+    }
 }

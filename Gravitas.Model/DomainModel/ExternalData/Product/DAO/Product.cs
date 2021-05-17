@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 using Gravitas.Model.DomainModel.MixedFeed.DAO;
 
 namespace Gravitas.Model {

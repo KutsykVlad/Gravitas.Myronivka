@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Card.DAO;
 
 namespace Gravitas.DAL.TestData
 {

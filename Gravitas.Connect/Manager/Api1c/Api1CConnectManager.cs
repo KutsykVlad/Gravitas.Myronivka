@@ -7,6 +7,7 @@ using Gravitas.DAL;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.OneC;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Connect.Manager
 {

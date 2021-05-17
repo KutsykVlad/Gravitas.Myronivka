@@ -8,6 +8,7 @@ using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using LabFacelessOpData = Gravitas.Model.LabFacelessOpData;

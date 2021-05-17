@@ -1,10 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.DomainModel.PreRegistration.DAO
 {
     [Table("PreRegisterQueue")]
-    public class PreRegisterQueue : BaseEntity<long>
+    public class PreRegisterQueue : BaseEntity<int>
     {
         public string PhoneNo { get; set; }
         public long PreRegisterCompanyId { get; set; }

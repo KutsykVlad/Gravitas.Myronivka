@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.Dto {
 
-	public class TicketItems : BaseEntity<long> {
+	public class TicketItems : BaseEntity<int> {
 		public TicketItems() {
 			Items = new List<TicketItem>();
 		}

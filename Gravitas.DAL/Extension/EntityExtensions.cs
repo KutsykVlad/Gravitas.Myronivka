@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.DAL
 {

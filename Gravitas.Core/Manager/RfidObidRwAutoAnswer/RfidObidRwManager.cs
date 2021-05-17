@@ -4,6 +4,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.DAO;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 using Gravitas.Model.Dto;
 
 namespace Gravitas.Core.Manager.RfidObidRwAutoAnswer

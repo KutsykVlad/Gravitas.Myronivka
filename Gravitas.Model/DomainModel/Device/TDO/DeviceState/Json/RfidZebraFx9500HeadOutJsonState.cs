@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Gravitas.Model.Dto {
-
-	public class RfidZebraFx9500HeadOutJsonState : BaseJsonConverter<RfidZebraFx9500HeadOutJsonState> {
-	}
+﻿namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json
+{
+    public class RfidZebraFx9500HeadOutJsonState
+    {
+    }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.Dto;
 using Node = Gravitas.Model.Dto.Node;
 

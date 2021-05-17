@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.Model.DomainModel.Base;
+using Gravitas.Model.DomainModel.Card.DAO;
 
 namespace Gravitas.Model {
 	
 	[Table("acc.TicketConteiner")]
-	public partial class TicketContainer : BaseEntity<long> {
+	public partial class TicketContainer : BaseEntity<int> {
 
 		public TicketContainer() {
 			CardSet = new HashSet<Card>();

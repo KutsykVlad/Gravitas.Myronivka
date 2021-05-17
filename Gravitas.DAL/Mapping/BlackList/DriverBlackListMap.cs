@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
+using Gravitas.Model.DomainModel.BlackList.DAO;
 
 namespace Gravitas.DAL.Mapping
 {
-    class DriverBlackListMap : EntityTypeConfiguration<Gravitas.Model.DriversBlackListRecord>
+    class DriverBlackListMap : EntityTypeConfiguration<DriversBlackListRecord>
     {
         public DriverBlackListMap()
         {

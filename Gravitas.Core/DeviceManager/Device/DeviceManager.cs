@@ -3,6 +3,8 @@ using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.ApiClient.Devices;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
 using Gravitas.Model.Dto;
 using NLog;
 using Node = Gravitas.Model.Dto.Node;

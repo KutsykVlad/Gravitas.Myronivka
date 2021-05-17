@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model {
 
@@ -25,7 +26,7 @@ namespace Gravitas.Model {
 		public virtual ICollection<LabFacelessOpDataComponent> LabFacelessOpDataComponentSet { get; set; }
 	}
 
-	public class LabFacelessOpDataComponent : BaseEntity<long> {
+	public class LabFacelessOpDataComponent : BaseEntity<int> {
 
 		public Guid LabFacelessOpDataId { get; set; }
 		public long StateId { get; set; }

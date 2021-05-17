@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.Model.DomainModel.BlackList.DAO;
 
 namespace Gravitas.DAL.Mapping
 {
-    class PartnerBlackListMap : BaseEntityMap<Gravitas.Model.PartnersBlackListRecord, long>
+    class PartnerBlackListMap : BaseEntityMap<PartnersBlackListRecord, long>
     {
         public PartnerBlackListMap()
         {

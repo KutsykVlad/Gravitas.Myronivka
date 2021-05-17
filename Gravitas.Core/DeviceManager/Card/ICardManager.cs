@@ -7,10 +7,10 @@ namespace Gravitas.Core.DeviceManager.Card
     {
         CardReadResult GetTruckCardByOnGateReader(Node nodeDto);
         CardReadResult GetTruckCardByZebraReader(Node nodeDto);
-        Model.Card GetLaboratoryTrayOnTableReader(Node nodeDto);
-        bool IsMasterEmployeeCard(Model.Card card, long nodeId);
-        bool IsLaboratoryEmployeeCard(Model.Card card, long nodeId);
-        bool IsAdminCard(Model.Card card, RolesDto employeeRoles = null);
+        Model.DomainModel.Card.DAO.Card GetLaboratoryTrayOnTableReader(Node nodeDto);
+        bool IsMasterEmployeeCard(Model.DomainModel.Card.DAO.Card card, long nodeId);
+        bool IsLaboratoryEmployeeCard(Model.DomainModel.Card.DAO.Card card, long nodeId);
+        bool IsAdminCard(Model.DomainModel.Card.DAO.Card card, RolesDto employeeRoles = null);
         void SetRfidValidationDO(bool isValid, Node nodeDto);
         (CardReadResult card, bool input) GetTruckCardByZebraReaderDirection(Node nodeDto);
     }

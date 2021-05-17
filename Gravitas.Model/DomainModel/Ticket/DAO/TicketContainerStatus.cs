@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model {
 	
-	public partial class TicketContainerStatus : BaseEntity<long> {
+	public partial class TicketContainerStatus : BaseEntity<int> {
 
 		public TicketContainerStatus() {
 			TicketContainerSet = new HashSet<TicketContainer>();

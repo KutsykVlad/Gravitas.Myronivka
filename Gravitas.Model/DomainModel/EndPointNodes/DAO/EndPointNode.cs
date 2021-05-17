@@ -1,4 +1,6 @@
-﻿namespace Gravitas.Model
+﻿using Gravitas.Model.DomainModel.Base;
+
+namespace Gravitas.Model
 {
     public class EndPointNode : BaseEntity<int>
     {

@@ -1,6 +1,8 @@
-﻿namespace Gravitas.Model
+﻿using Gravitas.Model.DomainModel.Base;
+
+namespace Gravitas.Model
 {
-    public class EmployeeRole: BaseEntity<long>
+    public class EmployeeRole: BaseEntity<int>
     {
         public string EmployeeId { get; set; }
         public long RoleId { get; set; }

@@ -1,6 +1,7 @@
 ﻿using Gravitas.Model;
 using System;
 using System.Linq;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.DAL
 {

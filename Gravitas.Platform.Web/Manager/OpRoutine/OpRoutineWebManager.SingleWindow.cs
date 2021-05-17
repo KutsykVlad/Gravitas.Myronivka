@@ -21,6 +21,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using Gravitas.Model.DomainModel.Card.DAO;
 using ExternalData = Gravitas.Model.ExternalData;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine

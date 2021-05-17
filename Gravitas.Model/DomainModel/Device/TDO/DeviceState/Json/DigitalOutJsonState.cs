@@ -1,8 +1,7 @@
-﻿namespace Gravitas.Model.Dto {
-
-	public class DigitalOutJsonState : BaseJsonConverter<DigitalOutJsonState> {
-
-		public bool Value { get; set; }
-	}
+﻿namespace Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json
+{
+    public class DigitalOutJsonState
+    {
+        public bool Value { get; set; }
+    }
 }
-

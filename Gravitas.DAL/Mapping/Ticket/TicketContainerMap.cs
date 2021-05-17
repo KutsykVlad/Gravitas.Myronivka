@@ -13,7 +13,7 @@ namespace Gravitas.DAL.Mapping
 				.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
 			this.HasMany(e => e.CardSet)
-				.WithOptional(e => e.TicketConteiner)
+				.WithOptional(e => e.TicketContainer)
 				.HasForeignKey(e => e.TicketContainerId)
 				.WillCascadeOnDelete(false);
 

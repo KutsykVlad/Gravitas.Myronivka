@@ -4,6 +4,8 @@ using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.ApiClient.Devices;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel.User;
 using ExternalData = Gravitas.Model.ExternalData;

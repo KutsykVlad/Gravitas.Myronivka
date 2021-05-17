@@ -2,6 +2,9 @@
 using System.Net.Http;
 using Gravitas.DAL.DeviceTransfer;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
+using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
 using Gravitas.Model.Dto;
 using Newtonsoft.Json;
 using NLog;

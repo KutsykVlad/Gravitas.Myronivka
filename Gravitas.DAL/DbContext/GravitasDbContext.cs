@@ -6,6 +6,8 @@ using Gravitas.DAL.Mapping.PhoneInformTicketAssignment;
 using Gravitas.DAL.Mapping.PreRegistration;
 using Gravitas.DAL.Mapping.Settings;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.MixedFeed.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainModel.OwnTransport.DAO;

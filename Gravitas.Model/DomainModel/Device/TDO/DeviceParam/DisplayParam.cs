@@ -1,6 +1,6 @@
-﻿namespace Gravitas.Model
+﻿namespace Gravitas.Model.DomainModel.Device.TDO.DeviceParam
 {
-    public class DisplayParam : BaseJsonConverter<DisplayParam>
+    public class DisplayParam
     {
         public string IpAddress { get; set; }
         public int IpPort { get; set; }

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using Gravitas.Model.DomainModel.Card.DAO;
 
 namespace Gravitas.Platform.Web.Manager
 {
