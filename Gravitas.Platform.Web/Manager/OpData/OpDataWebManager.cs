@@ -5,13 +5,15 @@ using AutoMapper;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.OpData.DAO.Base;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.Models;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.NonStandard;
 using Gravitas.Platform.Web.ViewModel.OpData.NonStandart;
 using Microsoft.Ajax.Utilities;
-using LabFacelessOpData = Gravitas.Model.LabFacelessOpData;
+using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
 using LabFacelessOpDataComponent = Gravitas.Model.Dto.LabFacelessOpDataComponent;
 
 namespace Gravitas.Platform.Web.Manager.OpData

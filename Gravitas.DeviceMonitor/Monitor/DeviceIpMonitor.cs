@@ -6,6 +6,7 @@ using Gravitas.DeviceMonitor.ViewModel.Report;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.DAO;
 
 namespace Gravitas.DeviceMonitor.Monitor
 {

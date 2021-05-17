@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Gravitas.Model.DomainModel.Base;
+using Gravitas.Model.DomainModel.OpData.DAO;
 
 namespace Gravitas.Model
 {

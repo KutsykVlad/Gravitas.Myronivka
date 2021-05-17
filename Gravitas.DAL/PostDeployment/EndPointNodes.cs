@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity.Migrations;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.EndPointNodes.DAO;
 using Gravitas.Model.DomainValue;
 
 namespace Gravitas.DAL.PostDeployment

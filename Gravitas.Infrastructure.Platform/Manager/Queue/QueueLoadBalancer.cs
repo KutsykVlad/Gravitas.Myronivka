@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.DAO;
 using NLog;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue

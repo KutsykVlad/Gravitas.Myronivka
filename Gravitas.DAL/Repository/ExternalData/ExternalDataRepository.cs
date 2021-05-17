@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Gravitas.Model.Dto;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail.ExternalData;
 
 namespace Gravitas.DAL
 {
@@ -674,7 +675,7 @@ namespace Gravitas.DAL
 
         public ExternalData.SupplyTransportTypeItems GetSupplyTransportTypeItems()
         {
-            var dao = GetQuery<Model.ExternalData.SupplyTransportType, string>();
+            var dao = GetQuery<Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.SupplyTransportType, string>();
             var dto = new ExternalData.SupplyTransportTypeItems
             {
                 Items = dao.Select(e => new ExternalData.SupplyTransportTypeItem
@@ -687,7 +688,7 @@ namespace Gravitas.DAL
 
         public ExternalData.LabHumidityСlassifierItems GetLabHumidityСlassifierItems()
         {
-            var dao = GetQuery<Model.ExternalData.LabHumidityСlassifier, string>();
+            var dao = GetQuery<Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.LabHumidityСlassifier, string>();
             var dto = new ExternalData.LabHumidityСlassifierItems
             {
                 Items = dao.Select(e => new ExternalData.LabHumidityСlassifierItem
@@ -700,7 +701,7 @@ namespace Gravitas.DAL
 
         public ExternalData.LabImpurityСlassifierItems GetLabImpurityСlassifierItems()
         {
-            var dao = GetQuery<Model.ExternalData.LabImpurityСlassifier, string>();
+            var dao = GetQuery<Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.LabImpurityСlassifier, string>();
             var dto = new ExternalData.LabImpurityСlassifierItems
             {
                 Items = dao.Select(e => new ExternalData.LabImpurityСlassifierItem
@@ -713,7 +714,7 @@ namespace Gravitas.DAL
 
         public ExternalData.LabInfectionedСlassifierItems GetLabInfectionedСlassifierItems()
         {
-            var dao = GetQuery<Model.ExternalData.LabInfectionedСlassifier, string>();
+            var dao = GetQuery<Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.LabInfectionedСlassifier, string>();
             var dto = new ExternalData.LabInfectionedСlassifierItems
             {
                 Items = dao.Select(e => new ExternalData.LabInfectionedСlassifierItem
@@ -726,7 +727,7 @@ namespace Gravitas.DAL
 
         public ExternalData.LabDeviceResultTypeItems GetLabDevResultTypeItems()
         {
-            var dao = GetQuery<Model.ExternalData.LabDeviceResultType, string>();
+            var dao = GetQuery<Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.LabDeviceResultType, string>();
             var dto = new ExternalData.LabDeviceResultTypeItems
             {
                 Items = dao.Select(e => new ExternalData.LabDeviceResultTypeItem

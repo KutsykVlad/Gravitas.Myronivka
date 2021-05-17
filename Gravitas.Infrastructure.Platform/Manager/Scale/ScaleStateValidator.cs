@@ -4,11 +4,12 @@ using Gravitas.DAL;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using NLog;
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Scale
 {

@@ -6,6 +6,7 @@ using Gravitas.CollisionCoordination.Messages;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using NLog;
 
 namespace Gravitas.CollisionCoordination.Manager.CollisionManager

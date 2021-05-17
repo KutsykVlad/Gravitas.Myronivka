@@ -1,6 +1,7 @@
 ﻿using System;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.Dto;
 
 namespace Gravitas.DAL

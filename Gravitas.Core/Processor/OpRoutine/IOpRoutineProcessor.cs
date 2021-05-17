@@ -1,11 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
 
 namespace Gravitas.Core.Processor {
 
 	public interface IOpRoutineProcessor {
 
-		bool ValidateNodeConfig(Model.Dto.NodeConfig nodeConfig);
+		bool ValidateNodeConfig(NodeConfig nodeConfig);
 
 		void Config(long nodeId);
 

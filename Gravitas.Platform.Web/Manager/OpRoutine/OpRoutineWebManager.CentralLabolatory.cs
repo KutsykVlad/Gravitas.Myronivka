@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel;
 using Microsoft.Ajax.Utilities;
-using ExternalData = Gravitas.Model.ExternalData;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {

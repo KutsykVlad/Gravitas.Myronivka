@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO.Base;
 using Gravitas.Model.Dto;
 
 namespace Gravitas.DAL

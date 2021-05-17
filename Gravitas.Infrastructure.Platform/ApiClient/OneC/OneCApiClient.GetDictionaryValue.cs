@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using Gravitas.Model;
 using Newtonsoft.Json;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 {

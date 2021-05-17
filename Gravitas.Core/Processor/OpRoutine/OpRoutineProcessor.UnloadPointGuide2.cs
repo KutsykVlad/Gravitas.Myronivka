@@ -4,6 +4,8 @@ using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -33,7 +35,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             _unloadPointManager = unloadPointManager;
         }
 
-        public override bool ValidateNodeConfig(Model.Dto.NodeConfig config)
+        public override bool ValidateNodeConfig(NodeConfig config)
         {
             if (config == null)
             {
@@ -64,7 +66,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
         }
 
-        private void AddOperationVisa(Model.Dto.Node nodeDto)
+        private void AddOperationVisa(Node nodeDto)
         {
             if (nodeDto?.Context?.TicketId == null) return;
 

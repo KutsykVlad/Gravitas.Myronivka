@@ -1,12 +1,9 @@
 ﻿using Gravitas.Model.DomainModel.Base;
 
-namespace Gravitas.Model.Dto {
-
-	public static partial class ExternalData {
-
-		public class DeliveryBillTypeDetail : BaseEntity<string> {
-
-			public string Name { get; set; }
-		}
-	}
+namespace Gravitas.Model.DomainModel.ExternalData.DeliveryBill.DTO
+{
+    public class DeliveryBillTypeDetail : BaseEntity<string>
+    {
+        public string Name { get; set; }
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity.Migrations;
 using Gravitas.Model;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.DAL.TestData {
 

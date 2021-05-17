@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 
-namespace Gravitas.Model.Dto
+namespace Gravitas.Model.DomainModel.EmployeeRoles.DTO
 {
     public class RoleDetail
     {
         public RoleDetail()
         {
-            Nodes = new List<long>();
+            Nodes = new List<int>();
         }
 
-        public long RoleId { get; set; }
+        public int RoleId { get; set; }
 
         public string Name { get; set; }
 
-        public List<long> Nodes { get; set; }
+        public List<int> Nodes { get; set; }
     }
 }

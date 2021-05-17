@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
+using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
 using Gravitas.Model.Dto;
 
 namespace Gravitas.DAL

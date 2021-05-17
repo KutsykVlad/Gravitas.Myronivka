@@ -243,7 +243,6 @@
     <Compile Include="DomainModel\OpRoutine\DAO\OpRoutineProcessor.cs" />
     <Compile Include="DomainModel\OpData\DAO\LabFacelessOpData.cs" />
     <Compile Include="DomainModel\Node\TDO\Detail\NodeDetail.cs" />
-    <Compile Include="DomainModel\Node\DAO\NodeConstraint.cs" />
     <Compile Include="DomainModel\OpCameraImage\OpCameraImage.cs" />
     <Compile Include="DomainModel\Node\TDO\Json\NodeConfig.cs" />
     <Compile Include="DomainModel\OpVisa\DTO\List\OpVisaItems.cs" />

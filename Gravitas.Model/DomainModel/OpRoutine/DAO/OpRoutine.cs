@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gravitas.Model.DomainModel.Base;
+using Gravitas.Model.DomainModel.Node.DAO;
 
 namespace Gravitas.Model {
 

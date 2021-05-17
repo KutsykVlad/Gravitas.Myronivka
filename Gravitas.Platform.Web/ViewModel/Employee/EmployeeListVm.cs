@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
 
 namespace Gravitas.Platform.Web.ViewModel.Employee
 {

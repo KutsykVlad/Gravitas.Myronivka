@@ -12,6 +12,7 @@ using Gravitas.Infrastructure.Platform.ApiClient.Messages;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager.Report;
 using NLog;

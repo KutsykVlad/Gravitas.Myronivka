@@ -1,6 +1,9 @@
 using System;
 using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel;
@@ -11,7 +14,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
     public partial class OpRoutineWebManager
     {
-        private WeightbridgeVms.WeightingPromptVm GetWeightingPromptVm(Model.Dto.Node nodeDto, ScaleOpData scaleOpData, ScaleOpData previousScaleData)
+        private WeightbridgeVms.WeightingPromptVm GetWeightingPromptVm(Node nodeDto, ScaleOpData scaleOpData, ScaleOpData previousScaleData)
         {
             var result = new WeightbridgeVms.WeightingPromptVm(GetBaseWeightPromptVm(nodeDto, scaleOpData));
             if (scaleOpData.TypeId == Dom.ScaleOpData.Type.Tare)
@@ -39,7 +42,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return result;
         }
 
-        private WeightbridgeVms.BaseWeightPromptVm GetBaseWeightPromptVm(Model.Dto.Node nodeDto, ScaleOpData scaleOpData)
+        private WeightbridgeVms.BaseWeightPromptVm GetBaseWeightPromptVm(Node nodeDto, ScaleOpData scaleOpData)
         {
             var vm = new WeightbridgeVms.BaseWeightPromptVm();
             var windowInOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(nodeDto.Context.TicketId);
@@ -164,7 +167,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     .FirstOrDefault();
                 if (previousScaleData != null)
                 {
-                    _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new Model.Dto.NodeProcessingMsgItem(
+                    _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
                         Dom.Node.ProcessingMsg.Type.Error, @"Помилка. Охоронець не може заборонити зважування на даному етапі"));
                     return;
                 }
@@ -442,7 +445,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        private bool IsValidNodeContext(Model.Dto.Node nodeDto)
+        private bool IsValidNodeContext(Node nodeDto)
         {
             if (nodeDto == null) return false;
             if (nodeDto.Context?.TicketContainerId != null

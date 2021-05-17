@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO.Json;
 using Gravitas.Model.DomainModel.OpDataEvent.DTO;
 using Newtonsoft.Json;
 

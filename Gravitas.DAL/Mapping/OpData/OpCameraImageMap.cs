@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpCameraImage;
 
 namespace Gravitas.DAL.Mapping {
 

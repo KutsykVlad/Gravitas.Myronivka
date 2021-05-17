@@ -9,11 +9,13 @@ using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
-using LabFacelessOpData = Gravitas.Model.LabFacelessOpData;
-using LabFacelessOpDataComponent = Gravitas.Model.LabFacelessOpDataComponent;
-using Node = Gravitas.Model.Dto.Node;
+using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
+using LabFacelessOpDataComponent = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpDataComponent;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {

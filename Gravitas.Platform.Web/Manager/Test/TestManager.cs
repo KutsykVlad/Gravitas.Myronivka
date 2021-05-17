@@ -8,7 +8,7 @@ using Gravitas.DAL;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using NLog;
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Platform.Web.Manager.Test
 {

@@ -1,4 +1,6 @@
-﻿using Gravitas.Platform.Web.ViewModel;
+﻿using Gravitas.Model.DomainModel.Node.TDO.Detail;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Platform.Web.ViewModel;
 
 namespace Gravitas.Platform.Web.AutoMapper {
 
@@ -6,11 +8,11 @@ namespace Gravitas.Platform.Web.AutoMapper {
 
 		public void ConfigureNode() {
 
-			CreateMap<Model.Dto.Node, NodeDetailVm>().ReverseMap();
+			CreateMap<Node, NodeDetailVm>().ReverseMap();
 
-			CreateMap<Model.Dto.NodeContext, NodeContextVm>().ReverseMap();
-			CreateMap<Model.Dto.NodeProcessingMsg, NodeProcessingMsgVm>().ReverseMap();
-			CreateMap<Model.Dto.NodeProcessingMsgItem, NodeProcessingMsgItemVm>().ReverseMap();
+			CreateMap<NodeContext, NodeContextVm>().ReverseMap();
+			CreateMap<NodeProcessingMsg, NodeProcessingMsgVm>().ReverseMap();
+			CreateMap<NodeProcessingMsgItem, NodeProcessingMsgItemVm>().ReverseMap();
 		}
 	}
 }

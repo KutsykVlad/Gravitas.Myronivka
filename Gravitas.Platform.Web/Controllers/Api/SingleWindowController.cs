@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Gravitas.DAL;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.ViewModel;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Platform.Web.Controllers.Api
 {

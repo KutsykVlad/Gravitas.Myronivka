@@ -1,57 +1,59 @@
-﻿namespace Gravitas.DAL {
+﻿using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail;
+
+namespace Gravitas.DAL {
 
 	public interface IExternalDataRepository : IBaseRepository<GravitasDbContext> {
 
-		Model.Dto.ExternalData.AcceptancePointDetail GetAcceptancePointDetail(string id);
-		Model.Dto.ExternalData.BudgetDetail GetBudgetDetail(string id);
-		Model.Dto.ExternalData.ContractDetail GetContractDetail(string id);
-		Model.Dto.ExternalData.CropDetail GetCropDetail(string id);
-		Model.Dto.ExternalData.DeliveryBillStatusDetail GetDeliveryBillStatusDetail(string id);
-		Model.Dto.ExternalData.DeliveryBillTypeDetail GetDeliveryBillTypeDetail(string id);
-		Model.Dto.ExternalData.EmployeeDetail GetEmployeeDetail(string id);
-		Model.Dto.ExternalData.ExternalEmployeeDetail GetExternalEmployeeDetail(string id);
-		Model.Dto.ExternalData.FixedAssetDetail GetFixedAssetDetail(string id);
-		Model.Dto.ExternalData.LabImpurityСlassifierDetail GetLabImpurityСlassifierDetail(string id);
-		Model.Dto.ExternalData.LabHumidityСlassifierDetail GetLabHumidityСlassifierDetail(string id);
-		Model.Dto.ExternalData.LabInfectionedСlassifierDetail GetLabInfectionedСlassifierDetail(string id);
-		Model.Dto.ExternalData.MeasureUnitDetail GetMeasureUnitDetail(string id);
-		Model.Dto.ExternalData.OriginTypeDetail GetOriginTypeDetail(string id);
-		Model.Dto.ExternalData.OrganisationDetail GetOrganisationDetail(string id);
-		Model.Dto.ExternalData.PartnerDetail GetPartnerDetail(string id);
-		Model.Dto.ExternalData.ProductDetail GetProductDetail(string id);
-		Model.Dto.ExternalData.ReasonForRefundDetail GetReasonForRefundDetail(string id);
-		Model.Dto.ExternalData.RouteDetail GetRouteDetail(string id);
-		Model.Dto.ExternalData.StockDetail GetStockDetail(string id);
-		Model.Dto.ExternalData.SubdivisionDetail GetSubdivisionDetail(string id);
-		Model.Dto.ExternalData.SupplyTransportTypeDetail GetSupplyTransportTypeDetail(string id);
-		Model.Dto.ExternalData.SupplyTypeDetail GetSupplyTypeDetail(string id);
-		Model.Dto.ExternalData.YearOfHarvestDetail GetYearOfHarvestDetail(string id);
+		ExternalData.AcceptancePointDetail GetAcceptancePointDetail(string id);
+		ExternalData.BudgetDetail GetBudgetDetail(string id);
+		ExternalData.ContractDetail GetContractDetail(string id);
+		ExternalData.CropDetail GetCropDetail(string id);
+		ExternalData.DeliveryBillStatusDetail GetDeliveryBillStatusDetail(string id);
+		ExternalData.DeliveryBillTypeDetail GetDeliveryBillTypeDetail(string id);
+		ExternalData.EmployeeDetail GetEmployeeDetail(string id);
+		ExternalData.ExternalEmployeeDetail GetExternalEmployeeDetail(string id);
+		ExternalData.FixedAssetDetail GetFixedAssetDetail(string id);
+		ExternalData.LabImpurityСlassifierDetail GetLabImpurityСlassifierDetail(string id);
+		ExternalData.LabHumidityСlassifierDetail GetLabHumidityСlassifierDetail(string id);
+		ExternalData.LabInfectionedСlassifierDetail GetLabInfectionedСlassifierDetail(string id);
+		ExternalData.MeasureUnitDetail GetMeasureUnitDetail(string id);
+		ExternalData.OriginTypeDetail GetOriginTypeDetail(string id);
+		ExternalData.OrganisationDetail GetOrganisationDetail(string id);
+		ExternalData.PartnerDetail GetPartnerDetail(string id);
+		ExternalData.ProductDetail GetProductDetail(string id);
+		ExternalData.ReasonForRefundDetail GetReasonForRefundDetail(string id);
+		ExternalData.RouteDetail GetRouteDetail(string id);
+		ExternalData.StockDetail GetStockDetail(string id);
+		ExternalData.SubdivisionDetail GetSubdivisionDetail(string id);
+		ExternalData.SupplyTransportTypeDetail GetSupplyTransportTypeDetail(string id);
+		ExternalData.SupplyTypeDetail GetSupplyTypeDetail(string id);
+		ExternalData.YearOfHarvestDetail GetYearOfHarvestDetail(string id);
 
 
-	    Model.Dto.ExternalData.ProductItems GetProductChildItems(string id);
-	    Model.Dto.ExternalData.ProductItems GetProductItems();
-		Model.Dto.ExternalData.BudgetItems GetBudgetItems();
-		Model.Dto.ExternalData.EmployeeItems GetEmployeeItems();
-		Model.Dto.ExternalData.OrganisationItems GetOrganisationItems();
-		Model.Dto.ExternalData.FixedTrailerItems GetFixedTrailerItems(int pageNo, int perPageNo);
+	    ExternalData.ProductItems GetProductChildItems(string id);
+	    ExternalData.ProductItems GetProductItems();
+		ExternalData.BudgetItems GetBudgetItems();
+		ExternalData.EmployeeItems GetEmployeeItems();
+		ExternalData.OrganisationItems GetOrganisationItems();
+		ExternalData.FixedTrailerItems GetFixedTrailerItems(int pageNo, int perPageNo);
 
-	    Model.Dto.ExternalData.PartnerItems GetFilteredPagePartnerItems(int pageNo, int perPageNo, string filter);
-	    Model.Dto.ExternalData.EmployeeItems GetFilteredPageEmployeeItems(int pageNo, int perPageNo, string filter);
-	    Model.Dto.ExternalData.StockItems GetFilteredPageStockItems(int pageNo, int perPageNo, string filter);
-	    Model.Dto.ExternalData.FixedTrailerItems GetFilteredPageFixedTrailerItems(int pageNo, int perPageNo, string filter);
-	    Model.Dto.ExternalData.FixedAssetItems GetFilteredPageFixedAssetItems(int pageNo, int perPageNo, string filter);
-	    Model.Dto.ExternalData.ProductItems GetFilteredPageProductItems(int pageNo, int perPageNo, string filter);
+	    ExternalData.PartnerItems GetFilteredPagePartnerItems(int pageNo, int perPageNo, string filter);
+	    ExternalData.EmployeeItems GetFilteredPageEmployeeItems(int pageNo, int perPageNo, string filter);
+	    ExternalData.StockItems GetFilteredPageStockItems(int pageNo, int perPageNo, string filter);
+	    ExternalData.FixedTrailerItems GetFilteredPageFixedTrailerItems(int pageNo, int perPageNo, string filter);
+	    ExternalData.FixedAssetItems GetFilteredPageFixedAssetItems(int pageNo, int perPageNo, string filter);
+	    ExternalData.ProductItems GetFilteredPageProductItems(int pageNo, int perPageNo, string filter);
 
-        Model.Dto.ExternalData.PartnerItems GetPartnerItems();
-		Model.Dto.ExternalData.StockItems GetStockItems();
-		Model.Dto.ExternalData.SupplyTransportTypeItems GetSupplyTransportTypeItems();
-		Model.Dto.ExternalData.LabHumidityСlassifierItems GetLabHumidityСlassifierItems();
-		Model.Dto.ExternalData.LabImpurityСlassifierItems GetLabImpurityСlassifierItems();
-		Model.Dto.ExternalData.LabInfectionedСlassifierItems GetLabInfectionedСlassifierItems();
-		Model.Dto.ExternalData.LabDeviceResultTypeItems GetLabDevResultTypeItems();
+        ExternalData.PartnerItems GetPartnerItems();
+		ExternalData.StockItems GetStockItems();
+		ExternalData.SupplyTransportTypeItems GetSupplyTransportTypeItems();
+		ExternalData.LabHumidityСlassifierItems GetLabHumidityСlassifierItems();
+		ExternalData.LabImpurityСlassifierItems GetLabImpurityСlassifierItems();
+		ExternalData.LabInfectionedСlassifierItems GetLabInfectionedСlassifierItems();
+		ExternalData.LabDeviceResultTypeItems GetLabDevResultTypeItems();
 
-	    Model.Dto.ExternalData.BudgetItems GetBudgetChildItem(string parentId);
-	    Model.Dto.ExternalData.PartnerItems GetPartnerChildItems(string parentId);
-	    Model.Dto.ExternalData.EmployeeItems GetEmployeeChildItems(string parentId);
+	    ExternalData.BudgetItems GetBudgetChildItem(string parentId);
+	    ExternalData.PartnerItems GetPartnerChildItems(string parentId);
+	    ExternalData.EmployeeItems GetEmployeeChildItems(string parentId);
 	}
 }

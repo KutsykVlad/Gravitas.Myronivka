@@ -22,7 +22,9 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using Gravitas.Model.DomainModel.Card.DAO;
-using ExternalData = Gravitas.Model.ExternalData;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpData.DAO;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {

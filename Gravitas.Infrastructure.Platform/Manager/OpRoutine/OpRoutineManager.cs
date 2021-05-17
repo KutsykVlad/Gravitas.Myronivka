@@ -5,8 +5,11 @@ using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpCameraImage;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.Dto;
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
 {

@@ -7,6 +7,7 @@ using Gravitas.DAL;
 using Gravitas.DeviceMonitor.Monitor;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.DAO;
 using NLog;
 
 namespace Gravitas.DeviceMonitor.Manager

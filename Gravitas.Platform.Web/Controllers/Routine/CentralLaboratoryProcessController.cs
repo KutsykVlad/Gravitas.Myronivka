@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.Manager.OpRoutine;
@@ -148,7 +150,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         [HttpGet]
         public ActionResult PrintDataDisclose_DownloadFile(long nodeId)
         {
-            Model.Dto.Node nodeDto = _nodeRepository.GetNodeDto(nodeId);
+            Node nodeDto = _nodeRepository.GetNodeDto(nodeId);
 
             if (nodeDto?.Context?.TicketContainerId == null
                 || nodeDto.Context?.TicketId == null) {

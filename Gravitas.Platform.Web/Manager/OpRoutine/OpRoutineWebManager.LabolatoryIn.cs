@@ -5,15 +5,17 @@ using AutoMapper;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ExternalData = Gravitas.Model.ExternalData;
-using LabFacelessOpData = Gravitas.Model.LabFacelessOpData;
-using LabFacelessOpDataComponent = Gravitas.Model.LabFacelessOpDataComponent;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
+using LabFacelessOpDataComponent = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpDataComponent;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {

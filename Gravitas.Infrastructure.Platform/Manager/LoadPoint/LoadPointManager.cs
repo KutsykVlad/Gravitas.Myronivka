@@ -3,6 +3,7 @@ using System.Linq;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using NLog;
 
 namespace Gravitas.Infrastructure.Platform.Manager.LoadPoint

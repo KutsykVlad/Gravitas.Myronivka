@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO.Base;
 
 namespace Gravitas.DAL.Mapping
 {

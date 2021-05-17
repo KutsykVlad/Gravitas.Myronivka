@@ -10,10 +10,12 @@ using Gravitas.Infrastructure.Platform.Manager.Queue;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {

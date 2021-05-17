@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Gravitas.Model.DomainModel.Base;
 
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainModel.EmployeeRoles.DAO
 {
     public class Role: BaseEntity<int>
     {

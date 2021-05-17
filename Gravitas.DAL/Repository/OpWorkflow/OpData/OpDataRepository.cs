@@ -3,6 +3,8 @@ using Gravitas.Model.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.OpData.DAO.Base;
 
 namespace Gravitas.DAL
 {

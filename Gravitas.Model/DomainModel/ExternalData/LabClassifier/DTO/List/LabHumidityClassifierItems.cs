@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Gravitas.Model.Dto {
-
-	public static partial class ExternalData {
-
-		public class LabHumidityСlassifierItems {
-
-			public List<LabHumidityСlassifierItem> Items { get; set; }
-		}
-	}
+namespace Gravitas.Model.DomainModel.ExternalData.LabClassifier.DTO.List
+{
+    public class LabHumidityСlassifierItems
+    {
+        public List<LabHumidityСlassifierItem> Items { get; set; }
+    }
 }

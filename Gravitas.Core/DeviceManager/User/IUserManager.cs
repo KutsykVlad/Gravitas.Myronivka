@@ -1,4 +1,4 @@
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.DeviceManager.User
 {

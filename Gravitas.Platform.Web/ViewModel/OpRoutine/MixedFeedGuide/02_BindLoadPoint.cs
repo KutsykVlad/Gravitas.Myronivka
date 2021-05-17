@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using Gravitas.Model.DomainModel.Node.TDO.List;
 using Gravitas.Model.Dto;
 
 namespace Gravitas.Platform.Web.ViewModel.OpRoutine.MixedFeedGuide

@@ -1,6 +1,7 @@
 using System;
+using Gravitas.Model.DomainModel.OpData.DAO.Base;
 
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainModel.OpData.DAO
 {
     public class SingleWindowOpData : BaseOpData
     {
@@ -82,8 +83,8 @@ namespace Gravitas.Model
         public string SupplyTransportTypeId { get; set; }
         public string LabolatoryOperatorId { get; set; }
         public string GrossOperatorId { get; set; }
-        public long ScaleInNumber { get; set; }
-        public long ScaleOutNumber { get; set; }
+        public int ScaleInNumber { get; set; }
+        public int ScaleOutNumber { get; set; }
         public string BatchNumber { get; set; }
         public string TareOperatorId { get; set; }
         public string LoadingOperatorId { get; set; }

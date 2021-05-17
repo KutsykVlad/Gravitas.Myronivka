@@ -7,6 +7,9 @@ using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure;
 using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpData.DAO;
 
 namespace Gravitas.Core.Processor.OpRoutine {
 
@@ -42,7 +45,7 @@ namespace Gravitas.Core.Processor.OpRoutine {
 	        _ticketRepository = ticketRepository;
         }
 
-		public override bool ValidateNodeConfig(Model.Dto.NodeConfig config) {
+		public override bool ValidateNodeConfig(NodeConfig config) {
 
 			if (config == null) {
 				return false;
@@ -74,7 +77,7 @@ namespace Gravitas.Core.Processor.OpRoutine {
 			}
 		}
 		
-		private void AddOperationVisa(Model.Dto.Node nodeDto) {
+		private void AddOperationVisa(Node nodeDto) {
 
 			if (nodeDto?.Context?.TicketId == null) return;
 			
@@ -93,7 +96,7 @@ namespace Gravitas.Core.Processor.OpRoutine {
 			UpdateNodeContext(nodeDto.Id, nodeDto.Context);
 		}	
 		
-		private void EntryAddOpVisa(Model.Dto.Node nodeDto) {
+		private void EntryAddOpVisa(Node nodeDto) {
 
 			if (nodeDto?.Context?.TicketContainerId == null) return;
 			

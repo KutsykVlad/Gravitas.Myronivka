@@ -12,6 +12,7 @@ using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin;
 using Gravitas.Platform.Web.ViewModel.Admin.Version;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 using Settings = Gravitas.Model.DomainModel.Settings.DAO.Settings;
 
 namespace Gravitas.Platform.Web.Controllers

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.DAO;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue

@@ -6,6 +6,6 @@ namespace Gravitas.Model.DomainModel.BlackList.DAO
     {
         public string PartnerId { get; set; }
         public string Comment { get; set; }
-        public virtual ExternalData.Partner Partner { get; set; }
+        public virtual ExternalData.AcceptancePoint.DAO.ExternalData.Partner Partner { get; set; }
     }
 }

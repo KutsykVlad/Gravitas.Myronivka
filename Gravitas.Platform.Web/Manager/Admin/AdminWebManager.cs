@@ -4,10 +4,11 @@ using System.Linq;
 using Gravitas.DAL;
 using Gravitas.DAL.Repository;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.OpData.NonStandart;
-using Node = Gravitas.Model.Node;
+using Node = Gravitas.Model.DomainModel.Node.DAO.Node;
 
 namespace Gravitas.Platform.Web.Manager
 {

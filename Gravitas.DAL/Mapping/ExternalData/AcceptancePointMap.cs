@@ -1,5 +1,6 @@
 ﻿using Gravitas.Model;
 using System.Data.Entity.ModelConfiguration;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.DAL.Mapping
 {

@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity.Migrations;
 using System.Linq;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
 using Gravitas.Model.DomainValue;
 
 namespace Gravitas.DAL.PostDeployment

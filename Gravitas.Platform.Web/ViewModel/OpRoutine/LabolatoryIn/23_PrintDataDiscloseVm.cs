@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Gravitas.Model;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Platform.Web.ViewModel {
 

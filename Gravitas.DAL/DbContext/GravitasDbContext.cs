@@ -8,13 +8,18 @@ using Gravitas.DAL.Mapping.Settings;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.DAO;
+using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
 using Gravitas.Model.DomainModel.MixedFeed.DAO;
+using Gravitas.Model.DomainModel.Node.DAO;
+using Gravitas.Model.DomainModel.OpCameraImage;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainModel.OwnTransport.DAO;
 using Gravitas.Model.DomainModel.PackingTare.DAO;
 using Gravitas.Model.DomainModel.PhoneInformTicketAssignment.DAO;
 using Gravitas.Model.DomainModel.PreRegistration.DAO;
 using Gravitas.Model.DomainModel.Settings.DAO;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.DAL
 {

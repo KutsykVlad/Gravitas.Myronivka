@@ -1,7 +1,9 @@
-namespace Gravitas.Model
+using Gravitas.Model.DomainModel.OpData.DAO.Base;
+
+namespace Gravitas.Model.DomainModel.OpData.DAO
 {
     public class LoadGuideOpData : BaseOpData
     {
-        public long LoadPointNodeId { get; set; }
+        public int LoadPointNodeId { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.Node.TDO.List;
 using Gravitas.Model.Dto;
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.DAL
 {
@@ -17,7 +19,7 @@ namespace Gravitas.DAL
 
         public NodeItems GetNodeItems()
         {
-            var dao = GetQuery<Model.Node, long>().ToList();
+            var dao = GetQuery<Model.DomainModel.Node.DAO.Node, long>().ToList();
             var dto = new NodeItems
             {
                 Items = dao.Select(GetNodeItem).ToList()
@@ -97,7 +99,7 @@ namespace Gravitas.DAL
 
         public void UpdateNodeProcessingMessage(long nodeId, NodeProcessingMsgItem msgItem)
         {
-            var node = GetEntity<Model.Node, long>(nodeId);
+            var node = GetEntity<Model.DomainModel.Node.DAO.Node, long>(nodeId);
             if (node == null) return;
             node.ProcessingMessage = msgItem == null
                 ? string.Empty
@@ -109,18 +111,18 @@ namespace Gravitas.DAL
                     }
                 }.ToJson();
 
-            Update<Model.Node, long>(node);
+            Update<Model.DomainModel.Node.DAO.Node, long>(node);
         }
 
         public void ClearNodeProcessingMessage(long nodeId)
         {
-            var node = GetEntity<Model.Node, long>(nodeId);
+            var node = GetEntity<Model.DomainModel.Node.DAO.Node, long>(nodeId);
             if (node == null) return;
             node.ProcessingMessage = new NodeProcessingMsg().ToJson();
-            Update<Model.Node, long>(node);
+            Update<Model.DomainModel.Node.DAO.Node, long>(node);
         }
 
-        private NodeItem GetNodeItem(Model.Node dao)
+        private NodeItem GetNodeItem(Model.DomainModel.Node.DAO.Node dao)
         {
             if (dao == null) return null;
 

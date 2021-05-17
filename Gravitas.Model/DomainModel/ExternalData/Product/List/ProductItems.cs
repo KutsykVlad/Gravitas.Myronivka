@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Gravitas.Model.Dto
+namespace Gravitas.Model.DomainModel.ExternalData.Product.List
 {
-    public static partial class ExternalData
+    public class ProductItems
     {
-
-        public class ProductItems
-        {
-            public List<ProductItem> Items { get; set; }
-        }
+        public List<ProductItem> Items { get; set; }
     }
 }

@@ -1,10 +1,12 @@
-namespace Gravitas.Model {
+using Gravitas.Model.DomainModel.OpData.DAO.Base;
 
-	public  class SecurityCheckOutOpData : BaseOpData {
+namespace Gravitas.Model.DomainModel.OpData.DAO
+{
+    public class SecurityCheckOutOpData : BaseOpData
+    {
+        public bool? IsCameraImagesConfirmed { get; set; }
 
-		public bool? IsCameraImagesConfirmed { get; set; }
-
-		public int? SealCount { get; set; }
-		public string SealList { get; set; }
-	}
+        public int? SealCount { get; set; }
+        public string SealList { get; set; }
+    }
 }

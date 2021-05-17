@@ -1,5 +1,6 @@
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Base;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
 
 namespace Gravitas.Platform.Web.ViewModel 
 {
@@ -13,8 +14,8 @@ namespace Gravitas.Platform.Web.ViewModel
 		public bool IsStart { get; set; }
 		public bool IsFinish { get; set; }
 		public int Quota { get; set; }
-		public Model.Dto.NodeConfig Config { get; set; }
-		public Model.Dto.NodeContext Context { get; set; }
+		public NodeConfig Config { get; set; }
+		public NodeContext Context { get; set; }
 		public string ProcessingMessage { get; set; }
 	}
 }

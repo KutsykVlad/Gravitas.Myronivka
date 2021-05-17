@@ -14,11 +14,13 @@ using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OwnTransport.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {

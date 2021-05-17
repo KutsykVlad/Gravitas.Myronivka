@@ -1,4 +1,5 @@
 using Gravitas.Model.DomainModel.Base;
+using Gravitas.Model.DomainModel.ExternalData.Product.DAO;
 
 namespace Gravitas.Model.DomainModel.MixedFeed.DTO
 {
@@ -11,6 +12,6 @@ namespace Gravitas.Model.DomainModel.MixedFeed.DTO
         public float SiloEmpty { get; set; }
         public float SiloFull { get; set; }
     
-        public ExternalData.Product Product { get; set; }
+        public Product Product { get; set; }
     }
 }

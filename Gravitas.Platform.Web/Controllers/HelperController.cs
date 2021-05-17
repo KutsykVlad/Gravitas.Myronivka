@@ -8,6 +8,7 @@ using Gravitas.DAL.Repository.PackingTare;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.PackingTare.DTO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel.Helper;

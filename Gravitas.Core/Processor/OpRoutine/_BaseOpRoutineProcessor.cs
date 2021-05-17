@@ -8,9 +8,11 @@ using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.Dto;
 using NLog;
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor
 {

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.PreRegistration.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager;

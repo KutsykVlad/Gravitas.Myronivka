@@ -15,6 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.OpData.DAO;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Platform.Web.Manager
 {

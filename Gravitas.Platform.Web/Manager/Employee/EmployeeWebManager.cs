@@ -7,9 +7,11 @@ using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
+using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel.Employee;
-using ExternalData = Gravitas.Model.ExternalData;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Platform.Web.Manager.Employee
 {

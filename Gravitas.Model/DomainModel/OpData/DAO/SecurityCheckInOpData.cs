@@ -1,6 +1,8 @@
-namespace Gravitas.Model {
+using Gravitas.Model.DomainModel.OpData.DAO.Base;
 
-	public class SecurityCheckInOpData : BaseOpData {
-
-	}
+namespace Gravitas.Model.DomainModel.OpData.DAO
+{
+    public class SecurityCheckInOpData : BaseOpData
+    {
+    }
 }

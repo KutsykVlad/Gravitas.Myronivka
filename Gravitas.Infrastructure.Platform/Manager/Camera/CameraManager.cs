@@ -7,6 +7,8 @@ using Gravitas.DAL;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpCameraImage;
 using Gravitas.Model.Dto;
 using NLog;
 

@@ -1,4 +1,5 @@
 ﻿using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO;
 
 namespace Gravitas.DAL.Mapping
 {

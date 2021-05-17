@@ -10,6 +10,7 @@ using Gravitas.DAL;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
+using Gravitas.Model.DomainModel.Node.DAO;
 using NLog;
 
 namespace Gravitas.Core.Manager

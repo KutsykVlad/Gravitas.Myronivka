@@ -12,7 +12,7 @@ namespace Gravitas.Model.DomainModel.Card.DAO
         public int? TicketContainerId { get; set; }
         public string ParentCardId { get; set; }
 
-        public virtual ExternalData.Employee Employee { get; set; }
+        public virtual ExternalData.AcceptancePoint.DAO.ExternalData.Employee Employee { get; set; }
         public virtual TicketContainer TicketContainer { get; set; }
         public virtual CardType CardType { get; set; }
     }

@@ -5,9 +5,10 @@ using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.Dto;
 using NLog;
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.DeviceManager.Device
 {

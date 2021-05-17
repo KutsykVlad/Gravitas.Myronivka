@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Gravitas.Model.Dto
+namespace Gravitas.Model.DomainModel.Node.TDO.Json
 {
-    public class NodeConfig : BaseJsonConverter<NodeConfig>
+    public class NodeConfig
     {
         public NodeConfig()
         {

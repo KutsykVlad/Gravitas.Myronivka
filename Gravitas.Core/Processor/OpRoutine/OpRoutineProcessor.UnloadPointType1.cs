@@ -14,10 +14,13 @@ using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.Dto;
 using CardReadResult = Gravitas.Core.DeviceManager.Card.CardReadResult;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -294,7 +297,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             var singleWindowOpData = _opDataRepository.GetFirstOrDefault<SingleWindowOpData, Guid>(item => item.TicketId == nodeDto.Context.TicketId);
 
-            singleWindowOpData.CollectionPointId = _externalRepository.GetFirstOrDefault<Model.ExternalData.AcceptancePoint, string>(item =>
+            singleWindowOpData.CollectionPointId = _externalRepository.GetFirstOrDefault<ExternalData.AcceptancePoint, string>(item =>
                 item.Code == nodeDto.Code)?.Id;
             _opDataRepository.Update<SingleWindowOpData, Guid>(singleWindowOpData);
 

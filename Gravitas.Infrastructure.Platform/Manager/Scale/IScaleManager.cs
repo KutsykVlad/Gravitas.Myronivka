@@ -1,7 +1,8 @@
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.Dto;
-using Node = Gravitas.Model.Dto.Node;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Scale
 {

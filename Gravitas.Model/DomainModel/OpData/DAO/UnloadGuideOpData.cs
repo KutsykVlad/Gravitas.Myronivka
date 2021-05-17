@@ -1,7 +1,9 @@
-namespace Gravitas.Model {
-	
-	public class UnloadGuideOpData : BaseOpData {
+using Gravitas.Model.DomainModel.OpData.DAO.Base;
 
-		public long UnloadPointNodeId { get; set; }
-	}
+namespace Gravitas.Model.DomainModel.OpData.DAO
+{
+    public class UnloadGuideOpData : BaseOpData
+    {
+        public int UnloadPointNodeId { get; set; }
+    }
 }

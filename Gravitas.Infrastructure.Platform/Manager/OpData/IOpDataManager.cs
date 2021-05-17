@@ -1,5 +1,6 @@
 ﻿using System;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DTO;
 using Gravitas.Model.Dto;

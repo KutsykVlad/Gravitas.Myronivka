@@ -12,7 +12,7 @@ namespace Gravitas.Model
              
 		public string PartnerId { get; set; }
         
-        public ExternalData.Partner Partner { get; set; }
+        public DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.Partner Partner { get; set; }
         public QueueItemPriority QueueItemPriority { get; set; }
         public QueueItemCategory QueueItemCategory { get; set; }
     }

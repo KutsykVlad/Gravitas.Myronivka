@@ -18,14 +18,19 @@ using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.Node.TDO.Json;
+using Gravitas.Model.DomainModel.OpCameraImage;
+using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainModel.OpData.DAO.Base;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
 using Newtonsoft.Json;
 using DateTime = System.DateTime;
-using ExternalData = Gravitas.Model.ExternalData;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
-using Node = Gravitas.Model.Dto.Node;
+using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
+using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -827,7 +832,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 IncomeDocGrossValue = singleWindowOpData.IncomeDocGrossValue ?? 0,
                 IncomeDocTareValue = singleWindowOpData.IncomeDocTareValue ?? 0,
                 IncomeDocDateTime = singleWindowOpData.IncomeDocDateTime,
-                Comments = $"{singleWindowOpData.Comments} {_opDataRepository.GetLastProcessed<Model.LabFacelessOpData>(singleWindowOpData.TicketId)?.Comment}",
+                Comments = $"{singleWindowOpData.Comments} {_opDataRepository.GetLastProcessed<LabFacelessOpData>(singleWindowOpData.TicketId)?.Comment}",
                 WeightDeltaValue = singleWindowOpData.WeightDeltaValue ?? 0,
                 SupplyType = singleWindowOpData.SupplyTransportTypeId,
                 LabolatoryOperatorId = singleWindowOpData.LabolatoryOperatorId,

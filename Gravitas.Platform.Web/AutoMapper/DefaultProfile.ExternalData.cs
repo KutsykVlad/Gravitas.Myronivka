@@ -1,5 +1,6 @@
 ﻿using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel;
+using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail.ExternalData;
 
 namespace Gravitas.Platform.Web.AutoMapper
 {

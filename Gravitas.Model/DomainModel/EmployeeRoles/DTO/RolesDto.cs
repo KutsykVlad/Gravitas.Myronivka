@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Gravitas.Model.Dto
+namespace Gravitas.Model.DomainModel.EmployeeRoles.DTO
 {
     public class RolesDto
     {

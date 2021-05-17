@@ -1,6 +1,7 @@
 using System;
 using Gravitas.Model.DomainModel.Base;
 using Gravitas.Model.DomainModel.MixedFeed.DAO;
+using Gravitas.Model.DomainModel.OpData.DAO;
 
 namespace Gravitas.Model {
 	
@@ -29,7 +30,7 @@ namespace Gravitas.Model {
 		public long? LabFacelessOpDataComponentId { get; set; }
 
 		// Navigation Properties
-		public virtual ExternalData.Employee Employee { get; set; }
+		public virtual DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.Employee Employee { get; set; }
 		public virtual LabFacelessOpData LabFacelessOpData { get; set; }
 		public virtual SingleWindowOpData SingleWindowOpData { get; set; }
 		public virtual SecurityCheckInOpData SecurityCheckInOpData { get; set; }
