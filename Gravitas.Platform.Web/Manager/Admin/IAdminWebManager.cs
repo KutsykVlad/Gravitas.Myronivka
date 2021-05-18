@@ -2,6 +2,7 @@
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
 
 namespace Gravitas.Platform.Web.Manager
 {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
 
 namespace Gravitas.Platform.Web.ViewModel
 {

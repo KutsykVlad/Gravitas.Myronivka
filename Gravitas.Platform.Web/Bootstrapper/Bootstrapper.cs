@@ -8,7 +8,7 @@ using Gravitas.Platform.Web.AutoMapper;
 using Gravitas.Platform.Web.DepedencyInjection;
 using Unity.Mvc5;
 
-namespace Gravitas.Platform.Web
+namespace Gravitas.Platform.Web.Bootstrapper
 {
     public static class Bootstrapper
     {

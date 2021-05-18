@@ -13,7 +13,7 @@ namespace Gravitas.Platform.Web
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            Bootstrapper.Initialize();
+            Bootstrapper.Bootstrapper.Initialize();
             FilterProviders.Providers.Add(new PerformanceTestFilterProvider());
         }
 

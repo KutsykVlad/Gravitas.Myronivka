@@ -2,19 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Attribute;
 using Gravitas.Platform.Web.ViewModel.Dashboard;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers.Api
 {
@@ -53,26 +50,26 @@ namespace Gravitas.Platform.Web.Controllers.Api
             try
             {
                 var outside = _context.Cards.Where(x =>
-                        x.TicketContainerId.HasValue && x.TypeId == Dom.Card.Type.TicketCard)
+                        x.TicketContainerId.HasValue && x.TypeId == CardType.TicketCard)
                     .Select(x => new
                     {
                         TicketContainerId = x.TicketContainerId.Value,
-                        Tickets = _context.Tickets.Where(z => z.ContainerId == x.TicketContainerId).ToList()
+                        Tickets = _context.Tickets.Where(z => z.TicketContainerId == x.TicketContainerId).ToList()
                     })
                     .OrderBy(x => x.TicketContainerId)
-                    .Where(x => x.Tickets.Any(z => z.StatusId == Dom.Ticket.Status.ToBeProcessed)
-                                && x.Tickets.All(z => z.StatusId != Dom.Ticket.Status.Completed
-                                                      && z.StatusId != Dom.Ticket.Status.Processing
-                                                      && z.StatusId != Dom.Ticket.Status.Closed))
+                    .Where(x => x.Tickets.Any(z => z.StatusId == TicketStatus.ToBeProcessed)
+                                && x.Tickets.All(z => z.StatusId != TicketStatus.Completed
+                                                      && z.StatusId != TicketStatus.Processing
+                                                      && z.StatusId != TicketStatus.Closed))
                     .Select(x => _context.SingleWindowOpDatas.FirstOrDefault(z => z.TicketContainerId == x.TicketContainerId
-                                                                                  && z.StateId == Dom.OpDataState.Processed))
+                                                                                  && z.StateId == OpDataState.Processed))
                     .AsEnumerable()
                     .Select(x =>
                     {
                         var truck = new TruckViewModel
                         {
                             PhoneNo = x.ContactPhoneNo,
-                            DocumentTypeId = Dom.ExternalData.DeliveryBill.Type.Incoming == x.DocumentTypeId ? 0 : 1,
+                            DocumentTypeId = ExternalData.DeliveryBill.Type.Incoming == x.DocumentTypeId ? 0 : 1,
                             LastNodeId = _opDataRepository.GetLastOpData(x.TicketId).NodeId.Value,
                             FutureNodeIds = _routesInfrastructure.GetNextNodes(x.TicketId.Value)
                         };
@@ -121,7 +118,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
         
         [HttpGet]
-        public IHttpActionResult GetOutsideTrucksToNodes([FromUri]long[] nodeIds)
+        public IHttpActionResult GetOutsideTrucksToNodes([FromUri]int[] nodeIds)
         {
             try
             {
@@ -130,7 +127,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
                 var containers = GetOutsideContainers();
                 foreach (var containerId in containers)
                 {
-                    var ticket = _context.Tickets.First(z => z.ContainerId == containerId && z.StatusId == Dom.Ticket.Status.ToBeProcessed);
+                    var ticket = _context.Tickets.First(z => z.TicketContainerId == containerId && z.StatusId == TicketStatus.ToBeProcessed);
                             
                     var nodeAvailableList = nodeIds.Where(z => _routesInfrastructure.IsNodeAvailable(z, ticket.RouteTemplateId.Value)).ToList();
 
@@ -155,23 +152,23 @@ namespace Gravitas.Platform.Web.Controllers.Api
             try
             {
                 var result = _context.Cards.Where(x =>
-                        x.TicketContainerId.HasValue && x.TypeId == Dom.Card.Type.TicketCard)
+                        x.TicketContainerId.HasValue && x.TypeId == CardType.TicketCard)
                     .Select(x => new
                     {
                         TicketContainerId = x.TicketContainerId.Value,
-                        Tickets = _context.Tickets.Where(z => z.ContainerId == x.TicketContainerId).ToList()
+                        Tickets = _context.Tickets.Where(z => z.TicketContainerId == x.TicketContainerId).ToList()
                     })
                     .OrderBy(x => x.TicketContainerId)
-                    .Where(x => x.Tickets.Any(z => z.StatusId == Dom.Ticket.Status.Processing))
+                    .Where(x => x.Tickets.Any(z => z.StatusId == TicketStatus.Processing))
                     .Select(x => _context.SingleWindowOpDatas.FirstOrDefault(z => z.TicketContainerId == x.TicketContainerId
-                                                                                  && z.StateId == Dom.OpDataState.Processed))
+                                                                                  && z.StateId == OpDataState.Processed))
                     .AsEnumerable()
                     .Select(x =>
                     {
                         var truck = new TruckViewModel
                         {
                             PhoneNo = x.ContactPhoneNo,
-                            DocumentTypeId = Dom.ExternalData.DeliveryBill.Type.Incoming == x.DocumentTypeId ? 0 : 1,
+                            DocumentTypeId = ExternalData.DeliveryBill.Type.Incoming == x.DocumentTypeId ? 0 : 1,
                             LastNodeId = _opDataRepository.GetLastOpData(x.TicketId).NodeId.Value,
                             FutureNodeIds = _routesInfrastructure.GetNextNodes(x.TicketId.Value)
                         };
@@ -232,7 +229,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
                     .AsEnumerable()
                     .Where(x =>
                     {
-                        if (x.ticket.StatusId == Dom.Ticket.Status.Closed || x.ticket.StatusId == Dom.Ticket.Status.Completed)
+                        if (x.ticket.StatusId == TicketStatus.Closed || x.ticket.StatusId == TicketStatus.Completed)
                         {
                             var mixedFeedLoad = _opDataRepository.GetLastProcessed<MixedFeedLoadOpData>(x.ticket.Id);
                             var load = _opDataRepository.GetLastProcessed<LoadPointOpData>(x.ticket.Id);
@@ -293,7 +290,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
             try
             {
                 var tickets = _context.Tickets.Where(x =>
-                        x.StatusId == Dom.Ticket.Status.Closed || x.StatusId == Dom.Ticket.Status.Completed)
+                        x.StatusId == TicketStatus.Closed || x.StatusId == TicketStatus.Completed)
                     .Select(x => x.Id)
                     .ToList();
 
@@ -323,7 +320,8 @@ namespace Gravitas.Platform.Web.Controllers.Api
         {
             try
             {
-                var nodes = _opDataRepository.GetQuery<Node, long>()
+                var nodes = _context.Nodes
+                    .AsNoTracking()
                     .ToList()
                     .Select(x => new
                     {
@@ -375,37 +373,37 @@ namespace Gravitas.Platform.Web.Controllers.Api
             }
         }
 
-        private List<long> GetOutsideContainers()
+        private List<int> GetOutsideContainers()
         {
             var containersWithCard = _context.Cards.Where(x =>
-                    x.TicketContainerId.HasValue && x.TypeId == Dom.Card.Type.TicketCard)
+                    x.TicketContainerId.HasValue && x.TypeId == CardType.TicketCard)
                 .Select(x => new
                 {
                     TicketContainerId = x.TicketContainerId.Value,
-                    Tickets = _context.Tickets.Where(z => z.ContainerId == x.TicketContainerId).ToList()
+                    Tickets = _context.Tickets.Where(z => z.TicketContainerId == x.TicketContainerId).ToList()
                 })
                 .OrderBy(x => x.TicketContainerId)
-                .Where(x => x.Tickets.Any(z => z.StatusId == Dom.Ticket.Status.ToBeProcessed)
-                            && x.Tickets.All(z => z.StatusId != Dom.Ticket.Status.Completed
-                                                  && z.StatusId != Dom.Ticket.Status.Processing
-                                                  && z.StatusId != Dom.Ticket.Status.Closed))
+                .Where(x => x.Tickets.Any(z => z.StatusId == TicketStatus.ToBeProcessed)
+                            && x.Tickets.All(z => z.StatusId != TicketStatus.Completed
+                                                  && z.StatusId != TicketStatus.Processing
+                                                  && z.StatusId != TicketStatus.Closed))
                 .Select(x => x.TicketContainerId)
                 .ToList();
 
             return containersWithCard;
         }
         
-        private List<long> GetInsideContainers()
+        private List<int> GetInsideContainers()
         {
             var containersWithCard = _context.Cards.Where(x =>
-                    x.TicketContainerId.HasValue && x.TypeId == Dom.Card.Type.TicketCard)
+                    x.TicketContainerId.HasValue && x.TypeId == CardType.TicketCard)
                 .Select(x => new
                 {
                     TicketContainerId = x.TicketContainerId.Value,
-                    Tickets = _context.Tickets.Where(z => z.ContainerId == x.TicketContainerId).ToList()
+                    Tickets = _context.Tickets.Where(z => z.TicketContainerId == x.TicketContainerId).ToList()
                 })
                 .OrderBy(x => x.TicketContainerId)
-                .Where(x => x.Tickets.Any(z => z.StatusId == Dom.Ticket.Status.Processing))
+                .Where(x => x.Tickets.Any(z => z.StatusId == TicketStatus.Processing))
                 .Select(x => x.TicketContainerId)
                 .ToList();
 

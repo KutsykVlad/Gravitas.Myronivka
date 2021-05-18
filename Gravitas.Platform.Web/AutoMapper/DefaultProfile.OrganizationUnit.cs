@@ -4,13 +4,14 @@ using Gravitas.Platform.Web.ViewModel;
 
 namespace Gravitas.Platform.Web.AutoMapper
 {
-	public partial class DefaultProfile {
-		public void ConfigureOrganisationUnit() {
+    public partial class DefaultProfile
+    {
+        public void ConfigureOrganisationUnit()
+        {
+            CreateMap<OrganizationUnitDetail, OrganizationUnitDetailVm>().ReverseMap();
 
-			CreateMap<OrganizationUnitDetail, OrganizationUnitDetailVm>().ReverseMap();
-			
-			CreateMap<OrganizationUnitItem, OrganizationUnitItemVm>();
-			CreateMap<OrganizationUnitItems, OrganizationUnitItemsVm>();
-		}
-	}
+            CreateMap<OrganizationUnitItem, OrganizationUnitItemVm>();
+            CreateMap<OrganizationUnitItems, OrganizationUnitItemsVm>();
+        }
+    }
 }

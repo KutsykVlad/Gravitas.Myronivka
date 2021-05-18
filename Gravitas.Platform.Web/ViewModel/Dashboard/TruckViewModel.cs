@@ -9,7 +9,7 @@ namespace Gravitas.Platform.Web.ViewModel.Dashboard
         public string PhoneNo { get; set; }
         public string DriverName { get; set; }
         public int DocumentTypeId { get; set; }
-        public long LastNodeId { get; set; }
-        public List<long> FutureNodeIds { get; set; }
+        public int LastNodeId { get; set; }
+        public List<int> FutureNodeIds { get; set; }
     }
 }

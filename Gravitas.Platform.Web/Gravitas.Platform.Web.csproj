@@ -259,7 +259,6 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\Api\AdminApiController.cs" />
     <Compile Include="Controllers\Api\DashboardController.cs" />
-    <Compile Include="Controllers\Api\EmployeeSeedController.cs" />
     <Compile Include="Controllers\Api\LaboratoryApiController.cs" />
     <Compile Include="Controllers\Api\QueueApiController.cs" />
     <Compile Include="Controllers\Api\SingleWindowController.cs" />

@@ -4,18 +4,16 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
-using Gravitas.Model;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure;
 using Gravitas.Model.DomainModel.Queue.DAO;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel.Queue;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers.Api
 {
@@ -46,14 +44,14 @@ namespace Gravitas.Platform.Web.Controllers.Api
             _context = context;
         }
 
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public async Task<IHttpActionResult> GetExternalQueueList(string productId)
         {
             try
             {
                 var data = await Task.Run(() =>
                 {
-                    var list = _opDataRepository.GetQuery<QueueRegister, long>().ToList();
+                    var list = _opDataRepository.GetQuery<QueueRegister, int>().ToList();
                     var vm = new FilteredExternalQueueVm {Items = new List<FilteredExternalQueueItemVm>()};
 
                     foreach (var item in list)
@@ -101,14 +99,14 @@ namespace Gravitas.Platform.Web.Controllers.Api
             }
         }
         
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public async Task<IHttpActionResult> GetFilteredProductList()
         {
             try
             {
                 var items = await Task.Run(() =>
                 {
-                    return _routesInfrastructure.GetRouteTemplates(Dom.Route.Type.SingleWindow)
+                    return _routesInfrastructure.GetRouteTemplates(RouteType.SingleWindow)
                                                    .Select(item => new KeyValuePair<string, long>(item.Name, item.Id)).ToList();
                 });
                 return Ok(items);
@@ -127,7 +125,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
                 await Task.Run(() =>
                 {
                     var register = _context.QueueRegisters.FirstOrDefault(item => item.PhoneNumber!= null && item.PhoneNumber.Contains(phoneNo));
-                    _nodeRepository.Delete<QueueRegister, long>(register);
+                    _nodeRepository.Delete<QueueRegister, int>(register);
                 });
                 return Ok();
             }
@@ -138,7 +136,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetAvailableDateTime(long routeId)
+        public async Task<IHttpActionResult> GetAvailableDateTime(int routeId)
         {
             try
             {
@@ -156,7 +154,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
             public string TruckNo { get; set; }
             public string TrailerNo { get; set; }
             public string PhoneNo { get; set; }
-            public long RouteId { get; set; }
+            public int RouteId { get; set; }
         }
 
         [HttpPost]
@@ -180,7 +178,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
                         RouteTemplateId = item.RouteId
                     };
                     
-                    _nodeRepository.Add<QueueRegister, long>(queueRegister);
+                    _nodeRepository.Add<QueueRegister, int>(queueRegister);
                 });
 
                 return Ok();

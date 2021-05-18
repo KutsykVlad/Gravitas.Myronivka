@@ -1,6 +1,11 @@
-﻿using Gravitas.Model.Dto;
+﻿using Gravitas.Model.DomainModel.ExternalData.Budget.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Employee.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Stock.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DTO.List;
 using Gravitas.Platform.Web.ViewModel;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail.ExternalData;
 
 namespace Gravitas.Platform.Web.AutoMapper
 {
@@ -8,26 +13,26 @@ namespace Gravitas.Platform.Web.AutoMapper
     {
         public void ConfigureExternalData()
         {
-            CreateMap<ExternalData.BudgetItem, BudgetItemVm>().ReverseMap();
-            CreateMap<ExternalData.BudgetItems, BudgetItemsVm>().ReverseMap();
+            CreateMap<BudgetItem, BudgetItemVm>().ReverseMap();
+            CreateMap<BudgetItems, BudgetItemsVm>().ReverseMap();
 
-            CreateMap<ExternalData.EmployeeItem, EmployeeItemVm>().ReverseMap();
-            CreateMap<ExternalData.EmployeeItems, EmployeeItemsVm>().ReverseMap();
+            CreateMap<EmployeeItem, EmployeeItemVm>().ReverseMap();
+            CreateMap<EmployeeItems, EmployeeItemsVm>().ReverseMap();
 
-            CreateMap<ExternalData.OrganisationItem, OrganisationItemVm>().ReverseMap();
-            CreateMap<ExternalData.OrganisationItems, EmployeeItemsVm>().ReverseMap();
+            CreateMap<OrganisationItem, OrganisationItemVm>().ReverseMap();
+            CreateMap<OrganisationItems, EmployeeItemsVm>().ReverseMap();
 
-            CreateMap<ExternalData.FixedAssetItem, FixedAssetItemVm>().ReverseMap();
-            CreateMap<ExternalData.FixedAssetItems, FixedAssetItemsVm>().ReverseMap();
+            CreateMap<FixedAssetItem, FixedAssetItemVm>().ReverseMap();
+            CreateMap<FixedAssetItems, FixedAssetItemsVm>().ReverseMap();
 
-            CreateMap<ExternalData.PartnerItem, PartnerItemVm>().ReverseMap();
-            CreateMap<ExternalData.PartnerItems, PartnerItemsVm>().ReverseMap();
+            CreateMap<PartnerItem, PartnerItemVm>().ReverseMap();
+            CreateMap<PartnerItems, PartnerItemsVm>().ReverseMap();
 
-            CreateMap<ExternalData.StockItem, StockItemVm>().ReverseMap();
-            CreateMap<ExternalData.StockItems, StockItemsVm>().ReverseMap();
+            CreateMap<StockItem, StockItemVm>().ReverseMap();
+            CreateMap<StockItems, StockItemsVm>().ReverseMap();
 
-            CreateMap<ExternalData.SupplyTransportTypeItem, SupplyTransportTypeItemVm>().ReverseMap();
-            CreateMap<ExternalData.SupplyTransportTypeItems, SupplyTransportTypeItemsVm>().ReverseMap();
+            CreateMap<SupplyTransportTypeItem, SupplyTransportTypeItemVm>().ReverseMap();
+            CreateMap<SupplyTransportTypeItems, SupplyTransportTypeItemsVm>().ReverseMap();
         }
     }
 }

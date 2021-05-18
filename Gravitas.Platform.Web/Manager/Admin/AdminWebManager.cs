@@ -16,6 +16,7 @@ using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
 using Gravitas.Platform.Web.ViewModel.OpData.NonStandart;
 using Dom = Gravitas.Model.DomainValue.Dom;
 using Node = Gravitas.Model.DomainModel.Node.DAO.Node;

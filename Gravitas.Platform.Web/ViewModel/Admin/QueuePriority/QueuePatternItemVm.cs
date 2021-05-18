@@ -1,17 +1,18 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Gravitas.Model.DomainValue;
 
-namespace Gravitas.Platform.Web.ViewModel
+namespace Gravitas.Platform.Web.ViewModel.Admin.QueuePriority
 {
     public class QueuePatternItemVm
     {
-        public long QueuePatternItemId { get; set; }
+        public int QueuePatternItemId { get; set; }
         [DisplayName("Ім`я власника")]
         public string ReceiverName { get; set; }
 
         public string ReceiverId { get; set; }
         [DisplayName("Пріоритет")]
-        public long Priority { get; set; }
+        public Model.DomainValue.QueuePriority Priority { get; set; }
         public string PriorityDescription { get; set; }
 
         [DisplayName("Кількість машин")]
@@ -19,7 +20,7 @@ namespace Gravitas.Platform.Web.ViewModel
         public int Count { get; set; }
 
         [DisplayName("Тип")]
-        public long Category { get; set; }
+        public QueueCategory Category { get; set; }
         public string CategoryDescription { get; set; }
 
         public bool IsFixed { get; set; }

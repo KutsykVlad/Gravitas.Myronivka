@@ -2,25 +2,24 @@
 using Gravitas.Model.DomainModel.OpData.TDO.Json;
 using Gravitas.Platform.Web.ViewModel;
 
-namespace Gravitas.Platform.Web.AutoMapper {
+namespace Gravitas.Platform.Web.AutoMapper
+{
+    public partial class DefaultProfile
+    {
+        public void ConfigureOpData()
+        {
+            CreateMap<BaseOpDataDetail, BaseOpDataDetailVm>().ReverseMap();
 
-	public partial class DefaultProfile {
+            CreateMap<SingleWindowOpDataDetail, SingleWindowVms.SingleWindowOpDataDetailVm>()
+                .ForMember(e => e.DriverOneName, e => e.Ignore())
+                .ForMember(e => e.DriverTwoName, e => e.Ignore())
+                .ForMember(e => e.IsTechnologicalRoute, e => e.Ignore())
+                .ForMember(e => e.OnRegisterInformEmployees, e => e.Ignore())
+                .ReverseMap();
+            CreateMap<ProductContentList, SingleWindowVms.ProductContentListVm>().ReverseMap();
+            CreateMap<ProductContentItem, SingleWindowVms.ProductContentItemVm>().ReverseMap();
 
-		public void ConfigureOpData() {
-
-			CreateMap<BaseOpDataDetail, BaseOpDataDetailVm>().ReverseMap();
-
-			CreateMap<SingleWindowOpDataDetail, SingleWindowVms.SingleWindowOpDataDetailVm>()
-				.ForMember(e => e.DriverOneName, e => e.Ignore())
-				.ForMember(e => e.DriverTwoName, e => e.Ignore())
-				.ForMember(e => e.IsTechnologicalRoute, e => e.Ignore())
-				.ForMember(e => e.OnRegisterInformEmployees, e => e.Ignore())
-				.ReverseMap();
-			CreateMap<ProductContentList, SingleWindowVms.ProductContentListVm>().ReverseMap();
-			CreateMap<ProductContentItem, SingleWindowVms.ProductContentItemVm>().ReverseMap();
-
-			CreateMap<AnalysisValueDescriptor, LaboratoryInVms.AnalysisValueDescriptorVm>().ReverseMap();
-			//CreateMap<Model.Dto.LabFacelessOpDataComponent, LabolatoryInVms.LabFacelessOpDataComponentItemVm> ().ReverseMap();
-		}
-	}
+            CreateMap<AnalysisValueDescriptor, LaboratoryInVms.AnalysisValueDescriptorVm>().ReverseMap();
+        }
+    }
 }

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Queue;
-using Gravitas.Model;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
 
 namespace Gravitas.Platform.Web.Controllers.Api
 {
@@ -94,7 +93,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> DeleteQueuePatternItem(long id)
+        public async Task<IHttpActionResult> DeleteQueuePatternItem(int id)
         {
             try
             {
@@ -120,12 +119,12 @@ namespace Gravitas.Platform.Web.Controllers.Api
             {
                 var data = await Task.Run(() =>
                 {
-                    _adminWebManager.UpdateQueuePatternItem(new QueuePatternItemVm()
+                    _adminWebManager.UpdateQueuePatternItem(new QueuePatternItemVm
                     {
                         Count = 0,
                         ReceiverId = null,
-                        Priority = Dom.Queue.Priority.Medium,
-                        Category = Dom.Queue.Category.Partners
+                        Priority = QueuePriority.Medium,
+                        Category = QueueCategory.Partners
                     });
                     return _adminWebManager.GetQueueTable();
                 });

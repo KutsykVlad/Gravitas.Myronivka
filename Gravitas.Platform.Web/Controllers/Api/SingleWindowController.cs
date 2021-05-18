@@ -2,16 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.Node;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.ViewModel;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Platform.Web.Controllers.Api
 {
@@ -19,41 +15,36 @@ namespace Gravitas.Platform.Web.Controllers.Api
     {
         private readonly IExternalDataWebManager _externalDataManager;
         private readonly IExternalDataRepository _externalDataRepository;
-        private readonly INodeRepository _nodeRepository;
         private readonly IOpRoutineWebManager _opRoutineWebManager;
         private readonly GravitasDbContext _context;
 
         public SingleWindowApiController(IOpRoutineWebManager opRoutineWebManager,
             IExternalDataWebManager externalDataManager,
-            INodeRepository nodeRepository,
             IExternalDataRepository externalDataRepository, 
             GravitasDbContext context)
         {
             _opRoutineWebManager = opRoutineWebManager;
             _externalDataManager = externalDataManager;
-            _nodeRepository = nodeRepository;
             _externalDataRepository = externalDataRepository;
             _context = context;
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetNodeName(long? nodeId)
+        public IHttpActionResult GetNodeName(int? nodeId)
         {
             if (nodeId == null || nodeId == 0) return BadRequest("There is no nodeId provided");
 
-            var routineData = await
-                Task.Run(() => _nodeRepository.GetEntity<Node, long>(nodeId.Value).Name);
+            var routineData = _context.Nodes.First(x => x.Id == nodeId.Value).Name;
 
             return Ok(routineData);
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetBudgetName(string budgetId)
+        public IHttpActionResult GetBudgetName(string budgetId)
         {
             if (string.IsNullOrEmpty(budgetId)) return BadRequest("There is no budget provided");
 
-            var routineData = await
-                Task.Run(() => _nodeRepository.GetEntity<ExternalData.Budget, string>(budgetId).Name);
+            var routineData = _context.Budgets.First(x => x.Id == budgetId).Name;
 
             return Ok(routineData);
         }
@@ -187,7 +178,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         #region Stock
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetStockItems(string id)
+        public IHttpActionResult GetStockItems(string id)
         {
             try
             {
