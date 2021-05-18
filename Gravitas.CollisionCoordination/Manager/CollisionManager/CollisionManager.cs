@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Gravitas.CollisionCoordination.Manager.LaboratoryData;
 using Gravitas.CollisionCoordination.Messages;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.Phones;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
+using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.CollisionCoordination.Manager.CollisionManager
 {
@@ -39,15 +36,15 @@ namespace Gravitas.CollisionCoordination.Manager.CollisionManager
             _context = context;
         }
 
-        public IMessage CreateEmail(long ticketId, List<string> contactData) =>
+        public IMessage CreateEmail(int ticketId, List<string> contactData) =>
             new Email(_connectManager, _laboratoryDataManager, ticketId, contactData);
 
-        public IMessage CreateSms(long ticketId) => new Sms(_connectManager, ticketId);
+        public IMessage CreateSms(int ticketId) => new Sms(_connectManager, ticketId);
 
         public void Approve(Guid opDataId, string approvedBy)
         {
             AddOpVisaRecord(opDataId, $@"Погоджено менеджером({approvedBy})");
-            UpdateOpDataRecord(opDataId, Dom.OpDataState.CollisionApproved);
+            UpdateOpDataRecord(opDataId, OpDataState.CollisionApproved);
 
             _logger.Info($"Collision coordination: collision approved. OpData={opDataId}");
         }
@@ -55,18 +52,18 @@ namespace Gravitas.CollisionCoordination.Manager.CollisionManager
         public void Disapprove(Guid opDataId, string approvedBy)
         {
             AddOpVisaRecord(opDataId, $@"Відмовлено менеджером({approvedBy})");
-            UpdateOpDataRecord(opDataId, Dom.OpDataState.CollisionDisapproved);
+            UpdateOpDataRecord(opDataId, OpDataState.CollisionDisapproved);
 
             _logger.Info($"Collision coordination: collision disapproved. OpData={opDataId}");
         }
 
         public bool IsOpDataValid(Guid opDataId) =>
-            _opDataRepository.GetEntity<LabFacelessOpData, Guid>(opDataId)?.StateId == Dom.OpDataState.Collision ||
-            _opDataRepository.GetEntity<CentralLabOpData, Guid>(opDataId)?.StateId == Dom.OpDataState.Collision;
+            _context.LabFacelessOpDatas.FirstOrDefault(x => x.Id == opDataId)?.StateId == OpDataState.Collision ||
+            _context.CentralLabOpDatas.FirstOrDefault(x => x.Id == opDataId)?.StateId == OpDataState.Collision;
         
         public void SendCentralLabNotification(Guid opDataId, bool approved)
         {
-            var opData = _opDataRepository.GetEntity<CentralLabOpData, Guid>(opDataId);
+            var opData = _context.CentralLabOpDatas.FirstOrDefault(x => x.Id == opDataId);
             if (opData?.TicketId == null) return;
 
             var parameters = new Dictionary<string, object>
@@ -76,7 +73,7 @@ namespace Gravitas.CollisionCoordination.Manager.CollisionManager
 
             try
             {
-                _connectManager.SendSms(Dom.Sms.Template.CentralLaboratoryCollisionProcessed, opData.TicketId, _phonesRepository.GetPhone(Dom.Phone.CentralLaboratoryWorker), parameters);
+                _connectManager.SendSms(SmsTemplate.CentralLaboratoryCollisionProcessed, opData.TicketId, _phonesRepository.GetPhone(Phone.CentralLaboratoryWorker), parameters);
             }
             catch (Exception e)
             {
@@ -84,16 +81,16 @@ namespace Gravitas.CollisionCoordination.Manager.CollisionManager
             }
         }
 
-        private void UpdateOpDataRecord(Guid opDataId, int state)
+        private void UpdateOpDataRecord(Guid opDataId, OpDataState state)
         {
             if (_context.LabFacelessOpDatas.Any(data => data.Id == opDataId))
             {
-                var opData = _opDataRepository.GetEntity<LabFacelessOpData, Guid>(opDataId);
+                var opData = _context.LabFacelessOpDatas.First(x => x.Id == opDataId);
                 opData.StateId = state;
                 _opDataRepository.Update<LabFacelessOpData, Guid>(opData);
             } else if (_context.CentralLabOpDatas.Any(data => data.Id == opDataId))
             {
-                var opData = _opDataRepository.GetEntity<CentralLabOpData, Guid>(opDataId);
+                var opData = _context.CentralLabOpDatas.First(x => x.Id == opDataId);
                 opData.StateId = state;
                 _opDataRepository.Update<CentralLabOpData, Guid>(opData);
             }
@@ -104,22 +101,22 @@ namespace Gravitas.CollisionCoordination.Manager.CollisionManager
         {
             if (_context.LabFacelessOpDatas.Any(data => data.Id == opDataId))
             {
-                _opDataRepository.Add<OpVisa, long>(new OpVisa
+                _opDataRepository.Add<OpVisa, int>(new OpVisa
                 {
                     DateTime = DateTime.Now,
                     Message = message,
                     LabFacelessOpDataId = opDataId,
-                    OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.PrintCollisionManage
+                    OpRoutineStateId = OpRoutine.LaboratoryIn.State.PrintCollisionManage
                 });
             }
             else if (_context.CentralLabOpDatas.Any(data => data.Id == opDataId))
             {
-                _opDataRepository.Add<OpVisa, long>(new OpVisa
+                _opDataRepository.Add<OpVisa, int>(new OpVisa
                 {
                     DateTime = DateTime.Now,
                     Message = message,
                     CentralLaboratoryOpData = opDataId,
-                    OpRoutineStateId = Dom.OpRoutine.CentralLaboratoryProcess.State.PrintCollisionInit
+                    OpRoutineStateId = OpRoutine.CentralLaboratoryProcess.State.PrintCollisionInit
                 });
             }
 

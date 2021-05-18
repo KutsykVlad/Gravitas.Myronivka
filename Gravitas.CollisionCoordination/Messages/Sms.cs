@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Web.Http.Filters;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
-using Gravitas.Model;
+using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.CollisionCoordination.Messages
 {
@@ -13,9 +10,9 @@ namespace Gravitas.CollisionCoordination.Messages
     {
         private readonly IConnectManager _connectManager;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly long _ticketId;
+        private readonly int _ticketId;
 
-        public Sms(IConnectManager connectManager, long ticketId)
+        public Sms(IConnectManager connectManager, int ticketId)
         {
             _connectManager = connectManager;
             _ticketId = ticketId;
@@ -30,7 +27,7 @@ namespace Gravitas.CollisionCoordination.Messages
                 if (contact == null) continue;
                 try
                 {
-                    _connectManager.SendSms(Dom.Sms.Template.RequestForQualityApprovalSms, _ticketId, contact);
+                    _connectManager.SendSms(SmsTemplate.RequestForQualityApprovalSms, _ticketId, contact);
                     _logger.Info($"Collision coordination: sms send. Phone={contact}");
                 }
                 catch (Exception e)

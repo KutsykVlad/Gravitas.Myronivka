@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Gravitas.CollisionCoordination.Manager.LaboratoryData;
 using Gravitas.CollisionCoordination.Models;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
-using Gravitas.Model;
+using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
-using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.TDO.Detail.LabFacelessOpData;
 
 namespace Gravitas.CollisionCoordination.Messages
 {
@@ -17,11 +14,11 @@ namespace Gravitas.CollisionCoordination.Messages
         private readonly IConnectManager _connectManager;
         private readonly ILaboratoryDataManager _laboratoryDataManager;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly long _ticketId;
+        private readonly int _ticketId;
         private readonly List<string> _contactData;
 
         public Email(IConnectManager connectManager,
-            ILaboratoryDataManager laboratoryDataManager, long ticketId, List<string> contactData)
+            ILaboratoryDataManager laboratoryDataManager, int ticketId, List<string> contactData)
         {
             _connectManager = connectManager;
             _laboratoryDataManager = laboratoryDataManager;
@@ -33,7 +30,7 @@ namespace Gravitas.CollisionCoordination.Messages
         {
             if (contacts == null) return false;
 
-            var laboratoryDataVm = templateId == Dom.Email.Template.CentralLaboratoryCollisionApproval
+            var laboratoryDataVm = templateId == (int) EmailTemplate.CentralLaboratoryCollisionApproval
                 ? _laboratoryDataManager.CollectCentralLaboratoryData(_ticketId, contacts.First() ?? "")
                 : _laboratoryDataManager.CollectData(_ticketId, contacts.First() ?? "");
 
@@ -54,7 +51,7 @@ namespace Gravitas.CollisionCoordination.Messages
                 }
                 try
                 {
-                    _connectManager.SendEmail(templateId ?? Dom.Email.Template.CollisionApproval, contact, laboratoryDataVm, laboratoryDataVm.LabolatoryFilePath);
+                    _connectManager.SendEmail(EmailTemplate.CollisionApproval, contact, laboratoryDataVm, laboratoryDataVm.LabolatoryFilePath);
                     _logger.Info($"Collision coordination: email send. Address={contact}");
                 }
                 catch (Exception e)

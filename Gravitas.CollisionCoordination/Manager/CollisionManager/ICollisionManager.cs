@@ -6,8 +6,8 @@ namespace Gravitas.CollisionCoordination.Manager.CollisionManager
 {
     public interface ICollisionManager
     {
-        IMessage CreateEmail(long ticketId, List<string> contactData);
-        IMessage CreateSms(long ticketId);
+        IMessage CreateEmail(int ticketId, List<string> contactData);
+        IMessage CreateSms(int ticketId);
         void Approve(Guid opDataId, string approvedBy);
         void Disapprove(Guid opDataId, string approvedBy);
         bool IsOpDataValid(Guid opDataId);

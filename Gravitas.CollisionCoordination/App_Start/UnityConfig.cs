@@ -16,7 +16,6 @@ using Gravitas.DAL.Repository.Ticket;
 using Gravitas.DAL.Repository.Traffic;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.Messages;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Camera;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.OpData;

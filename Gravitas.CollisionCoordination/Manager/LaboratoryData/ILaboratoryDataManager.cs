@@ -4,7 +4,7 @@ namespace Gravitas.CollisionCoordination.Manager.LaboratoryData
 {
     public interface ILaboratoryDataManager
     {
-        LaboratoryDataVm CollectData(long ticketId, string approvedBy);
-        LaboratoryDataVm CollectCentralLaboratoryData(long ticketId, string approvedBy);
+        LaboratoryDataVm CollectData(int ticketId, string approvedBy);
+        LaboratoryDataVm CollectCentralLaboratoryData(int ticketId, string approvedBy);
     }
 }
