@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Platform.ApiClient.Devices;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
 using Gravitas.Model;

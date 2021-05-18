@@ -1,25 +1,24 @@
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.OpData.NodeOpData
+{
+    class NonStandartOpDataMap : BaseOpDataMap<NonStandartOpData>
+    {
+        public NonStandartOpDataMap()
+        {
+            ToTable("opd.NonStandartOpData");
 
-	class NonStandartOpDataMap : BaseOpDataMap<NonStandartOpData> {
+            HasRequired(e => e.OpDataState)
+                .WithMany(e => e.NonStandartOpDataSet)
+                .HasForeignKey(e => e.StateId);
 
-		public NonStandartOpDataMap() {
+            HasOptional(e => e.Node)
+                .WithMany(e => e.NonStandartOpDataSet)
+                .HasForeignKey(e => e.NodeId);
 
-			this.ToTable("opd.NonStandartOpData");
-
-			this.HasRequired(e => e.OpDataState)
-				.WithMany(e => e.NonStandartOpDataSet)
-				.HasForeignKey(e => e.StateId);
-
-			this.HasOptional(e => e.Node)
-				.WithMany(e => e.NonStandartOpDataSet)
-				.HasForeignKey(e => e.NodeId);
-			
-			this.HasMany(e => e.OpCameraSet)
-				.WithOptional(e => e.NonStandartOpData)
-				.HasForeignKey(e => e.NonStandartOpDataId);
-		}
-	}
+            HasMany(e => e.OpCameraSet)
+                .WithOptional(e => e.NonStandartOpData)
+                .HasForeignKey(e => e.NonStandartOpDataId);
+        }
+    }
 }

@@ -1,35 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Traffic.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.Traffic
 {
     class TrafficHistoryMap : EntityTypeConfiguration<TrafficHistory>
     {
         public TrafficHistoryMap()
         {
-            this.ToTable("TrafficHistory");
-            this.Property(p => p.Id)
+            ToTable("TrafficHistory");
+
+            Property(p => p.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            this.HasRequired(p => p.TicketContainer)
+            HasRequired(p => p.TicketContainer)
                 .WithMany(p => p.TrafficHistory)
                 .HasForeignKey(p => p.TicketContainerId);
 
-            this.HasRequired(p => p.Node)
+            HasRequired(p => p.Node)
                 .WithMany(p => p.TrafficHistory)
                 .HasForeignKey(p => p.NodeId);
 
-            this.Property(p => p.EntranceTime)
+            Property(p => p.EntranceTime)
                 .HasColumnType("datetime2");
 
-            this.Property(p => p.DepartureTime)
+            Property(p => p.DepartureTime)
                 .HasColumnType("datetime2");
         }
     }

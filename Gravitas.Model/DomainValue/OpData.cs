@@ -1,29 +1,26 @@
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainValue
 {
-    public static class OpDataState
+    public enum OpDataState
     {
         // Processing states
-        public const int Init = 1;
-        public const int Processing = 2;
-        public const int Collision = 3;
-        public const int CollisionApproved = 4;
-        public const int CollisionDisapproved = 5;
+        Init = 1,
+        Processing = 2,
+        Collision = 3,
+        CollisionApproved = 4,
+        CollisionDisapproved = 5,
 
         // Finished states
-        public const int Processed = 10;
-        public const int Rejected = 11;
-        public const int Canceled = 12;
-        public const int PartLoad = 13;
-        public const int PartUnload = 14;
-        public const int Reload = 15;
+        Processed = 10,
+        Rejected = 11,
+        Canceled = 12,
+        PartLoad = 13,
+        PartUnload = 14,
+        Reload = 15
     }
 
-    public static class ScaleOpData
+    public enum ScaleOpDataType
     {
-        public static class Type
-        {
-            public const int Tare = 1;
-            public const int Gross = 2;
-        }
+        Tare = 1,
+        Gross = 2
     }
 }

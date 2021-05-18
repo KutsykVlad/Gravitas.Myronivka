@@ -1,24 +1,21 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class OriginTypeMap : EntityTypeConfiguration<OriginType>
+    {
+        public OriginTypeMap()
+        {
+            ToTable("ext.OrganisationType");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class OriginTypeMap : EntityTypeConfiguration<ExternalData.OriginType> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public OriginTypeMap() {
-				this.ToTable("ext.OrganisationType");
-
-				this.HasKey(e => e.Id);
-
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Name)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.Name)
+                .HasMaxLength(250);
+        }
+    }
 }

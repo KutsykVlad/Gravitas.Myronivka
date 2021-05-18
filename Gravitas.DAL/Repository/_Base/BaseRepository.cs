@@ -3,13 +3,14 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.DAL
 {
     public class BaseRepository<TContext> : IBaseRepository<TContext>
-        where TContext : BaseDbContext<TContext>
+        where TContext : BaseDbContext
     {
         private readonly GravitasDbContext _context;
 

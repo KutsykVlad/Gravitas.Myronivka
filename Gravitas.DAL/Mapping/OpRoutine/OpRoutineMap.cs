@@ -1,28 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.OpRoutine.DAO;
+using Gravitas.DAL.Mapping._Base;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.OpRoutine
+{
+    class OpRoutineMap : BaseEntityMap<Model.DomainModel.OpRoutine.DAO.OpRoutine, int>
+    {
+        public OpRoutineMap()
+        {
+            ToTable("OpRoutine");
 
-	class OpRoutineMap : BaseEntityMap<OpRoutine, long> {
+            Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-		public OpRoutineMap() {
-			this.ToTable("OpRoutine");
+            Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50);
 
-			this.Property(e => e.Id)
-				.HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(e => e.Description)
+                .HasMaxLength(50);
 
-			this.Property(e => e.Name)
-				.IsRequired()
-				.HasMaxLength(50);
-
-			this.Property(e => e.Description)
-				.HasMaxLength(50);
-
-			this.HasMany(e => e.OpRoutineStateSet)
-				.WithRequired(e => e.OpRoutine)
-				.WillCascadeOnDelete(false);			
-		}
-	}
+            HasMany(e => e.OpRoutineStateSet)
+                .WithRequired(e => e.OpRoutine)
+                .WillCascadeOnDelete(false);
+        }
+    }
 }

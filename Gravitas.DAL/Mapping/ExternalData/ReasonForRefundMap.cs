@@ -1,31 +1,27 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.ReasonForRefund.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class ReasonForRefundMap : EntityTypeConfiguration<ReasonForRefund>
+    {
+        public ReasonForRefundMap()
+        {
+            ToTable("ext.ReasonForRefund");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class ReasonForRefundMap : EntityTypeConfiguration<ExternalData.ReasonForRefund> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public ReasonForRefundMap() {
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.ToTable("ext.ReasonForRefund");
+            Property(e => e.Name)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
-
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Name)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ParentId)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.ParentId)
+                .HasMaxLength(250);
+        }
+    }
 }

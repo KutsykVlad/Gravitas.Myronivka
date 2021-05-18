@@ -5,7 +5,7 @@ using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.DAL
 {
-    public interface IBaseRepository<TContext> where TContext : BaseDbContext<TContext>
+    public interface IBaseRepository<TContext> where TContext : BaseDbContext
     {
         TEntity GetEntity<TEntity, TKey>(TKey id) where TEntity : BaseEntity<TKey>;
         IQueryable<TEntity> GetQuery<TEntity, TKey>() where TEntity : BaseEntity<TKey>;

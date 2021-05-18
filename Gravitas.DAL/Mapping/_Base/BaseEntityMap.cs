@@ -1,8 +1,7 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Base;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping._Base
 {
     internal class BaseEntityMap<TEntity, TKey> : EntityTypeConfiguration<TEntity> where TEntity : BaseEntity<TKey>
     {

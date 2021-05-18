@@ -1,36 +1,33 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.Subdivision.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class SubdivisionMap : EntityTypeConfiguration<Subdivision>
+    {
+        public SubdivisionMap()
+        {
+            ToTable("ext.Subdivision");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class SubdivisionMap : EntityTypeConfiguration<ExternalData.Subdivision> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public SubdivisionMap() {
-				this.ToTable("ext.Subdivision");
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
+            Property(e => e.ShortName)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
+            Property(e => e.FullName)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
+            Property(e => e.Address)
+                .HasMaxLength(250);
 
-				this.Property(e => e.ShortName)
-					.HasMaxLength(250);
-
-				this.Property(e => e.FullName)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Address)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ParentId)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.ParentId)
+                .HasMaxLength(250);
+        }
+    }
 }

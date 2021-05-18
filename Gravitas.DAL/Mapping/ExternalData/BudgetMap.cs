@@ -1,30 +1,27 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.Budget.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class BudgetMap : EntityTypeConfiguration<Budget>
+    {
+        public BudgetMap()
+        {
+            ToTable("ext.Budget");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class BudgetMap : EntityTypeConfiguration<ExternalData.Budget> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public BudgetMap() {
-				this.ToTable("ext.Budget");
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
+            Property(e => e.Name)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Name)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ParentId)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.ParentId)
+                .HasMaxLength(250);
+        }
+    }
 }

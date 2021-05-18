@@ -1,17 +1,18 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.Card
 {
-	class CardTypeMap : EntityTypeConfiguration<CardType> {
-		public CardTypeMap() {
-			this.ToTable("CardType");
+    class CardTypeMap : EntityTypeConfiguration<CardType>
+    {
+        public CardTypeMap()
+        {
+            ToTable("CardType");
 
-			this.HasMany(e => e.CardSet)
-				.WithRequired(e => e.CardType)
-				.HasForeignKey(e => e.TypeId)
-				.WillCascadeOnDelete(false);
-		}
-	}
+            HasMany(e => e.CardSet)
+                .WithRequired(e => e.CardType)
+                .HasForeignKey(e => e.TypeId)
+                .WillCascadeOnDelete(false);
+        }
+    }
 }

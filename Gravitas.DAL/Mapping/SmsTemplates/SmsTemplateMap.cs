@@ -1,23 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Gravitas.Model;
+using Gravitas.DAL.Mapping._Base;
 using Gravitas.Model.DomainModel.Sms.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.SmsTemplates
 {
-    class SmsTemplateMap:BaseEntityMap<SmsTemplate, long>
+    class SmsTemplateMap:BaseEntityMap<SmsTemplate, int>
     {
         public SmsTemplateMap()
         {
-            this.ToTable("SmsTemplates");
-            this.Property(t => t.Id)
+            ToTable("SmsTemplates");
+            
+            Property(t => t.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-            this.Property(t => t.Name)
+            Property(t => t.Name)
                 .HasMaxLength(50);
 
-            this.Property(t => t.Text)
+            Property(t => t.Text)
                 .IsRequired();
-
         }
     }
 }

@@ -1,18 +1,17 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OrganizationUnit.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.OrganizationUnit
+{
+    class OrganizationUnitTypeMap : EntityTypeConfiguration<OrganizationUnitType>
+    {
+        public OrganizationUnitTypeMap()
+        {
+            ToTable("OrganizationUnitType");
 
-	class OrganizationUnitTypeMap : EntityTypeConfiguration<OrganizationUnitType> {
-
-		public OrganizationUnitTypeMap() {
-
-			this.ToTable("OrganizationUnitType");
-
-			this.Property(e => e.Name)
-				.IsRequired()
-				.HasMaxLength(50);
-		}
-	}
+            Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50);
+        }
+    }
 }

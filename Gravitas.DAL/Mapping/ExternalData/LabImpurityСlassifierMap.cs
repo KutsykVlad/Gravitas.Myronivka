@@ -1,25 +1,21 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.LabClassifier.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class LabImpurityClassifierMap : EntityTypeConfiguration<LabImpurityСlassifier>
+    {
+        public LabImpurityClassifierMap()
+        {
+            ToTable("ext.LabImpurityСlassifier");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class LabImpurityClassifierMap : EntityTypeConfiguration<ExternalData.LabImpurityСlassifier> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public LabImpurityClassifierMap()
-			{
-				this.ToTable("ext.LabImpurityСlassifier");
-
-				this.HasKey(e => e.Id);
-
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Name)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.Name)
+                .HasMaxLength(250);
+        }
+    }
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Common.Helper;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;

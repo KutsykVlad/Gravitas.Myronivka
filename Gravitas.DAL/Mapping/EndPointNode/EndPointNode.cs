@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.EndPointNodes.DAO;
+using Gravitas.DAL.Mapping._Base;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.EndPointNode
 {
-    internal class EndPointNodeMap : BaseEntityMap<EndPointNode, int>
+    internal class EndPointNodeMap : BaseEntityMap<Model.DomainModel.EndPointNodes.DAO.EndPointNode, int>
     {
         public EndPointNodeMap()
         {

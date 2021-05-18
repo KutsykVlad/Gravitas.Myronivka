@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.DAL.Mapping._Base;
 
 namespace Gravitas.DAL.Mapping.PackingTare
 {
-    class PackingTareMap : BaseEntityMap<Model.DomainModel.PackingTare.DAO.PackingTare, long>
+    class PackingTareMap : BaseEntityMap<Model.DomainModel.PackingTare.DAO.PackingTare, int>
     {
         public PackingTareMap()
         {

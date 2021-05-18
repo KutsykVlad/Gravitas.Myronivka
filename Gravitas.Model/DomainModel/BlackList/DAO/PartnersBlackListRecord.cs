@@ -1,4 +1,5 @@
 ﻿using Gravitas.Model.DomainModel.Base;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DAO;
 
 namespace Gravitas.Model.DomainModel.BlackList.DAO
 {
@@ -6,6 +7,6 @@ namespace Gravitas.Model.DomainModel.BlackList.DAO
     {
         public string PartnerId { get; set; }
         public string Comment { get; set; }
-        public virtual ExternalData.AcceptancePoint.DAO.ExternalData.Partner Partner { get; set; }
+        public virtual Partner Partner { get; set; }
     }
 }

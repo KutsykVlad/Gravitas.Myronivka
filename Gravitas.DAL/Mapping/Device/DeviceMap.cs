@@ -1,24 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Device.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.Device
+{
+    class DeviceMap : EntityTypeConfiguration<Model.DomainModel.Device.DAO.Device>
+    {
+        public DeviceMap()
+        {
+            ToTable("Device");
 
-	class DeviceMap : EntityTypeConfiguration<Device> {
-		public DeviceMap() {
-			this.ToTable("Device");
+            Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-			this.Property(e => e.Id)
-				.HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(e => e.Name)
+                .HasMaxLength(150)
+                .IsRequired();
 
-			this.Property(e => e.Name)
-				.HasMaxLength(150)
-				.IsRequired();
-
-			this.HasOptional(e => e.ParentDevice)
-				.WithMany(e => e.ChildDeviceSet)
-				.HasForeignKey(e => e.ParentDeviceId);
-		}
-	}
+            HasOptional(e => e.ParentDevice)
+                .WithMany(e => e.ChildDeviceSet)
+                .HasForeignKey(e => e.ParentDeviceId);
+        }
+    }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;

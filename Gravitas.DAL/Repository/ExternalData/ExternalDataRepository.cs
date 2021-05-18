@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model.Dto;
 using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail.ExternalData;
 

@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Linq;
+using Gravitas.DAL.DbContext;
 
 namespace Gravitas.DAL.Repository.PhoneInformTicketAssignment
 {

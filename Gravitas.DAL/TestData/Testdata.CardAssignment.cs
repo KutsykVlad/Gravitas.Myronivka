@@ -4,6 +4,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Dom = Gravitas.Model.DomainValue.Dom;

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.OwnTransport.DTO;

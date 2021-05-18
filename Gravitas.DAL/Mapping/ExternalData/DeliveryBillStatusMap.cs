@@ -1,24 +1,21 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.DeliveryBill.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class DeliveryBillStatusMap : EntityTypeConfiguration<DeliveryBillStatus>
+    {
+        public DeliveryBillStatusMap()
+        {
+            ToTable("ext.DeliveryBillStatus");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class DeliveryBillStatusMap : EntityTypeConfiguration<ExternalData.DeliveryBillStatus> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public DeliveryBillStatusMap() {
-				this.ToTable("ext.DeliveryBillStatus");
-
-				this.HasKey(e => e.Id);
-
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Name)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.Name)
+                .HasMaxLength(250);
+        }
+    }
 }

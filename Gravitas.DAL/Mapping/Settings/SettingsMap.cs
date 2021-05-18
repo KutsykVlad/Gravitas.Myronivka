@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.DAL.Mapping._Base;
 
 namespace Gravitas.DAL.Mapping.Settings
 {
@@ -7,6 +8,7 @@ namespace Gravitas.DAL.Mapping.Settings
         public SettingsMap()
         {
             ToTable("Settings");
+            
             Property(t => t.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
         }

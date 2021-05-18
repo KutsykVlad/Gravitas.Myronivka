@@ -1,4 +1,5 @@
 ﻿using System;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
 using Gravitas.Model.DomainModel.Node.TDO.Json;

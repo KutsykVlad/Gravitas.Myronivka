@@ -1,4 +1,5 @@
-﻿using Gravitas.Model;
+﻿using Gravitas.DAL.DbContext;
+using Gravitas.Model;
 using Gravitas.Model.DomainModel.Sms.DTO;
 
 namespace Gravitas.DAL 

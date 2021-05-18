@@ -1,20 +1,55 @@
 using System.Data.Entity;
 using Gravitas.DAL.Mapping;
+using Gravitas.DAL.Mapping.BlackList;
+using Gravitas.DAL.Mapping.Card;
+using Gravitas.DAL.Mapping.Device;
+using Gravitas.DAL.Mapping.EmployeeRoles;
+using Gravitas.DAL.Mapping.EndPointNode;
 using Gravitas.DAL.Mapping.MixedFeed;
+using Gravitas.DAL.Mapping.OpData;
+using Gravitas.DAL.Mapping.OpData.NodeOpData;
+using Gravitas.DAL.Mapping.OpDataEvent;
+using Gravitas.DAL.Mapping.OpRoutine;
+using Gravitas.DAL.Mapping.OrganizationUnit;
+using Gravitas.DAL.Mapping.OwnTransport;
 using Gravitas.DAL.Mapping.PackingTare;
+using Gravitas.DAL.Mapping.PhoneDictionary;
 using Gravitas.DAL.Mapping.PhoneInformTicketAssignment;
 using Gravitas.DAL.Mapping.PreRegistration;
+using Gravitas.DAL.Mapping.Queue;
+using Gravitas.DAL.Mapping.RouteTemplate;
 using Gravitas.DAL.Mapping.Settings;
+using Gravitas.DAL.Mapping.SmsTemplates;
+using Gravitas.DAL.Mapping.Ticket;
+using Gravitas.DAL.Mapping.Traffic;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
+using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Budget.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Contract.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Crop.DAO;
+using Gravitas.Model.DomainModel.ExternalData.DeliveryBill.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Employee.DAO;
+using Gravitas.Model.DomainModel.ExternalData.ExternalUser.DAO;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DAO;
+using Gravitas.Model.DomainModel.ExternalData.LabClassifier.DAO;
+using Gravitas.Model.DomainModel.ExternalData.MeasureUnit.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Product.DAO;
+using Gravitas.Model.DomainModel.ExternalData.ReasonForRefund.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Route.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Stock.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Subdivision.DAO;
+using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DAO;
+using Gravitas.Model.DomainModel.ExternalData.SupplyType.DAO;
+using Gravitas.Model.DomainModel.ExternalData.YearOfHarvest.DAO;
 using Gravitas.Model.DomainModel.MixedFeed.DAO;
-using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Model.DomainModel.OpCameraImage;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
-using Gravitas.Model.DomainModel.OpDataState.DAO;
 using Gravitas.Model.DomainModel.OpRoutine.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.DomainModel.OrganizationUnit.DAO;
@@ -26,14 +61,13 @@ using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
 using Gravitas.Model.DomainModel.PreRegistration.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainModel.Settings.DAO;
-using Gravitas.Model.DomainModel.Sms.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainModel.Traffic.DAO;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using ExternalDataMap = Gravitas.DAL.Mapping.ExternalData.ExternalDataMap;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.DbContext
 {
-    public class GravitasDbContext : BaseDbContext<GravitasDbContext>
+    public class GravitasDbContext : System.Data.Entity.DbContext
     {
         public GravitasDbContext() : base("name=GravitasDbContext")
         {
@@ -41,17 +75,16 @@ namespace Gravitas.DAL
 
         public DbSet<PreRegisterQueue> PreRegisterQueues { get; set; }
         public DbSet<MixedFeedSiloDevice> MixedFeedSiloDevices { get; set; }
-        public DbSet<ExternalData.ExternalUser> ExternalUsers { get; set; }
+        public DbSet<ExternalUser> ExternalUsers { get; set; }
         public DbSet<OpVisa> OpVisas { get; set; }
-        public DbSet<OpRoutineTransition> OpRoutineTransitions { get; set; }
         public DbSet<TrafficHistory> TrafficHistories { get; set; }
         public DbSet<RoleAssignment> RoleAssignments { get; set; }
         public DbSet<EmployeeRole> EmployeeRoles { get; set; }
         public DbSet<TicketPackingTare> TicketPackingTares { get; set; }
         public DbSet<OpDataEvent> OpDataEvents { get; set; }
         public DbSet<Card> Cards { get; set; }
-        public DbSet<Node> Nodes { get; set; }
-        public DbSet<SingleWindowOpData> SingleWindowOpDatas { get; set; }
+        public DbSet<Model.DomainModel.Node.DAO.Node> Nodes { get; set; }
+        public DbSet<Model.DomainModel.OpData.DAO.SingleWindowOpData> SingleWindowOpDatas { get; set; }
         public DbSet<Settings> Set { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketContainer> TicketContainers { get; set; }
@@ -62,29 +95,29 @@ namespace Gravitas.DAL
         public DbSet<LoadGuideOpData> LoadGuideOpDatas { get; set; }
         public DbSet<LabFacelessOpData> LabFacelessOpDatas { get; set; }
         public DbSet<SecurityCheckReviewOpData> SecurityCheckReviewOpDatas { get; set; }
-        public DbSet<ExternalData.AcceptancePoint> AcceptancePoints { get; set; }
-        public DbSet<ExternalData.Budget> Budgets { get; set; }
+        public DbSet<AcceptancePoint> AcceptancePoints { get; set; }
+        public DbSet<Budget> Budgets { get; set; }
         public DbSet<OpCameraImage> OpCameraImages { get; set; }
         public DbSet<ScaleOpData> ScaleOpDatas { get; set; }
-        public DbSet<ExternalData.Contract> Contracts { get; set; }
-        public DbSet<ExternalData.Crop> Crops { get; set; }
-        public DbSet<ExternalData.DeliveryBillStatus> DeliveryBillStatuses { get; set; }
-        public DbSet<ExternalData.DeliveryBillType> DeliveryBillTypes { get; set; }
-        public DbSet<ExternalData.Employee> Employees { get; set; }
-        public DbSet<ExternalData.FixedAsset> FixedAssets { get; set; }
-        public DbSet<ExternalData.LabImpurityСlassifier> LabImpurityСlassifiers { get; set; }
-        public DbSet<ExternalData.LabHumidityСlassifier> LabHumidityСlassifiers { get; set; }
-        public DbSet<ExternalData.LabInfectionedСlassifier> LabInfectionedСlassifiers { get; set; }
-        public DbSet<ExternalData.MeasureUnit> MeasureUnits { get; set; }
-        public DbSet<ExternalData.OriginType> OriginTypes { get; set; }
-        public DbSet<ExternalData.Product> Products { get; set; }
-        public DbSet<ExternalData.ReasonForRefund> ReasonForRefunds { get; set; }
-        public DbSet<ExternalData.Route> Routes { get; set; }
-        public DbSet<ExternalData.Stock> Stocks { get; set; }
-        public DbSet<ExternalData.Organisation> Organisations { get; set; }
-        public DbSet<ExternalData.Partner> Partners { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
+        public DbSet<Crop> Crops { get; set; }
+        public DbSet<DeliveryBillStatus> DeliveryBillStatuses { get; set; }
+        public DbSet<DeliveryBillType> DeliveryBillTypes { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<FixedAsset> FixedAssets { get; set; }
+        public DbSet<LabImpurityСlassifier> LabImpurityСlassifiers { get; set; }
+        public DbSet<LabHumidityСlassifier> LabHumidityСlassifiers { get; set; }
+        public DbSet<LabInfectionedСlassifier> LabInfectionedСlassifiers { get; set; }
+        public DbSet<MeasureUnit> MeasureUnits { get; set; }
+        public DbSet<OriginType> OriginTypes { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ReasonForRefund> ReasonForRefunds { get; set; }
+        public DbSet<Route> Routes { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
+        public DbSet<Organisation> Organisations { get; set; }
+        public DbSet<Partner> Partners { get; set; }
         public DbSet<QueueRegister> QueueRegisters { get; set; }
-        public DbSet<ExternalData.Subdivision> Subdivisions { get; set; }
+        public DbSet<Subdivision> Subdivisions { get; set; }
         public DbSet<Device> Devices { get; set; }
         public DbSet<DeviceState> DeviceStates { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -104,12 +137,12 @@ namespace Gravitas.DAL
         public DbSet<PhoneDictionary> PhoneDictionaries { get; set; }
         public DbSet<TicketFile> TicketFiles { get; set; }
         public DbSet<UnloadPointOpData> UnloadPointOpDatas { get; set; }
-        public DbSet<SmsTemplate> SmsTemplates { get; set; }
+        public DbSet<Gravitas.Model.DomainModel.Sms.DAO.SmsTemplate> SmsTemplates { get; set; }
         public DbSet<PreRegisterProduct> PreRegisterProducts { get; set; }
-        public DbSet<OpDataState> OpDataStates { get; set; }
-        public DbSet<ExternalData.SupplyTransportType> SupplyTransportTypes { get; set; }
-        public DbSet<ExternalData.SupplyType> SupplyTypes { get; set; }
-        public DbSet<ExternalData.YearOfHarvest> YearOfHarvests { get; set; }
+        public DbSet<Gravitas.Model.DomainModel.OpDataState.DAO.OpDataState> OpDataStates { get; set; }
+        public DbSet<SupplyTransportType> SupplyTransportTypes { get; set; }
+        public DbSet<SupplyType> SupplyTypes { get; set; }
+        public DbSet<YearOfHarvest> YearOfHarvests { get; set; }
         public DbSet<SecurityCheckInOpData> SecurityCheckInOpDatas { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -118,21 +151,18 @@ namespace Gravitas.DAL
             modelBuilder.Configurations.Add(new CardTypeMap());
             modelBuilder.Configurations.Add(new TicketMap());
             modelBuilder.Configurations.Add(new TicketStatusMap());
-            modelBuilder.Configurations.Add(new TicketConteinerMap());
+            modelBuilder.Configurations.Add(new TicketContainerMap());
             modelBuilder.Configurations.Add(new TicketContainerStatusMap());
             modelBuilder.Configurations.Add(new TicketFileMap());
             modelBuilder.Configurations.Add(new TicketFileTypeMap());
             modelBuilder.Configurations.Add(new OpRoutineMap());
             modelBuilder.Configurations.Add(new OpRoutineStateMap());
-            modelBuilder.Configurations.Add(new OpRoutineProcessorMap());
-            modelBuilder.Configurations.Add(new OpRoutineTransitionMap());
             modelBuilder.Configurations.Add(new OpVisaMap());
             modelBuilder.Configurations.Add(new OpCameraImageMap());
             modelBuilder.Configurations.Add(new PhoneDictionaryMap());
             modelBuilder.Configurations.Add(new PhoneInformTicketAssignmentMap());
             modelBuilder.Configurations.Add(new MixedFeedSiloMap());
             modelBuilder.Configurations.Add(new MixedFeedSiloDeviceMap());
-            modelBuilder.Configurations.Add(new NodeMap());
             modelBuilder.Configurations.Add(new EndPointNodeMap());
             modelBuilder.Configurations.Add(new RouteTemplateMap());
             modelBuilder.Configurations.Add(new DeviceMap());

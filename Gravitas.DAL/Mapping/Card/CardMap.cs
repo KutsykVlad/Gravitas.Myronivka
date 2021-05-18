@@ -1,21 +1,19 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Card.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.Card
+{
+    class CardMap : EntityTypeConfiguration<Model.DomainModel.Card.DAO.Card>
+    {
+        public CardMap()
+        {
+            ToTable("Card");
 
-	class CardMap : EntityTypeConfiguration<Card> {
+            HasKey(p => p.Id);
+            Property(e => e.Id).HasMaxLength(50);
 
-		public CardMap() {
-			this.ToTable("Card");
-
-			this.HasKey(p => p.Id);
-			this.Property(e => e.Id).HasMaxLength(50);
-
-		    this.HasOptional(e => e.Employee)
-		        .WithMany(e => e.CardSet)
-		        .HasForeignKey(e => e.EmployeeId);
-
-		}
-	}
+            HasOptional(e => e.Employee)
+                .WithMany(e => e.CardSet)
+                .HasForeignKey(e => e.EmployeeId);
+        }
+    }
 }

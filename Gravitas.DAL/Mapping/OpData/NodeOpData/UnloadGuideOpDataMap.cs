@@ -1,33 +1,32 @@
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.OpData.NodeOpData
+{
+    class UnloadGuideOpDataMap : BaseOpDataMap<UnloadGuideOpData>
+    {
+        public UnloadGuideOpDataMap()
+        {
+            ToTable("opd.UnloadGuideOpData");
 
-	class UnloadGuideOpDataMap : BaseOpDataMap<UnloadGuideOpData> {
+            HasRequired(e => e.OpDataState)
+                .WithMany(e => e.UnloadGuideOpDataSet)
+                .HasForeignKey(e => e.StateId);
 
-		public UnloadGuideOpDataMap() {
+            HasOptional(e => e.Ticket)
+                .WithMany(e => e.UnloadGuideOpDataSet)
+                .HasForeignKey(e => e.TicketId);
 
-			this.ToTable("opd.UnloadGuideOpData");
+            HasOptional(e => e.Node)
+                .WithMany(e => e.UnloadGuideOpDataSet)
+                .HasForeignKey(e => e.NodeId);
 
-			this.HasRequired(e => e.OpDataState)
-				.WithMany(e => e.UnloadGuideOpDataSet)
-				.HasForeignKey(e => e.StateId);
+            HasMany(e => e.OpVisaSet)
+                .WithOptional(e => e.UnloadGuideOpData)
+                .HasForeignKey(e => e.UnloadGuideOpDataId);
 
-			this.HasOptional(e => e.Ticket)
-				.WithMany(e => e.UnloadGuideOpDataSet)
-				.HasForeignKey(e => e.TicketId);
-
-			this.HasOptional(e => e.Node)
-				.WithMany(e => e.UnloadGuideOpDataSet)
-				.HasForeignKey(e => e.NodeId);
-
-			this.HasMany(e => e.OpVisaSet)
-				.WithOptional(e => e.UnloadGuideOpData)
-				.HasForeignKey(e => e.UnloadGuideOpDataId);
-
-			this.HasMany(e => e.OpCameraSet)
-				.WithOptional(e => e.UnloadGuideOpData)
-				.HasForeignKey(e => e.UnloadGuideOpDataId);
-		}
-	}
+            HasMany(e => e.OpCameraSet)
+                .WithOptional(e => e.UnloadGuideOpData)
+                .HasForeignKey(e => e.UnloadGuideOpDataId);
+        }
+    }
 }

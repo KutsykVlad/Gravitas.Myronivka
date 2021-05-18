@@ -1,27 +1,27 @@
-﻿using Gravitas.Model;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.DAL.Mapping._Base;
 using Gravitas.Model.DomainModel.Queue.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.Queue
 {
-    class QueueRegisterMap : BaseEntityMap<QueueRegister, long>
+    class QueueRegisterMap : BaseEntityMap<QueueRegister, int>
     {
         public QueueRegisterMap()
         {
-            this.ToTable("QueueRegister");
+            ToTable("QueueRegister");
 
-            this.Property(p => p.Id)
+            Property(p => p.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            this.Property(e => e.RegisterTime);
+            Property(e => e.RegisterTime);
 
-            this.Property(e => e.TicketContainerId);
+            Property(e => e.TicketContainerId);
 
-            this.Property(e => e.TruckPlate);
+            Property(e => e.TruckPlate);
 
-            this.Property(e => e.TrailerPlate);
+            Property(e => e.TrailerPlate);
 
-            this.Property(e => e.PhoneNumber);
+            Property(e => e.PhoneNumber);
         }
     }
 }

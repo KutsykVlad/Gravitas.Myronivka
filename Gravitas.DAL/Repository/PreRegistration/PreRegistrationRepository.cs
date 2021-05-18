@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.PreRegistration.DAO;
 using Gravitas.Model.DomainModel.PreRegistration.DTO;

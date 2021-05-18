@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.Platform.Web.ViewModel;
 
 namespace Gravitas.Platform.Web.Manager

@@ -1,4 +1,6 @@
-﻿namespace Gravitas.DAL.PostDeployment
+﻿using Gravitas.DAL.DbContext;
+
+namespace Gravitas.DAL.PostDeployment
 {
     public static partial class PostDeployment
     {

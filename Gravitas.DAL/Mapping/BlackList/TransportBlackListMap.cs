@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.BlackList
 {
     class TransportBlackListMap :  EntityTypeConfiguration<TransportBlackListRecord>
     {
         public TransportBlackListMap()
         {
-            this.ToTable("blacklist.Transport");
+            ToTable("blacklist.Transport");
 
-            this.HasKey(list => list.Id);
-            this.Property(x => x.Id)
+            HasKey(list => list.Id);
+            Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
         }
     }

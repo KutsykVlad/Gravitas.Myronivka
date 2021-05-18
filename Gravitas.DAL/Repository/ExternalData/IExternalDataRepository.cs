@@ -1,4 +1,5 @@
-﻿using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail;
+﻿using Gravitas.DAL.DbContext;
+using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail;
 
 namespace Gravitas.DAL {
 

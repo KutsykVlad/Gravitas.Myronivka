@@ -1,34 +1,30 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.MeasureUnit.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class MeasureUnitMap : EntityTypeConfiguration<MeasureUnit>
+    {
+        public MeasureUnitMap()
+        {
+            ToTable("ext.MeasureUnit");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class MeasureUnitMap : EntityTypeConfiguration<ExternalData.MeasureUnit> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public MeasureUnitMap()
-			{
-				this.ToTable("ext.MeasureUnit");
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
+            Property(e => e.ShortName)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
+            Property(e => e.FullName)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ShortName)
-					.HasMaxLength(250);
-
-				this.Property(e => e.FullName)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ParentId)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.ParentId)
+                .HasMaxLength(250);
+        }
+    }
 }

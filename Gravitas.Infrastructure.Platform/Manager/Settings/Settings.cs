@@ -2,6 +2,7 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Settings
 {

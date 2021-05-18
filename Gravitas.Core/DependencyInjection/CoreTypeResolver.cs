@@ -13,6 +13,7 @@ using Gravitas.Core.Manager.VkModuleSocket1;
 using Gravitas.Core.Manager.VkModuleSocket2;
 using Gravitas.Core.Valves;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.PhoneInformTicketAssignment;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.Messages;

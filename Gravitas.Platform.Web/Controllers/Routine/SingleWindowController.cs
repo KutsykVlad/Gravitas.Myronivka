@@ -6,6 +6,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.PackingTare;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.SignalRClient;

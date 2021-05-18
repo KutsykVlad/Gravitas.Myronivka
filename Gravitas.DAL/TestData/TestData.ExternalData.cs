@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity.Migrations;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model;
 using Dom = Gravitas.Model.DomainValue.Dom;
 using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;

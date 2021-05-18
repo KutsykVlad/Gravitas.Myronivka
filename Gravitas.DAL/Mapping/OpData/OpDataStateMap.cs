@@ -1,56 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Gravitas.Model;
+using Gravitas.DAL.Mapping._Base;
 using Gravitas.Model.DomainModel.OpDataState.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.OpData
 {
-	class OpDataStateMap : BaseEntityMap<OpDataState, long> {
-		public OpDataStateMap() {
+    class OpDataStateMap : BaseEntityMap<OpDataState, int>
+    {
+        public OpDataStateMap()
+        {
+            ToTable("OpDataState");
 
-			this.ToTable("OpDataState");
+            Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-			this.Property(e => e.Id)
-				.HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-
-			this.Property(e => e.Name)
-				.IsRequired()
-				.HasMaxLength(50);
-
-			//this.HasMany(e => e.SingleWindowOpDataSet)
-			//	.WithRequired(e => e.OpDataState)
-			//	.HasForeignKey(e => e.StateId);
-
-			//this.HasMany(e => e.SecurityCheckInOpDataSet)
-			//	.WithRequired(e => e.OpDataState)
-			//	.HasForeignKey(e => e.StateId);
-
-			//this.HasMany(e => e.SecurityCheckOutOpDataSet)
-			//	.WithRequired(e => e.OpDataState)
-			//	.HasForeignKey(e => e.StateId);
-
-			//this.HasMany(e => e.ScaleOpDataSet)
-			//	.WithRequired(e => e.OpDataState)
-			//	.HasForeignKey(e => e.StateId);
-
-			//this.HasMany(e => e.LabFacelessOpDataSet)
-			//	.WithRequired(e => e.OpDataState)
-			//	.HasForeignKey(e => e.StateId);
-
-			//this.HasMany(e => e.LabRegularOpDataSet)
-			//	.WithRequired(e => e.OpDataState)
-			//	.HasForeignKey(e => e.StateId);
-
-			//this.HasMany(e => e.LoadOpDataSet)
-			//	.WithRequired(e => e.OpDataState)
-			//	.HasForeignKey(e => e.StateId);
-
-			//this.HasMany(e => e.UnloadOpDataSet)
-			//	.WithRequired(e => e.OpDataState)
-			//	.HasForeignKey(e => e.StateId);
-
-			//this.HasMany(e => e.NonStandartOpDataSet)
-			//	.WithRequired(e => e.OpDataState)
-			//	.HasForeignKey(e => e.StateId);
-		}
-	}
+            Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50);
+        }
+    }
 }

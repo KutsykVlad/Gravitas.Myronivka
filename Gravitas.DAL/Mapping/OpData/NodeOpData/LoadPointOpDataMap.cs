@@ -1,31 +1,30 @@
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.OpData.NodeOpData
 {
     class LoadPointOpDataMap : BaseOpDataMap<LoadPointOpData>
     {
         public LoadPointOpDataMap()
         {
-            this.ToTable("opd.LoadPointOpData");
+            ToTable("opd.LoadPointOpData");
 
-            this.HasRequired(e => e.OpDataState)
+            HasRequired(e => e.OpDataState)
                 .WithMany(e => e.LoadPointOpDataSet)
                 .HasForeignKey(e => e.StateId);
 
-            this.HasOptional(e => e.Ticket)
+            HasOptional(e => e.Ticket)
                 .WithMany(e => e.LoadPointOpDataSet)
                 .HasForeignKey(e => e.TicketId);
 
-            this.HasOptional(e => e.Node)
+            HasOptional(e => e.Node)
                 .WithMany(e => e.LoadPointOpDataSet)
                 .HasForeignKey(e => e.NodeId);
 
-            this.HasMany(e => e.OpVisaSet)
+            HasMany(e => e.OpVisaSet)
                 .WithOptional(e => e.LoadPointOpData)
                 .HasForeignKey(e => e.LoadPointOpDataId);
 
-            this.HasMany(e => e.OpCameraSet)
+            HasMany(e => e.OpCameraSet)
                 .WithOptional(e => e.LoadPointOpData)
                 .HasForeignKey(e => e.LoadPointOpDataId);
         }

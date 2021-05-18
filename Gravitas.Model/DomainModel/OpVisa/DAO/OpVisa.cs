@@ -4,7 +4,6 @@ using Gravitas.Model.DomainModel.ExternalData.Employee.DAO;
 using Gravitas.Model.DomainModel.MixedFeed.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpRoutine.DAO;
-using SingleWindowOpData = Gravitas.Model.DomainValue.SingleWindowOpData;
 
 namespace Gravitas.Model.DomainModel.OpVisa.DAO
 {
@@ -38,7 +37,7 @@ namespace Gravitas.Model.DomainModel.OpVisa.DAO
         public virtual SecurityCheckInOpData SecurityCheckInOpData { get; set; }
         public virtual SecurityCheckOutOpData SecurityCheckOutOpData { get; set; }
         public virtual SecurityCheckReviewOpData SecurityCheckReviewOpData { get; set; }
-        public virtual ScaleOpData ScaleOpData { get; set; }
+        public virtual Gravitas.Model.DomainModel.OpData.DAO.ScaleOpData ScaleOpData { get; set; }
         public virtual UnloadPointOpData UnloadPointOpData { get; set; }
         public virtual UnloadGuideOpData UnloadGuideOpData { get; set; }
         public virtual LoadPointOpData LoadPointOpData { get; set; }

@@ -1,32 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Node.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.Node
+{
+    class NodeMap : EntityTypeConfiguration<Model.DomainModel.Node.DAO.Node>
+    {
+        public NodeMap()
+        {
+            ToTable("Node");
 
-	class NodeMap : EntityTypeConfiguration<Node> {
+            Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-		public NodeMap() {
-			this.ToTable("Node");
+            Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50);
+            
+            Property(e => e.Code)
+                .IsRequired()
+                .HasMaxLength(50);
 
-			this.Property(e => e.Id)
-				.HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-
-			this.Property(e => e.Name)
-				.IsRequired()
-				.HasMaxLength(50);
-			this.Property(e => e.Code)
-				.IsRequired()
-				.HasMaxLength(50);
-
-			this.HasOptional(e => e.OrganizationUnit)
-				.WithMany(e => e.NodeSet)
-				.HasForeignKey(e => e.OrganisationUnitId);
-			
-			this.HasMany(e => e.NodeConstraintSet)
-				.WithRequired(e => e.Node)
-				.WillCascadeOnDelete(false);
-		}
-	}
+            HasOptional(e => e.OrganizationUnit)
+                .WithMany(e => e.NodeSet)
+                .HasForeignKey(e => e.OrganisationUnitId);
+        }
+    }
 }

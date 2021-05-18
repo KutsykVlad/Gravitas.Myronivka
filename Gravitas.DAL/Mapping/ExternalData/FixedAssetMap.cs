@@ -1,39 +1,36 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class FixedAssetMap : EntityTypeConfiguration<FixedAsset>
+    {
+        public FixedAssetMap()
+        {
+            ToTable("ext.FixedAsset");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class FixedAssetMap : EntityTypeConfiguration<ExternalData.FixedAsset> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public FixedAssetMap() {
-				this.ToTable("ext.FixedAsset");
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
+            Property(e => e.Brand)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
+            Property(e => e.Model)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
+            Property(e => e.TypeCode)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Brand)
-					.HasMaxLength(250);
+            Property(e => e.RegistrationNo)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Model)
-					.HasMaxLength(250);
-
-				this.Property(e => e.TypeCode)
-					.HasMaxLength(250);
-
-				this.Property(e => e.RegistrationNo)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ParentId)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.ParentId)
+                .HasMaxLength(250);
+        }
+    }
 }

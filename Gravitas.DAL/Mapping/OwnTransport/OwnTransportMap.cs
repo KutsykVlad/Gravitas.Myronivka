@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using Gravitas.Model.DomainModel.OwnTransport.DAO;
+using Gravitas.DAL.Mapping._Base;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.OwnTransport
 {
-    class OwnTransportMap : BaseEntityMap<OwnTransport, long>
+    class OwnTransportMap : BaseEntityMap<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>
     {
         public OwnTransportMap()
         {

@@ -1,6 +1,7 @@
 using System.Web.Http;
 using Gravitas.CollisionCoordination.Manager.LaboratoryData;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.Messages;
 using Gravitas.Infrastructure.Platform.Manager;

@@ -1,47 +1,43 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.Employee.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class EmployeeMap : EntityTypeConfiguration<Employee>
+    {
+        public EmployeeMap()
+        {
+            ToTable("ext.Employee");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class EmployeeMap : EntityTypeConfiguration<ExternalData.Employee> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public EmployeeMap() {
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.ToTable("ext.Employee");
+            Property(e => e.ShortName)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
+            Property(e => e.FullName)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
+            Property(e => e.Position)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
+            Property(e => e.Email)
+                .HasMaxLength(250);
 
-				this.Property(e => e.ShortName)
-					.HasMaxLength(250);
+            Property(e => e.PhoneNo)
+                .HasMaxLength(250);
 
-				this.Property(e => e.FullName)
-					.HasMaxLength(250);
+            Property(e => e.ParentId)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Position)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Email)
-					.HasMaxLength(250);
-
-				this.Property(e => e.PhoneNo)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ParentId)
-					.HasMaxLength(250);
-
-			    this.HasMany(e => e.CardSet)
-			        .WithOptional(e => e.Employee)
-			        .HasForeignKey(e => e.EmployeeId);
-            }
-		}
-	}
+            HasMany(e => e.CardSet)
+                .WithOptional(e => e.Employee)
+                .HasForeignKey(e => e.EmployeeId);
+        }
+    }
 }

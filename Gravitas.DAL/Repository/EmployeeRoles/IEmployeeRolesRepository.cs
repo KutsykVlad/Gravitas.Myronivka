@@ -1,4 +1,5 @@
-﻿using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
+﻿using Gravitas.DAL.DbContext;
+using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
 
 namespace Gravitas.DAL
 {

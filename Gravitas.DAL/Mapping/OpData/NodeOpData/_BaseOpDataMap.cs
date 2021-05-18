@@ -1,23 +1,24 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using Gravitas.Model;
+using Gravitas.DAL.Mapping._Base;
 using Gravitas.Model.DomainModel.OpData.DAO.Base;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.OpData.NodeOpData
 {
-	class BaseOpDataMap<TEntity> : BaseEntityMap<TEntity, Guid> where TEntity : BaseOpData {
+    class BaseOpDataMap<TEntity> : BaseEntityMap<TEntity, Guid> where TEntity : BaseOpData
+    {
+        public BaseOpDataMap()
+        {
+            Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-		public BaseOpDataMap() {
-
-			this.Property(e => e.Id)
-				.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
-			this.Property(e => e.CheckInDateTime)
-				.HasColumnType("datetime2")
-				.IsOptional();
-			this.Property(e => e.CheckOutDateTime)
-				.HasColumnType("datetime2")
-				.IsOptional();
-		}
-	}
+            Property(e => e.CheckInDateTime)
+                .HasColumnType("datetime2")
+                .IsOptional();
+            
+            Property(e => e.CheckOutDateTime)
+                .HasColumnType("datetime2")
+                .IsOptional();
+        }
+    }
 }

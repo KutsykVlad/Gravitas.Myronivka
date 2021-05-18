@@ -1,33 +1,32 @@
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.OpData.NodeOpData
+{
+    class SecurityCheckInOpDataMap : BaseOpDataMap<SecurityCheckInOpData>
+    {
+        public SecurityCheckInOpDataMap()
+        {
+            ToTable("opd.SecurityCheckInOpData");
 
-	class SecurityCheckInOpDataMap : BaseOpDataMap<SecurityCheckInOpData> {
+            HasRequired(e => e.OpDataState)
+                .WithMany(e => e.SecurityCheckInOpDataSet)
+                .HasForeignKey(e => e.StateId);
 
-		public SecurityCheckInOpDataMap() {
+            HasOptional(e => e.Ticket)
+                .WithMany(e => e.SecurityCheckInOpDataSet)
+                .HasForeignKey(e => e.TicketId);
 
-			this.ToTable("opd.SecurityCheckInOpData");
+            HasOptional(e => e.Node)
+                .WithMany(e => e.SecurityCheckInOpDataSet)
+                .HasForeignKey(e => e.NodeId);
 
-			this.HasRequired(e => e.OpDataState)
-				.WithMany(e => e.SecurityCheckInOpDataSet)
-				.HasForeignKey(e => e.StateId);
+            HasMany(e => e.OpVisaSet)
+                .WithOptional(e => e.SecurityCheckInOpData)
+                .HasForeignKey(e => e.SecurityCheckInOpDataId);
 
-			this.HasOptional(e => e.Ticket)
-				.WithMany(e => e.SecurityCheckInOpDataSet)
-				.HasForeignKey(e => e.TicketId);
-
-			this.HasOptional(e => e.Node)
-				.WithMany(e => e.SecurityCheckInOpDataSet)
-				.HasForeignKey(e => e.NodeId);
-
-			this.HasMany(e => e.OpVisaSet)
-				.WithOptional(e => e.SecurityCheckInOpData)
-				.HasForeignKey(e => e.SecurityCheckInOpDataId);
-
-			this.HasMany(e => e.OpCameraSet)
-				.WithOptional(e => e.SecurityCheckInOpData)
-				.HasForeignKey(e => e.SecurityCheckInOpDataId);
-		}
-	}
+            HasMany(e => e.OpCameraSet)
+                .WithOptional(e => e.SecurityCheckInOpData)
+                .HasForeignKey(e => e.SecurityCheckInOpDataId);
+        }
+    }
 }

@@ -5,6 +5,7 @@ using System.ServiceModel.Web;
 using System.Threading.Tasks;
 using Gravitas.Connect.Manager;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Topshelf;
 
 namespace Gravitas.Connect

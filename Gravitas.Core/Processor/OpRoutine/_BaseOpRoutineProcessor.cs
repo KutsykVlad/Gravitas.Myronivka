@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Gravitas.Core.DeviceManager.Device;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.SignalRClient;

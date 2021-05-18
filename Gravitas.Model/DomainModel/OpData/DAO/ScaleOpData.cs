@@ -1,11 +1,12 @@
 using System;
 using Gravitas.Model.DomainModel.OpData.DAO.Base;
+using Gravitas.Model.DomainValue;
 
 namespace Gravitas.Model.DomainModel.OpData.DAO
 {
     public class ScaleOpData : BaseOpData
     {
-        public int TypeId { get; set; }
+        public ScaleOpDataType TypeId { get; set; }
         public DateTime? TruckWeightDateTime { get; set; }
         public double? TruckWeightValue { get; set; }
         public bool? TruckWeightIsAccepted { get; set; }

@@ -1,28 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Ticket.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.Ticket
 {
-	class TicketMap : EntityTypeConfiguration<Ticket> {
+    class TicketMap : EntityTypeConfiguration<Model.DomainModel.Ticket.DAO.Ticket>
+    {
+        public TicketMap()
+        {
+            ToTable("Ticket");
 
-		public TicketMap() {
-			ToTable("Ticket");
+            HasIndex(e => new
+                {
+                    e.TicketContainerId,
+                    e.OrderNo
+                })
+                .HasName("IX_ContainerId_OrderNo")
+                .IsUnique();
 
-			HasIndex(e => new { e.ContainerId, e.OrderNo })
-				.HasName("IX_ContainerId_OrderNo").IsUnique();
+            Property(p => p.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-			Property(p => p.Id)
-				.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
-			HasRequired(e => e.TicketStatus)
-				.WithMany(e => e.TicketSet)
-				.HasForeignKey(e => e.StatusId);
-//			
-//			HasRequired(e => e.Node)
-//				.WithMany(e => e.TicketSet)
-//				.HasForeignKey(e => e.NodeId);
-		}
-	}
+            HasRequired(e => e.TicketStatus)
+                .WithMany(e => e.TicketSet)
+                .HasForeignKey(e => e.StatusId);
+        }
+    }
 }

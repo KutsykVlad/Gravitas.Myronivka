@@ -2,16 +2,16 @@
 using System.Data.Entity.ModelConfiguration;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.BlackList
 {
     class DriverBlackListMap : EntityTypeConfiguration<DriversBlackListRecord>
     {
         public DriverBlackListMap()
         {
-            this.ToTable("blacklist.Driver");
+            ToTable("blacklist.Driver");
 
-            this.HasKey(list => list.Id);
-            this.Property(x => x.Id)
+            HasKey(list => list.Id);
+            Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
         }
     }

@@ -1,21 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.Device
+{
+    class DeviceStateMap : EntityTypeConfiguration<DeviceState>
+    {
+        public DeviceStateMap()
+        {
+            ToTable("DeviceState");
 
-	class DeviceStateMap : EntityTypeConfiguration<DeviceState> {
-		public DeviceStateMap() {
-			this.ToTable("DeviceState");
+            Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-			this.Property(e => e.Id)
-				.HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(e => e.LastUpdate)
+                .HasColumnType("datetime2");
 
-			this.Property(e => e.LastUpdate)
-				.HasColumnType("datetime2");
-
-			this.HasMany(e => e.DeviceSet).WithOptional(e => e.DeviceState).HasForeignKey(e => e.StateId);
-		}
-	}
+            HasMany(e => e.DeviceSet)
+                .WithOptional(e => e.DeviceState)
+                .HasForeignKey(e => e.StateId);
+        }
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity.Migrations;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Sms.DAO;
 using Dom = Gravitas.Model.DomainValue.Dom;

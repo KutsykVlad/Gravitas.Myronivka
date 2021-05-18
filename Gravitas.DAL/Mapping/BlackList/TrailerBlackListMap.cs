@@ -2,16 +2,16 @@
 using System.Data.Entity.ModelConfiguration;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.BlackList
 {
     class TrailerBlackListMap : EntityTypeConfiguration<TrailersBlackListRecord>
     {
         public TrailerBlackListMap()
         {
-            this.ToTable("blacklist.Trailer");
+            ToTable("blacklist.Trailer");
 
-            this.HasKey(list => list.Id);
-            this.Property(x => x.Id)
+            HasKey(list => list.Id);
+            Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
         }
 

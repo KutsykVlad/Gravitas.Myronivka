@@ -1,31 +1,27 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.Route.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class RouteMap : EntityTypeConfiguration<Route>
+    {
+        public RouteMap()
+        {
+            ToTable("ext.Route");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class RouteMap : EntityTypeConfiguration<ExternalData.Route> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public RouteMap()
-			{
-				this.ToTable("ext.Route");
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
+            Property(e => e.Name)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Name)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ParentId)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.ParentId)
+                .HasMaxLength(250);
+        }
+    }
 }

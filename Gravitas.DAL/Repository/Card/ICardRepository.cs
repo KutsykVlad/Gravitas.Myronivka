@@ -1,4 +1,6 @@
-﻿namespace Gravitas.DAL
+﻿using Gravitas.DAL.DbContext;
+
+namespace Gravitas.DAL
 {
     public interface ICardRepository : IBaseRepository<GravitasDbContext>
     {

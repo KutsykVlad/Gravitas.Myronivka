@@ -1,9 +1,10 @@
 using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 
-namespace Gravitas.DAL.Mapping {
-    internal class TicketFileMap : EntityTypeConfiguration<TicketFile> {
+namespace Gravitas.DAL.Mapping.Ticket
+{
+    internal class TicketFileMap : EntityTypeConfiguration<TicketFile>
+    {
         public TicketFileMap()
         {
             ToTable("TicketFile");
@@ -11,7 +12,7 @@ namespace Gravitas.DAL.Mapping {
             HasRequired(e => e.Ticket)
                 .WithMany(e => e.TicketFileSet)
                 .HasForeignKey(e => e.TicketId);
-            
+
             HasRequired(e => e.TicketFileType)
                 .WithMany(e => e.TicketFileSet)
                 .HasForeignKey(e => e.TypeId);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity.Migrations;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
 using Gravitas.Model.DomainValue;

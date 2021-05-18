@@ -1,25 +1,24 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.OpData
+{
+    class OpVisaMap : EntityTypeConfiguration<OpVisa>
+    {
+        public OpVisaMap()
+        {
+            ToTable("OpVisa");
 
-	class OpVisaMap : EntityTypeConfiguration<OpVisa> {
+            Property(e => e.DateTime)
+                .HasColumnType("datetime2");
 
-		public OpVisaMap() {
+            HasOptional(e => e.Employee)
+                .WithMany(e => e.OpVisaSet)
+                .HasForeignKey(e => e.EmployeeId);
 
-			this.ToTable("OpVisa");
-
-			this.Property(e => e.DateTime)
-				.HasColumnType("datetime2");
-
-		    this.HasOptional(e => e.Employee)
-		        .WithMany(e => e.OpVisaSet)
-		        .HasForeignKey(e => e.EmployeeId);
-
-		    this.HasRequired(e => e.OpRoutineState)
-		        .WithMany(e => e.OpVisaSet)
-		        .HasForeignKey(e => e.OpRoutineStateId);
-		}
-	}
+            HasRequired(e => e.OpRoutineState)
+                .WithMany(e => e.OpVisaSet)
+                .HasForeignKey(e => e.OpRoutineStateId);
+        }
+    }
 }

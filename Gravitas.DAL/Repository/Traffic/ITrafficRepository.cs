@@ -1,4 +1,5 @@
-﻿using Gravitas.Model;
+﻿using Gravitas.DAL.DbContext;
+using Gravitas.Model;
 
 namespace Gravitas.DAL
 {

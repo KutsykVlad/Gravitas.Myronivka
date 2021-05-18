@@ -1,37 +1,33 @@
-﻿using System;
-using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+﻿using System.Data.Entity.ModelConfiguration;
+using Gravitas.Model.DomainModel.ExternalData.Contract.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class ContractMap : EntityTypeConfiguration<Contract>
+    {
+        public ContractMap()
+        {
+            ToTable("ext.Contract");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class ContractMap : EntityTypeConfiguration<ExternalData.Contract> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public ContractMap() {
-				this.ToTable("ext.Contract");
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
+            Property(e => e.Name)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
+            Property(e => e.StartDateTime)
+                .HasColumnType("datetime2");
 
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
+            Property(e => e.StopDateTime)
+                .HasColumnType("datetime2");
 
-				this.Property(e => e.Name)
-					.HasMaxLength(250);
-
-				this.Property(e => e.StartDateTime)
-					.HasColumnType("datetime2");
-
-				this.Property(e => e.StopDateTime)
-					.HasColumnType("datetime2");
-
-				this.Property(e => e.ManagerId)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.ManagerId)
+                .HasMaxLength(250);
+        }
+    }
 }

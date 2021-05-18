@@ -1,4 +1,5 @@
 ﻿using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.DeviceMonitor.Manager;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.Messages;

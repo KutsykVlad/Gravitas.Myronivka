@@ -7,13 +7,13 @@ namespace Gravitas.DAL.Mapping.MixedFeed
     {
         public MixedFeedSiloDeviceMap()
         {
-            this.ToTable("MixedFeedSiloDevice");
-            this.HasKey(e => e.Id);
+            ToTable("MixedFeedSiloDevice");
+            HasKey(e => e.Id);
             
-            this.Property(t => t.DeviceId)
+            Property(t => t.DeviceId)
                 .IsRequired();
             
-            this.Property(t => t.MixedFeedSiloId)
+            Property(t => t.MixedFeedSiloId)
                 .IsRequired();
         }
     }

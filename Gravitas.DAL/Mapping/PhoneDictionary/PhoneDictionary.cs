@@ -1,18 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
+using Gravitas.DAL.Mapping._Base;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.PhoneDictionary
 {
-    class PhoneDictionaryMap : BaseEntityMap<PhoneDictionary, long>
+    class PhoneDictionaryMap : BaseEntityMap<Model.DomainModel.PhoneDictionary.DAO.PhoneDictionary, int>
     {
         public PhoneDictionaryMap()
         {
-            this.ToTable("PhoneDictionary");
-            this.Property(t => t.Id)
+            ToTable("PhoneDictionary");
+            
+            Property(t => t.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             
-            this.Property(t => t.PhoneNumber)
+            Property(t => t.PhoneNumber)
                 .HasMaxLength(20)
                 .IsRequired();
         }

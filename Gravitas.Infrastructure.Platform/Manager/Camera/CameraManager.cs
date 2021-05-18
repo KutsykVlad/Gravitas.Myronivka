@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;

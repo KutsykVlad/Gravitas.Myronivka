@@ -1,24 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.OrganizationUnit.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.OrganizationUnit
 {
-	class OrganizationUnitMap : EntityTypeConfiguration<OrganizationUnit> {
-		public OrganizationUnitMap() {
-			this.ToTable("OrganizationUnit");
+    class OrganizationUnitMap : EntityTypeConfiguration<Model.DomainModel.OrganizationUnit.DAO.OrganizationUnit>
+    {
+        public OrganizationUnitMap()
+        {
+            ToTable("OrganizationUnit");
 
-			this.Property(e => e.Id)
-				.HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-			
-			this.Property(e => e.Name)
-				.IsRequired()
-				.HasMaxLength(50);
+            Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-			this.HasRequired(e => e.UnitType)
-				.WithMany(e => e.OrganizationUnitSet)
-				.HasForeignKey(e => e.UnitTypeId);
-		}
-	}
+            Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            HasRequired(e => e.UnitType)
+                .WithMany(e => e.OrganizationUnitSet)
+                .HasForeignKey(e => e.UnitTypeId);
+        }
+    }
 }

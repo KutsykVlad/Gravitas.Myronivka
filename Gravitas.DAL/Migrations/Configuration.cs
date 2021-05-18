@@ -1,4 +1,5 @@
 using System.Data.Entity.Migrations;
+using Gravitas.DAL.DbContext;
 
 namespace Gravitas.DAL.Migrations
 {
@@ -11,8 +12,8 @@ namespace Gravitas.DAL.Migrations
 
         protected override void Seed(GravitasDbContext context)
         {
-            // PostDeployment.PostDeployment.Deploy(context);
-            // TestData.TestData.Deploy(context);
+            PostDeployment.PostDeployment.Deploy(context);
+            TestData.TestData.Deploy(context);
         }
     }
 }

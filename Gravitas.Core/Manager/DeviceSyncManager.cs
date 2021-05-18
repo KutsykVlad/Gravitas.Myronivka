@@ -11,6 +11,7 @@ using Gravitas.Core.Manager.RfidObidRwAutoAnswer;
 using Gravitas.Core.Manager.RfidZebraFx9500;
 using Gravitas.Core.Manager.ScaleMettlerPT6S3;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;

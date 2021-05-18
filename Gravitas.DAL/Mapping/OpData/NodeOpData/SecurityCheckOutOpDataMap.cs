@@ -1,36 +1,32 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.CompilerServices;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.OpData.NodeOpData
+{
+    class SecurityCheckOutOpDataMap : BaseOpDataMap<SecurityCheckOutOpData>
+    {
+        public SecurityCheckOutOpDataMap()
+        {
+            ToTable("opd.SecurityCheckOutOpData");
 
-	class SecurityCheckOutOpDataMap : BaseOpDataMap<SecurityCheckOutOpData> {
+            HasRequired(e => e.OpDataState)
+                .WithMany(e => e.SecurityCheckOutOpDataSet)
+                .HasForeignKey(e => e.StateId);
 
-		public SecurityCheckOutOpDataMap() {
+            HasOptional(e => e.Ticket)
+                .WithMany(e => e.SecurityCheckOutOpDataSet)
+                .HasForeignKey(e => e.TicketId);
 
-			this.ToTable("opd.SecurityCheckOutOpData");
+            HasOptional(e => e.Node)
+                .WithMany(e => e.SecurityCheckOutOpDataSet)
+                .HasForeignKey(e => e.NodeId);
 
-			this.HasRequired(e => e.OpDataState)
-				.WithMany(e => e.SecurityCheckOutOpDataSet)
-				.HasForeignKey(e => e.StateId);
+            HasMany(e => e.OpVisaSet)
+                .WithOptional(e => e.SecurityCheckOutOpData)
+                .HasForeignKey(e => e.SecurityCheckOutOpDataId);
 
-			this.HasOptional(e => e.Ticket)
-				.WithMany(e => e.SecurityCheckOutOpDataSet)
-				.HasForeignKey(e => e.TicketId);
-
-			this.HasOptional(e => e.Node)
-				.WithMany(e => e.SecurityCheckOutOpDataSet)
-				.HasForeignKey(e => e.NodeId);
-
-			this.HasMany(e => e.OpVisaSet)
-				.WithOptional(e => e.SecurityCheckOutOpData)
-				.HasForeignKey(e => e.SecurityCheckOutOpDataId);
-
-			this.HasMany(e => e.OpCameraSet)
-				.WithOptional(e => e.SecurityCheckOutOpData)
-				.HasForeignKey(e => e.SecurityCheckOutOpDataId);
-
-		}
-	}
+            HasMany(e => e.OpCameraSet)
+                .WithOptional(e => e.SecurityCheckOutOpData)
+                .HasForeignKey(e => e.SecurityCheckOutOpDataId);
+        }
+    }
 }

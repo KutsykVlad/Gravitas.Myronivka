@@ -1,24 +1,21 @@
-﻿using Gravitas.Model;
-using System.Data.Entity.ModelConfiguration;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+﻿using System.Data.Entity.ModelConfiguration;
+using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class SupplyTransportTypeMap : EntityTypeConfiguration<SupplyTransportType>
+    {
+        public SupplyTransportTypeMap()
+        {
+            ToTable("ext.SupplyTransportType");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class SupplyTransportTypeMap : EntityTypeConfiguration<ExternalData.SupplyTransportType> {
-			public SupplyTransportTypeMap() {
-				this.ToTable("ext.SupplyTransportType");
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
-
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Name)
-					.HasMaxLength(250);
-
-			}
-		}
-	}
+            Property(e => e.Name)
+                .HasMaxLength(250);
+        }
+    }
 }

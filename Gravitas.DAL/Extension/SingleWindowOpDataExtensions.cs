@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using Gravitas.Model.DomainValue;
+using SingleWindowOpData = Gravitas.Model.DomainModel.OpData.DAO.SingleWindowOpData;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Extension
 {
     public static class SingleWindowOpDataExtensions
     {
@@ -98,7 +98,7 @@ namespace Gravitas.DAL
         {
             if (refOpData == null || srcOpData == null) return refOpData;
 
-            if (srcOpData.TypeId == Dom.ScaleOpData.Type.Tare) refOpData.FirstTareTime = srcOpData.TruckWeightDateTime; // TODO
+            if (srcOpData.TypeId == ScaleOpDataType.Tare) refOpData.FirstTareTime = srcOpData.TruckWeightDateTime; // TODO
 
             return refOpData;
         }
@@ -107,7 +107,7 @@ namespace Gravitas.DAL
         {
             if (refOpData == null || srcOpData == null) return refOpData;
 
-            if (srcOpData.TypeId == Dom.ScaleOpData.Type.Tare)
+            if (srcOpData.TypeId == ScaleOpDataType.Tare)
             {
                 refOpData.TareValue = srcOpData.TruckWeightValue ?? 0;
                 refOpData.LastTareTime = srcOpData.TruckWeightDateTime;
@@ -122,7 +122,7 @@ namespace Gravitas.DAL
         {
             if (refOpData == null || srcOpData == null) return refOpData;
 
-            if (srcOpData.TypeId == Dom.ScaleOpData.Type.Gross) refOpData.FirstGrossTime = srcOpData.TruckWeightDateTime;
+            if (srcOpData.TypeId == ScaleOpDataType.Gross) refOpData.FirstGrossTime = srcOpData.TruckWeightDateTime;
 
             return refOpData;
         }
@@ -131,7 +131,7 @@ namespace Gravitas.DAL
         {
             if (refOpData == null || srcOpData == null) return refOpData;
 
-            if (srcOpData.TypeId == Dom.ScaleOpData.Type.Gross)
+            if (srcOpData.TypeId == ScaleOpDataType.Gross)
             {
                 refOpData.GrossValue = srcOpData.TruckWeightValue ?? 0;
                 refOpData.LastGrossTime = srcOpData.TruckWeightDateTime;
@@ -167,7 +167,7 @@ namespace Gravitas.DAL
 
             refOpData.LabHumidityName = srcOpData.HumidityClassId;
             refOpData.LabImpurityName = srcOpData.ImpurityClassId;
-            refOpData.LabIsInfectioned = srcOpData.InfectionedClassId != Dom.ExternalData.LabClassifier.Infection.Class2;
+            refOpData.LabIsInfectioned = srcOpData.InfectionedClassId != ExternalData.LabClassifier.Infection.Class2;
             refOpData.LabHumidityValue = srcOpData.HumidityValue;
             refOpData.LabImpurityValue = srcOpData.ImpurityValue;
             refOpData.LabolatoryOperatorId = srcOpData.OpVisaSet.LastOrDefault()?.EmployeeId;

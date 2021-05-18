@@ -22,7 +22,7 @@ namespace Gravitas.Model
         public int QueueStatusId { get; set; }
         public string ProcessingMessage { get; set; }
 
-        public virtual TicketContainerStatus TicketContainerStatus { get; set; }
+        public virtual Gravitas.Model.DomainModel.Ticket.DAO.TicketContainerStatus TicketContainerStatus { get; set; }
         public virtual ICollection<Card> CardSet { get; set; }
         public virtual ICollection<Ticket> TicketSet { get; set; }
         public virtual ICollection<TrafficHistory> TrafficHistory { get; set; }

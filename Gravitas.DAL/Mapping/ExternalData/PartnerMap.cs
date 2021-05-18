@@ -1,35 +1,33 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class PartnerMap : EntityTypeConfiguration<Partner>
+    {
+        public PartnerMap()
+        {
+            ToTable("ext.Partner");
 
-	public static partial class ExternalDataMap {
-		public class PartnerMap : EntityTypeConfiguration<ExternalData.Partner> {
+            HasKey(e => e.Id);
 
-			public PartnerMap() {
-				this.ToTable("ext.Partner");
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
+            Property(e => e.ShortName)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
+            Property(e => e.FullName)
+                .HasMaxLength(250);
 
-				this.Property(e => e.ShortName)
-					.HasMaxLength(250);
+            Property(e => e.Address)
+                .HasMaxLength(250);
 
-				this.Property(e => e.FullName)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Address)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ParentId)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.ParentId)
+                .HasMaxLength(250);
+        }
+    }
 }

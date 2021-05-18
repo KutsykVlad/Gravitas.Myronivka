@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Gravitas.Core.DeviceManager.Card;
 using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;

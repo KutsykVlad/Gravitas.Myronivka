@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;

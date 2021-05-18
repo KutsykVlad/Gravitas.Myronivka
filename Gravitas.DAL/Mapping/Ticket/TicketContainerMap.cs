@@ -2,24 +2,25 @@
 using System.Data.Entity.ModelConfiguration;
 using Gravitas.Model;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.Ticket
 {
-	class TicketConteinerMap : EntityTypeConfiguration<TicketContainer> {
+    class TicketContainerMap : EntityTypeConfiguration<TicketContainer>
+    {
+        public TicketContainerMap()
+        {
+            ToTable("TicketConteiner");
 
-		public TicketConteinerMap() {
-			this.ToTable("TicketConteiner");
+            Property(p => p.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-			this.Property(p => p.Id)
-				.HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasMany(e => e.CardSet)
+                .WithOptional(e => e.TicketContainer)
+                .HasForeignKey(e => e.TicketContainerId)
+                .WillCascadeOnDelete(false);
 
-			this.HasMany(e => e.CardSet)
-				.WithOptional(e => e.TicketContainer)
-				.HasForeignKey(e => e.TicketContainerId)
-				.WillCascadeOnDelete(false);
-
-			this.HasMany(e => e.TicketSet)
-				.WithRequired(e => e.TicketContainer)
-				.HasForeignKey(e => e.ContainerId);
-		}
-	}
+            HasMany(e => e.TicketSet)
+                .WithRequired(e => e.TicketContainer)
+                .HasForeignKey(e => e.TicketContainerId);
+        }
+    }
 }

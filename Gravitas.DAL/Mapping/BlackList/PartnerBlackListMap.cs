@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.DAL.Mapping._Base;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.BlackList
 {
-    class PartnerBlackListMap : BaseEntityMap<PartnersBlackListRecord, long>
+    class PartnerBlackListMap : BaseEntityMap<PartnersBlackListRecord, int>
     {
         public PartnerBlackListMap()
         {
-            this.ToTable("blacklist.Partner");
+            ToTable("blacklist.Partner");
             
-            this.HasKey(list => list.Id);
-            this.Property(x => x.Id)
+            HasKey(list => list.Id);
+            Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             this.HasRequired(p => p.Partner)

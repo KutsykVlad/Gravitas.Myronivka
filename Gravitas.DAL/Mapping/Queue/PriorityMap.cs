@@ -1,23 +1,21 @@
-﻿using Gravitas.Model;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Gravitas.DAL.Mapping._Base;
 using Gravitas.Model.DomainModel.Queue.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.Queue
 {
-    class PriorityMap: BaseEntityMap<QueueItemPriority, long>
+    class PriorityMap: BaseEntityMap<QueueItemPriority, int>
     {
         public PriorityMap()
         {
-            this.ToTable("QueueItemPriority");
+            ToTable("QueueItemPriority");
 
-            this.Property(e => e.Id)
+            Property(e => e.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-            this.Property(e => e.Description)
+            Property(e => e.Description)
                 .IsRequired()
                 .HasMaxLength(50);
-
-            
         }
     }
 }

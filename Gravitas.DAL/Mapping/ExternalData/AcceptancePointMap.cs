@@ -1,30 +1,27 @@
-﻿using Gravitas.Model;
-using System.Data.Entity.ModelConfiguration;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+﻿using System.Data.Entity.ModelConfiguration;
+using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.ExternalData
 {
+    public class AcceptancePointMap : EntityTypeConfiguration<AcceptancePoint>
+    {
+        public AcceptancePointMap()
+        {
+            ToTable("ext.AcceptancePoint");
 
-	public static partial class ExternalDataMap {
-		public class AcceptancePointMap : EntityTypeConfiguration<ExternalData.AcceptancePoint> {
+            HasKey(e => e.Id);
 
-			public AcceptancePointMap() {
-				this.ToTable("ext.AcceptancePoint");
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
+            Property(e => e.Name)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Name)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ParentId)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.ParentId)
+                .HasMaxLength(250);
+        }
+    }
 }

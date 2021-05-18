@@ -1,33 +1,32 @@
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.OpData.NodeOpData
+{
+    class UnloadPointOpDataMap : BaseOpDataMap<UnloadPointOpData>
+    {
+        public UnloadPointOpDataMap()
+        {
+            ToTable("opd.UnloadPointOpData");
 
-	class UnloadPointOpDataMap : BaseOpDataMap<UnloadPointOpData> {
+            HasRequired(e => e.OpDataState)
+                .WithMany(e => e.UnloadPointOpDataSet)
+                .HasForeignKey(e => e.StateId);
 
-		public UnloadPointOpDataMap() {
+            HasOptional(e => e.Ticket)
+                .WithMany(e => e.UnloadPointOpDataSet)
+                .HasForeignKey(e => e.TicketId);
 
-			this.ToTable("opd.UnloadPointOpData");
+            HasOptional(e => e.Node)
+                .WithMany(e => e.UnloadPointOpDataSet)
+                .HasForeignKey(e => e.NodeId);
 
-			this.HasRequired(e => e.OpDataState)
-				.WithMany(e => e.UnloadPointOpDataSet)
-				.HasForeignKey(e => e.StateId);
+            HasMany(e => e.OpVisaSet)
+                .WithOptional(e => e.UnloadPointOpData)
+                .HasForeignKey(e => e.UnloadPointOpDataId);
 
-			this.HasOptional(e => e.Ticket)
-				.WithMany(e => e.UnloadPointOpDataSet)
-				.HasForeignKey(e => e.TicketId);
-
-			this.HasOptional(e => e.Node)
-				.WithMany(e => e.UnloadPointOpDataSet)
-				.HasForeignKey(e => e.NodeId);
-
-			this.HasMany(e => e.OpVisaSet)
-				.WithOptional(e => e.UnloadPointOpData)
-				.HasForeignKey(e => e.UnloadPointOpDataId);
-
-			this.HasMany(e => e.OpCameraSet)
-				.WithOptional(e => e.UnloadPointOpData)
-				.HasForeignKey(e => e.UnloadPointOpDataId);
-		}
-	}
+            HasMany(e => e.OpCameraSet)
+                .WithOptional(e => e.UnloadPointOpData)
+                .HasForeignKey(e => e.UnloadPointOpDataId);
+        }
+    }
 }

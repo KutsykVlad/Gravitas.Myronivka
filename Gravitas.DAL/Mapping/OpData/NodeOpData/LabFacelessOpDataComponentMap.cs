@@ -1,16 +1,17 @@
-using Gravitas.Model;
+using Gravitas.DAL.Mapping._Base;
 using Gravitas.Model.DomainModel.OpData.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.OpData.NodeOpData
+{
+    class LabFacelessOpDataComponentMap : BaseEntityMap<LabFacelessOpDataComponent, int>
+    {
+        public LabFacelessOpDataComponentMap()
+        {
+            ToTable("opd.LabFacelessOpDataComponent");
 
-	class LabFacelessOpDataComponentMap : BaseEntityMap<LabFacelessOpDataComponent, long> {
-
-		public LabFacelessOpDataComponentMap() {
-			this.ToTable("opd.LabFacelessOpDataComponent");
-
-			this.HasMany(e => e.OpVisaSet)
-				.WithOptional(e => e.LabFacelessOpDataComponent)
-				.HasForeignKey(e => e.LabFacelessOpDataComponentId);
-		}
-	}
+            HasMany(e => e.OpVisaSet)
+                .WithOptional(e => e.LabFacelessOpDataComponent)
+                .HasForeignKey(e => e.LabFacelessOpDataComponentId);
+        }
+    }
 }

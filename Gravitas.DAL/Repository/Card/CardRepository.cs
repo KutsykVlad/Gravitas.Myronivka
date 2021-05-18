@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model;
 using Dom = Gravitas.Model.DomainValue.Dom;
 

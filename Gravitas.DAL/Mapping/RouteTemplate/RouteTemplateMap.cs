@@ -1,20 +1,16 @@
-﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
+﻿using Gravitas.DAL.Mapping._Base;
 
-namespace Gravitas.DAL.Mapping
+namespace Gravitas.DAL.Mapping.RouteTemplate
 {
-	class RouteTemplateMap : BaseEntityMap<RouteTemplate, long> {
-		public RouteTemplateMap() {
+    class RouteTemplateMap : BaseEntityMap<Model.DomainModel.PredefinedRoute.DAO.RouteTemplate, int>
+    {
+        public RouteTemplateMap()
+        {
+            ToTable("RouteTemplate");
 
-			this.ToTable("RouteTemplate");
-
-			this.Property(e => e.Name)
-				.IsRequired()
-				.HasMaxLength(250);
-
-			this.Property(e=>e.CreatedOn).HasColumnType("datetime2");
-			this.Property(e => e.UpdatedAt).HasColumnType("datetime2");
-		}
-	}
+            Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(250);
+        }
+    }
 }

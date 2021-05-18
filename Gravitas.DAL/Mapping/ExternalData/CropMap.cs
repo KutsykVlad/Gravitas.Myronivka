@@ -1,31 +1,27 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using Gravitas.Model;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.Crop.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.ExternalData
+{
+    public class CropMap : EntityTypeConfiguration<Crop>
+    {
+        public CropMap()
+        {
+            ToTable("ext.Crop");
 
-	public static partial class ExternalDataMap {
+            HasKey(e => e.Id);
 
-		public class CropMap : EntityTypeConfiguration<ExternalData.Crop> {
+            Property(e => e.Id)
+                .HasMaxLength(250);
 
-			public CropMap()
-			{
-				this.ToTable("ext.Crop");
+            Property(e => e.Code)
+                .HasMaxLength(250);
 
-				this.HasKey(e => e.Id);
+            Property(e => e.Name)
+                .HasMaxLength(250);
 
-				this.Property(e => e.Id)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Code)
-					.HasMaxLength(250);
-
-				this.Property(e => e.Name)
-					.HasMaxLength(250);
-
-				this.Property(e => e.ParentId)
-					.HasMaxLength(250);
-			}
-		}
-	}
+            Property(e => e.ParentId)
+                .HasMaxLength(250);
+        }
+    }
 }

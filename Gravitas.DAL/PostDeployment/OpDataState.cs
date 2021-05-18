@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity.Migrations;
+using Gravitas.DAL.DbContext;
 using Gravitas.Model.DomainValue;
 
 namespace Gravitas.DAL.PostDeployment

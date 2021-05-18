@@ -1,36 +1,36 @@
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 
-namespace Gravitas.DAL.Mapping {
+namespace Gravitas.DAL.Mapping.OpData.NodeOpData
+{
+    class LabFacelessOpDataMap : BaseOpDataMap<LabFacelessOpData>
+    {
+        public LabFacelessOpDataMap()
+        {
+            ToTable("opd.LabFacelessOpData");
 
-	class LabFacelessOpDataMap : BaseOpDataMap<LabFacelessOpData> {
+            HasRequired(e => e.OpDataState)
+                .WithMany(e => e.LabFacelessOpDataSet)
+                .HasForeignKey(e => e.StateId);
 
-		public LabFacelessOpDataMap() {
-			this.ToTable("opd.LabFacelessOpData");
+            HasMany(e => e.LabFacelessOpDataComponentSet)
+                .WithRequired(e => e.LabFacelessOpData)
+                .HasForeignKey(e => e.LabFacelessOpDataId);
 
-			this.HasRequired(e => e.OpDataState)
-				.WithMany(e => e.LabFacelessOpDataSet)
-				.HasForeignKey(e => e.StateId);
+            HasOptional(e => e.Ticket)
+                .WithMany(e => e.LabFacelessOpDataSet)
+                .HasForeignKey(e => e.TicketId);
 
-			this.HasMany(e => e.LabFacelessOpDataComponentSet)
-				.WithRequired(e => e.LabFacelessOpData)
-				.HasForeignKey(e => e.LabFacelessOpDataId);
+            HasOptional(e => e.Node)
+                .WithMany(e => e.LabFacelessOpDataSet)
+                .HasForeignKey(e => e.NodeId);
 
-			this.HasOptional(e => e.Ticket)
-				.WithMany(e => e.LabFacelessOpDataSet)
-				.HasForeignKey(e => e.TicketId);
+            HasMany(e => e.OpVisaSet)
+                .WithOptional(e => e.LabFacelessOpData)
+                .HasForeignKey(e => e.LabFacelessOpDataId);
 
-			this.HasOptional(e => e.Node)
-				.WithMany(e => e.LabFacelessOpDataSet)
-				.HasForeignKey(e => e.NodeId);
-
-			this.HasMany(e => e.OpVisaSet)
-				.WithOptional(e => e.LabFacelessOpData)
-				.HasForeignKey(e => e.LabFacelessOpDataId);
-
-			this.HasMany(e => e.OpCameraSet)
-				.WithOptional(e => e.LabFacelessOpData)
-				.HasForeignKey(e => e.LabFacelessOpDataId);
-		}
-	}
+            HasMany(e => e.OpCameraSet)
+                .WithOptional(e => e.LabFacelessOpData)
+                .HasForeignKey(e => e.LabFacelessOpDataId);
+        }
+    }
 }
