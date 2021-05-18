@@ -1,13 +1,11 @@
 using System;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
-using Gravitas.Model.DomainModel.OpVisa.DAO;
+using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Manager.LoadPoint
 {
@@ -27,7 +25,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.LoadPoint
             _ticketRepository = ticketRepository;
         }
 
-        public bool ConfirmLoadGuide(long ticketId, string employeeId)
+        public bool ConfirmLoadGuide(int ticketId, string employeeId)
         {
             var loadGuideOpData = _context.LoadGuideOpDatas
                 .AsNoTracking()
@@ -40,25 +38,25 @@ namespace Gravitas.Infrastructure.Platform.Manager.LoadPoint
                 return false;
             }
 
-            var visa = new OpVisa
+            var visa = new Model.DomainModel.OpVisa.DAO.OpVisa
             {
                 DateTime = DateTime.Now,
                 Message = "Підтвердження призначення точки завантаження",
                 LoadGuideOpDataId = loadGuideOpData.Id,
                 EmployeeId = employeeId,
-                OpRoutineStateId = Dom.OpRoutine.LoadPointGuide.State.AddOpVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointGuide.State.AddOpVisa
             };
             _context.OpVisas.Add(visa);
             _context.SaveChanges();
 
-            loadGuideOpData.StateId = Dom.OpDataState.Processed;
+            loadGuideOpData.StateId = OpDataState.Processed;
             loadGuideOpData.CheckOutDateTime = DateTime.Now;
             _ticketRepository.Update<LoadGuideOpData, Guid>(loadGuideOpData);
             _logger.Info($"LoadPointManager: BindLoadPoint: Loadpoint {loadGuideOpData.LoadPointNodeId} was assigned to ticket = {ticketId}");
             return true;
         }
 
-        public bool ConfirmLoadPoint(long ticketId, string employeeId)
+        public bool ConfirmLoadPoint(int ticketId, string employeeId)
         {
             var loadPointOpData = _context.LoadPointOpDatas
                 .AsNoTracking()
@@ -66,20 +64,20 @@ namespace Gravitas.Infrastructure.Platform.Manager.LoadPoint
                 .OrderByDescending(x => x.CheckInDateTime)
                 .FirstOrDefault();
             if (loadPointOpData == null) return false;
-            if (loadPointOpData.StateId == Dom.OpDataState.Canceled || loadPointOpData.StateId == Dom.OpDataState.Rejected) return true;
+            if (loadPointOpData.StateId == OpDataState.Canceled || loadPointOpData.StateId == OpDataState.Rejected) return true;
 
-            var visa = new OpVisa
+            var visa = new Model.DomainModel.OpVisa.DAO.OpVisa
             {
                 DateTime = DateTime.Now,
                 Message = "Підтвердження завантаження",
                 LoadPointOpDataId = loadPointOpData.Id,
                 EmployeeId = employeeId,
-                OpRoutineStateId = Dom.OpRoutine.LoadPointType1.State.AddOperationVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointType1.State.AddOperationVisa
             };
             _context.OpVisas.Add(visa);
             _context.SaveChanges();
 
-            loadPointOpData.StateId = Dom.OpDataState.Processed;
+            loadPointOpData.StateId = OpDataState.Processed;
             loadPointOpData.CheckOutDateTime = DateTime.Now;
             _ticketRepository.Update<LoadPointOpData, Guid>(loadPointOpData);
 

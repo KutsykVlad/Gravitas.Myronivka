@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
+using Gravitas.Model.DomainValue;
 
-namespace Gravitas.DAL 
+namespace Gravitas.DAL.Repository.Phones 
 {
-    public interface IPhonesRepository : IBaseRepository<GravitasDbContext>
+    public interface IPhonesRepository : IBaseRepository
     {
-        string GetPhone(int phoneId);
+        string GetPhone(Phone phoneId);
         List<PhoneDictionary> GetAll();
     }
 }

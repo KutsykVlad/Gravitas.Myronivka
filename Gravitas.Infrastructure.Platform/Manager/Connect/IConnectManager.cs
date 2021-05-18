@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Gravitas.Model.DomainValue;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.Connect
 {
     public interface IConnectManager
     {
-        bool SendSms(long templateId, long? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null);
-        bool SendEmail(long templateId, string emailAddress = null, object data = null, string attachmentPath = null);
+        bool SendSms(SmsTemplate templateId, long? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null);
+        bool SendEmail(EmailTemplate templateId, string emailAddress = null, object data = null, string attachmentPath = null);
     }
 }

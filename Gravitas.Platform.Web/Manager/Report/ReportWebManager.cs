@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using Codaxy.WkHtmlToPdf;
+using Gravitas.Infrastructure.Platform.Manager.ReportTool;
 
 namespace Gravitas.Platform.Web.Manager.Report
 {

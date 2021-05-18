@@ -4,13 +4,11 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Base;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository._Base
 {
-    public class BaseRepository<TContext> : IBaseRepository<TContext>
-        where TContext : BaseDbContext
+    public class BaseRepository : IBaseRepository
     {
         private readonly GravitasDbContext _context;
 
@@ -39,12 +37,6 @@ namespace Gravitas.DAL
         public TEntity GetFirstOrDefault<TEntity, TKey>(Func<TEntity, bool> predicate) where TEntity : BaseEntity<TKey>
         {
             return _context.Set<TEntity>().AsNoTracking().FirstOrDefault(predicate);
-        }
-
-
-        public TEntity GetEntity<TEntity, TKey>(TKey id) where TEntity : BaseEntity<TKey>
-        {
-            return _context.Set<TEntity>().AsNoTracking().WhereIdEquals(e => e.Id, id).FirstOrDefault();
         }
 
         public void Add<TEntity, TKey>(TEntity item) where TEntity : BaseEntity<TKey>

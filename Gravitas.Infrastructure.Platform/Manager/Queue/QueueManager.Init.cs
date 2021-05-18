@@ -1,9 +1,7 @@
 using System.Linq;
 using System.Text;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainValue;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {
@@ -20,33 +18,33 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 
             var containersWithCard = _context.Cards
                 .AsNoTracking()
-                .Where(x => x.TicketContainerId.HasValue && x.TypeId == Dom.Card.Type.TicketCard)
+                .Where(x => x.TicketContainerId.HasValue && x.TypeId == CardType.TicketCard)
                 .AsEnumerable()
                 .Select(x => new
                 {
                     TicketContainerId = x.TicketContainerId.Value,
-                    Tickets = _context.Tickets.AsNoTracking().Where(z => z.ContainerId == x.TicketContainerId).ToList()
+                    Tickets = _context.Tickets.AsNoTracking().Where(z => z.TicketContainerId == x.TicketContainerId).ToList()
                 })
                 .OrderBy(x => x.TicketContainerId)
                 .ToList();
 
-            var i = containersWithCard.Where(x => x.Tickets.Any(z => z.StatusId == Dom.Ticket.Status.Processing)).ToList();
+            var i = containersWithCard.Where(x => x.Tickets.Any(z => z.StatusId == TicketStatus.Processing)).ToList();
             
-            var o = containersWithCard.Where(x => x.Tickets.Any(z => z.StatusId == Dom.Ticket.Status.ToBeProcessed)
-                                                  && x.Tickets.All(z => z.StatusId != Dom.Ticket.Status.Completed 
-                                                                        && z.StatusId != Dom.Ticket.Status.Processing 
-                                                                        && z.StatusId != Dom.Ticket.Status.Closed)).ToList();
+            var o = containersWithCard.Where(x => x.Tickets.Any(z => z.StatusId == TicketStatus.ToBeProcessed)
+                                                  && x.Tickets.All(z => z.StatusId != TicketStatus.Completed 
+                                                                        && z.StatusId != TicketStatus.Processing 
+                                                                        && z.StatusId != TicketStatus.Closed)).ToList();
 
             foreach (var outside in o)
             {
-                var ticket = outside.Tickets.FirstOrDefault(x => x.StatusId == Dom.Ticket.Status.ToBeProcessed);
+                var ticket = outside.Tickets.FirstOrDefault(x => x.StatusId == TicketStatus.ToBeProcessed);
                 if (ticket == null)
                 {
                     continue;
                 }
-                if (ticket.RouteTemplateId.HasValue && _routesInfrastructure.IsNodeAvailable((long) NodeIdValue.MixedFeedGuide, ticket.RouteTemplateId.Value))
+                if (ticket.RouteTemplateId.HasValue && _routesInfrastructure.IsNodeAvailable((int) NodeIdValue.MixedFeedGuide, ticket.RouteTemplateId.Value))
                 {
-                    if (ticket.RouteType != Dom.Route.Type.MixedFeedLoad)
+                    if (ticket.RouteType != RouteType.MixedFeedLoad)
                     {
                         _mixedFeedTicketsWaitingList.Add(ticket.Id);
                     }
@@ -61,7 +59,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     opData.Node.Id == (int) NodeIdValue.SingleWindowThird ||
                     (opData.Node.Id == (int) NodeIdValue.MixedFeedGuide && ticket.RouteItemIndex == 0))
                 {
-                    var registerRecord = _nodeRepository.GetSingleOrDefault<QueueRegister, long>(item => item.TicketContainerId == ticket.ContainerId && item.IsAllowedToEnterTerritory);
+                    var registerRecord = _nodeRepository.GetSingleOrDefault<QueueRegister, int>(item => item.TicketContainerId == ticket.TicketContainerId && item.IsAllowedToEnterTerritory);
                     if (registerRecord != null)
                     {
                         var route = CreateRoute(ticket);
@@ -70,25 +68,25 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     }
                 }
 
-                if (_inTirs.All(x => x.TicketContainerId != ticket.ContainerId))
+                if (_inTirs.All(x => x.TicketContainerId != ticket.TicketContainerId))
                 {
                     _externalQueue.Add(CreateRoute(ticket));
                 }
 
-                data.Append($"{ticket.ContainerId}, ");
+                data.Append($"{ticket.TicketContainerId}, ");
             }
 
             data.Append("Inside: ");
 
             foreach (var inside in i)
             {
-                var ticket = inside.Tickets.FirstOrDefault(x => x.StatusId == Dom.Ticket.Status.Processing);
+                var ticket = inside.Tickets.FirstOrDefault(x => x.StatusId == TicketStatus.Processing);
                 if (ticket == null)
                 {
                     continue;
                 }
                 var opData = _opDataRepository.GetLastOpData(ticket.Id);
-                data.Append($"{ticket.ContainerId}, ");
+                data.Append($"{ticket.TicketContainerId}, ");
 
                 var route = CreateRoute(_context.Tickets.AsNoTracking().First(x => x.Id == ticket.Id));
                 _inTirs.Add(route);

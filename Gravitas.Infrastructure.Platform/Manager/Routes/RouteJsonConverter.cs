@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Gravitas.Platform.Web.ViewModel.RouteEditor;
 using Newtonsoft.Json;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Routes
@@ -49,13 +48,13 @@ namespace Gravitas.Infrastructure.Platform.Manager.Routes
         public class NodeList
         {
             [JsonProperty("id")]
-            public long Id { get; set; }
+            public int Id { get; set; }
             
             [JsonProperty("name")]
             public string Name { get; set; }
 
             [JsonProperty("nodeGroupId")]
-            public long NodeGroupId { get; set; }
+            public int NodeGroupId { get; set; }
             
             [JsonProperty("reloadRoute")]
             public SecondaryRoute ReloadRoute { get; set; }

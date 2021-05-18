@@ -1,12 +1,20 @@
 ﻿using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.ExternalData;
+using Gravitas.DAL.Repository.Node;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.DAL.Repository.OpWorkflow.Routes;
+using Gravitas.DAL.Repository.Phones;
+using Gravitas.DAL.Repository.Sms;
+using Gravitas.DAL.Repository.Ticket;
 using Gravitas.DeviceMonitor.Manager;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.Messages;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Infrastructure.Platform.Manager;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
+using Gravitas.Infrastructure.Platform.Manager.ReportTool;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
-using Gravitas.Platform.Web.Manager.Report;
 using Unity;
 
 namespace Gravitas.DeviceMonitor.DependencyInjection

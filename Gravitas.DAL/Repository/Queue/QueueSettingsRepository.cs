@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository._Base;
+using Gravitas.DAL.Repository.Queue;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Queue.DAO;
 
 namespace Gravitas.DAL
 {
-    public class QueueSettingsRepository : BaseRepository<GravitasDbContext>, IQueueSettingsRepository
+    public class QueueSettingsRepository : BaseRepository, IQueueSettingsRepository
     {
         private readonly GravitasDbContext _context;
 
@@ -16,17 +18,17 @@ namespace Gravitas.DAL
 
         public IQueryable<QueuePatternItem> GetQueuePatternItems()
         {
-            return GetQuery<QueuePatternItem, long>();
+            return GetQuery<QueuePatternItem, int>();
         }
 
         public IQueryable<QueueItemPriority> GetPriorities()
         {
-            return GetQuery<QueueItemPriority, long>();
+            return GetQuery<QueueItemPriority, int>();
         }
 
         public IQueryable<QueueItemCategory> GetCategories()
         {
-            return GetQuery<QueueItemCategory, long>();
+            return GetQuery<QueueItemCategory, int>();
         }
     }
 }

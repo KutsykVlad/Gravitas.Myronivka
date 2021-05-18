@@ -282,8 +282,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalRClient\SignalRInvoke.cs" />
     <Compile Include="SignalRClient\StaticValues.cs" />
-    <Compile Include="Test\INodeTester.cs" />
-    <Compile Include="Test\NodeTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Solution Items\appSettings.config">

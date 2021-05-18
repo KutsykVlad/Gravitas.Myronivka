@@ -1,11 +1,41 @@
 ﻿using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model.Dto;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail.ExternalData;
+using Gravitas.DAL.Repository._Base;
+using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Budget.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Budget.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Contract.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Crop.DTO;
+using Gravitas.Model.DomainModel.ExternalData.DeliveryBill.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Employee.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Employee.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.ExternalUser.DTO;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.LabClassifier.DAO;
+using Gravitas.Model.DomainModel.ExternalData.LabClassifier.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.LabClassifier.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.MeasureUnit.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Product.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Product.List;
+using Gravitas.Model.DomainModel.ExternalData.ReasonForRefund.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Route.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Stock.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Stock.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Subdivision.DTO;
+using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DAO;
+using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.SupplyType.DTO;
+using Gravitas.Model.DomainModel.ExternalData.YearOfHarvest.DTO;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.ExternalData
 {
-    public class ExternalDataRepository : BaseRepository<GravitasDbContext>, IExternalDataRepository
+    public class ExternalDataRepository : BaseRepository, IExternalDataRepository
     {
         private readonly GravitasDbContext _context;
 
@@ -15,7 +45,7 @@ namespace Gravitas.DAL
         }
 
         //Get Detail
-        public ExternalData.AcceptancePointDetail GetAcceptancePointDetail(string id)
+        public AcceptancePointDetail GetAcceptancePointDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -23,14 +53,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.AcceptancePoints.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.AcceptancePointDetail
+            var dto = new AcceptancePointDetail
             {
                 Id = dao.Id, Code = dao.Code, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.BudgetDetail GetBudgetDetail(string id)
+        public BudgetDetail GetBudgetDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -38,14 +68,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.Budgets.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.BudgetDetail
+            var dto = new BudgetDetail
             {
                 Id = dao.Id, Code = dao.Code, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.ContractDetail GetContractDetail(string id)
+        public ContractDetail GetContractDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -53,7 +83,7 @@ namespace Gravitas.DAL
             }
             var dao = _context.Contracts.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.ContractDetail
+            var dto = new ContractDetail
             {
                 Id = dao.Id,
                 Code = dao.Code,
@@ -65,7 +95,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.CropDetail GetCropDetail(string id)
+        public CropDetail GetCropDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -73,14 +103,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.Crops.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.CropDetail
+            var dto = new CropDetail
             {
                 Id = dao.Id, Code = dao.Code, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.DeliveryBillStatusDetail GetDeliveryBillStatusDetail(string id)
+        public DeliveryBillStatusDetail GetDeliveryBillStatusDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -88,14 +118,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.DeliveryBillStatuses.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.DeliveryBillStatusDetail
+            var dto = new DeliveryBillStatusDetail
             {
                 Id = dao.Id, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.DeliveryBillTypeDetail GetDeliveryBillTypeDetail(string id)
+        public DeliveryBillTypeDetail GetDeliveryBillTypeDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -103,14 +133,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.DeliveryBillTypes.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.DeliveryBillTypeDetail
+            var dto = new DeliveryBillTypeDetail
             {
                 Id = dao.Id, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.EmployeeDetail GetEmployeeDetail(string id)
+        public EmployeeDetail GetEmployeeDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -118,7 +148,7 @@ namespace Gravitas.DAL
             }
             var dao = _context.Employees.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.EmployeeDetail
+            var dto = new EmployeeDetail
             {
                 Id = dao.Id,
                 Code = dao.Code,
@@ -131,7 +161,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.ExternalEmployeeDetail GetExternalEmployeeDetail(string id)
+        public ExternalEmployeeDetail GetExternalEmployeeDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -139,14 +169,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.Employees.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.ExternalEmployeeDetail
+            var dto = new ExternalEmployeeDetail
             {
                 Id = dao.Id, Code = dao.Code, ShortName = dao.ShortName, FullName = dao.FullName
             };
             return dto;
         }
 
-        public ExternalData.FixedAssetDetail GetFixedAssetDetail(string id)
+        public FixedAssetDetail GetFixedAssetDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -154,7 +184,7 @@ namespace Gravitas.DAL
             }
             var dao = _context.FixedAssets.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.FixedAssetDetail
+            var dto = new FixedAssetDetail
             {
                 Id = dao.Id,
                 Code = dao.Code,
@@ -166,7 +196,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.LabImpurityСlassifierDetail GetLabImpurityСlassifierDetail(string id)
+        public LabImpurityСlassifierDetail GetLabImpurityСlassifierDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -174,14 +204,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.LabImpurityСlassifiers.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.LabImpurityСlassifierDetail
+            var dto = new LabImpurityСlassifierDetail
             {
                 Id = dao.Id, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.LabHumidityСlassifierDetail GetLabHumidityСlassifierDetail(string id)
+        public LabHumidityСlassifierDetail GetLabHumidityСlassifierDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -189,14 +219,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.LabHumidityСlassifiers.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.LabHumidityСlassifierDetail
+            var dto = new LabHumidityСlassifierDetail
             {
                 Id = dao.Id, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.LabInfectionedСlassifierDetail GetLabInfectionedСlassifierDetail(string id)
+        public LabInfectionedСlassifierDetail GetLabInfectionedСlassifierDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -204,14 +234,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.LabInfectionedСlassifiers.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.LabInfectionedСlassifierDetail
+            var dto = new LabInfectionedСlassifierDetail
             {
                 Id = dao.Id, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.MeasureUnitDetail GetMeasureUnitDetail(string id)
+        public MeasureUnitDetail GetMeasureUnitDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -219,14 +249,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.MeasureUnits.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.MeasureUnitDetail
+            var dto = new MeasureUnitDetail
             {
                 Id = dao.Id, Code = dao.Code, ShortName = dao.ShortName, FullName = dao.FullName
             };
             return dto;
         }
 
-        public ExternalData.OriginTypeDetail GetOriginTypeDetail(string id)
+        public OriginTypeDetail GetOriginTypeDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -234,14 +264,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.OriginTypes.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.OriginTypeDetail
+            var dto = new OriginTypeDetail
             {
                 Id = dao.Id, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.OrganisationDetail GetOrganisationDetail(string id)
+        public OrganisationDetail GetOrganisationDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -249,7 +279,7 @@ namespace Gravitas.DAL
             }
             var dao = _context.Organisations.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.OrganisationDetail
+            var dto = new OrganisationDetail
             {
                 Id = dao.Id,
                 Code = dao.Code,
@@ -260,7 +290,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.PartnerDetail GetPartnerDetail(string id)
+        public PartnerDetail GetPartnerDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -268,7 +298,7 @@ namespace Gravitas.DAL
             }
             var dao = _context.Partners.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.PartnerDetail
+            var dto = new PartnerDetail
             {
                 Id = dao.Id,
                 Code = dao.Code,
@@ -279,7 +309,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.ProductDetail GetProductDetail(string id)
+        public ProductDetail GetProductDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -287,14 +317,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.Products.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.ProductDetail
+            var dto = new ProductDetail
             {
                 Id = dao.Id, Code = dao.Code, ShortName = dao.ShortName, FullName = dao.FullName
             };
             return dto;
         }
 
-        public ExternalData.ReasonForRefundDetail GetReasonForRefundDetail(string id)
+        public ReasonForRefundDetail GetReasonForRefundDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -302,14 +332,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.ReasonForRefunds.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.ReasonForRefundDetail
+            var dto = new ReasonForRefundDetail
             {
                 Id = dao.Id, Code = dao.Code, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.RouteDetail GetRouteDetail(string id)
+        public RouteDetail GetRouteDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -317,14 +347,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.Routes.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.RouteDetail
+            var dto = new RouteDetail
             {
                 Id = dao.Id, Code = dao.Code, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.StockDetail GetStockDetail(string id)
+        public StockDetail GetStockDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -332,7 +362,7 @@ namespace Gravitas.DAL
             }
             var dao = _context.Stocks.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.StockDetail
+            var dto = new StockDetail
             {
                 Id = dao.Id,
                 Code = dao.Code,
@@ -343,7 +373,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.SubdivisionDetail GetSubdivisionDetail(string id)
+        public SubdivisionDetail GetSubdivisionDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -351,7 +381,7 @@ namespace Gravitas.DAL
             }
             var dao = _context.Subdivisions.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.SubdivisionDetail
+            var dto = new SubdivisionDetail
             {
                 Id = dao.Id,
                 Code = dao.Code,
@@ -362,7 +392,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.SupplyTransportTypeDetail GetSupplyTransportTypeDetail(string id)
+        public SupplyTransportTypeDetail GetSupplyTransportTypeDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -370,14 +400,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.SupplyTransportTypes.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.SupplyTransportTypeDetail
+            var dto = new SupplyTransportTypeDetail
             {
                 Id = dao.Id, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.SupplyTypeDetail GetSupplyTypeDetail(string id)
+        public SupplyTypeDetail GetSupplyTypeDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -385,14 +415,14 @@ namespace Gravitas.DAL
             }
             var dao = _context.SupplyTypes.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.SupplyTypeDetail
+            var dto = new SupplyTypeDetail
             {
                 Id = dao.Id, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.YearOfHarvestDetail GetYearOfHarvestDetail(string id)
+        public YearOfHarvestDetail GetYearOfHarvestDetail(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -400,21 +430,21 @@ namespace Gravitas.DAL
             }
             var dao = _context.YearOfHarvests.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
-            var dto = new ExternalData.YearOfHarvestDetail
+            var dto = new YearOfHarvestDetail
             {
                 Id = dao.Id, Code = dao.Code, Name = dao.Name
             };
             return dto;
         }
 
-        public ExternalData.ProductItems GetProductChildItems(string parentId)
+        public ProductItems GetProductChildItems(string parentId)
         {
-            var result = new ExternalData.ProductItems
+            var result = new ProductItems
             {
                 Items = _context.Products
                     .Where(e => e.ParentId == parentId)
                     .Select(a =>
-                    new ExternalData.ProductItem
+                    new ProductItem
                     {
                         Id = a.Id, ShortName = a.ShortName, IsFolder = a.IsFolder
                     })
@@ -424,12 +454,12 @@ namespace Gravitas.DAL
             return result;
         }
 
-        public ExternalData.ProductItems GetProductItems()
+        public ProductItems GetProductItems()
         {
             var dao = _context.Products.Where(e => !e.IsFolder);
-            var dto = new ExternalData.ProductItems
+            var dto = new ProductItems
             {
-                Items = dao.Select(e => new ExternalData.ProductItem
+                Items = dao.Select(e => new ProductItem
                 {
                     Id = e.Id, Code = e.Code, ShortName = e.ShortName, FullName = e.FullName
                 }).ToList()
@@ -439,12 +469,12 @@ namespace Gravitas.DAL
 
         // Get Items
 
-        public ExternalData.BudgetItems GetBudgetItems()
+        public BudgetItems GetBudgetItems()
         {
             var dao = _context.Budgets.Where(e => !e.IsFolder);
-            var dto = new ExternalData.BudgetItems
+            var dto = new BudgetItems
             {
-                Items = dao.Select(e => new ExternalData.BudgetItem
+                Items = dao.Select(e => new BudgetItem
                 {
                     Id = e.Id, Code = e.Code, Name = e.Name
                 }).ToList()
@@ -452,12 +482,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.EmployeeItems GetEmployeeItems()
+        public EmployeeItems GetEmployeeItems()
         {
             var dao = _context.Employees.Where(e => !e.IsFolder);
-            var dto = new ExternalData.EmployeeItems
+            var dto = new EmployeeItems
             {
-                Items = dao.Select(e => new ExternalData.EmployeeItem
+                Items = dao.Select(e => new EmployeeItem
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -471,12 +501,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.OrganisationItems GetOrganisationItems()
+        public OrganisationItems GetOrganisationItems()
         {
             var dao = _context.Organisations.Where(e => !e.IsFolder);
-            var dto = new ExternalData.OrganisationItems
+            var dto = new OrganisationItems
             {
-                Items = dao.Select(e => new ExternalData.OrganisationItem
+                Items = dao.Select(e => new OrganisationItem
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -488,12 +518,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.FixedTrailerItems GetFixedTrailerItems(int pageNo, int perPageNo)
+        public FixedTrailerItems GetFixedTrailerItems(int pageNo, int perPageNo)
         {
             var dao = _context.FixedAssets.Where(e => !e.IsFolder);
-            var dto = new ExternalData.FixedTrailerItems
+            var dto = new FixedTrailerItems
             {
-                Items = dao.Select(e => new ExternalData.FixedTrailerItem
+                Items = dao.Select(e => new FixedTrailerItem
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -506,7 +536,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.PartnerItems GetFilteredPagePartnerItems(int pageNo, int perPageNo, string filter)
+        public PartnerItems GetFilteredPagePartnerItems(int pageNo, int perPageNo, string filter)
         {
             var dao = _context.Partners.Where(x => !x.IsFolder)
                 .AsEnumerable()
@@ -515,9 +545,9 @@ namespace Gravitas.DAL
                                 e.FullName.ToLower().Contains(filter.ToLower())))
                 .Skip(perPageNo * (pageNo - 1))
                 .Take(perPageNo);
-            var dto = new ExternalData.PartnerItems
+            var dto = new PartnerItems
             {
-                Items = dao.Select(e => new ExternalData.PartnerItem
+                Items = dao.Select(e => new PartnerItem
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -529,7 +559,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.EmployeeItems GetFilteredPageEmployeeItems(int pageNo, int perPageNo, string filter)
+        public EmployeeItems GetFilteredPageEmployeeItems(int pageNo, int perPageNo, string filter)
         {
             var dao = _context.Employees
                 .Where(x => !x.IsFolder)
@@ -537,9 +567,9 @@ namespace Gravitas.DAL
                 .Where(e =>
                  (string.IsNullOrEmpty(filter) || e.ShortName.ToLower().Contains(filter.ToLower()) ||
                                 e.FullName.ToLower().Contains(filter.ToLower()))).Skip(perPageNo * (pageNo - 1)).Take(perPageNo);
-            var dto = new ExternalData.EmployeeItems
+            var dto = new EmployeeItems
             {
-                Items = dao.Select(e => new ExternalData.EmployeeItem
+                Items = dao.Select(e => new EmployeeItem
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -553,7 +583,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.StockItems GetFilteredPageStockItems(int pageNo, int perPageNo, string filter)
+        public StockItems GetFilteredPageStockItems(int pageNo, int perPageNo, string filter)
         {
             var dao = _context.Stocks
                 .Where(x => !x.IsFolder)
@@ -561,9 +591,9 @@ namespace Gravitas.DAL
                 .Where(e =>
                 (string.IsNullOrEmpty(filter) || e.ShortName.ToLower().Contains(filter.ToLower()) ||
                                 e.FullName.ToLower().Contains(filter.ToLower()))).Skip(perPageNo * (pageNo - 1)).Take(perPageNo);
-            var dto = new ExternalData.StockItems
+            var dto = new StockItems
             {
-                Items = dao.Select(e => new ExternalData.StockItem
+                Items = dao.Select(e => new StockItem
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -575,7 +605,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.FixedTrailerItems GetFilteredPageFixedTrailerItems(int pageNo, int perPageNo, string filter)
+        public FixedTrailerItems GetFilteredPageFixedTrailerItems(int pageNo, int perPageNo, string filter)
         {
             var dao = _context.FixedAssets
                 .Where(x => !x.IsFolder)
@@ -583,9 +613,9 @@ namespace Gravitas.DAL
                 .Where(e =>
                 (string.IsNullOrEmpty(filter) || e.RegistrationNo.ToLower().Contains(filter.ToLower())
                 )).Skip(perPageNo * (pageNo - 1)).Take(perPageNo);
-            var dto = new ExternalData.FixedTrailerItems
+            var dto = new FixedTrailerItems
             {
-                Items = dao.Select(e => new ExternalData.FixedTrailerItem
+                Items = dao.Select(e => new FixedTrailerItem
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -598,7 +628,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.FixedAssetItems GetFilteredPageFixedAssetItems(int pageNo, int perPageNo, string filter)
+        public FixedAssetItems GetFilteredPageFixedAssetItems(int pageNo, int perPageNo, string filter)
         {
             var dao = _context.FixedAssets
                 .Where(x => !x.IsFolder)
@@ -606,9 +636,9 @@ namespace Gravitas.DAL
                 .Where(e =>
                 (string.IsNullOrEmpty(filter) || e.RegistrationNo.ToLower().Contains(filter.ToLower())
                 )).Skip(perPageNo * (pageNo - 1)).Take(perPageNo);
-            var dto = new ExternalData.FixedAssetItems
+            var dto = new FixedAssetItems
             {
-                Items = dao.Select(e => new ExternalData.FixedAssetItem
+                Items = dao.Select(e => new FixedAssetItem
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -621,7 +651,7 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.ProductItems GetFilteredPageProductItems(int pageNo, int perPageNo, string filter)
+        public ProductItems GetFilteredPageProductItems(int pageNo, int perPageNo, string filter)
         {
             var dao = _context.Products
                 .Where(x => !x.IsFolder)
@@ -630,9 +660,9 @@ namespace Gravitas.DAL
                 (string.IsNullOrEmpty(filter) || e.FullName.ToLower().Contains(filter.ToLower()) ||
                                 e.ShortName.ToLower().Contains(filter.ToLower())
                 )).Skip(perPageNo * (pageNo - 1)).Take(perPageNo);
-            var dto = new ExternalData.ProductItems
+            var dto = new ProductItems
             {
-                Items = dao.Select(e => new ExternalData.ProductItem
+                Items = dao.Select(e => new ProductItem
                 {
                     Id = e.Id, Code = e.Code, ShortName = e.ShortName, FullName = e.FullName
                 }).ToList()
@@ -640,12 +670,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.PartnerItems GetPartnerItems()
+        public PartnerItems GetPartnerItems()
         {
             var dao = _context.Partners.Where(e => !e.IsFolder);
-            var dto = new ExternalData.PartnerItems
+            var dto = new PartnerItems
             {
-                Items = dao.Select(e => new ExternalData.PartnerItem
+                Items = dao.Select(e => new PartnerItem
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -657,12 +687,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.StockItems GetStockItems()
+        public StockItems GetStockItems()
         {
             var dao = _context.Stocks.Where(e => !e.IsFolder);
-            var dto = new ExternalData.StockItems
+            var dto = new StockItems
             {
-                Items = dao.Select(e => new ExternalData.StockItem
+                Items = dao.Select(e => new StockItem
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -674,12 +704,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.SupplyTransportTypeItems GetSupplyTransportTypeItems()
+        public SupplyTransportTypeItems GetSupplyTransportTypeItems()
         {
-            var dao = GetQuery<Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.SupplyTransportType, string>();
-            var dto = new ExternalData.SupplyTransportTypeItems
+            var dao = GetQuery<SupplyTransportType, string>();
+            var dto = new SupplyTransportTypeItems
             {
-                Items = dao.Select(e => new ExternalData.SupplyTransportTypeItem
+                Items = dao.Select(e => new SupplyTransportTypeItem
                 {
                     Id = e.Id, Name = e.Name
                 }).ToList()
@@ -687,12 +717,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.LabHumidityСlassifierItems GetLabHumidityСlassifierItems()
+        public LabHumidityСlassifierItems GetLabHumidityСlassifierItems()
         {
-            var dao = GetQuery<Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.LabHumidityСlassifier, string>();
-            var dto = new ExternalData.LabHumidityСlassifierItems
+            var dao = GetQuery<LabHumidityСlassifier, string>();
+            var dto = new LabHumidityСlassifierItems
             {
-                Items = dao.Select(e => new ExternalData.LabHumidityСlassifierItem
+                Items = dao.Select(e => new LabHumidityСlassifierItem
                 {
                     Id = e.Id, Name = e.Name
                 }).ToList()
@@ -700,12 +730,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.LabImpurityСlassifierItems GetLabImpurityСlassifierItems()
+        public LabImpurityСlassifierItems GetLabImpurityСlassifierItems()
         {
-            var dao = GetQuery<Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.LabImpurityСlassifier, string>();
-            var dto = new ExternalData.LabImpurityСlassifierItems
+            var dao = GetQuery<LabImpurityСlassifier, string>();
+            var dto = new LabImpurityСlassifierItems
             {
-                Items = dao.Select(e => new ExternalData.LabImpurityСlassifierItem
+                Items = dao.Select(e => new LabImpurityСlassifierItem
                 {
                     Id = e.Id, Name = e.Name
                 }).ToList()
@@ -713,12 +743,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.LabInfectionedСlassifierItems GetLabInfectionedСlassifierItems()
+        public LabInfectionedСlassifierItems GetLabInfectionedСlassifierItems()
         {
-            var dao = GetQuery<Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.LabInfectionedСlassifier, string>();
-            var dto = new ExternalData.LabInfectionedСlassifierItems
+            var dao = GetQuery<LabInfectionedСlassifier, string>();
+            var dto = new LabInfectionedСlassifierItems
             {
-                Items = dao.Select(e => new ExternalData.LabInfectionedСlassifierItem
+                Items = dao.Select(e => new LabInfectionedСlassifierItem
                 {
                     Id = e.Id, Name = e.Name
                 }).ToList()
@@ -726,12 +756,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.LabDeviceResultTypeItems GetLabDevResultTypeItems()
+        public LabDeviceResultTypeItems GetLabDevResultTypeItems()
         {
-            var dao = GetQuery<Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData.LabDeviceResultType, string>();
-            var dto = new ExternalData.LabDeviceResultTypeItems
+            var dao = GetQuery<LabDeviceResultType, string>();
+            var dto = new LabDeviceResultTypeItems
             {
-                Items = dao.Select(e => new ExternalData.LabDeviceResultTypeItem
+                Items = dao.Select(e => new LabDeviceResultTypeItem
                 {
                     Id = e.Id, Name = e.Name
                 }).ToList()
@@ -739,12 +769,12 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public ExternalData.BudgetItems GetBudgetChildItem(string parentId)
+        public BudgetItems GetBudgetChildItem(string parentId)
         {
-            var result = new ExternalData.BudgetItems
+            var result = new BudgetItems
             {
                 Items = _context.Budgets.Where(e => e.ParentId == parentId)
-                    .Select(a => new ExternalData.BudgetItem
+                    .Select(a => new BudgetItem
                     {
                         Id = a.Id,
                         Name = a.Name,
@@ -755,13 +785,13 @@ namespace Gravitas.DAL
             return result;
         }
 
-        public ExternalData.PartnerItems GetPartnerChildItems(string parentId)
+        public PartnerItems GetPartnerChildItems(string parentId)
         {
-            var result = new ExternalData.PartnerItems
+            var result = new PartnerItems
             {
                 Items = _context.Partners
                     .Where(e => e.ParentId == parentId)
-                    .Select(a => new ExternalData.PartnerItem
+                    .Select(a => new PartnerItem
                     {
                         Id = a.Id,
                         Code = a.Code,
@@ -774,13 +804,13 @@ namespace Gravitas.DAL
             return result;
         }
 
-        public ExternalData.EmployeeItems GetEmployeeChildItems(string parentId)
+        public EmployeeItems GetEmployeeChildItems(string parentId)
         {
-            var result = new ExternalData.EmployeeItems
+            var result = new EmployeeItems
             {
                 Items = _context.Employees
                     .Where(e => e.ParentId == parentId)
-                    .Select(a => new ExternalData.EmployeeItem
+                    .Select(a => new EmployeeItem
                     {
                         Id = a.Id,
                         Code = a.Code,

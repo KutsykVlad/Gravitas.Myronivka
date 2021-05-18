@@ -1,60 +1,83 @@
-﻿using Gravitas.DAL.DbContext;
+﻿using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Budget.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Budget.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Contract.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Crop.DTO;
+using Gravitas.Model.DomainModel.ExternalData.DeliveryBill.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Employee.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Employee.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.ExternalUser.DTO;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.LabClassifier.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.LabClassifier.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.MeasureUnit.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Product.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Product.List;
+using Gravitas.Model.DomainModel.ExternalData.ReasonForRefund.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Route.DTO;
+using Gravitas.Model.DomainModel.ExternalData.Stock.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.Stock.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.Subdivision.DTO;
+using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DTO.Detail;
+using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DTO.List;
+using Gravitas.Model.DomainModel.ExternalData.SupplyType.DTO;
+using Gravitas.Model.DomainModel.ExternalData.YearOfHarvest.DTO;
 
-namespace Gravitas.DAL {
-
-	public interface IExternalDataRepository : IBaseRepository<GravitasDbContext> {
-
-		ExternalData.AcceptancePointDetail GetAcceptancePointDetail(string id);
-		ExternalData.BudgetDetail GetBudgetDetail(string id);
-		ExternalData.ContractDetail GetContractDetail(string id);
-		ExternalData.CropDetail GetCropDetail(string id);
-		ExternalData.DeliveryBillStatusDetail GetDeliveryBillStatusDetail(string id);
-		ExternalData.DeliveryBillTypeDetail GetDeliveryBillTypeDetail(string id);
-		ExternalData.EmployeeDetail GetEmployeeDetail(string id);
-		ExternalData.ExternalEmployeeDetail GetExternalEmployeeDetail(string id);
-		ExternalData.FixedAssetDetail GetFixedAssetDetail(string id);
-		ExternalData.LabImpurityСlassifierDetail GetLabImpurityСlassifierDetail(string id);
-		ExternalData.LabHumidityСlassifierDetail GetLabHumidityСlassifierDetail(string id);
-		ExternalData.LabInfectionedСlassifierDetail GetLabInfectionedСlassifierDetail(string id);
-		ExternalData.MeasureUnitDetail GetMeasureUnitDetail(string id);
-		ExternalData.OriginTypeDetail GetOriginTypeDetail(string id);
-		ExternalData.OrganisationDetail GetOrganisationDetail(string id);
-		ExternalData.PartnerDetail GetPartnerDetail(string id);
-		ExternalData.ProductDetail GetProductDetail(string id);
-		ExternalData.ReasonForRefundDetail GetReasonForRefundDetail(string id);
-		ExternalData.RouteDetail GetRouteDetail(string id);
-		ExternalData.StockDetail GetStockDetail(string id);
-		ExternalData.SubdivisionDetail GetSubdivisionDetail(string id);
-		ExternalData.SupplyTransportTypeDetail GetSupplyTransportTypeDetail(string id);
-		ExternalData.SupplyTypeDetail GetSupplyTypeDetail(string id);
-		ExternalData.YearOfHarvestDetail GetYearOfHarvestDetail(string id);
-
-
-	    ExternalData.ProductItems GetProductChildItems(string id);
-	    ExternalData.ProductItems GetProductItems();
-		ExternalData.BudgetItems GetBudgetItems();
-		ExternalData.EmployeeItems GetEmployeeItems();
-		ExternalData.OrganisationItems GetOrganisationItems();
-		ExternalData.FixedTrailerItems GetFixedTrailerItems(int pageNo, int perPageNo);
-
-	    ExternalData.PartnerItems GetFilteredPagePartnerItems(int pageNo, int perPageNo, string filter);
-	    ExternalData.EmployeeItems GetFilteredPageEmployeeItems(int pageNo, int perPageNo, string filter);
-	    ExternalData.StockItems GetFilteredPageStockItems(int pageNo, int perPageNo, string filter);
-	    ExternalData.FixedTrailerItems GetFilteredPageFixedTrailerItems(int pageNo, int perPageNo, string filter);
-	    ExternalData.FixedAssetItems GetFilteredPageFixedAssetItems(int pageNo, int perPageNo, string filter);
-	    ExternalData.ProductItems GetFilteredPageProductItems(int pageNo, int perPageNo, string filter);
-
-        ExternalData.PartnerItems GetPartnerItems();
-		ExternalData.StockItems GetStockItems();
-		ExternalData.SupplyTransportTypeItems GetSupplyTransportTypeItems();
-		ExternalData.LabHumidityСlassifierItems GetLabHumidityСlassifierItems();
-		ExternalData.LabImpurityСlassifierItems GetLabImpurityСlassifierItems();
-		ExternalData.LabInfectionedСlassifierItems GetLabInfectionedСlassifierItems();
-		ExternalData.LabDeviceResultTypeItems GetLabDevResultTypeItems();
-
-	    ExternalData.BudgetItems GetBudgetChildItem(string parentId);
-	    ExternalData.PartnerItems GetPartnerChildItems(string parentId);
-	    ExternalData.EmployeeItems GetEmployeeChildItems(string parentId);
-	}
+namespace Gravitas.DAL.Repository.ExternalData
+{
+    public interface IExternalDataRepository : IBaseRepository
+    {
+        AcceptancePointDetail GetAcceptancePointDetail(string id);
+        BudgetDetail GetBudgetDetail(string id);
+        ContractDetail GetContractDetail(string id);
+        CropDetail GetCropDetail(string id);
+        DeliveryBillStatusDetail GetDeliveryBillStatusDetail(string id);
+        DeliveryBillTypeDetail GetDeliveryBillTypeDetail(string id);
+        EmployeeDetail GetEmployeeDetail(string id);
+        ExternalEmployeeDetail GetExternalEmployeeDetail(string id);
+        FixedAssetDetail GetFixedAssetDetail(string id);
+        LabImpurityСlassifierDetail GetLabImpurityСlassifierDetail(string id);
+        LabHumidityСlassifierDetail GetLabHumidityСlassifierDetail(string id);
+        LabInfectionedСlassifierDetail GetLabInfectionedСlassifierDetail(string id);
+        MeasureUnitDetail GetMeasureUnitDetail(string id);
+        OriginTypeDetail GetOriginTypeDetail(string id);
+        OrganisationDetail GetOrganisationDetail(string id);
+        PartnerDetail GetPartnerDetail(string id);
+        ProductDetail GetProductDetail(string id);
+        ReasonForRefundDetail GetReasonForRefundDetail(string id);
+        RouteDetail GetRouteDetail(string id);
+        StockDetail GetStockDetail(string id);
+        SubdivisionDetail GetSubdivisionDetail(string id);
+        SupplyTransportTypeDetail GetSupplyTransportTypeDetail(string id);
+        SupplyTypeDetail GetSupplyTypeDetail(string id);
+        YearOfHarvestDetail GetYearOfHarvestDetail(string id);
+        ProductItems GetProductChildItems(string id);
+        ProductItems GetProductItems();
+        BudgetItems GetBudgetItems();
+        EmployeeItems GetEmployeeItems();
+        OrganisationItems GetOrganisationItems();
+        FixedTrailerItems GetFixedTrailerItems(int pageNo, int perPageNo);
+        PartnerItems GetFilteredPagePartnerItems(int pageNo, int perPageNo, string filter);
+        EmployeeItems GetFilteredPageEmployeeItems(int pageNo, int perPageNo, string filter);
+        StockItems GetFilteredPageStockItems(int pageNo, int perPageNo, string filter);
+        FixedTrailerItems GetFilteredPageFixedTrailerItems(int pageNo, int perPageNo, string filter);
+        FixedAssetItems GetFilteredPageFixedAssetItems(int pageNo, int perPageNo, string filter);
+        ProductItems GetFilteredPageProductItems(int pageNo, int perPageNo, string filter);
+        PartnerItems GetPartnerItems();
+        StockItems GetStockItems();
+        SupplyTransportTypeItems GetSupplyTransportTypeItems();
+        LabHumidityСlassifierItems GetLabHumidityСlassifierItems();
+        LabImpurityСlassifierItems GetLabImpurityСlassifierItems();
+        LabInfectionedСlassifierItems GetLabInfectionedСlassifierItems();
+        LabDeviceResultTypeItems GetLabDevResultTypeItems();
+        BudgetItems GetBudgetChildItem(string parentId);
+        PartnerItems GetPartnerChildItems(string parentId);
+        EmployeeItems GetEmployeeChildItems(string parentId);
+    }
 }

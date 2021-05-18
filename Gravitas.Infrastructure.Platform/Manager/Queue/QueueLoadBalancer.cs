@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Node.DAO;
 using NLog;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {
     public class QueueLoadBalancer
     {
-        private readonly List<long> _endPointNodeLoad;
+        private readonly List<int> _endPointNodeLoad;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public Dictionary<long, NodeLoad> NodesLoad { get; } = new Dictionary<long, NodeLoad>();
 
-        public QueueLoadBalancer(IEnumerable<Node> nodes, List<long> endPointNodeLoad)
+        public QueueLoadBalancer(IEnumerable<Model.DomainModel.Node.DAO.Node> nodes, List<int> endPointNodeLoad)
         {
             _endPointNodeLoad = endPointNodeLoad;
             foreach (var node in nodes)
@@ -25,7 +23,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     });
         }
 
-        public void UpdateQuatas(IEnumerable<Node> nodes)
+        public void UpdateQuatas(IEnumerable<Model.DomainModel.Node.DAO.Node> nodes)
         {
             foreach (var node in nodes) NodesLoad[node.Id].MaxQuata = node.Quota;
         }

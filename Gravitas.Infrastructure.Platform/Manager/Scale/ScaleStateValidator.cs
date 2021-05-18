@@ -1,51 +1,33 @@
-using System;
-using System.Linq;
-using Gravitas.DAL;
-using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Common.Configuration;
-using Gravitas.Model;
+using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
-using Gravitas.Model.DomainModel.OpDataEvent.DAO;
-using Gravitas.Model.DomainValue;
-using Gravitas.Model.Dto;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Scale
 {
     public class ScaleStateValidator
     {
         private readonly IOpRoutineManager _opRoutineManager;
-        private readonly IOpDataRepository _opDataRepository;
-        private readonly IOpDataManager _opDataManager;
-        private readonly GravitasDbContext _context;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
 
-        public ScaleStateValidator(IOpRoutineManager opRoutineManager,
-            IOpDataRepository opDataRepository,
-            IOpDataManager opDataManager,
-            GravitasDbContext context)
+        public ScaleStateValidator(IOpRoutineManager opRoutineManager)
         {
             _opRoutineManager = opRoutineManager;
-            _opDataRepository = opDataRepository;
-            _opDataManager = opDataManager;
-            _context = context;
         }
 
-        public bool IsScaleStateOk(ScaleState scaleState, long nodeId)
+        public bool IsScaleStateOk(ScaleState scaleState, int nodeId)
         {
             if (!scaleState.InData.IsImmobile)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Warning,@"Вага не стабільна."));
+                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(Model.Node.ProcessingMsg.Type.Warning,@"Вага не стабільна."));
                 return false;
             }
 
             if (scaleState.InData.Value < GlobalConfigurationManager.ScaleMinLoad)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Info,@"Вага надто мала."));
+                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(Model.Node.ProcessingMsg.Type.Info,@"Вага надто мала."));
                 return false;
             }
 

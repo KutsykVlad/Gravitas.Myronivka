@@ -6,6 +6,7 @@ using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Gravitas.DAL;
+using Gravitas.DAL.Repository.Node;
 using Gravitas.DeviceMonitor.ViewModel.Ip;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Model;

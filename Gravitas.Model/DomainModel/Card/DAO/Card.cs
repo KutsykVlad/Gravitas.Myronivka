@@ -1,11 +1,12 @@
 using Gravitas.Model.DomainModel.Base;
 using Gravitas.Model.DomainModel.ExternalData.Employee.DAO;
+using Gravitas.Model.DomainModel.Ticket.DAO;
 
 namespace Gravitas.Model.DomainModel.Card.DAO
 {
     public class Card : BaseEntity<string>
     {
-        public int TypeId { get; set; }
+        public DomainValue.CardType TypeId { get; set; }
         public int No { get; set; }
         public bool IsActive { get; set; }
         public bool IsOwn { get; set; }

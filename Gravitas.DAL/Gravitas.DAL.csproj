@@ -157,29 +157,8 @@
     <Compile Include="Mapping\Ticket\TicketStatusMap.cs" />
     <Compile Include="Mapping\Ticket\TicketMap.cs" />
     <Compile Include="Mapping\Traffic\TrafficHistoryMap.cs" />
-    <Compile Include="PostDeployment\EmployeeRoles.cs" />
-    <Compile Include="PostDeployment\EndPointNodes.cs" />
-    <Compile Include="PostDeployment\MixedFeed.cs" />
-    <Compile Include="PostDeployment\Nodes.cs" />
-    <Compile Include="PostDeployment\QueueItemCategory.cs" />
-    <Compile Include="PostDeployment\QueueItemPriority.cs" />
-    <Compile Include="PostDeployment\Roles.cs" />
-    <Compile Include="PostDeployment\Routes.cs" />
-    <Compile Include="PostDeployment\PhoneNumbers.cs" />
-    <Compile Include="PostDeployment\SmsTemplates.cs" />
-    <Compile Include="PostDeployment\TicketContainer.cs" />
-    <Compile Include="PostDeployment\TicketFile.cs" />
     <Compile Include="Mapping\_Base\BaseEntityMap.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="PostDeployment\Device.cs" />
-    <Compile Include="PostDeployment\OpDataState.cs" />
-    <Compile Include="PostDeployment\OpRoutineTransition.cs" />
-    <Compile Include="PostDeployment\OpRoutineState.cs" />
-    <Compile Include="PostDeployment\OrganisationUnit.cs" />
-    <Compile Include="PostDeployment\_PostDeploymet.cs" />
-    <Compile Include="PostDeployment\OpRoutine.cs" />
-    <Compile Include="PostDeployment\Ticket.cs" />
-    <Compile Include="PostDeployment\Card.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BlackList\BlackListRepository.cs" />
     <Compile Include="Repository\BlackList\IBlackListRepository.cs" />
@@ -221,14 +200,6 @@
     <Compile Include="Repository\Card\ICardRepository.cs" />
     <Compile Include="Repository\Traffic\TrafficRepository.cs" />
     <Compile Include="Repository\Traffic\ITrafficRepository.cs" />
-    <Compile Include="TestData\Testdata.CardAssignment.cs" />
-    <Compile Include="TestData\TestData.Device.cs" />
-    <Compile Include="TestData\TestData.DeviceState.cs" />
-    <Compile Include="TestData\TestData.DeviceParam.cs" />
-    <Compile Include="TestData\TestData.ExternalData.cs" />
-    <Compile Include="TestData\TestData.Card.cs" />
-    <Compile Include="TestData\TestData.cs" />
-    <Compile Include="TestData\TestData.MixedFeedDevices.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gravitas.Model\Gravitas.Model.csproj">
@@ -248,7 +219,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
-    <Compile Include="TestData\TestData.QueuePatternItems.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

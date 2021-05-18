@@ -3,33 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Common.Configuration;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpCameraImage;
-using Gravitas.Model.Dto;
+using Newtonsoft.Json;
 using NLog;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.Camera
 {
     public class CameraManager : ICameraManager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IDeviceRepository _deviceRepository;
         private readonly GravitasDbContext _context;
         private readonly INodeRepository _nodeRepository;
 
-
         public CameraManager(
             INodeRepository nodeRepository,
-            IDeviceRepository deviceRepository, 
             GravitasDbContext context)
         {
             _nodeRepository = nodeRepository;
-            _deviceRepository = deviceRepository;
             _context = context;
         }
 
@@ -84,8 +79,7 @@ namespace Gravitas.Infrastructure.Platform.Manager
                     continue;
                 }
 
-                var cameraParam =
-                    CameraParam.FromJson(_context.DeviceParams.First(x => x.Id == device.ParamId.Value).ParamJson);
+                var cameraParam = JsonConvert.DeserializeObject<CameraParam>(_context.DeviceParams.First(x => x.Id == device.ParamId.Value).ParamJson);
 
                 var filename = GenerateCamImagePath(
                     GlobalConfigurationManager.CameraImageBasePath,
@@ -99,12 +93,9 @@ namespace Gravitas.Infrastructure.Platform.Manager
                 {
                     DateTime = DateTime.Now, SourceDeviceId = device.Id, ImagePath = filename
                 };
-                _nodeRepository.Add<OpCameraImage, long>(opCameraImage);
+                _nodeRepository.Add<OpCameraImage, int>(opCameraImage);
 
                 cameraImagesList.Add(opCameraImage.Id);
-
-                // todo: delete console test
-//                Logger.Debug($"CAMERA {device.Id} finished");
             }
 
             return cameraImagesList;

@@ -1,7 +1,10 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Gravitas.DAL;
+using Gravitas.DAL.Repository.Queue;
+using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Platform.Manager;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Queue.DAO;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http.Filters;
 using Gravitas.Infrastructure.Platform.Manager;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Model;
 using NLog;
 using Dom = Gravitas.Model.DomainValue.Dom;

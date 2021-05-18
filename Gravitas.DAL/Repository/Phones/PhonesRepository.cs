@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.Phones
 {
-    public class PhonesRepository : BaseRepository<GravitasDbContext>, IPhonesRepository
+    public class PhonesRepository : BaseRepository, IPhonesRepository
     {
         private readonly GravitasDbContext _context;
 
@@ -15,11 +15,11 @@ namespace Gravitas.DAL
             _context = context;
         }
 
-        public string GetPhone(int phoneId) => GetEntity<PhoneDictionary, long>(phoneId)?.PhoneNumber ?? string.Empty;
+        public string GetPhone(int phoneId) => _context.PhoneDictionaries.FirstOrDefault(x => x.Id == phoneId)?.PhoneNumber ?? string.Empty;
         
         public List<PhoneDictionary> GetAll()
         {
-            return GetQuery<PhoneDictionary, long>().ToList();
+            return GetQuery<PhoneDictionary, int>().ToList();
         }
     }
 }

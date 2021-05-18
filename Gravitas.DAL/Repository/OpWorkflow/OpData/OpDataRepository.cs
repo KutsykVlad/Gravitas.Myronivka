@@ -1,18 +1,17 @@
-﻿using Gravitas.Model;
-using Gravitas.Model.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.OpData.DAO.Base;
 using Gravitas.Model.DomainModel.OpData.TDO.Detail;
 using Gravitas.Model.DomainModel.OpDataState.DTO.Detail;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using Gravitas.Model.DomainValue;
+using SingleWindowOpData = Gravitas.Model.DomainModel.OpData.DAO.SingleWindowOpData;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.OpWorkflow.OpData
 {
-    public class OpDataRepository : BaseRepository<GravitasDbContext>, IOpDataRepository
+    public class OpDataRepository : BaseRepository, IOpDataRepository
     {
         private readonly GravitasDbContext _context;
         public OpDataRepository(GravitasDbContext context) : base(context)
@@ -55,7 +54,7 @@ namespace Gravitas.DAL
                 .ToList();
         }
 
-        public BaseOpData GetLastOpData(long? ticketId, int? stateId = null)
+        public BaseOpData GetLastOpData(long? ticketId, OpDataState? stateId = null)
         {
             if (ticketId == null)
                 return null;
@@ -69,7 +68,7 @@ namespace Gravitas.DAL
             if (ticketId == null)
                 return null;
             return (from optData in _context.Set<TEntity>().AsNoTracking()
-                    where optData.TicketId == ticketId && optData.StateId == Dom.OpDataState.Processed
+                    where optData.TicketId == ticketId && optData.StateId == OpDataState.Processed
                     orderby optData.CheckInDateTime descending
                     select optData).FirstOrDefault();
         }
@@ -77,7 +76,7 @@ namespace Gravitas.DAL
         public TEntity GetLastProcessed<TEntity>(Func<TEntity, bool> predicate) where TEntity : BaseOpData
         {
             return (from item in _context.Set<TEntity>().AsNoTracking().Where(predicate)
-                    where item.StateId == Dom.OpDataState.Processed
+                    where item.StateId == OpDataState.Processed
                     orderby item.CheckInDateTime descending
                     select item).FirstOrDefault();
         }
@@ -87,7 +86,7 @@ namespace Gravitas.DAL
             if (ticketId == null)
                 return null;
             return (from item in _context.Set<TEntity>().AsNoTracking()
-                    where item.TicketId == ticketId && item.StateId == Dom.OpDataState.Processed
+                    where item.TicketId == ticketId && item.StateId == OpDataState.Processed
                     orderby item.CheckInDateTime
                     select item).FirstOrDefault();
         }
@@ -95,12 +94,12 @@ namespace Gravitas.DAL
         public TEntity GetFirstProcessed<TEntity>(Func<TEntity, bool> predicate) where TEntity : BaseOpData
         {
             return (from item in _context.Set<TEntity>().AsNoTracking().Where(predicate)
-                    where item.StateId == Dom.OpDataState.Processed
+                    where item.StateId == OpDataState.Processed
                     orderby item.CheckInDateTime
                     select item).FirstOrDefault();
         }
 
-        public TEntity GetLastOpData<TEntity>(long? ticketId, int? stateId) where TEntity : BaseOpData
+        public TEntity GetLastOpData<TEntity>(long? ticketId, OpDataState? stateId) where TEntity : BaseOpData
         {
             if (ticketId == null)
                 return null;

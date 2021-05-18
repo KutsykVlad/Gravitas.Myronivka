@@ -1,12 +1,10 @@
 using System;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Model.DomainModel.OpData.DAO;
-using Gravitas.Model.DomainModel.OpVisa.DAO;
+using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Manager.UnloadPoint
 {
@@ -22,7 +20,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.UnloadPoint
             _ticketRepository = ticketRepository;
         }
 
-        public bool ConfirmUnloadGuide(long ticketId, string employeeId)
+        public bool ConfirmUnloadGuide(int ticketId, string employeeId)
         {
             var unloadGuideOpData = _context.UnloadGuideOpDatas.AsNoTracking()
                 .Where(x => x.TicketId == ticketId)
@@ -34,25 +32,25 @@ namespace Gravitas.Infrastructure.Platform.Manager.UnloadPoint
                 return false;
             }
 
-            var unloadVisa = new OpVisa
+            var unloadVisa = new Model.DomainModel.OpVisa.DAO.OpVisa
             {
                 DateTime = DateTime.Now,
                 Message = "Підтвердження призначення ями вигрузки",
                 UnloadGuideOpDataId = unloadGuideOpData.Id,
                 EmployeeId = employeeId,
-                OpRoutineStateId = Dom.OpRoutine.UnloadPointGuide.State.AddOpVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointGuide.State.AddOpVisa
             };
             _context.OpVisas.Add(unloadVisa);
             _context.SaveChanges();
 
-            unloadGuideOpData.StateId = Dom.OpDataState.Processed;
+            unloadGuideOpData.StateId = OpDataState.Processed;
             unloadGuideOpData.CheckOutDateTime = DateTime.Now;
             _ticketRepository.Update<UnloadGuideOpData, Guid>(unloadGuideOpData);
             _logger.Info($"LoadPointManager: BindLoadPoint: Unloadpoint {unloadGuideOpData.UnloadPointNodeId} was assigned to ticket = {ticketId}");
             return true;
         }
 
-        public bool ConfirmUnloadPoint(long ticketId, string employeeId)
+        public bool ConfirmUnloadPoint(int ticketId, string employeeId)
         {
             var unloadPointOpData = _context.UnloadPointOpDatas
                 .AsNoTracking()
@@ -61,18 +59,18 @@ namespace Gravitas.Infrastructure.Platform.Manager.UnloadPoint
                 .FirstOrDefault();
             if (unloadPointOpData == null) return false;
 
-            var visa = new OpVisa
+            var visa = new Model.DomainModel.OpVisa.DAO.OpVisa
             {
                 DateTime = DateTime.Now,
                 Message = "Підтвердження вигрузки",
                 UnloadPointOpDataId = unloadPointOpData.Id,
                 EmployeeId = employeeId,
-                OpRoutineStateId = Dom.OpRoutine.UnloadPointType1.State.AddOperationVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointType1.State.AddOperationVisa
             };
             _context.OpVisas.Add(visa);
             _context.SaveChanges();
 
-            unloadPointOpData.StateId = Dom.OpDataState.Processed;
+            unloadPointOpData.StateId = OpDataState.Processed;
             unloadPointOpData.CheckOutDateTime = DateTime.Now;
             _ticketRepository.Update<UnloadPointOpData, Guid>(unloadPointOpData);
 

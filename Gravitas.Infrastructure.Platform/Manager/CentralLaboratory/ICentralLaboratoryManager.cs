@@ -8,6 +8,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.CentralLaboratory
         Dictionary<CentralLabState, string> LabStateName { get; }
         Dictionary<CentralLabState, int> LabStateOrder { get; }
         Dictionary<CentralLabState, string> LabStateClassStyle { get; }
-        CentralLabState GetTicketStateInCentralLab(long? ticketId);
+        CentralLabState GetTicketStateInCentralLab(int? ticketId);
     }
 }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Gravitas.Model.DomainModel.Base;
 using Gravitas.Model.DomainModel.OpData.DAO;
-using SingleWindowOpData = Gravitas.Model.DomainValue.SingleWindowOpData;
 
 namespace Gravitas.Model.DomainModel.PredefinedRoute.DAO
 {

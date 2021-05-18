@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Extension;
+using Gravitas.DAL.Repository.ExternalData;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO.Json;
 using Gravitas.Model.DomainModel.OpData.TDO.Detail;
@@ -11,13 +13,13 @@ using Gravitas.Model.DomainModel.OpData.TDO.Json;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DTO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
-using Gravitas.Model.Dto;
+using Gravitas.Model.DomainValue;
 using Newtonsoft.Json;
-using Dom = Gravitas.Model.DomainValue.Dom;
 using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.TDO.Detail.LabFacelessOpData;
 using LabFacelessOpDataComponent = Gravitas.Model.DomainModel.OpData.TDO.Detail.LabFacelessOpDataComponent;
+using SingleWindowOpData = Gravitas.Model.DomainModel.OpData.DAO.SingleWindowOpData;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.OpData
 {
     public class OpDataManager : IOpDataManager
     {
@@ -40,10 +42,10 @@ namespace Gravitas.Infrastructure.Platform.Manager
 
         public void AddEvent(OpDataEvent opDataEvent)
         {
-            _opDataRepository.Add<OpDataEvent, long>(opDataEvent);
+            _opDataRepository.Add<OpDataEvent, int>(opDataEvent);
         }
 
-        public OpDataEventDto[] GetEvents(long ticketId, int? eventType = null)
+        public OpDataEventDto[] GetEvents(int ticketId, int? eventType = null)
         {
             return _context.OpDataEvents
                 .AsNoTracking()
@@ -234,7 +236,7 @@ namespace Gravitas.Infrastructure.Platform.Manager
                 LabOilContentValue = dao.LabOilContentValue,
                 LaboratoryOperatorId = dao.LabolatoryOperatorId,
                 LaboratoryOperatorName = _externalDataRepository.GetExternalEmployeeDetail(dao.LabolatoryOperatorId)?.ShortName,
-                LabFileId = _ticketRepository.GetFirstOrDefault<TicketFile, long>(item => item.TicketId == dao.TicketId)?.Id,
+                LabFileId = _ticketRepository.GetFirstOrDefault<TicketFile, int>(item => item.TicketId == dao.TicketId)?.Id,
                 CollectionPointId = dao.CollectionPointId,
                 ReturnCauseId = dao.ReturnCauseId,
                 LoadOutDateTime = dao.LoadOutDateTime,
@@ -245,51 +247,51 @@ namespace Gravitas.Infrastructure.Platform.Manager
             return dto;
         }
 
-        public SingleWindowOpData FetchRouteResults(long ticketId)
+        public SingleWindowOpData FetchRouteResults(int ticketId)
         {
             var singleWindowOpData = 
                 _context.SingleWindowOpDatas.Where(e =>
                         e.TicketId == ticketId
-                        && (e.StateId == Dom.OpDataState.Processed || e.StateId == Dom.OpDataState.Init))
+                        && (e.StateId == OpDataState.Processed || e.StateId == OpDataState.Init))
                     .OrderByDescending(e => e.CheckInDateTime)
                     .FirstOrDefault();
             singleWindowOpData.FetchSingleWindowOpData(singleWindowOpData);
             singleWindowOpData.FetchSecurityCheckInOpData(
                 _context.SecurityCheckInOpDatas
                     .Where(x => x.TicketId == ticketId 
-                                && x.StateId == Dom.OpDataState.Processed)
+                                && x.StateId == OpDataState.Processed)
                     .OrderByDescending(x => x.CheckInDateTime)
                     .FirstOrDefault());
             singleWindowOpData.FetchSecurityCheckOutOpData(
                 _context.SecurityCheckOutOpDatas
                     .Where(x => x.TicketId == ticketId 
-                                && x.StateId == Dom.OpDataState.Processed)
+                                && x.StateId == OpDataState.Processed)
                     .OrderByDescending(x => x.CheckInDateTime)
                     .FirstOrDefault());
             singleWindowOpData.FetchFirstTareScaleOpData(
                 _context.ScaleOpDatas
                     .Where(x => x.TicketId == ticketId
-                                && x.StateId == Dom.OpDataState.Processed
-                                && x.TypeId == Dom.ScaleOpData.Type.Tare)
+                                && x.StateId == OpDataState.Processed
+                                && x.TypeId == ScaleOpDataType.Tare)
                     .OrderBy(x => x.CheckInDateTime)
                     .FirstOrDefault());
             singleWindowOpData.FetchLastTareScaleOpData(
                 _context.ScaleOpDatas
                     .Where(e => e.TicketId == ticketId 
-                                && e.TypeId == Dom.ScaleOpData.Type.Tare)
+                                && e.TypeId == ScaleOpDataType.Tare)
                     .OrderByDescending(x => x.CheckInDateTime)
                     .FirstOrDefault());
             singleWindowOpData.FetchFirstGrossScaleOpData(
                 _context.ScaleOpDatas
                     .Where(x => x.TicketId == ticketId
-                                && x.StateId == Dom.OpDataState.Processed
-                                && x.TypeId == Dom.ScaleOpData.Type.Gross)
+                                && x.StateId == OpDataState.Processed
+                                && x.TypeId == ScaleOpDataType.Gross)
                     .OrderBy(x => x.CheckInDateTime)
                     .FirstOrDefault());
             singleWindowOpData.FetchLastGrossScaleOpData(
                 _context.ScaleOpDatas
                     .Where(x => x.TicketId == ticketId
-                                && x.TypeId == Dom.ScaleOpData.Type.Gross)
+                                && x.TypeId == ScaleOpDataType.Gross)
                     .OrderByDescending(x => x.CheckInDateTime)
                     .FirstOrDefault());
             singleWindowOpData.FetchWeightResultsOpData();
@@ -298,22 +300,22 @@ namespace Gravitas.Infrastructure.Platform.Manager
             singleWindowOpData.FetchLoadOpData(  
                 _context.LoadPointOpDatas
                 .Where(x => x.TicketId == ticketId
-                            && x.StateId == Dom.OpDataState.Processed)
+                            && x.StateId == OpDataState.Processed)
                 .OrderByDescending(x => x.CheckInDateTime)
                 .FirstOrDefault());
             singleWindowOpData.FetchUnloadOpData(
                 _context.UnloadPointOpDatas
                 .Where(x => x.TicketId == ticketId
-                            && x.StateId == Dom.OpDataState.Processed)
+                            && x.StateId == OpDataState.Processed)
                 .OrderByDescending(x => x.CheckInDateTime)
                 .FirstOrDefault());
             var firstScale = 
                 _context.ScaleOpDatas
-                .Where(e => e.TicketId == ticketId && e.StateId == Dom.OpDataState.Processed)
+                .Where(e => e.TicketId == ticketId && e.StateId == OpDataState.Processed)
                 .OrderBy(x => x.CheckInDateTime)
                 .FirstOrDefault()?.NodeId;
             var secondScale = _context.ScaleOpDatas
-                .Where(e => e.TicketId == ticketId && e.StateId == Dom.OpDataState.Processed)
+                .Where(e => e.TicketId == ticketId && e.StateId == OpDataState.Processed)
                 .OrderByDescending(x => x.CheckInDateTime)
                 .FirstOrDefault()?.NodeId;
             if (firstScale.HasValue && singleWindowOpData != null)
@@ -355,7 +357,7 @@ namespace Gravitas.Infrastructure.Platform.Manager
                         NodeId = e.NodeId,
                         StateId = e.StateId,
                         AnalysisTrayRfid = e.AnalysisTrayRfid,
-                        AnalysisValueDescriptor = AnalysisValueDescriptor.FromJson(e.AnalysisValueDescriptor),
+                        AnalysisValueDescriptor = JsonConvert.DeserializeObject<AnalysisValueDescriptor>(e.AnalysisValueDescriptor),
                         ImpurityClassId = e.ImpurityClassId,
                         ImpurityValue = e.ImpurityValue,
                         HumidityClassId = e.HumidityClassId,
@@ -369,13 +371,13 @@ namespace Gravitas.Infrastructure.Platform.Manager
             return dto;
         }
 
-        public BasicTicketContainerData GetBasicTicketData(long ticketId)
+        public BasicTicketContainerData GetBasicTicketData(int ticketId)
         {
             var data = new BasicTicketContainerData();
             var singleWindowOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(ticketId);
             if (singleWindowOpData != null)
             {
-                data.IsTechRoute = singleWindowOpData.SupplyCode == Dom.SingleWindowOpData.TechnologicalSupplyCode;
+                data.IsTechRoute = singleWindowOpData.SupplyCode == TechRoute.SupplyCode;
                 data.ReceiverDepotName = singleWindowOpData.ReceiverDepotId != null
                     ? _context.Stocks.FirstOrDefault(e => e.Id == singleWindowOpData.ReceiverDepotId)?.ShortName ?? string.Empty
                     : string.Empty;

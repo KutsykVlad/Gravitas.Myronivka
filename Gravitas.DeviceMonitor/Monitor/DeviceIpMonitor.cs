@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL;
+using Gravitas.DAL.Repository.Node;
 using Gravitas.DeviceMonitor.ViewModel.Report;
 using Gravitas.Infrastructure.Platform.Manager;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.DAO;

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Gravitas.DAL;
+using Gravitas.DAL.Repository.Queue;
 using Gravitas.Model;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.ViewModel;

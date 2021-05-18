@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.Dto;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using TicketContainerStatus = Gravitas.Model.DomainValue.TicketContainerStatus;
+using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.Ticket
 {
-    public class TicketRepository : BaseRepository<GravitasDbContext>, ITicketRepository
+    public class TicketRepository : BaseRepository, ITicketRepository
     {
         private readonly GravitasDbContext _context;
 
@@ -17,36 +18,36 @@ namespace Gravitas.DAL
             _context = context;
         }
 
-        public Ticket GetTicketInContainer(long containerId, int ticketStatus)
+        public Model.DomainModel.Ticket.DAO.Ticket GetTicketInContainer(int containerId, TicketStatus ticketStatus)
         {
             switch (ticketStatus)
             {
-                case Dom.Ticket.Status.New:
+                case TicketStatus.New:
                     return GetTicketInContainer_New(containerId);
-                case Dom.Ticket.Status.Blank: break;
-                case Dom.Ticket.Status.ToBeProcessed:
+                case TicketStatus.Blank: break;
+                case TicketStatus.ToBeProcessed:
                     return GetTicketInContainer_ToBeProcessed(containerId);
-                case Dom.Ticket.Status.Completed: break;
-                case Dom.Ticket.Status.Canceled: break;
+                case TicketStatus.Completed: break;
+                case TicketStatus.Canceled: break;
             }
 
             // First attempt
             var ticket = (from t in _context.Tickets
-                    where t.ContainerId == containerId && t.StatusId == ticketStatus
+                    where t.TicketContainerId == containerId && t.StatusId == ticketStatus
                     orderby t.OrderNo descending 
                     select t)
                     .FirstOrDefault();
             return ticket;
         }
 
-        public TicketItems GetTicketItems(long containerId)
+        public TicketItems GetTicketItems(int containerId)
         {
             var dao = (from i in _context.Tickets
                        join s in _context.SingleWindowOpDatas on i.Id equals s.TicketId into singleWindowJoin
                        from singleWindowOpData in singleWindowJoin.DefaultIfEmpty()
                        join p in _context.Products on singleWindowOpData.ProductId equals p.Id into productJoin
                        from product in productJoin.DefaultIfEmpty()
-                       where i.ContainerId == containerId
+                       where i.TicketContainerId == containerId
                        select new TicketItem
                        {
                            Id = i.Id,
@@ -65,38 +66,38 @@ namespace Gravitas.DAL
         {
             var ticketContainer = new TicketContainer
             {
-                StatusId = Dom.TicketContainer.Status.Active
+                StatusId = TicketContainerStatus.Active
             };
-            Add<TicketContainer, long>(ticketContainer);
+            Add<TicketContainer, int>(ticketContainer);
             return ticketContainer;
         }
 
-        public Ticket NewTicket(long ticketContainerId)
+        public Model.DomainModel.Ticket.DAO.Ticket NewTicket(int ticketContainerId)
         {
             var ticketContainer = _context.TicketContainers.AsNoTracking().First(x => x.Id == ticketContainerId);
 
-            var ticket = new Ticket
+            var ticket = new Model.DomainModel.Ticket.DAO.Ticket
             {
-                ContainerId = ticketContainer.Id,
-                StatusId = Dom.Ticket.Status.New,
+                TicketContainerId = ticketContainer.Id,
+                StatusId = TicketStatus.New,
                 OrderNo = ticketContainer.TicketSet.Any()
                     ? ticketContainer.TicketSet.Max(t => t.OrderNo) + 1
                     : 1
             };
-            Add<Ticket, long>(ticket);
+            Add<Model.DomainModel.Ticket.DAO.Ticket, int>(ticket);
 
             return ticket;
         }
 
-        public IEnumerable<TicketFile> GetTicketFiles(long ticketId) => _context.TicketFiles.Where(item => item.TicketId == ticketId).ToList();
+        public IEnumerable<TicketFile> GetTicketFiles(int ticketId) => _context.TicketFiles.Where(item => item.TicketId == ticketId).ToList();
 
         public IEnumerable<TicketFile> GetTicketFilesByType(int typeId) => _context.TicketFiles.Where(item => item.TypeId == typeId).ToList();
 
-        private Ticket GetTicketInContainer_New(long containerId)
+        private Model.DomainModel.Ticket.DAO.Ticket GetTicketInContainer_New(int containerId)
         {
             var ticket = _context.Tickets
                 .AsNoTracking()
-                .Where(t => t.ContainerId == containerId && t.StatusId == Dom.Ticket.Status.New)
+                .Where(t => t.TicketContainerId == containerId && t.StatusId == TicketStatus.New)
                 .OrderByDescending(t => t.OrderNo)
                 .FirstOrDefault();
 
@@ -104,24 +105,24 @@ namespace Gravitas.DAL
             {
                 var ticketsToBeCanceled = _context.Tickets
                     .AsNoTracking()
-                    .Where(t => t.ContainerId == containerId && t.StatusId == Dom.Ticket.Status.New && t.Id != ticket.Id)
+                    .Where(t => t.TicketContainerId == containerId && t.StatusId == TicketStatus.New && t.Id != ticket.Id)
                     .ToList();
 
                 foreach (var t in ticketsToBeCanceled)
                 {
-                    t.StatusId = Dom.Ticket.Status.Canceled;
-                    Update<Ticket, long>(t);
+                    t.StatusId = TicketStatus.Canceled;
+                    Update<Model.DomainModel.Ticket.DAO.Ticket, int>(t);
                 }
             }
 
             return ticket;
         }
 
-        private Ticket GetTicketInContainer_ToBeProcessed(long containerId)
+        private Model.DomainModel.Ticket.DAO.Ticket GetTicketInContainer_ToBeProcessed(int containerId)
         {
             var ticket = _context.Tickets
                 .AsNoTracking()
-                .Where(t => t.ContainerId == containerId && t.StatusId == Dom.Ticket.Status.ToBeProcessed)
+                .Where(t => t.TicketContainerId == containerId && t.StatusId == TicketStatus.ToBeProcessed)
                 .OrderBy(t => t.OrderNo)
                 .FirstOrDefault();
 
@@ -129,14 +130,14 @@ namespace Gravitas.DAL
 
             ticket = _context.Tickets
                 .AsNoTracking()
-                .Where(t => t.ContainerId == containerId && t.StatusId == Dom.Ticket.Status.Blank)
+                .Where(t => t.TicketContainerId == containerId && t.StatusId == TicketStatus.Blank)
                 .OrderBy(t => t.OrderNo)
                 .FirstOrDefault();
 
             if (ticket != null)
             {
-                ticket.StatusId = Dom.Ticket.Status.ToBeProcessed;
-                Update<Ticket, long>(ticket);
+                ticket.StatusId = TicketStatus.ToBeProcessed;
+                Update<Model.DomainModel.Ticket.DAO.Ticket, int>(ticket);
             }
 
             return ticket;

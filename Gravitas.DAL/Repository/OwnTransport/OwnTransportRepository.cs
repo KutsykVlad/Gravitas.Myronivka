@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.OwnTransport.DTO;
 
 namespace Gravitas.DAL.Repository.OwnTransport
 {
-    public class OwnTransportRepository : BaseRepository<GravitasDbContext>, IOwnTransportRepository
+    public class OwnTransportRepository : BaseRepository, IOwnTransportRepository
     {
         private readonly GravitasDbContext _context;
 
@@ -18,7 +17,7 @@ namespace Gravitas.DAL.Repository.OwnTransport
 
         public IQueryable<OwnTransportVm> GetList()
         {
-            var list = GetQuery<Model.DomainModel.OwnTransport.DAO.OwnTransport, long>()
+            var list = GetQuery<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>()
                 .Select(x => new OwnTransportVm
                 {
                     Id = x.Id, 
@@ -31,7 +30,7 @@ namespace Gravitas.DAL.Repository.OwnTransport
 
         public bool Add(OwnTransportVm model)
         {
-            var item = GetFirstOrDefault<Model.DomainModel.OwnTransport.DAO.OwnTransport, long>(x => 
+            var item = GetFirstOrDefault<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>(x => 
                 x.CardId == model.Card || x.TruckNo == model.TruckNo);
 
             if (item != null) return false;
@@ -40,12 +39,12 @@ namespace Gravitas.DAL.Repository.OwnTransport
             {
                 try
                 {
-                    var card = GetEntity<Card, string>(model.Card);
+                    var card = _context.Cards.FirstOrDefault(x => x.Id == model.Card);
                     if (card == null) throw new Exception("Card not found");
                     card.IsOwn = true;
-                    Update<Card, string>(card);
+                    Update<Model.DomainModel.Card.DAO.Card, string>(card);
                     
-                    Add<Model.DomainModel.OwnTransport.DAO.OwnTransport, long>(new Model.DomainModel.OwnTransport.DAO.OwnTransport
+                    Add<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>(new Model.DomainModel.OwnTransport.DAO.OwnTransport
                     {
                         CardId = model.Card,
                         TruckNo = model.TruckNo,
@@ -64,21 +63,21 @@ namespace Gravitas.DAL.Repository.OwnTransport
             }
         }
         
-        public void Remove(long id)
+        public void Remove(int id)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    var ownTransport = GetEntity<Model.DomainModel.OwnTransport.DAO.OwnTransport, long>(id);
+                    var ownTransport = _context.OwnTransports.FirstOrDefault(x => x.Id == id);
                     if (ownTransport == null) return;
                     
-                    var card = GetEntity<Card, string>(ownTransport.CardId);
+                    var card = _context.Cards.FirstOrDefault(x => x.Id == ownTransport.CardId);
                     if (card == null) throw new Exception("Card not found");
                     card.IsOwn = false;
-                    Update<Card, string>(card);
+                    Update<Model.DomainModel.Card.DAO.Card, string>(card);
 
-                    Delete<Model.DomainModel.OwnTransport.DAO.OwnTransport, long>(ownTransport);
+                    Delete<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>(ownTransport);
                     transaction.Commit();
                 }
                 catch (Exception e)

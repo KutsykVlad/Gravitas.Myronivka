@@ -1,11 +1,10 @@
-﻿using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+﻿using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 using Gravitas.Model.DomainModel.BlackList.TDO;
 
-namespace Gravitas.DAL.Repository
+namespace Gravitas.DAL.Repository.BlackList
 {
-    public interface IBlackListRepository : IBaseRepository<GravitasDbContext>
+    public interface IBlackListRepository : IBaseRepository
     {
         BlackListDto GetBlackListDto();
 

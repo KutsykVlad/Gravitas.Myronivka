@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.PreRegistration.DAO;
 using Gravitas.Model.DomainModel.PreRegistration.DTO;
 
 namespace Gravitas.DAL.Repository.PreRegistration
 {
-    public class PreRegistrationRepository : BaseRepository<GravitasDbContext>, IPreRegistrationRepository
+    public class PreRegistrationRepository : BaseRepository, IPreRegistrationRepository
     {
         private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly GravitasDbContext _context;
@@ -20,7 +21,7 @@ namespace Gravitas.DAL.Repository.PreRegistration
 
         public IEnumerable<PreRegistrationProductVm> GetProducts()
         {
-            return GetQuery<PreRegisterProduct, long>()
+            return GetQuery<PreRegisterProduct, int>()
                 .ToList()
                 .Select(x => new PreRegistrationProductVm
                 {
@@ -33,21 +34,21 @@ namespace Gravitas.DAL.Repository.PreRegistration
 
         public void AddProduct(PreRegisterProduct item)
         {
-            AddOrUpdate<PreRegisterProduct, long>(item);
+            AddOrUpdate<PreRegisterProduct, int>(item);
         }
 
-        public void RemoveProduct(long id)
+        public void RemoveProduct(int id)
         {
             var product = _context.PreRegisterProducts.FirstOrDefault(x => x.Id == id);
             if (product != null)
             {
-                Delete<PreRegisterProduct, long>(product);
+                Delete<PreRegisterProduct, int>(product);
             }
         }
         
         public PreRegisterCompany FindCompanyByUserName(string email)
         {
-            var product = GetSingleOrDefault<PreRegisterCompany, long>(x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
+            var product = GetSingleOrDefault<PreRegisterCompany, int>(x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
             return product;
         }
         
@@ -55,7 +56,7 @@ namespace Gravitas.DAL.Repository.PreRegistration
         {
             try
             {
-                AddOrUpdate<PreRegisterCompany, long>(company);
+                AddOrUpdate<PreRegisterCompany, int>(company);
                 return true;
             }
             catch (Exception e)
@@ -72,7 +73,7 @@ namespace Gravitas.DAL.Repository.PreRegistration
                 var company = FindCompanyByUserName(email);
                 if (company == null) return false;
                 
-                Delete<PreRegisterCompany, long>(company);
+                Delete<PreRegisterCompany, int>(company);
                 return true;
             }
             catch (Exception e)
@@ -82,9 +83,9 @@ namespace Gravitas.DAL.Repository.PreRegistration
             }
         }
 
-        public bool IsRouteRegistered(long routeId)
+        public bool IsRouteRegistered(int routeId)
         {
-            return GetSingleOrDefault<PreRegisterProduct, long>(x => x.RouteTemplateId == routeId) != null;
+            return GetSingleOrDefault<PreRegisterProduct, int>(x => x.RouteTemplateId == routeId) != null;
         }
     }
 }

@@ -5,20 +5,20 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {
     public class RouteInfo
     {
-        public long TicketContainerId { get; set; }
-        public long CurrentNode { get; set; }
+        public int TicketContainerId { get; set; }
+        public int CurrentNode { get; set; }
 
         //For SMS
-        public long ActiveTicketId { get; set; }
+        public int ActiveTicketId { get; set; }
 
-        public List<List<long>> PathNodes => GroupAlternativeNodes.Select(s => s.Nodes).ToList();
+        public List<List<int>> PathNodes => GroupAlternativeNodes.Select(s => s.Nodes).ToList();
         internal List<GroupAlternativeNodes> GroupAlternativeNodes { get; set; }
-        public List<long> TicketIds { get; set; } = new List<long>();
+        public List<int> TicketIds { get; set; } = new List<int>();
     }
 
     public class GroupAlternativeNodes
     {
-        public List<long> Nodes { get; set; }
+        public List<int> Nodes { get; set; }
         public bool QuotaEnabled { get; set; }
     }
 }

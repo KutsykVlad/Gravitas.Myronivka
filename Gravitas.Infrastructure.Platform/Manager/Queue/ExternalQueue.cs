@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository.ExternalData;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.DAL.Repository.Queue;
 using Gravitas.Model.DomainModel.OpData.DAO;
-using Gravitas.Model.DomainModel.PreRegistration.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainValue;
 using NLog;
 using NLog.Fluent;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {
@@ -24,11 +23,11 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 
     public class ExternalQueue
     {
-        private const int OwnerCategory = Dom.Queue.Category.Company;
-        private const int PartnersCategory = Dom.Queue.Category.Partners;
-        private const int OtherCategory = Dom.Queue.Category.Others;
-        private const int MixedFeedCategory = Dom.Queue.Category.MixedFeedLoad;
-        private const int PreRegisterCategory = Dom.Queue.Category.PreRegisterCategory;
+        private const int OwnerCategory = (int) QueueCategory.Company;
+        private const int PartnersCategory = (int) QueueCategory.Partners;
+        private const int OtherCategory = (int) QueueCategory.Others;
+        private const int MixedFeedCategory = (int) QueueCategory.MixedFeedLoad;
+        private const int PreRegisterCategory = (int) QueueCategory.PreRegisterCategory;
         private readonly IExternalDataRepository _externalRepo;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IOpDataRepository _opDataRepository;
@@ -56,7 +55,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             if (singleWindowOpData.IsPreRegistered)
             {
                 category = PreRegisterCategory;
-            } else if (IsNodeAvailable((long) NodeIdValue.MixedFeedGuide, route.PathNodes))
+            } else if (IsNodeAvailable((int) NodeIdValue.MixedFeedGuide, route.PathNodes))
             {
                 category = MixedFeedCategory;
             } else if (singleWindowOpData != null && singleWindowOpData.IsThirdPartyCarrier)
@@ -102,8 +101,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 
             var routeId =
                 _context.Tickets.Where(t =>
-                        t.ContainerId == route.TicketContainerId &&
-                        (t.StatusId == Dom.Ticket.Status.Processing || t.StatusId == Dom.Ticket.Status.ToBeProcessed))
+                        t.TicketContainerId == route.TicketContainerId &&
+                        (t.StatusId == TicketStatus.Processing || t.StatusId == TicketStatus.ToBeProcessed))
                     .OrderBy(x => x.OrderNo)
                     .FirstOrDefault()?.RouteTemplateId;
             if (!routeId.HasValue)
@@ -158,7 +157,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             Remove(route.TicketContainerId);
         }
 
-        public void Remove(long ticketContainerId)
+        public void Remove(int ticketContainerId)
         {
             var queue = GetQueueCatItems(ticketContainerId);
             var group = queue.FirstOrDefault(g => g.Items.Any(r => r.TicketContainerId == ticketContainerId));
@@ -169,7 +168,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             if (group.Items.Count == 0 && group.SpaceLeft == 0) queue.Remove(group);
         }
 
-        public RouteInfo Get(long ticketContainerId)
+        public RouteInfo Get(int ticketContainerId)
         {
             var s = GetQueueCatItems(ticketContainerId).SingleOrDefault(q => q.Items.Any(r => r.TicketContainerId == ticketContainerId));
             return s?.Items.SingleOrDefault(r => r.TicketContainerId == ticketContainerId);
@@ -187,7 +186,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             return routeQueue == null ? new List<RouteInfo>() : routeQueue.SelectMany(q => q.Items).ToList();
         }
 
-        private List<CatItem> GetQueueCatItems(long ticketContainerId)
+        private List<CatItem> GetQueueCatItems(int ticketContainerId)
         {
             foreach (var queues in _routesQueue)
             {
@@ -199,7 +198,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             return new List<CatItem>();
         }
         
-        private bool IsNodeAvailable(long nodeId, List<List<long>> route)
+        private bool IsNodeAvailable(int nodeId, List<List<int>> route)
         {
             foreach (var r in route)
                 if (r.Contains(nodeId))

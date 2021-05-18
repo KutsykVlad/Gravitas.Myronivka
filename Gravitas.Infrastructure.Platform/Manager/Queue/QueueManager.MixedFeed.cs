@@ -1,17 +1,15 @@
 using System;
 using System.Linq;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainValue;
 using Newtonsoft.Json;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {
     public partial class QueueManager
     {
-        public long? GetFreeSiloDrive(string productId, long ticketId)
+        public int? GetFreeSiloDrive(string productId, int ticketId)
         {
             var load = _context.MixedFeedSilos
                 .AsNoTracking()
@@ -42,7 +40,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 .Where(x =>
                 {
                     var ticket = _context.Tickets.AsNoTracking().First(z => z.Id == x);
-                    return _routesRepository.GetFirstOrDefault<QueueRegister, long>(z => z.TicketContainerId == ticket.ContainerId) == null;
+                    return _routesRepository.GetFirstOrDefault<QueueRegister, int>(z => z.TicketContainerId == ticket.TicketContainerId) == null;
                 })
                 .ToList();
 
@@ -66,10 +64,10 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     {
                         mixedFeedGuideOpData = new MixedFeedGuideOpData
                         {
-                            StateId = Dom.OpDataState.Processed,
-                            NodeId = (long?) NodeIdValue.MixedFeedGuide,
+                            StateId = OpDataState.Processed,
+                            NodeId = (int?) NodeIdValue.MixedFeedGuide,
                             TicketId = ticketId,
-                            TicketContainerId = ticket.ContainerId,
+                            TicketContainerId = ticket.TicketContainerId,
                             CheckInDateTime = DateTime.Now,
                             CheckOutDateTime = DateTime.Now
                         };
@@ -77,11 +75,11 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     mixedFeedGuideOpData.LoadPointNodeId = nodeId.Value;
                     _opDataRepository.AddOrUpdate<MixedFeedGuideOpData, Guid>(mixedFeedGuideOpData);
                     
-                    _connectManager.SendSms(Dom.Sms.Template.DestinationPointApprovalSms, ticketId);
+                    _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, ticketId);
                     
-                    _routesInfrastructure.MoveForward(ticketId, (long) NodeIdValue.MixedFeedGuide);
+                    _routesInfrastructure.MoveForward(ticketId, (int) NodeIdValue.MixedFeedGuide);
 
-                    if (ticket.RouteItemIndex == 0 && ticket.RouteType == Dom.Route.Type.MixedFeedLoad)
+                    if (ticket.RouteItemIndex == 0 && ticket.RouteType == RouteType.MixedFeedLoad)
                     {
                         OnRouteAssigned(ticket);
                     }

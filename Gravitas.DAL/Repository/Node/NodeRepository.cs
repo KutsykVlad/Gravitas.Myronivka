@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.Node.TDO.List;
-using Gravitas.Model.Dto;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
+using Newtonsoft.Json;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.Node
 {
-    public class NodeRepository : BaseRepository<GravitasDbContext>, INodeRepository
+    public class NodeRepository : BaseRepository, INodeRepository
     {
         private readonly GravitasDbContext _context;
 
@@ -20,7 +20,7 @@ namespace Gravitas.DAL
 
         public NodeItems GetNodeItems()
         {
-            var dao = GetQuery<Model.DomainModel.Node.DAO.Node, long>().ToList();
+            var dao = GetQuery<Model.DomainModel.Node.DAO.Node, int>().ToList();
             var dto = new NodeItems
             {
                 Items = dao.Select(GetNodeItem).ToList()
@@ -28,20 +28,20 @@ namespace Gravitas.DAL
             return dto;
         }
 
-        public NodeItem GetNodeItem(long id)
+        public NodeItem GetNodeItem(int id)
         {
             var dao = _context.Nodes.AsNoTracking().First(x => x.Id == id);
             var dto = GetNodeItem(dao);
             return dto;
         }
 
-        public Node GetNodeDto(long? nodeId)
+        public Model.DomainModel.Node.TDO.Detail.Node GetNodeDto(int? nodeId)
         {
             if (nodeId == null) return null;
             var node = _context.Nodes.AsNoTracking().First(x => x.Id == nodeId.Value);
             return node is null
                 ? null
-                : new Node
+                : new Model.DomainModel.Node.TDO.Detail.Node
                 {
                     Id = node.Id,
                     OrganisationUnitId = node.OrganisationUnitId,
@@ -54,73 +54,56 @@ namespace Gravitas.DAL
                     IsEmergency = node.IsEmergency,
                     Quota = node.Quota,
                     MaximumProcessingTime = node.MaximumProcessingTime,
-                    Config = NodeConfig.FromJson(node.Config),
-                    Context = NodeContext.FromJson(node.Context),
-                    ProcessingMessage = NodeProcessingMsg.FromJson(node.ProcessingMessage), 
+                    Config = JsonConvert.DeserializeObject<NodeConfig>(node.Config),
+                    Context = JsonConvert.DeserializeObject<NodeContext>(node.Context),
+                    ProcessingMessage = JsonConvert.DeserializeObject<NodeProcessingMsg>(node.ProcessingMessage), 
                     Group = node.NodeGroup
                 };
         }
 
-        public NodeContext GetNodeContext(long nodeId)
+        public NodeContext GetNodeContext(int nodeId)
         {
             var node = _context.Nodes.AsNoTracking().First(x => x.Id == nodeId);
-            return NodeContext.FromJson(node.Context);
+            return JsonConvert.DeserializeObject<NodeContext>(node.Context);
         }
 
-        public bool IsFirstState(long nodeId, NodeContext newContext, long processorId)
+        public bool UpdateNodeContext(int nodeId, NodeContext newContext)
         {
             var nodeDto = GetNodeDto(nodeId);
 
-            var firstStateId = _context.OpRoutineTransitions.Where(s => s.OpRoutineId == nodeDto.OpRoutineId
-                                                                        && s.ProcessorId == processorId
-            ).Min(s => s.StartStateId);
 
-            return nodeDto.Context.OpRoutineStateId == firstStateId;
-        }
-
-        public bool UpdateNodeContext(long nodeId, NodeContext newContext, long processorId)
-        {
-            var nodeDto = GetNodeDto(nodeId);
-
-            var isTransitionValid = _context.OpRoutineTransitions.Any(e =>
-                e.OpRoutineId == nodeDto.OpRoutineId
-                && e.StartStateId == nodeDto.Context.OpRoutineStateId
-                && e.StopStateId == newContext.OpRoutineStateId
-                && e.ProcessorId == processorId);
-
-            if (nodeDto.Context.OpRoutineStateId != newContext?.OpRoutineStateId
-                && !isTransitionValid)
+            if (nodeDto.Context.OpRoutineStateId != newContext?.OpRoutineStateId)
                 return false;
 
             if (newContext != null)
                 newContext.LastStateChangeTime = DateTime.Now;
 
-            return UpdateNodeContextJson(nodeId, newContext?.ToJson());
+            return UpdateNodeContextJson(nodeId, JsonConvert.SerializeObject(newContext));
         }
 
-        public void UpdateNodeProcessingMessage(long nodeId, NodeProcessingMsgItem msgItem)
+        public void UpdateNodeProcessingMessage(int nodeId, NodeProcessingMsgItem msgItem)
         {
-            var node = GetEntity<Model.DomainModel.Node.DAO.Node, long>(nodeId);
+            var node = _context.Nodes.FirstOrDefault(x => x.Id == nodeId);
             if (node == null) return;
             node.ProcessingMessage = msgItem == null
                 ? string.Empty
-                : new NodeProcessingMsg
+                : JsonConvert.SerializeObject(new NodeProcessingMsg
                 {
                     Items = new List<NodeProcessingMsgItem>
                     {
                         msgItem
                     }
-                }.ToJson();
+                });
 
-            Update<Model.DomainModel.Node.DAO.Node, long>(node);
+            Update<Model.DomainModel.Node.DAO.Node, int>(node);
         }
 
-        public void ClearNodeProcessingMessage(long nodeId)
+        public void ClearNodeProcessingMessage(int nodeId)
         {
-            var node = GetEntity<Model.DomainModel.Node.DAO.Node, long>(nodeId);
+            var node = _context.Nodes.FirstOrDefault(x => x.Id == nodeId);
             if (node == null) return;
-            node.ProcessingMessage = new NodeProcessingMsg().ToJson();
-            Update<Model.DomainModel.Node.DAO.Node, long>(node);
+            node.ProcessingMessage = JsonConvert.SerializeObject(new NodeProcessingMsg());
+            Update<Model.DomainModel.Node.DAO.Node, int>(node);
         }
 
         private NodeItem GetNodeItem(Model.DomainModel.Node.DAO.Node dao)

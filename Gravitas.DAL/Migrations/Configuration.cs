@@ -12,8 +12,8 @@ namespace Gravitas.DAL.Migrations
 
         protected override void Seed(GravitasDbContext context)
         {
-            PostDeployment.PostDeployment.Deploy(context);
-            TestData.TestData.Deploy(context);
+            // PostDeployment.PostDeployment.Deploy(context);
+            // TestData.TestData.Deploy(context);
         }
     }
 }

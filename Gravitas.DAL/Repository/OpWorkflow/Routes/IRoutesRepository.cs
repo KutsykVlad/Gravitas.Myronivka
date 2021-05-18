@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.OpWorkflow.Routes
 {
-    public interface IRoutesRepository : IBaseRepository<GravitasDbContext>
+    public interface IRoutesRepository : IBaseRepository
     {
         ICollection<RouteTemplate> GetRoutes();
-        RouteTemplate GetRoute(long id);
-        bool DeleteRoute(long id);
+        RouteTemplate GetRoute(int id);
+        bool DeleteRoute(int id);
         bool UpdateRoute(RouteTemplate route);
     }
 }

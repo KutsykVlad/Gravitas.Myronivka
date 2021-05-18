@@ -1,11 +1,12 @@
 using System.Linq;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.PackingTare.DAO;
 using Gravitas.Model.DomainModel.PackingTare.DTO;
 
 namespace Gravitas.DAL.Repository.PackingTare
 {
-    public class PackingTareRepository : BaseRepository<GravitasDbContext>, IPackingTareRepository
+    public class PackingTareRepository : BaseRepository, IPackingTareRepository
     {
         private readonly GravitasDbContext _context;
 
@@ -16,7 +17,7 @@ namespace Gravitas.DAL.Repository.PackingTare
 
         public IQueryable<PackingTareVm> GetTareList()
         {
-            var list = GetQuery<Model.DomainModel.PackingTare.DAO.PackingTare, long>()
+            var list = GetQuery<Model.DomainModel.PackingTare.DAO.PackingTare, int>()
                 .Select(x => new PackingTareVm
                 {
                     Id = x.Id, 
@@ -26,9 +27,9 @@ namespace Gravitas.DAL.Repository.PackingTare
             return list;
         }
 
-        public IQueryable<TicketPackingTareVm> GetTicketTareList(long ticketId)
+        public IQueryable<TicketPackingTareVm> GetTicketTareList(int ticketId)
         {
-            var list = GetQuery<TicketPackingTare, long>()
+            var list = GetQuery<TicketPackingTare, int>()
                 .Where(x => x.TicketId == ticketId)
                 .Select(x => new TicketPackingTareVm
                 {
@@ -42,12 +43,12 @@ namespace Gravitas.DAL.Repository.PackingTare
 
         public bool Add(PackingTareVm model)
         {
-            var item = GetFirstOrDefault<Model.DomainModel.PackingTare.DAO.PackingTare, long>(x => 
+            var item = GetFirstOrDefault<Model.DomainModel.PackingTare.DAO.PackingTare, int>(x => 
                 x.Title == model.Title);
 
             if (item != null) return false;
             
-            AddOrUpdate<Model.DomainModel.PackingTare.DAO.PackingTare, long>(new Model.DomainModel.PackingTare.DAO.PackingTare
+            AddOrUpdate<Model.DomainModel.PackingTare.DAO.PackingTare, int>(new Model.DomainModel.PackingTare.DAO.PackingTare
             { 
                 Title = model.Title,
                 Weight = model.Weight
@@ -55,36 +56,36 @@ namespace Gravitas.DAL.Repository.PackingTare
             return true;
         }
         
-        public void Remove(long id)
+        public void Remove(int id)
         {
-            var tare = GetEntity<Model.DomainModel.PackingTare.DAO.PackingTare, long>(id);
+            var tare = _context.PackingTares.FirstOrDefault(x => x.Id == id);
             if (tare != null)
             {
-                Delete<Model.DomainModel.PackingTare.DAO.PackingTare, long>(tare);
+                Delete<Model.DomainModel.PackingTare.DAO.PackingTare, int>(tare);
             }
         }
 
-        public void RemoveTicketTare(long ticketId)
+        public void RemoveTicketTare(int ticketId)
         {
             foreach (var ticketTare in _context.TicketPackingTares.Where(x => x.TicketId == ticketId).ToList())
             {
-                Delete<TicketPackingTare, long>(ticketTare);
+                Delete<TicketPackingTare, int>(ticketTare);
             }
         }
 
-        public float GetTareWeight(long tareId)
+        public float GetTareWeight(int tareId)
         {
-            return GetEntity<Model.DomainModel.PackingTare.DAO.PackingTare, long>(tareId).Weight;
+            return _context.PackingTares.First(x => x.Id == tareId).Weight;
         }
 
-        public bool AddTicketTare(long ticketId, long tareId, int count)
+        public bool AddTicketTare(int ticketId, int tareId, int count)
         {
             var item = new TicketPackingTare
             {
                 TicketId = ticketId, PackingTareId = tareId, Count = count
             };
 
-            Add<TicketPackingTare, long>(item);
+            Add<TicketPackingTare, int>(item);
 
             return true;
         }

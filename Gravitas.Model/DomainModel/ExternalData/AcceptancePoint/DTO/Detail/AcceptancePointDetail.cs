@@ -2,12 +2,9 @@
 
 namespace Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail
 {
-    public class ExternalData
+    public class AcceptancePointDetail : BaseEntity<string>
     {
-        public class AcceptancePointDetail : BaseEntity<string>
-        {
-            public string Code { get; set; }
-            public string Name { get; set; }
-        }
+        public string Code { get; set; }
+        public string Name { get; set; }
     }
 }

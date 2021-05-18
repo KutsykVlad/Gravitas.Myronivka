@@ -6,20 +6,22 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.ExternalData;
+using Gravitas.DAL.Repository.Node;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.DAL.Repository.OpWorkflow.Routes;
+using Gravitas.DAL.Repository.Phones;
+using Gravitas.DAL.Repository.Sms;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.Messages;
-using Gravitas.Infrastructure.Platform.Manager.Connect;
+using Gravitas.Infrastructure.Platform.Manager.ReportTool;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Platform.Web.Manager.Report;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.Connect
 {
     public class ConnectManager : IConnectManager
     {
@@ -56,17 +58,17 @@ namespace Gravitas.Infrastructure.Platform.Manager
         }
 
 
-        public bool SendSms(long smsId, long? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null)
+        public bool SendSms(SmsTemplate smsId, long? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null)
         {
             return _messageClient.SendSms(GenerateSmsMessage(smsId, ticketId, phoneNumber, parameters));
         }
 
-        public bool SendEmail(long emailId, string emailAddress = null, object data = null, string attachmentPath = null)
+        public bool SendEmail(EmailTemplate emailId, string emailAddress = null, object data = null, string attachmentPath = null)
         {
             return _messageClient.SendEmail(GenerateEmailMessage(emailId, emailAddress, data, attachmentPath));
         }
 
-        private MailMessage GenerateEmailMessage(long emailId, string emailAddress, object data, string attachmentPath)
+        private MailMessage GenerateEmailMessage(EmailTemplate emailId, string emailAddress, object data, string attachmentPath)
         {
             var message = new MailMessage(
                 new MailAddress(GlobalConfigurationManager.RootEmail, "Булат. Автоматичні повідомлення"),
@@ -79,17 +81,17 @@ namespace Gravitas.Infrastructure.Platform.Manager
             var template = "";
             switch (emailId)
             {
-                case Dom.Email.Template.CollisionApproval:
+                case EmailTemplate.CollisionApproval:
                     templatePath = "~/Content/EmailTemplate/CollisionEmailTemplate.html";
                     message.Subject = "Погодження лабораторних показників.";
                     template = File.ReadAllText(HttpContext.Current.Server.MapPath(templatePath), Encoding.GetEncoding(1251));
                     break;
-                case Dom.Email.Template.CentralLaboratoryCollisionApproval:
+                case EmailTemplate.CentralLaboratoryCollisionApproval:
                     templatePath = "~/Content/EmailTemplate/CentralLabolatoryEmailTemplate.html";
                     message.Subject = "Погодження лабораторних показників.";
                     template = File.ReadAllText(HttpContext.Current.Server.MapPath(templatePath), Encoding.GetEncoding(1251));
                     break;
-                case Dom.Email.Template.DeviceInvalidInformation:
+                case EmailTemplate.DeviceInvalidInformation:
                     templatePath = "Content/EmailTemplate/DeviceInvalidInformation.html";
                     message.Subject = "IP адреси пристроїв до яких зник доступ.";
                     template = File.ReadAllText(templatePath, Encoding.GetEncoding(1251));
@@ -119,17 +121,17 @@ namespace Gravitas.Infrastructure.Platform.Manager
         }
 
 
-        private SmsMessage GenerateSmsMessage(long smsId, long? ticketId, string phoneNumber, Dictionary<string, object> parameters)
+        private SmsMessage GenerateSmsMessage(SmsTemplate smsId, long? ticketId, string phoneNumber, Dictionary<string, object> parameters)
         {
             var data = new SmsMessageData();
             var sms = new SmsMessage();
             if (!ticketId.HasValue) return sms;
 
-            var singleWindowOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(ticketId);
+            var singleWindowOpData = _opDataRepository.GetLastProcessed<Model.DomainModel.OpData.DAO.SingleWindowOpData>(ticketId);
             if (singleWindowOpData == null) return null;
 
             data.NodeNumber = _opDataRepository.GetLastOpData(ticketId).Node.Name?.Last().ToString();
-            data.DispatcherPhoneNumber = _phonesRepository.GetPhone(Dom.Phone.Dispatcher);
+            data.DispatcherPhoneNumber = _phonesRepository.GetPhone(Phone.Dispatcher);
             data.TransportNo = singleWindowOpData.HiredTransportNumber;
             data.TrailerNo = singleWindowOpData.HiredTrailerNumber;
             data.ReceiverName = _externalDataRepository
@@ -139,7 +141,7 @@ namespace Gravitas.Infrastructure.Platform.Manager
 
             switch (smsId)
             {
-                case Dom.Sms.Template.DestinationPointApprovalSms:
+                case SmsTemplate.DestinationPointApprovalSms:
                     var lastOpData = _opDataRepository.GetOpDataList(ticketId.Value)
                         .OrderBy(x => x.CheckOutDateTime)
                         .LastOrDefault();
@@ -148,24 +150,24 @@ namespace Gravitas.Infrastructure.Platform.Manager
                     _logger.Info($"Connect manager: DestinationPointApprovalSms, last node: {lastOpData.NodeId.Value}");
                     switch (lastOpData.NodeId.Value)
                     {
-                        case (long) NodeIdValue.LoadPointGuideEl23:
-                        case (long) NodeIdValue.LoadPointGuideEl45:
-                        case (long) NodeIdValue.LoadPointGuideTareWarehouse:
-                        case (long) NodeIdValue.LoadPointGuideShrotHuskOil:
+                        case (int) NodeIdValue.LoadPointGuideEl23:
+                        case (int) NodeIdValue.LoadPointGuideEl45:
+                        case (int) NodeIdValue.LoadPointGuideTareWarehouse:
+                        case (int) NodeIdValue.LoadPointGuideShrotHuskOil:
                             destPoint = _opDataRepository.GetLastProcessed<LoadGuideOpData>(ticketId)?.LoadPointNodeId;
                             break;
-                        case (long) NodeIdValue.UnloadPointGuideEl23:
-                        case (long) NodeIdValue.UnloadPointGuideEl45:
+                        case (int) NodeIdValue.UnloadPointGuideEl23:
+                        case (int) NodeIdValue.UnloadPointGuideEl45:
                             destPoint = _opDataRepository.GetLastProcessed<UnloadGuideOpData>(ticketId)?.UnloadPointNodeId;
                             break;
-                        case (long) NodeIdValue.MixedFeedGuide:
+                        case (int) NodeIdValue.MixedFeedGuide:
                             destPoint = _opDataRepository.GetLastProcessed<MixedFeedGuideOpData>(ticketId)?.LoadPointNodeId;
                             break;
-                        case (long) NodeIdValue.UnloadPointGuideLowerArea:
-                            data.DestinationPoint = $"Авторозвантажувач #{_nodeRepository.GetNodeContext((long) NodeIdValue.UnloadPointGuideLowerArea)?.OpProcessData}";
+                        case (int) NodeIdValue.UnloadPointGuideLowerArea:
+                            data.DestinationPoint = $"Авторозвантажувач #{_nodeRepository.GetNodeContext((int) NodeIdValue.UnloadPointGuideLowerArea)?.OpProcessData}";
                             break;
-                        case (long) NodeIdValue.LoadPointGuideLowerArea:
-                            data.DestinationPoint = $"Склад #{_nodeRepository.GetNodeContext((long) NodeIdValue.LoadPointGuideLowerArea)?.OpProcessData}";
+                        case (int) NodeIdValue.LoadPointGuideLowerArea:
+                            data.DestinationPoint = $"Склад #{_nodeRepository.GetNodeContext((int) NodeIdValue.LoadPointGuideLowerArea)?.OpProcessData}";
                             break;
                     }
 
@@ -176,12 +178,12 @@ namespace Gravitas.Infrastructure.Platform.Manager
                             : string.Empty;
                     }
                     break;
-                case Dom.Sms.Template.RouteChangeSms:
+                case SmsTemplate.RouteChangeSms:
                     var ticket = _context.Tickets.AsNoTracking().First(x => x.Id == ticketId.Value);
                     if (!ticket.RouteTemplateId.HasValue) break;
 
                     var route = _routesRepository
-                        .GetRoute((long) (ticket.SecondaryRouteTemplateId ?? ticket.RouteTemplateId))
+                        .GetRoute((int) (ticket.SecondaryRouteTemplateId ?? ticket.RouteTemplateId))
                         .RouteConfig
                         .DeserializeRoute()
                         .GroupDictionary
@@ -195,7 +197,7 @@ namespace Gravitas.Infrastructure.Platform.Manager
 
                     foreach (var nodeId in nodes) data.DestinationPoint += $"{_context.Nodes.First(x => x.Id == nodeId).Name}, ";
                     break;
-                case Dom.Sms.Template.OnPreRegister:
+                case SmsTemplate.OnPreRegister:
                     if (singleWindowOpData.PredictionEntranceTime.HasValue)
                     {
                         data.EntranceTime = singleWindowOpData.PredictionEntranceTime.Value.ToString(CultureInfo.InvariantCulture);
@@ -219,8 +221,8 @@ namespace Gravitas.Infrastructure.Platform.Manager
 
             sms = new SmsMessage
             {
-                PhoneNumber = phoneNumber ?? (smsId == Dom.Sms.Template.InvalidPerimeterGuardianSms
-                                  ? _phonesRepository.GetPhone(Dom.Phone.Security)
+                PhoneNumber = phoneNumber ?? (smsId == SmsTemplate.InvalidPerimeterGuardianSms
+                                  ? _phonesRepository.GetPhone(Phone.Security)
                                   : singleWindowOpData.ContactPhoneNo),
                 Message = _reportTool.ReplaceTokens(_smsTemplatesRepository.GetSmsTemplate(smsId), data)
             };

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository._Base;
+using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.Model.DomainModel.Queue.DAO;
+using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.Queue
 {
-    public class QueueRegisterRepository : BaseRepository<GravitasDbContext>, IQueueRegisterRepository
+    public class QueueRegisterRepository : BaseRepository, IQueueRegisterRepository
     {
         private readonly GravitasDbContext _context;
         private readonly ExternalDataRepository _externalDataRepository;
@@ -20,10 +21,10 @@ namespace Gravitas.DAL
             _externalDataRepository = externalDataRepository;
         }
 
-        public void CalledFromQueue(long ticketContainerId)
+        public void CalledFromQueue(int ticketContainerId)
         {
             Logger.Trace($"CalledFromQueue. TicketContainerId:{ticketContainerId}");
-            var item = GetSingleOrDefault<QueueRegister, long>(r => r.TicketContainerId == ticketContainerId);
+            var item = GetSingleOrDefault<QueueRegister, int>(r => r.TicketContainerId == ticketContainerId);
             if (item == null)
             {
                 return;
@@ -36,7 +37,7 @@ namespace Gravitas.DAL
                     item.IsSMSSend = false;
                     item.IsAllowedToEnterTerritory = true;
                     item.SMSTimeAllowed = DateTime.Now;
-                    Update<QueueRegister, long>(item);
+                    Update<QueueRegister, int>(item);
                 }
             }
             catch (Exception exception)
@@ -45,27 +46,27 @@ namespace Gravitas.DAL
             }
         }
 
-        public bool IsAllowedToEnter(long ticketContainerId)
+        public bool IsAllowedToEnter(int ticketContainerId)
         {
-            var item = GetSingleOrDefault<QueueRegister, long>(r => r.TicketContainerId == ticketContainerId);
+            var item = GetSingleOrDefault<QueueRegister, int>(r => r.TicketContainerId == ticketContainerId);
             return item != null && item.IsAllowedToEnterTerritory;
         }
 
-        public bool SMSAlreadySent(long ticketContainerId)
+        public bool SMSAlreadySent(int ticketContainerId)
         {
-            var item = GetSingleOrDefault<QueueRegister, long>(r => r.TicketContainerId == ticketContainerId);
+            var item = GetSingleOrDefault<QueueRegister, int>(r => r.TicketContainerId == ticketContainerId);
             return item != null && item.IsSMSSend;
         }
 
-        public void OnSMSSending(long ticketContainerId)
+        public void OnSMSSending(int ticketContainerId)
         {
             Logger.Trace($"Sending SMS flag. TicketContainerId:{ticketContainerId}");
-            var item = GetSingleOrDefault<QueueRegister, long>(r => r.TicketContainerId == ticketContainerId);
+            var item = GetSingleOrDefault<QueueRegister, int>(r => r.TicketContainerId == ticketContainerId);
             if (item == null) return;
             if (!item.IsSMSSend)
             {
                 item.IsSMSSend = true;
-                Update<QueueRegister, long>(item);
+                Update<QueueRegister, int>(item);
             }
         }
 
@@ -74,13 +75,13 @@ namespace Gravitas.DAL
             Logger.Trace(
                 $"QueueRegister. Container {newRegistration.TicketContainerId}. Plate  {newRegistration.TruckPlate}, Registered {newRegistration.RegisterTime}");
          
-            var item = GetSingleOrDefault<QueueRegister, long>(r => r.TicketContainerId == newRegistration.TicketContainerId, true);
+            var item = GetSingleOrDefault<QueueRegister, int>(r => r.TicketContainerId == newRegistration.TicketContainerId, true);
             if (item == null)
             {
                 //Not registered yet
                 if (!IsValid(newRegistration)) FillTruckInfoFromSingleWindow(newRegistration);
                 Logger.Trace($"QueueRegister. New registration. {newRegistration.TicketContainerId}");
-                AddOrUpdate<QueueRegister, long>(newRegistration);
+                AddOrUpdate<QueueRegister, int>(newRegistration);
             }
             else
             {
@@ -88,20 +89,20 @@ namespace Gravitas.DAL
                 //update fields
                 FillTruckInfoFromSingleWindow(item);
                 item.IsAllowedToEnterTerritory = newRegistration.IsAllowedToEnterTerritory;
-                AddOrUpdate<QueueRegister, long>(item);
+                AddOrUpdate<QueueRegister, int>(item);
             }
          
         }
 
-        public void RemoveFromQueue(long ticketContainerId)
+        public void RemoveFromQueue(int ticketContainerId)
         {
             lock (this)
             {
-                var item = GetSingleOrDefault<QueueRegister, long>(r => r.TicketContainerId == ticketContainerId);
+                var item = GetSingleOrDefault<QueueRegister, int>(r => r.TicketContainerId == ticketContainerId);
                 if (item == null) return;
 
-                Update<QueueRegister, long>(item);
-                Delete<QueueRegister, long>(item);
+                Update<QueueRegister, int>(item);
+                Delete<QueueRegister, int>(item);
             }
         }
 
@@ -113,11 +114,11 @@ namespace Gravitas.DAL
         private void FillTruckInfoFromSingleWindow(QueueRegister newRegistration)
         {
             var tickets = _context.Tickets.Where(t =>
-                    t.ContainerId == newRegistration.TicketContainerId &&
-                    (t.StatusId == Dom.Ticket.Status.Blank ||
-                     t.StatusId == Dom.Ticket.Status.New ||
-                     t.StatusId == Dom.Ticket.Status.Processing ||
-                     t.StatusId == Dom.Ticket.Status.ToBeProcessed))
+                    t.TicketContainerId == newRegistration.TicketContainerId &&
+                    (t.StatusId == TicketStatus.Blank ||
+                     t.StatusId == TicketStatus.New ||
+                     t.StatusId == TicketStatus.Processing ||
+                     t.StatusId == TicketStatus.ToBeProcessed))
                 .Select(t => t.Id).ToList();
 
             Logger.Debug($"FillTruckInfoFromSingleWindow: {string.Join(", ", tickets)}");

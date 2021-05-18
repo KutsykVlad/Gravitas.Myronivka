@@ -1,49 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Gravitas.DAL;
+﻿using System.Linq;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.Infrastructure.Platform.Manager.Node;
 using Gravitas.Infrastructure.Platform.Manager.Queue;
-using Gravitas.Infrastructure.Platform.Manager.Routes;
-using Gravitas.Model;
 using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.Routes
 {
     public class RoutesManager : IRoutesManager
     {
         private readonly INodeManager _nodeManager;
         private readonly IOpDataRepository _opDataRepository;
         private readonly IQueueManager _queue;
-        private readonly IRoutesRepository _routesRepository;
-        private readonly IConnectManager _smsManager;
-        private readonly ITicketRepository _ticketRepository;
         private readonly IRoutesInfrastructure _routesInfrastructure;
         private readonly GravitasDbContext _context;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public RoutesManager(IRoutesRepository routesRepository,
-            ITicketRepository ticketRepository,
-            IOpDataRepository opDataRepository,
+        public RoutesManager(IOpDataRepository opDataRepository,
             IQueueManager queue, 
-            IConnectManager smsManager,
             INodeManager nodeManager,
             IRoutesInfrastructure routesInfrastructure,
             GravitasDbContext context)
         {
-            _routesRepository = routesRepository;
-            _ticketRepository = ticketRepository;
             _opDataRepository = opDataRepository;
             _queue = queue;
-            _smsManager = smsManager;
             _nodeManager = nodeManager;
             _routesInfrastructure = routesInfrastructure;
             _context = context;
         }
 
-        public bool IsNodeNext(long ticketId, long nodeId, out string errorMessage)
+        public bool IsNodeNext(int ticketId, int nodeId, out string errorMessage)
         {
             errorMessage = "";
             var ticket = _context.Tickets.AsNoTracking().First(x => x.Id == ticketId);
@@ -64,7 +51,7 @@ namespace Gravitas.Infrastructure.Platform.Manager
             }
             else
             {
-                var lastNode = _opDataRepository.GetLastOpData(ticketId, Dom.OpDataState.Processed);
+                var lastNode = _opDataRepository.GetLastOpData(ticketId, OpDataState.Processed);
                 var nextNodes = string.Empty;
                 foreach (var node in next)
                 {

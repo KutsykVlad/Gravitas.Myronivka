@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.DAL.Repository.Queue;
+using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
+using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure
 {
@@ -29,11 +30,11 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure
             _context = context;
         }
 
-        public DateTime GetPredictionEntranceTime(long routeId)
+        public DateTime GetPredictionEntranceTime(int routeId)
         {
             var processedTickets = _context.Tickets
                 .Where(x => x.RouteTemplateId == routeId 
-                    && (x.StatusId == Dom.Ticket.Status.Closed || x.StatusId == Dom.Ticket.Status.Completed))
+                    && (x.StatusId == TicketStatus.Closed || x.StatusId == TicketStatus.Completed))
                 .OrderByDescending(x => x.Id)
                 .Select(x => x.Id)
                 .Take(3);
@@ -67,7 +68,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure
             return time;
         }
 
-        public int GetTruckCountInQueue(long routeId)
+        public int GetTruckCountInQueue(int routeId)
         {
             var queueCount = _context.QueueRegisters.Count(x => x.RouteTemplateId == routeId
                                                                 && x.TicketContainerId.HasValue
@@ -76,10 +77,10 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure
             return queueCount;
         }
 
-        public void ImmediateEntrance(long ticketContainer)
+        public void ImmediateEntrance(int ticketContainer)
         {
             _logger.Info($"ImmediateEntrance (Web) for {ticketContainer} accepted.");
-            var activeTicket = _ticketRepository.GetTicketInContainer(ticketContainer, Dom.Ticket.Status.ToBeProcessed);
+            var activeTicket = _ticketRepository.GetTicketInContainer(ticketContainer, TicketStatus.ToBeProcessed);
             if (activeTicket == null) return;
 
             _queueRegisterRepository.Register(new QueueRegister

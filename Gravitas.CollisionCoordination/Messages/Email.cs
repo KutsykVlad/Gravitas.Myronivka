@@ -4,6 +4,7 @@ using System.Linq;
 using Gravitas.CollisionCoordination.Manager.LaboratoryData;
 using Gravitas.CollisionCoordination.Models;
 using Gravitas.Infrastructure.Platform.Manager;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Model;
 using NLog;
 using Dom = Gravitas.Model.DomainValue.Dom;

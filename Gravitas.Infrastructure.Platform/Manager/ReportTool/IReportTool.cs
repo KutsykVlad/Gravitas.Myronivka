@@ -1,4 +1,4 @@
-namespace Gravitas.Platform.Web.Manager.Report
+namespace Gravitas.Infrastructure.Platform.Manager.ReportTool
 {
     public interface IReportTool
     {

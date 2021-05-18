@@ -300,7 +300,7 @@
     <Compile Include="DomainValue\Phone.cs" />
     <Compile Include="DomainValue\Queue.cs" />
     <Compile Include="DomainValue\SingleWindowReadonly.cs" />
-    <Compile Include="DomainValue\SingleWindowOpData.cs" />
+    <Compile Include="DomainValue\TechRoute.cs" />
     <Compile Include="DomainValue\UserRole.cs" />
     <Compile Include="DomainValue\Route.cs" />
     <Compile Include="DomainValue\SingleWindowRegisterFilter.cs" />

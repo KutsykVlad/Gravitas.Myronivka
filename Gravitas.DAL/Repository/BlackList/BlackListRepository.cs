@@ -1,12 +1,11 @@
 ﻿using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 using Gravitas.Model.DomainModel.BlackList.TDO;
-using Gravitas.Model.Dto;
 
-namespace Gravitas.DAL.Repository
+namespace Gravitas.DAL.Repository.BlackList
 {
-    public class BlackListRepository : BaseRepository<GravitasDbContext>, IBlackListRepository
+    public class BlackListRepository : BaseRepository, IBlackListRepository
     {
         private readonly GravitasDbContext _context;
         public BlackListRepository(GravitasDbContext context) : base(context)
@@ -18,17 +17,17 @@ namespace Gravitas.DAL.Repository
         {
             return new BlackListDto
             {
-                Drivers = GetQuery<DriversBlackListRecord, long>(),
-                Partners = GetQuery<PartnersBlackListRecord, long>(),
-                Trailers = GetQuery<TrailersBlackListRecord, long>(),
-                Transport = GetQuery<TransportBlackListRecord, long>()
+                Drivers = GetQuery<DriversBlackListRecord, int>(),
+                Partners = GetQuery<PartnersBlackListRecord, int>(),
+                Trailers = GetQuery<TrailersBlackListRecord, int>(),
+                Transport = GetQuery<TransportBlackListRecord, int>()
             };
         }
 
         public void AddPartner(PartnersBlackListRecord partnerRecord)
         {
-            if (GetSingleOrDefault<PartnersBlackListRecord, long>(t => t.PartnerId == partnerRecord.PartnerId) == null)
-                Add<PartnersBlackListRecord, long>(new PartnersBlackListRecord
+            if (GetSingleOrDefault<PartnersBlackListRecord, int>(t => t.PartnerId == partnerRecord.PartnerId) == null)
+                Add<PartnersBlackListRecord, int>(new PartnersBlackListRecord
                 {
                     PartnerId = partnerRecord.PartnerId, Comment = partnerRecord.Comment
                 });
@@ -36,9 +35,9 @@ namespace Gravitas.DAL.Repository
 
         public void DeletePartner(string partnerId)
         {
-            var record = GetSingleOrDefault<PartnersBlackListRecord, long>(t => t.Partner.Id == partnerId);
+            var record = GetSingleOrDefault<PartnersBlackListRecord, int>(t => t.Partner.Id == partnerId);
             if (record != null)
-                Delete<PartnersBlackListRecord, long>(record);
+                Delete<PartnersBlackListRecord, int>(record);
         }
     }
 }

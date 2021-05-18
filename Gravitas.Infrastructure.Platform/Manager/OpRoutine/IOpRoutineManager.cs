@@ -1,24 +1,22 @@
 ﻿using System.Collections.Generic;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
-using Gravitas.Model.Dto;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
+using CardType = Gravitas.Model.DomainValue.CardType;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
 {
     public interface IOpRoutineManager
     {
-        bool IsRfidCardValid(out NodeProcessingMsgItem errMsgItem, Card card, int cardTypeId);
+        bool IsRfidCardValid(out NodeProcessingMsgItem errMsgItem, Card card, CardType cardTypeId);
 
         bool IsEmployeeBindedRfidCardValid(out NodeProcessingMsgItem errMsgItem, Card card, bool isEmployeeBinded = true);
-        bool IsEmployeeSignValid(out NodeProcessingMsgItem errMsgItem, Card card, long nodeId);
+        bool IsEmployeeSignValid(out NodeProcessingMsgItem errMsgItem, Card card, int nodeId);
 
-        void LogNonStandardOp(Node nodeDto, NonStandartOpData opData);
+        void LogNonStandardOp(Model.DomainModel.Node.TDO.Detail.Node nodeDto, NonStandartOpData opData);
 
-        void UpdateProcessingMessage(long nodeId, NodeProcessingMsgItem msgItem);
+        void UpdateProcessingMessage(int nodeId, NodeProcessingMsgItem msgItem);
 
-        void UpdateProcessingMessage(IEnumerable<long> nodeIds, NodeProcessingMsgItem msgItem);
+        void UpdateProcessingMessage(IEnumerable<int> nodeIds, NodeProcessingMsgItem msgItem);
     }
 }

@@ -1,23 +1,23 @@
 using System;
 using System.Linq;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
+using Gravitas.Model.DomainModel.Traffic.TDO;
 using Gravitas.Model.DomainValue;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {
     public partial class QueueManager
     {
-        public void OnNodeArrival(long ticketId, long nodeId)
+        public void OnNodeArrival(int ticketId, int nodeId)
         {
             var ticket = _context.Tickets.AsNoTracking().FirstOrDefault(e => e.Id == ticketId);
 
             if (ticket == null) return;
-            _logger.Info($"Arrival to node. TicketContainerId: {ticket.ContainerId}, TicketId: {ticketId}, NodeId:{nodeId}");
+            _logger.Info($"Arrival to node. TicketContainerId: {ticket.TicketContainerId}, TicketId: {ticketId}, NodeId:{nodeId}");
 
-            var ticketContainerId = ticket.ContainerId;
+            var ticketContainerId = ticket.TicketContainerId;
 
             var route = _inTirs.SingleOrDefault(s => s.TicketContainerId == ticketContainerId) ??
                         _externalQueue.Get(ticketContainerId);
@@ -36,7 +36,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 });
             _queueLoadBalancer.UpdateLoadOnNodeArrival(route, ticket.RouteItemIndex);
 
-            if (nodeId == (int) NodeIdValue.SecurityOut2 || nodeId == (int) NodeIdValue.SecurityOut1 || ticket.StatusId == Dom.Ticket.Status.Completed)
+            if (nodeId == (int) NodeIdValue.SecurityOut2 || nodeId == (int) NodeIdValue.SecurityOut1 || ticket.StatusId == TicketStatus.Completed)
             {
                 _logger.Info($"Removing from load balancer: {ticketContainerId}");
                 _queueLoadBalancer.RemoveRoute(route);
@@ -48,26 +48,24 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 _logger.Info($"Removing from information board: {ticketContainerId}");
                 _queueRegisterRepository.RemoveFromQueue(ticketContainerId);
             }
-            
-//            CheckFreeLoad();
         }
 
         public void OnRouteAssigned(Ticket ticket)
         {
-            _logger.Info($"OnRouteAssigned. TicketContainerId: {ticket.ContainerId}");
+            _logger.Info($"OnRouteAssigned. TicketContainerId: {ticket.TicketContainerId}");
             var result = CreateRoute(ticket);
 
             //As this method is called all the time
-            if (_inTirs.Any(s => s.TicketContainerId == ticket.ContainerId))
+            if (_inTirs.Any(s => s.TicketContainerId == ticket.TicketContainerId))
             {
                 OnRouteUpdated(ticket);
                 return;
             }
 
-            if (_externalQueue.Get(ticket.ContainerId) != null)
+            if (_externalQueue.Get(ticket.TicketContainerId) != null)
             {
                 //Remove if it is already in queue
-                _externalQueue.Remove(ticket.ContainerId);
+                _externalQueue.Remove(ticket.TicketContainerId);
             }
             else
             {
@@ -76,14 +74,14 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 {
                     var record = new TrafficRecord
                     {
-                        TicketContainerId = ticket.ContainerId, CurrentNodeId = (long) NodeIdValue.SingleWindowFirst, EntranceTime = DateTime.Now
+                        TicketContainerId = ticket.TicketContainerId, CurrentNodeId = (int) NodeIdValue.SingleWindowFirst, EntranceTime = DateTime.Now
                     };
 
-                    if (_nodeRepository.GetNodeDto((long?) NodeIdValue.SingleWindowSecond).Context.TicketContainerId == ticket.ContainerId)
-                        record.CurrentNodeId = (long) NodeIdValue.SingleWindowSecond;
+                    if (_nodeRepository.GetNodeDto((int?) NodeIdValue.SingleWindowSecond).Context.TicketContainerId == ticket.TicketContainerId)
+                        record.CurrentNodeId = (int) NodeIdValue.SingleWindowSecond;
                     
-                    if (_nodeRepository.GetNodeDto((long?) NodeIdValue.SingleWindowThird).Context.TicketContainerId == ticket.ContainerId)
-                        record.CurrentNodeId = (long) NodeIdValue.SingleWindowThird;
+                    if (_nodeRepository.GetNodeDto((int?) NodeIdValue.SingleWindowThird).Context.TicketContainerId == ticket.TicketContainerId)
+                        record.CurrentNodeId = (int) NodeIdValue.SingleWindowThird;
 
                     _trafficRepository.OnNodeArrival(record);
                 }
@@ -108,7 +106,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
         
         public void OnRouteUpdated(Ticket ticket)
         {
-            _logger.Info($"UpdateRoute for TicketContainerId: {ticket.ContainerId} ");
+            _logger.Info($"UpdateRoute for TicketContainerId: {ticket.TicketContainerId} ");
 
             var newRoute = CreateRoute(ticket);
             var firstTicketId = newRoute.ActiveTicketId;
@@ -122,7 +120,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 throw new Exception($"Not valid data for TicketContainerId: {firstTicketId}. Clean up data and restart core.");
             }
 
-            var oldRoute = _inTirs.FirstOrDefault(p => p.TicketContainerId == ticket.ContainerId);
+            var oldRoute = _inTirs.FirstOrDefault(p => p.TicketContainerId == ticket.TicketContainerId);
             if (oldRoute != null)
             {
                 _inTirs.Remove(oldRoute);
@@ -133,10 +131,10 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             _queueLoadBalancer.AddRouteLoad(newRoute);
         }
         
-        public void OnImmediateEntranceAccept(long ticketContainerId)
+        public void OnImmediateEntranceAccept(int ticketContainerId)
         {
             _logger.Trace($"ImmediateEntrance. TicketContainerId: {ticketContainerId}");
-            var ticket = _ticketRepository.GetTicketInContainer(ticketContainerId, Dom.Ticket.Status.ToBeProcessed);
+            var ticket = _ticketRepository.GetTicketInContainer(ticketContainerId, TicketStatus.ToBeProcessed);
             if (!ticket.RouteTemplateId.HasValue) throw new Exception("Can't add QueueRegister without RouteTemplateId to queue");
             _queueRegisterRepository.Register(new QueueRegister
             {

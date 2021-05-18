@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Gravitas.Platform.Web.Manager.Report
+namespace Gravitas.Infrastructure.Platform.Manager.ReportTool
 {
     public class ReportTool : IReportTool
     {

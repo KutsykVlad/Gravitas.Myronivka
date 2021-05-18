@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.Device;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
 using Gravitas.Model;

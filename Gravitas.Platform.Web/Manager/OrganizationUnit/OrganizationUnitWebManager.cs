@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Gravitas.DAL;
+using Gravitas.DAL.Repository.OrganizationUnit;
 using Gravitas.Platform.Web.ViewModel;
 
 namespace Gravitas.Platform.Web.Manager

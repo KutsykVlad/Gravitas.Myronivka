@@ -1,10 +1,10 @@
 using System.Data.Entity;
-using Gravitas.DAL.Mapping;
 using Gravitas.DAL.Mapping.BlackList;
 using Gravitas.DAL.Mapping.Card;
 using Gravitas.DAL.Mapping.Device;
 using Gravitas.DAL.Mapping.EmployeeRoles;
 using Gravitas.DAL.Mapping.EndPointNode;
+using Gravitas.DAL.Mapping.ExternalData;
 using Gravitas.DAL.Mapping.MixedFeed;
 using Gravitas.DAL.Mapping.OpData;
 using Gravitas.DAL.Mapping.OpData.NodeOpData;
@@ -22,7 +22,6 @@ using Gravitas.DAL.Mapping.Settings;
 using Gravitas.DAL.Mapping.SmsTemplates;
 using Gravitas.DAL.Mapping.Ticket;
 using Gravitas.DAL.Mapping.Traffic;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
@@ -63,7 +62,6 @@ using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainModel.Settings.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainModel.Traffic.DAO;
-using ExternalDataMap = Gravitas.DAL.Mapping.ExternalData.ExternalDataMap;
 
 namespace Gravitas.DAL.DbContext
 {
@@ -84,7 +82,7 @@ namespace Gravitas.DAL.DbContext
         public DbSet<OpDataEvent> OpDataEvents { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<Model.DomainModel.Node.DAO.Node> Nodes { get; set; }
-        public DbSet<Model.DomainModel.OpData.DAO.SingleWindowOpData> SingleWindowOpDatas { get; set; }
+        public DbSet<SingleWindowOpData> SingleWindowOpDatas { get; set; }
         public DbSet<Settings> Set { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketContainer> TicketContainers { get; set; }
@@ -137,9 +135,9 @@ namespace Gravitas.DAL.DbContext
         public DbSet<PhoneDictionary> PhoneDictionaries { get; set; }
         public DbSet<TicketFile> TicketFiles { get; set; }
         public DbSet<UnloadPointOpData> UnloadPointOpDatas { get; set; }
-        public DbSet<Gravitas.Model.DomainModel.Sms.DAO.SmsTemplate> SmsTemplates { get; set; }
+        public DbSet<Model.DomainModel.Sms.DAO.SmsTemplate> SmsTemplates { get; set; }
         public DbSet<PreRegisterProduct> PreRegisterProducts { get; set; }
-        public DbSet<Gravitas.Model.DomainModel.OpDataState.DAO.OpDataState> OpDataStates { get; set; }
+        public DbSet<Model.DomainModel.OpDataState.DAO.OpDataState> OpDataStates { get; set; }
         public DbSet<SupplyTransportType> SupplyTransportTypes { get; set; }
         public DbSet<SupplyType> SupplyTypes { get; set; }
         public DbSet<YearOfHarvest> YearOfHarvests { get; set; }
@@ -190,34 +188,34 @@ namespace Gravitas.DAL.DbContext
             modelBuilder.Configurations.Add(new SecurityCheckReviewOpDataMap());
             modelBuilder.Configurations.Add(new SingleWindowOpDataMap());
             modelBuilder.Configurations.Add(new NonStandartOpDataMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.AcceptancePointMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.BudgetMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.CropMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.ContractMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.EmployeeMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.FixedAssetMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.OrganizationMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.PartnerMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.ProductMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.ReasonForRefundMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.RouteMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.StockMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.SubdivisionMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.ExternalUserMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.YearOfHarvestMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.MeasureUnitMap());
+            modelBuilder.Configurations.Add(new AcceptancePointMap());
+            modelBuilder.Configurations.Add(new BudgetMap());
+            modelBuilder.Configurations.Add(new CropMap());
+            modelBuilder.Configurations.Add(new ContractMap());
+            modelBuilder.Configurations.Add(new EmployeeMap());
+            modelBuilder.Configurations.Add(new FixedAssetMap());
+            modelBuilder.Configurations.Add(new OrganizationMap());
+            modelBuilder.Configurations.Add(new PartnerMap());
+            modelBuilder.Configurations.Add(new ProductMap());
+            modelBuilder.Configurations.Add(new ReasonForRefundMap());
+            modelBuilder.Configurations.Add(new RouteMap());
+            modelBuilder.Configurations.Add(new StockMap());
+            modelBuilder.Configurations.Add(new SubdivisionMap());
+            modelBuilder.Configurations.Add(new ExternalUserMap());
+            modelBuilder.Configurations.Add(new YearOfHarvestMap());
+            modelBuilder.Configurations.Add(new MeasureUnitMap());
             modelBuilder.Configurations.Add(new RoleMap());
             modelBuilder.Configurations.Add(new AssignmentMap());
             modelBuilder.Configurations.Add(new EmployeeRolesMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.DeliveryBillStatusMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.DeliveryBillTypeMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.LabDeviceResultTypeMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.LabHumidityClassifierMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.LabImpurityClassifierMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.LabInfectionedClassifierMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.OriginTypeMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.SupplyTypeMap());
-            modelBuilder.Configurations.Add(new ExternalDataMap.SupplyTransportTypeMap());
+            modelBuilder.Configurations.Add(new DeliveryBillStatusMap());
+            modelBuilder.Configurations.Add(new DeliveryBillTypeMap());
+            modelBuilder.Configurations.Add(new LabDeviceResultTypeMap());
+            modelBuilder.Configurations.Add(new LabHumidityClassifierMap());
+            modelBuilder.Configurations.Add(new LabImpurityClassifierMap());
+            modelBuilder.Configurations.Add(new LabInfectionedClassifierMap());
+            modelBuilder.Configurations.Add(new OriginTypeMap());
+            modelBuilder.Configurations.Add(new SupplyTypeMap());
+            modelBuilder.Configurations.Add(new SupplyTransportTypeMap());
             modelBuilder.Configurations.Add(new DriverBlackListMap());
             modelBuilder.Configurations.Add(new PartnerBlackListMap());
             modelBuilder.Configurations.Add(new TrailerBlackListMap());

@@ -1,25 +1,17 @@
-﻿using Gravitas.DAL.DbContext;
-using Gravitas.Model.DomainModel.Node.TDO.Detail;
+﻿using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.Node.TDO.List;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.Node
 {
-
-	public interface INodeRepository : IBaseRepository<GravitasDbContext> {
-
-		NodeItems GetNodeItems();
-		NodeItem GetNodeItem(long id);
-		
-		Node GetNodeDto(long? nodeId);
-		NodeContext GetNodeContext(long nodeId);
-
-	    
-		bool UpdateNodeContext(long nodeId, NodeContext newContext, long processorId);
-
-		void UpdateNodeProcessingMessage(long nodeId, NodeProcessingMsgItem msgItem);
-		void ClearNodeProcessingMessage(long nodeId);
-	    bool IsFirstState(long nodeId, NodeContext newContext, long processorId);
-
-	}
+    public interface INodeRepository : IBaseRepository
+    {
+        NodeItems GetNodeItems();
+        NodeItem GetNodeItem(int id);
+        Model.DomainModel.Node.TDO.Detail.Node GetNodeDto(int? nodeId);
+        NodeContext GetNodeContext(int nodeId);
+        bool UpdateNodeContext(int nodeId, NodeContext newContext);
+        void UpdateNodeProcessingMessage(int nodeId, NodeProcessingMsgItem msgItem);
+        void ClearNodeProcessingMessage(int nodeId);
+    }
 }

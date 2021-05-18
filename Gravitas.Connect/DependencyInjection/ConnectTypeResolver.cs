@@ -1,5 +1,12 @@
 ﻿using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.Card;
+using Gravitas.DAL.Repository.Device;
+using Gravitas.DAL.Repository.EmployeeRoles;
+using Gravitas.DAL.Repository.ExternalData;
+using Gravitas.DAL.Repository.Node;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.DAL.Repository.Sms;
 using Gravitas.Infrastructure.Platform.ApiClient.SmsMobizon;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Unity;

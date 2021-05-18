@@ -3,9 +3,8 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using Gravitas.Infrastructure.Common.Configuration;
-using Gravitas.Model;
+using Gravitas.Model.DomainValue;
 using Newtonsoft.Json;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 {
@@ -74,9 +73,9 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                                 responseDto =
                                     JsonConvert.DeserializeObject<GetDeliveryBill.Response>(responseJson);
 
-                                if(responseDto.DocumentTypeId == Dom.ExternalData.DeliveryBill.Type.Outgoing)
+                                if(responseDto.DocumentTypeId == ExternalData.DeliveryBill.Type.Outgoing)
                                 {
-                                    responseDto.DocumentTypeId = Dom.ExternalData.DeliveryBill.Type.Incoming;
+                                    responseDto.DocumentTypeId = ExternalData.DeliveryBill.Type.Incoming;
                                 }
 
                                 break;

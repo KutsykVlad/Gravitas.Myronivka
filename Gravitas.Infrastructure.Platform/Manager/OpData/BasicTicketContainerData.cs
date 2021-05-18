@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.OpData
 {
     public class BasicTicketContainerData
     {

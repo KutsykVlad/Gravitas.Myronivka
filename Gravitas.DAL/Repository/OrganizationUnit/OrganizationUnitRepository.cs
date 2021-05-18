@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.Node.TDO.List;
 using Gravitas.Model.DomainModel.OrganizationUnit.DTO.Detail;
-using Gravitas.Model.Dto;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.OrganizationUnit
 {
-    public class OrganizationUnitRepository : BaseRepository<GravitasDbContext>, IOrganizationUnitRepository
+    public class OrganizationUnitRepository : BaseRepository, IOrganizationUnitRepository
     {
         private readonly GravitasDbContext _context;
 
@@ -16,7 +15,7 @@ namespace Gravitas.DAL
             _context = context;
         }
 
-        public OrganizationUnitDetail GetOrganizationUnitDetail(long id)
+        public OrganizationUnitDetail GetOrganizationUnitDetail(int id)
         {
             var u = _context.OrganizationUnits.AsNoTracking().First(x=> x.Id == id);
             return new OrganizationUnitDetail

@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {
@@ -16,20 +14,20 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
     {
         private static readonly object Locker = new object();
         
-        public bool IsAllowedEnterTerritory(long ticketId)
+        public bool IsAllowedEnterTerritory(int ticketId)
         {
             var ticket = _context.Tickets.AsNoTracking().FirstOrDefault(x => x.Id == ticketId);
             if (ticket == null) throw new Exception($"Non-existing ticketId: {ticketId}");
             
-            var registerData = _opDataRepository.GetSingleOrDefault<QueueRegister, long>(t => t.TicketContainerId == ticket.ContainerId);
+            var registerData = _opDataRepository.GetSingleOrDefault<QueueRegister, int>(t => t.TicketContainerId == ticket.TicketContainerId);
             var result = registerData?.IsAllowedToEnterTerritory;
             
-            _logger.Debug($"IsAllowedEnterTerritory {result} for container id : {ticket.ContainerId}. ");
+            _logger.Debug($"IsAllowedEnterTerritory {result} for container id : {ticket.TicketContainerId}. ");
             
             return result ?? false;
         }
 
-        public void RemoveFromQueue(long ticketContainerId)
+        public void RemoveFromQueue(int ticketContainerId)
         {
             _logger.Info($"RemoveFromQueue: ticketContainer = {ticketContainerId}");
             var route = _inTirs.SingleOrDefault(s => s.TicketContainerId == ticketContainerId) ?? _externalQueue.Get(ticketContainerId);
@@ -40,7 +38,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             _externalQueue.Remove(ticketContainerId);
         }
         
-        private List<long> TicketsRoutes =>
+        private List<int> TicketsRoutes =>
             _context.QueueRegisters
                 .AsNoTracking()
                 .Where(x => x.TicketContainerId.HasValue 
@@ -57,16 +55,16 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             var result = new RouteInfo
             {
                 GroupAlternativeNodes = new List<GroupAlternativeNodes>(),
-                TicketContainerId = ticket.ContainerId,
+                TicketContainerId = ticket.TicketContainerId,
                 ActiveTicketId = ticket.Id,
-                CurrentNode = (long) NodeIdValue.SingleWindowFirst
+                CurrentNode = (int) NodeIdValue.SingleWindowFirst
             };
 
-            if (_nodeRepository.GetNodeDto((long?) NodeIdValue.SingleWindowSecond).Context.TicketContainerId == ticket.ContainerId)
-                result.CurrentNode = (long) NodeIdValue.SingleWindowSecond;
+            if (_nodeRepository.GetNodeDto((int?) NodeIdValue.SingleWindowSecond).Context.TicketContainerId == ticket.TicketContainerId)
+                result.CurrentNode = (int) NodeIdValue.SingleWindowSecond;
                     
-            if (_nodeRepository.GetNodeDto((long?) NodeIdValue.SingleWindowThird).Context.TicketContainerId == ticket.ContainerId)
-                result.CurrentNode = (long) NodeIdValue.SingleWindowThird;
+            if (_nodeRepository.GetNodeDto((int?) NodeIdValue.SingleWindowThird).Context.TicketContainerId == ticket.TicketContainerId)
+                result.CurrentNode = (int) NodeIdValue.SingleWindowThird;
             
             var routeId = ticket.RouteTemplateId;
             if (routeId == null)
@@ -81,7 +79,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             return result;
         }
 
-        private IEnumerable<GroupAlternativeNodes> GetRouteGroupNodes(long routeId)
+        private IEnumerable<GroupAlternativeNodes> GetRouteGroupNodes(int routeId)
         {
             return _routesRepository
                 .GetRoute(routeId)
@@ -104,7 +102,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 
         private void UpdateQuata()
         {
-            var nodes = _nodeRepository.GetQuery<Node, long>();
+            var nodes = _nodeRepository.GetQuery<Model.DomainModel.Node.DAO.Node, int>();
             _queueLoadBalancer.UpdateQuatas(nodes);
         }
 
@@ -143,7 +141,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 .ToList();
         }
 
-        private void SendSms(long ticketContainerId, long ticketId, int smsTemplate)
+        private void SendSms(int ticketContainerId, int ticketId, SmsTemplate smsTemplate)
         {
             if (!_queueRegisterRepository.SMSAlreadySent(ticketContainerId))
             {
@@ -163,18 +161,18 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             }
         }
 
-        private List<long> GetEndPointNodes(long ticketContainerId)
+        private List<int> GetEndPointNodes(int ticketContainerId)
         {
             var ticket = _context.Tickets.FirstOrDefault(x =>
-                             x.ContainerId == ticketContainerId && x.StatusId == Dom.Ticket.Status.Processing)
+                             x.TicketContainerId == ticketContainerId && x.StatusId == TicketStatus.Processing)
                          ?? _context.Tickets.FirstOrDefault(x =>
-                             x.ContainerId == ticketContainerId && x.StatusId == Dom.Ticket.Status.ToBeProcessed);
+                             x.TicketContainerId == ticketContainerId && x.StatusId == TicketStatus.ToBeProcessed);
             if (ticket != null)
             {
                 var endpointNode = _opDataRepository.GetLastProcessed<MixedFeedGuideOpData>(ticket.Id)?.LoadPointNodeId
                                    ?? _opDataRepository.GetLastProcessed<UnloadGuideOpData>(ticket.Id)?.UnloadPointNodeId
                                    ?? _opDataRepository.GetLastProcessed<LoadGuideOpData>(ticket.Id)?.LoadPointNodeId;
-                if (endpointNode != null) return new List<long> { endpointNode.Value };
+                if (endpointNode != null) return new List<int> { endpointNode.Value };
             }
             var route = _inTirs.SingleOrDefault(s => s.TicketContainerId == ticketContainerId) ?? _externalQueue.Get(ticketContainerId);
             return route.PathNodes.FirstOrDefault(item =>
@@ -188,7 +186,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             });
         }
 
-        private bool IsNodeAvailable(long nodeId, long routeTemplateId)
+        private bool IsNodeAvailable(int nodeId, int routeTemplateId)
         {
             var route = _routesRepository
                 .GetRoute(routeTemplateId)
@@ -236,7 +234,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 _queueRegisterRepository.CalledFromQueue(routeInfo.TicketContainerId);
             }
 
-            SendSms(routeInfo.TicketContainerId, routeInfo.ActiveTicketId, Dom.Sms.Template.EntranceApprovalSms);
+            SendSms(routeInfo.TicketContainerId, routeInfo.ActiveTicketId, SmsTemplate.EntranceApprovalSms);
         }
 
         private void CheckFreeLoad()

@@ -1,9 +1,22 @@
 ﻿using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository;
+using Gravitas.DAL.Repository.BlackList;
+using Gravitas.DAL.Repository.Card;
+using Gravitas.DAL.Repository.ExternalData;
+using Gravitas.DAL.Repository.Node;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.DAL.Repository.OpWorkflow.Routes;
 using Gravitas.DAL.Repository.PhoneInformTicketAssignment;
+using Gravitas.DAL.Repository.Phones;
+using Gravitas.DAL.Repository.Ticket;
+using Gravitas.DAL.Repository.Traffic;
 using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.CentralLaboratory;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
+using Gravitas.Infrastructure.Platform.Manager.Node;
+using Gravitas.Infrastructure.Platform.Manager.OpData;
+using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Infrastructure.Platform.Manager.Scale;
 using Gravitas.Infrastructure.Platform.SignalRClient;
@@ -13,7 +26,6 @@ using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.Manager.CollisionManager;
 using Gravitas.Platform.Web.Manager.OpData;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {
@@ -94,7 +106,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (newContext.TicketContainerId != null && !_nodeRepository.IsFirstState(nodeId, newContext, Dom.OpRoutine.Processor.WebUI))
                 _trafficRepository.OnNodeHandle(newContext.TicketContainerId.Value, nodeId);
 
-            var result = _nodeRepository.UpdateNodeContext(nodeId, newContext, Dom.OpRoutine.Processor.WebUI);
+            var result = _nodeRepository.UpdateNodeContext(nodeId, newContext);
 
             if (!result)
             {

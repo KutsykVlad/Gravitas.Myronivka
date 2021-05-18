@@ -1,4 +1,5 @@
 ﻿using System;
+using Gravitas.Model.DomainValue;
 using Newtonsoft.Json;
 
 namespace Gravitas.DAL.DeviceTransfer
@@ -6,7 +7,7 @@ namespace Gravitas.DAL.DeviceTransfer
     public class DeviceStateTransfer
     {
         [JsonProperty("DeviceType")]
-        public long DeviceType { get; set; }
+        public DeviceType DeviceType { get; set; }
         [JsonProperty("LastUpdate")]
         public DateTime? LastUpdate { get; set; }
         [JsonProperty("ErrorCode")]
@@ -16,6 +17,6 @@ namespace Gravitas.DAL.DeviceTransfer
         [JsonProperty("OutData")]
         public string OutData { get; set; }
         [JsonProperty("Id")]
-        public long Id { get; set; }
+        public int Id { get; set; }
     }
 }

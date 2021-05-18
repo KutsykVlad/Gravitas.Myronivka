@@ -1,5 +1,6 @@
 ﻿using System;
 using Gravitas.Model.DomainModel.Base;
+using Gravitas.Model.DomainModel.Ticket.DAO;
 
 namespace Gravitas.Model.DomainModel.Traffic.DAO
 {

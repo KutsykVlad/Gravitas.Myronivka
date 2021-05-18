@@ -1,11 +1,10 @@
 ﻿using System.Linq;
-using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.Queue.DAO;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.Queue
 {
-    public interface IQueueSettingsRepository: IBaseRepository<GravitasDbContext>
+    public interface IQueueSettingsRepository: IBaseRepository
     {
         IQueryable<QueuePatternItem> GetQueuePatternItems();
         IQueryable<QueueItemPriority> GetPriorities();

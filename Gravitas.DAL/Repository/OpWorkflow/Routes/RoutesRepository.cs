@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
 using NLog;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.OpWorkflow.Routes
 {
-    public class RoutesRepository : BaseRepository<GravitasDbContext>, IRoutesRepository
+    public class RoutesRepository : BaseRepository, IRoutesRepository
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly GravitasDbContext _context;
@@ -17,22 +17,22 @@ namespace Gravitas.DAL
             _context = context;
         }
 
-        public RouteTemplate GetRoute(long id)
+        public RouteTemplate GetRoute(int id)
         {
             return _context.RouteTemplates.FirstOrDefault(x => x.Id == id);
         }
 
         public ICollection<RouteTemplate> GetRoutes()
         {
-            return GetQuery<RouteTemplate, long>().ToList();
+            return GetQuery<RouteTemplate, int>().ToList();
         }
 
-        public bool DeleteRoute(long id)
+        public bool DeleteRoute(int id)
         {
             var route = GetRoute(id);
             try
             {
-                Delete<RouteTemplate, long>(route);
+                Delete<RouteTemplate, int>(route);
                 return true;
             }
             catch (Exception e)
@@ -46,7 +46,7 @@ namespace Gravitas.DAL
         {
             try
             {
-                AddOrUpdate<RouteTemplate, long>(route);
+                AddOrUpdate<RouteTemplate, int>(route);
                 return true;
             }
             catch (Exception e)

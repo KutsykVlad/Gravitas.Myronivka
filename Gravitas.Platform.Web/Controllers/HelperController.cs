@@ -4,15 +4,17 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Gravitas.DAL;
+using Gravitas.DAL.Repository.Node;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.PackingTare;
 using Gravitas.Infrastructure.Platform.Manager;
+using Gravitas.Infrastructure.Platform.Manager.Node;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.PackingTare.DTO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel.Helper;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -182,7 +184,7 @@ namespace Gravitas.Platform.Web.Controllers
             }
             
             nodeDto.Context.OpRoutineStateId = vm.ReturnRoutineStateId;
-            var result = _nodeRepository.UpdateNodeContext(vm.NodeId, nodeDto.Context, Dom.OpRoutine.Processor.WebUI);
+            var result = _nodeRepository.UpdateNodeContext(vm.NodeId, nodeDto.Context);
 
             if (result) SignalRInvoke.ReloadHubGroup(vm.NodeId);
             return new HttpStatusCodeResult(HttpStatusCode.OK);

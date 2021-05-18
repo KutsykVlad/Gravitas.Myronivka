@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
 using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
-using Gravitas.Model.Dto;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.EmployeeRoles
 {
-    public class EmployeeRolesRepository : BaseRepository<GravitasDbContext>, IEmployeeRolesRepository
+    public class EmployeeRolesRepository : BaseRepository, IEmployeeRolesRepository
     {
         private readonly GravitasDbContext _context;
 
@@ -31,7 +30,7 @@ namespace Gravitas.DAL
             };
         }
 
-        private RoleDetail GetRoleDetail(long roleId)
+        private RoleDetail GetRoleDetail(int roleId)
         {
             var role = _context.Roles.AsNoTracking().FirstOrDefault(x => x.Id == roleId);
             if (role == null)
@@ -49,7 +48,7 @@ namespace Gravitas.DAL
 
         public RolesDto GetRoles()
         {
-            var roles = GetQuery<Role, long>().Select(t => t.Id).ToList();
+            var roles = GetQuery<Role, int>().Select(t => t.Id).ToList();
 
             var result = new RolesDto { Count = roles.Count};
             roles.ForEach(t =>
@@ -65,7 +64,7 @@ namespace Gravitas.DAL
 
             if (role != null)
             {
-                Update<Role, long>(new Role { Name = roleDetail.Name, Id = roleDetail.RoleId });
+                Update<Role, int>(new Role { Name = roleDetail.Name, Id = roleDetail.RoleId });
 
                 var assignments = GetRoleDetail(roleDetail.RoleId).Nodes;
 
@@ -74,7 +73,7 @@ namespace Gravitas.DAL
                     if (!roleDetail.Nodes.Contains(assignment))
                     {
                         var tmp = _context.RoleAssignments.FirstOrDefault(t => t.RoleId == roleDetail.RoleId && t.NodeId == assignment);
-                        Delete<RoleAssignment, long>(tmp);
+                        Delete<RoleAssignment, int>(tmp);
                     }
                 }
 
@@ -82,7 +81,7 @@ namespace Gravitas.DAL
                 {
                     if (!assignments.Contains(assignment))
                     {
-                        Add<RoleAssignment, long>(new RoleAssignment
+                        Add<RoleAssignment, int>(new RoleAssignment
                         {
                             NodeId = assignment,
                             RoleId = role.Id
@@ -94,7 +93,7 @@ namespace Gravitas.DAL
 
         public void AddRole(RoleDetail roleDetail)
         {
-            Add<Role, long>(new Role { Name = roleDetail.Name });
+            Add<Role, int>(new Role { Name = roleDetail.Name });
             var role = _context.Roles.Where(t => t.Name == roleDetail.Name)
                 .OrderByDescending(x => x.Id)
                 .FirstOrDefault();
@@ -103,7 +102,7 @@ namespace Gravitas.DAL
             {
                 foreach (var node in roleDetail.Nodes)
                 {
-                    Add<RoleAssignment, long>(new RoleAssignment
+                    Add<RoleAssignment, int>(new RoleAssignment
                     {
                         NodeId = node,
                         RoleId = role.Id
@@ -112,7 +111,7 @@ namespace Gravitas.DAL
             }
         }
 
-        public void DeleteRole(long roleId)
+        public void DeleteRole(int roleId)
         {
             var role = _context.Roles.FirstOrDefault(x => x.Id == roleId);
 
@@ -123,17 +122,17 @@ namespace Gravitas.DAL
 
             foreach (var record in records)
             {
-                Delete<EmployeeRole, long>(record);
+                Delete<EmployeeRole, int>(record);
             }
 
             var assignments = _context.RoleAssignments.Where(t => t.RoleId == roleId).ToList();
 
             foreach (var record in assignments)
             {
-                Delete<RoleAssignment, long>(record);
+                Delete<RoleAssignment, int>(record);
             }
 
-            Delete<Role, long>(role);
+            Delete<Role, int>(role);
         }
 
         public void ApplyEmployeeRoles(RolesDto employeeRoles, string employeeId)
@@ -143,7 +142,7 @@ namespace Gravitas.DAL
             {
                 if (!employeeRoles.Items.Select(t => t.RoleId).ToList().Contains(role.RoleId))
                 {
-                    Delete<EmployeeRole, long>(role);
+                    Delete<EmployeeRole, int>(role);
                 }
             }
 
@@ -151,7 +150,7 @@ namespace Gravitas.DAL
             {
                 if (!roles.Select(t => t.RoleId).ToList().Contains(role.RoleId))
                 {
-                    Add<EmployeeRole, long>(new EmployeeRole
+                    Add<EmployeeRole, int>(new EmployeeRole
                     {
                         EmployeeId = employeeId,
                         RoleId = role.RoleId

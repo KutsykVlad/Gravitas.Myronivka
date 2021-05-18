@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 using Gravitas.Core.DeviceManager.Device;
 using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.Device;
+using Gravitas.DAL.Repository.Node;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Infrastructure.Platform.Manager;
+using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.Dto;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor
@@ -94,7 +97,7 @@ namespace Gravitas.Core.Processor
         {
             CheckProcessingTime(newContext);
 
-            var result = _nodeRepository.UpdateNodeContext(nodeId, newContext, Dom.OpRoutine.Processor.CoreService);
+            var result = _nodeRepository.UpdateNodeContext(nodeId, newContext);
 
             if (!result)
                 _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(

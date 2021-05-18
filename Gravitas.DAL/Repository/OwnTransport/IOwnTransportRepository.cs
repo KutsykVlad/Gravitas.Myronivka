@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Gravitas.Model.DomainModel.OwnTransport.DTO;
 
@@ -8,6 +7,6 @@ namespace Gravitas.DAL.Repository.OwnTransport
     {
         IQueryable<OwnTransportVm> GetList();
         bool Add(OwnTransportVm model);
-        void Remove(long id);
+        void Remove(int id);
     }
 }

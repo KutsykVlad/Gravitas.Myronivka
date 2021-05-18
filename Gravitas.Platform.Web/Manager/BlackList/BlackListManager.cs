@@ -2,6 +2,8 @@
 using System.Linq;
 using Gravitas.DAL;
 using Gravitas.DAL.Repository;
+using Gravitas.DAL.Repository.BlackList;
+using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 using Gravitas.Platform.Web.ViewModel;

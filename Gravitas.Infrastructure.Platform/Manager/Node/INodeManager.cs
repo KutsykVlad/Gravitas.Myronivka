@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.Node
 {
     public interface INodeManager
     {
-        bool IsNodeExpired(long nodeId, TimeSpan timeout);
-        void ChangeNodeState(long nodeId, bool state);
-        string GetNodeName(long nodeId);
-        List<long> GetEndPointNodes();
+        bool IsNodeExpired(int nodeId, TimeSpan timeout);
+        void ChangeNodeState(int nodeId, bool state);
+        string GetNodeName(int nodeId);
+        List<int> GetEndPointNodes();
     }
 }

@@ -1,7 +1,10 @@
 using System;
 using Gravitas.DAL;
+using Gravitas.DAL.Repository.Device;
+using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Platform.ApiClient.Devices;
 using Gravitas.Infrastructure.Platform.Manager;
+using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;

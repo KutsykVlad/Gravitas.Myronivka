@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Gravitas.DAL;
+using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.OneC;
 using Gravitas.Model;

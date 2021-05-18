@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
 using Gravitas.Model.DomainValue;
 
@@ -7,21 +6,21 @@ namespace Gravitas.Infrastructure.Platform.Manager.Routes
 {
     public interface IRoutesInfrastructure
     {
-        string MarkPassedNodes(long ticketId, long routeId, bool disableAppend = false);
-        bool IsNodeAvailable(long nodeId, long routeTemplateId);
-        IEnumerable<RouteTemplate> GetRouteTemplates(int state, long? nodeId = null);
+        string MarkPassedNodes(int ticketId, int routeId, bool disableAppend = false);
+        bool IsNodeAvailable(int nodeId, int routeTemplateId);
+        IEnumerable<RouteTemplate> GetRouteTemplates(RouteType state, int? nodeId = null);
         string NormalizeRoute(string routeJson);
-        void MoveForward(long ticketId, long nodeId);
-        void MoveBack(long ticketId);
-        bool SetSecondaryRoute(long ticketId, long nodeId, int type);
-        List<long> GetNodesInGroup(long? routeId, NodeGroup groupId);
-        List<RouteNodes> GetRouteForPrintout(long ticketId);
-        int GetNodeProcess(long ticketId, long nodeId);
-        bool IsLastScaleProcess(long ticketId);
-        bool IsRouteWithoutGuide(long ticketId);
-        void AddDestinationOpData(long ticketId, long nodeId);
-        List<long> GetNextNodes(long ticketId);
-        bool IsTicketRejected(long ticketId);
-        void AssignSingleUnloadPoint(long ticketId, long nodeId);
+        void MoveForward(int ticketId, int nodeId);
+        void MoveBack(int ticketId);
+        bool SetSecondaryRoute(int ticketId, int nodeId, RouteType type);
+        List<int> GetNodesInGroup(int? routeId, NodeGroup groupId);
+        List<RouteNodes> GetRouteForPrintout(int ticketId);
+        int GetNodeProcess(int ticketId, int nodeId);
+        bool IsLastScaleProcess(int ticketId);
+        bool IsRouteWithoutGuide(int ticketId);
+        void AddDestinationOpData(int ticketId, int nodeId);
+        List<int> GetNextNodes(int ticketId);
+        bool IsTicketRejected(int ticketId);
+        void AssignSingleUnloadPoint(int ticketId, int nodeId);
     }
 }

@@ -1,6 +1,6 @@
-﻿using Gravitas.DAL;
+﻿using Gravitas.DAL.Repository.EmployeeRoles;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.OpVisa
 {
     public class VisaValidationManager : IVisaValidationManager
     {
@@ -12,7 +12,7 @@ namespace Gravitas.Infrastructure.Platform.Manager
         }
 
 
-        public bool ValidateEmployeeAccess(long nodeId, string employeeId)
+        public bool ValidateEmployeeAccess(int nodeId, string employeeId)
         {
             var employeeRoles = _employeeRolesRepository.GetEmployeeRoles(employeeId);
 

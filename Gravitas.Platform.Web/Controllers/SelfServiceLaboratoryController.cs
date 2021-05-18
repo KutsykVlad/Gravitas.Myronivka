@@ -1,5 +1,9 @@
 using System.Web.Mvc;
 using Gravitas.DAL;
+using Gravitas.DAL.Repository.Card;
+using Gravitas.DAL.Repository.ExternalData;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Platform.Web.ViewModel.SelfServiceLaboratory;

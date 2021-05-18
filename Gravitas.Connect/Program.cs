@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Gravitas.Connect.Manager;
 using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.ExternalData;
 using Topshelf;
 
 namespace Gravitas.Connect

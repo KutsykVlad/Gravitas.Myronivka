@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Gravitas.Model
+namespace Gravitas.Model.DomainModel.Traffic.TDO
 {
     public class TrafficRecord
     {
-        public long CurrentNodeId { get; set; }
-        public long TicketContainerId { get; set; }
+        public int CurrentNodeId { get; set; }
+        public int TicketContainerId { get; set; }
         public DateTime EntranceTime { get; set; }
     }
 }

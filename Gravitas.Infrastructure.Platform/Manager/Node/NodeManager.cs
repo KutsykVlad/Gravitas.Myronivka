@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
-using Gravitas.Model;
+using Gravitas.DAL.Repository.Node;
 using Gravitas.Model.DomainModel.EndPointNodes.DAO;
-using Gravitas.Model.DomainModel.Node.DAO;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.Node
 {
     public class NodeManager : INodeManager
     {
@@ -20,38 +18,33 @@ namespace Gravitas.Infrastructure.Platform.Manager
             _context = context;
         }
 
-        public bool IsNodeExpired(long nodeId, TimeSpan timeout)
+        public bool IsNodeExpired(int nodeId, TimeSpan timeout)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             return nodeDto?.Context?.LastStateChangeTime == null
                    || DateTime.Now - nodeDto.Context.LastStateChangeTime.Value > timeout;
         }
 
-        public void ChangeNodeState(long nodeId, bool state)
+        public void ChangeNodeState(int nodeId, bool state)
         {
-            var node = _nodeRepository.GetEntity<Node, long>(nodeId);
+            var node = _context.Nodes.FirstOrDefault(x => x.Id == nodeId);
             if (node == null) return;
 
             node.IsActive = state;
-            _nodeRepository.Update<Node, long>(node);
+            _nodeRepository.Update<Model.DomainModel.Node.DAO.Node, int>(node);
         }
 
-        public string GetNodeName(long nodeId)
+        public string GetNodeName(int nodeId)
         {
             var nodeName = _context.Nodes.FirstOrDefault(x => x.Id == nodeId)?.Name;
             return nodeName ?? string.Empty;
         }
 
-        private List<long> _endPoints;
-        public List<long> GetEndPointNodes()
+        public List<int> GetEndPointNodes()
         {
-            if (_endPoints == null)
-            {
-                _endPoints = _nodeRepository.GetQuery<EndPointNode, int>()
-                    .Select(x => x.NodeId)
-                    .ToList();
-            }
-            return _endPoints;
+            return _nodeRepository.GetQuery<EndPointNode, int>()
+                .Select(x => x.NodeId)
+                .ToList();
         }
     }
 }

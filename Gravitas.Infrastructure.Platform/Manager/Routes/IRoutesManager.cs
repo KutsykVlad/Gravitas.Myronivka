@@ -1,7 +1,7 @@
-﻿namespace Gravitas.Infrastructure.Platform.Manager
+﻿namespace Gravitas.Infrastructure.Platform.Manager.Routes
 {
     public interface IRoutesManager
     {
-        bool IsNodeNext(long ticketId, long nodeId, out string errorMessage);
+        bool IsNodeNext(int ticketId, int nodeId, out string errorMessage);
     }
 }

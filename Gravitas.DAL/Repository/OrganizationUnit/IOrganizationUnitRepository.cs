@@ -1,11 +1,10 @@
-﻿using Gravitas.DAL.DbContext;
+﻿using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.OrganizationUnit.DTO.Detail;
-using Gravitas.Model.Dto;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.OrganizationUnit
 {
-    public interface IOrganizationUnitRepository : IBaseRepository<GravitasDbContext>
+    public interface IOrganizationUnitRepository : IBaseRepository
     {
-        OrganizationUnitDetail GetOrganizationUnitDetail(long id);
+        OrganizationUnitDetail GetOrganizationUnitDetail(int id);
     }
 }

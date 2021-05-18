@@ -1,4 +1,5 @@
 ﻿using System;
+using Gravitas.Model.DomainValue;
 
 namespace Gravitas.Model.DomainModel.Node.TDO.Json
 {

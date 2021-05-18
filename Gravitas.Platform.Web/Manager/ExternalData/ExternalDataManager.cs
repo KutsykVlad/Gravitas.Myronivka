@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.Model;
 using Gravitas.Platform.Web.ViewModel;
 using Dom = Gravitas.Model.DomainValue.Dom;

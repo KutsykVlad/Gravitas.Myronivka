@@ -1,7 +1,7 @@
-﻿namespace Gravitas.Infrastructure.Platform.Manager
+﻿namespace Gravitas.Infrastructure.Platform.Manager.OpVisa
 {
     public interface IVisaValidationManager
     {
-        bool ValidateEmployeeAccess(long nodeId, string employeeId);
+        bool ValidateEmployeeAccess(int nodeId, string employeeId);
     }
 }

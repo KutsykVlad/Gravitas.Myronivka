@@ -4,6 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.ExternalData;
+using Gravitas.DAL.Repository.Node;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.DAL.Repository.OpWorkflow.Routes;
+using Gravitas.DAL.Repository.Queue;
+using Gravitas.DAL.Repository.Ticket;
+using Gravitas.DAL.Repository.Traffic;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
+using Gravitas.Infrastructure.Platform.Manager.Node;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.DAO;
@@ -28,7 +37,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
         private readonly GravitasDbContext _context;
 
         private List<EndPointNodeLoad> _endPointNodeLoad = new List<EndPointNodeLoad>();
-        private List<long> _mixedFeedTicketsWaitingList = new List<long>();
+        private List<int> _mixedFeedTicketsWaitingList = new List<int>();
         private readonly List<RouteInfo> _inTirs = new List<RouteInfo>();
 
         private bool _queueNotRecoveryMode;
@@ -64,7 +73,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     NodeId = endPointNode
                 });
 
-            _queueLoadBalancer = new QueueLoadBalancer(nodeRepository.GetQuery<Node, long>().ToList(), endPointNodes);
+            _queueLoadBalancer = new QueueLoadBalancer(nodeRepository.GetQuery<Model.DomainModel.Node.DAO.Node, int>().ToList(), endPointNodes);
             _externalQueue = new ExternalQueue(queueSettingsRepository, _opDataRepository, externalDataRepository, context);
         }
 

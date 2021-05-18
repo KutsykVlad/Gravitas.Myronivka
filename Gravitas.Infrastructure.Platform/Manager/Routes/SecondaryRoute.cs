@@ -1,4 +1,4 @@
-namespace Gravitas.Platform.Web.ViewModel.RouteEditor
+namespace Gravitas.Infrastructure.Platform.Manager.Routes
 {
     public class SecondaryRoute
     {

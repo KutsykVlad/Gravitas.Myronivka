@@ -1,17 +1,16 @@
 using System;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.PhoneInformTicketAssignment;
 using Gravitas.Infrastructure.Platform.ApiClient.Devices;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
+using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.OpData.DAO;
-using Gravitas.Model.Dto;
+using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Scale
 {
@@ -19,66 +18,60 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
     {
         private readonly IOpDataRepository _opDataRepository;
         private readonly IOpRoutineManager _opRoutineManager;
-        private readonly IOpDataManager _opDataManager;
         private readonly IRoutesInfrastructure _routesInfrastructure;
         private readonly IConnectManager _connectManager;
-        private readonly IPhonesRepository _phonesRepository;
         private readonly GravitasDbContext _context;
         private readonly IPhoneInformTicketAssignmentRepository _phoneInformTicketAssignmentRepository;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public ScaleManager(IOpDataRepository opDataRepository,
             IOpRoutineManager opRoutineManager,
-            IOpDataManager opDataManager,
             IRoutesInfrastructure routesInfrastructure, 
             IConnectManager connectManager,
-            IPhonesRepository phonesRepository,
             GravitasDbContext context, 
             IPhoneInformTicketAssignmentRepository phoneInformTicketAssignmentRepository)
         {
             _opDataRepository = opDataRepository;
             _opRoutineManager = opRoutineManager;
-            _opDataManager = opDataManager;
             _routesInfrastructure = routesInfrastructure;
             _connectManager = connectManager;
-            _phonesRepository = phonesRepository;
             _context = context;
             _phoneInformTicketAssignmentRepository = phoneInformTicketAssignmentRepository;
         }
 
-        public bool IsScaleStateOk(ScaleState scaleState, long nodeId)
+        public bool IsScaleStateOk(ScaleState scaleState, int nodeId)
         {
-            var stateValidator = new ScaleStateValidator(_opRoutineManager, _opDataRepository, _opDataManager, _context);
+            var stateValidator = new ScaleStateValidator(_opRoutineManager);
             return stateValidator.IsScaleStateOk(scaleState, nodeId);
         }
 
-        public double? GetPartLoadUnloadValue(long ticketId)
+        public double? GetPartLoadUnloadValue(int ticketId)
         {
-            var limitsValidator = new ScaleLimitsValidator(_opDataRepository, _routesInfrastructure, _connectManager, _phonesRepository, _context, _phoneInformTicketAssignmentRepository);
+            var limitsValidator = new ScaleLimitsValidator(_opDataRepository, _routesInfrastructure, _connectManager, _context, _phoneInformTicketAssignmentRepository);
             return limitsValidator.GetPartLoadUnloadValue(ticketId);
         }
 
-        public OnLoadScaleValidationDataModel GetLoadWeightValidationData(long ticketId)
+        public OnLoadScaleValidationDataModel GetLoadWeightValidationData(int ticketId)
         {
-            var limitsValidator = new ScaleLimitsValidator(_opDataRepository, _routesInfrastructure, _connectManager, _phonesRepository, _context, _phoneInformTicketAssignmentRepository);
+            var limitsValidator = new ScaleLimitsValidator(_opDataRepository, _routesInfrastructure, _connectManager, _context, _phoneInformTicketAssignmentRepository);
             return limitsValidator.GetLoadWeightValidationData(ticketId);
         }
 
-        public bool IsTareMoreGross(Node nodeDto, bool isTruckWeighting, ScaleOpData scaleOpData)
+        public bool IsTareMoreGross(Model.DomainModel.Node.TDO.Detail.Node nodeDto, bool isTruckWeighting, ScaleOpData scaleOpData)
         {
-            if (scaleOpData.TypeId != Dom.ScaleOpData.Type.Tare) return false;
+            if (scaleOpData.TypeId != ScaleOpDataType.Tare) return false;
             var previousScaleData = _context.ScaleOpDatas
                 .Where(x =>
                     x.TicketId == nodeDto.Context.TicketId 
-                    && x.StateId == Dom.OpDataState.Processed
-                    && x.TypeId == Dom.ScaleOpData.Type.Gross)
+                    && x.StateId == OpDataState.Processed
+                    && x.TypeId == ScaleOpDataType.Gross)
                 .OrderByDescending(t => t.CheckOutDateTime)
                 .FirstOrDefault();
             
             if (previousScaleData != null && (previousScaleData.TrailerIsAvailable == false && isTruckWeighting || !isTruckWeighting))
             {
                 _logger.Debug($"IsTareMoreGross: isTruckWeighting = {isTruckWeighting}");
-                var scaleConfig = nodeDto.Config.Scale[Dom.Node.Config.Scale.Scale1];
+                var scaleConfig = nodeDto.Config.Scale[Model.Node.Config.Scale.Scale1];
                 var scaleState = DeviceSyncManager.GetDeviceState(scaleConfig.DeviceId) as ScaleState;
                 if (scaleState == null) throw new Exception("IsTareMoreGross: Scale scale is invalid");
 
@@ -95,9 +88,9 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
             return false;
         }
        
-        public string IsWeightResultsValid(OnLoadScaleValidationDataModel scaleValidationDataModel, long ticketId)
+        public string IsWeightResultsValid(OnLoadScaleValidationDataModel scaleValidationDataModel, int ticketId)
         {
-            var limitsValidator = new ScaleLimitsValidator(_opDataRepository, _routesInfrastructure, _connectManager, _phonesRepository, _context, _phoneInformTicketAssignmentRepository);
+            var limitsValidator = new ScaleLimitsValidator(_opDataRepository, _routesInfrastructure, _connectManager, _context, _phoneInformTicketAssignmentRepository);
             return limitsValidator.IsWeightResultsValid(scaleValidationDataModel, ticketId);
         }
     }

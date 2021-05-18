@@ -1,7 +1,12 @@
 ﻿using Gravitas.Core.DeviceManager.Device;
 using Gravitas.Core.DeviceManager.User;
 using Gravitas.DAL;
+using Gravitas.DAL.Repository.Device;
+using Gravitas.DAL.Repository.Node;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.Infrastructure.Platform.Manager;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
+using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Detail;

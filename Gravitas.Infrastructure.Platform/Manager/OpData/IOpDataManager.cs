@@ -1,21 +1,19 @@
 ﻿using System;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.TDO.Detail;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DTO;
-using Gravitas.Model.Dto;
 using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.TDO.Detail.LabFacelessOpData;
 
-namespace Gravitas.Infrastructure.Platform.Manager
+namespace Gravitas.Infrastructure.Platform.Manager.OpData
 {
     public interface IOpDataManager
     {
-        SingleWindowOpData FetchRouteResults(long ticketId);
+        SingleWindowOpData FetchRouteResults(int ticketId);
         SingleWindowOpDataDetail GetSingleWindowOpDataDetail(Guid id);
         LabFacelessOpData GetLabFacelessOpDataDto(Guid id);
-        OpDataEventDto[] GetEvents(long ticketId, int? eventType = null);
+        OpDataEventDto[] GetEvents(int ticketId, int? eventType = null);
         void AddEvent(OpDataEvent opDataEvent);
-        BasicTicketContainerData GetBasicTicketData(long ticketId);
+        BasicTicketContainerData GetBasicTicketData(int ticketId);
     }
 }

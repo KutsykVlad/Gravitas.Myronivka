@@ -1,14 +1,13 @@
 using System;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.PhoneInformTicketAssignment;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Scale
 {
@@ -17,7 +16,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
         private readonly IOpDataRepository _opDataRepository;
         private readonly IRoutesInfrastructure _routesInfrastructure;
         private readonly IConnectManager _connectManager;
-        private readonly IPhonesRepository _phonesRepository;
         private readonly GravitasDbContext _context;
         private readonly IPhoneInformTicketAssignmentRepository _phoneInformTicketAssignmentRepository;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
@@ -25,30 +23,28 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
         public ScaleLimitsValidator(IOpDataRepository opDataRepository,
             IRoutesInfrastructure routesInfrastructure,
             IConnectManager connectManager, 
-            IPhonesRepository phonesRepository, 
             GravitasDbContext context, 
             IPhoneInformTicketAssignmentRepository phoneInformTicketAssignmentRepository)
         {
             _opDataRepository = opDataRepository;
             _routesInfrastructure = routesInfrastructure;
             _connectManager = connectManager;
-            _phonesRepository = phonesRepository;
             _context = context;
             _phoneInformTicketAssignmentRepository = phoneInformTicketAssignmentRepository;
         }
         
-        public OnLoadScaleValidationDataModel GetLoadWeightValidationData(long ticketId)
+        public OnLoadScaleValidationDataModel GetLoadWeightValidationData(int ticketId)
         {
             var data = new OnLoadScaleValidationDataModel();
 
             var scaleOpDataGross = _context.ScaleOpDatas
                 .AsNoTracking()
-                .Where(x => x.TicketId == ticketId && x.TypeId == Dom.ScaleOpData.Type.Gross)
+                .Where(x => x.TicketId == ticketId && x.TypeId == ScaleOpDataType.Gross)
                 .OrderByDescending(x => x.CheckInDateTime)
                 .FirstOrDefault();
             var scaleOpDataTare = _context.ScaleOpDatas
                 .AsNoTracking()
-                .Where(x => x.TicketId == ticketId && x.TypeId == Dom.ScaleOpData.Type.Tare)
+                .Where(x => x.TicketId == ticketId && x.TypeId == ScaleOpDataType.Tare)
                 .OrderByDescending(x => x.CheckInDateTime)
                 .FirstOrDefault();
             var ticket = _context.Tickets.AsNoTracking().First(x => x.Id == ticketId);
@@ -77,28 +73,28 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
             return data;
         }
         
-        public string IsWeightResultsValid(OnLoadScaleValidationDataModel scaleValidationDataModel, long ticketId)
+        public string IsWeightResultsValid(OnLoadScaleValidationDataModel scaleValidationDataModel, int ticketId)
         {
             _logger.Trace($"IsWeightResultsValid: IsOverLoad = {scaleValidationDataModel.IsOverLoad}");
             _logger.Trace($"IsWeightResultsValid: IsUnderLoad = {scaleValidationDataModel.IsUnderLoad}");
             if (!scaleValidationDataModel.IsOverLoad && !scaleValidationDataModel.IsUnderLoad) return string.Empty;
             
             var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticketId, null);
-            scaleOpData.StateId = Dom.OpDataState.Canceled;
+            scaleOpData.StateId = OpDataState.Canceled;
             _opDataRepository.Update<ScaleOpData, Guid>(scaleOpData);
     
             var ticket = _context.Tickets.AsNoTracking().First(x => x.Id == ticketId);
             if (ticket.RouteTemplateId == null) throw new ArgumentException($"Ticket has no RouteTemplate = {ticket.Id}");
             
             _routesInfrastructure.SetSecondaryRoute(ticketId, scaleOpData.NodeId.Value,
-                scaleValidationDataModel.IsOverLoad ? Dom.Route.Type.PartUnload : Dom.Route.Type.PartLoad);
+                scaleValidationDataModel.IsOverLoad ? RouteType.PartUnload : RouteType.PartLoad);
             ticket = _context.Tickets.AsNoTracking().First(x => x.Id == ticketId);
 
-            var isMixedFeedRoute = _routesInfrastructure.IsNodeAvailable((long) NodeIdValue.MixedFeedGuide, (long) (ticket.SecondaryRouteTemplateId ?? ticket.RouteTemplateId));
+            var isMixedFeedRoute = _routesInfrastructure.IsNodeAvailable((int) NodeIdValue.MixedFeedGuide, (int) (ticket.SecondaryRouteTemplateId ?? ticket.RouteTemplateId));
 
             if (isMixedFeedRoute)
             {
-                _routesInfrastructure.MoveForward(ticketId, (long) NodeIdValue.MixedFeedGuide);
+                _routesInfrastructure.MoveForward(ticketId, (int) NodeIdValue.MixedFeedGuide);
             }
             else
             {
@@ -113,25 +109,25 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
                 }
                 foreach (var item in _phoneInformTicketAssignmentRepository.GetAll().Where(e => e.TicketId == ticketId))
                 {
-                    _connectManager.SendSms(Dom.Sms.Template.OnWeighBridgeRejected, ticketId, item.PhoneDictionary.PhoneNumber);
+                    _connectManager.SendSms(SmsTemplate.OnWeighBridgeRejected, ticketId, item.PhoneDictionary.PhoneNumber);
                 }
             }
                         
             return "Умова вагового ліміту не виконана. Очікуйте смс повідомлення.";
         }
         
-        public double? GetPartLoadUnloadValue(long ticketId)
+        public double? GetPartLoadUnloadValue(int ticketId)
         {
             var singleWindowOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(ticketId)
                                      ?? _opDataRepository.GetLastOpData<SingleWindowOpData>(ticketId, null);
             var lastScaleGross = _context.ScaleOpDatas
                 .AsNoTracking()
-                .Where(x => x.TicketId == ticketId && x.TypeId == Dom.ScaleOpData.Type.Gross)
+                .Where(x => x.TicketId == ticketId && x.TypeId == ScaleOpDataType.Gross)
                 .OrderBy(x => x.CheckInDateTime)
                 .FirstOrDefault();
             var lastScaleTare = _context.ScaleOpDatas
                 .AsNoTracking()
-                .Where(x => x.TicketId == ticketId && x.TypeId == Dom.ScaleOpData.Type.Tare)
+                .Where(x => x.TicketId == ticketId && x.TypeId == ScaleOpDataType.Tare)
                 .OrderBy(x => x.CheckInDateTime)
                 .FirstOrDefault();
             if (lastScaleGross != null && lastScaleTare != null)

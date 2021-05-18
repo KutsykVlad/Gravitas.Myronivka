@@ -1,8 +1,8 @@
-﻿using Gravitas.DAL.DbContext;
+﻿using Gravitas.DAL.Repository._Base;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.Card
 {
-    public interface ICardRepository : IBaseRepository<GravitasDbContext>
+    public interface ICardRepository : IBaseRepository
     {
         string GetContainerCardNo(long id);
     }

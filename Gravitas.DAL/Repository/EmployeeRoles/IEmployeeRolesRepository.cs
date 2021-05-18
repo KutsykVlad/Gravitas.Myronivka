@@ -1,9 +1,9 @@
-﻿using Gravitas.DAL.DbContext;
+﻿using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.EmployeeRoles
 {
-    public interface IEmployeeRolesRepository: IBaseRepository<GravitasDbContext>
+    public interface IEmployeeRolesRepository: IBaseRepository
     {
         RolesDto GetEmployeeRoles(string employeeId);
 
@@ -13,7 +13,7 @@ namespace Gravitas.DAL
 
         void AddRole(RoleDetail roleDetail);
 
-        void DeleteRole(long roleId);
+        void DeleteRole(int roleId);
 
         void ApplyEmployeeRoles(RolesDto employeeRoles, string employeeId);
 
