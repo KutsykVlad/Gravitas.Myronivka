@@ -19,7 +19,7 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
             _context = context;
         }
 
-        public OpDataStateDetail GetOpDataStateDetail(long id)
+        public OpDataStateDetail GetOpDataStateDetail(OpDataState id)
         {
             var dao = _context.OpDataStates.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;

@@ -9,7 +9,7 @@ namespace Gravitas.Platform.Web.ViewModel.OpRoutine.MixedFeedGuide
     {
         public class BindDestPointVm
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
 
             [DisplayName("Карта")]
             public string Card { get; set; }
@@ -33,7 +33,7 @@ namespace Gravitas.Platform.Web.ViewModel.OpRoutine.MixedFeedGuide
             public string LastNodeName { get; set; }
 
             [DisplayName("Проїзд для завантаження")]
-            public long DestNodeId { get; set; }
+            public int DestNodeId { get; set; }
             public string DestNodeName { get; set; }
             
             public List<NodeItem> NodeItems { get; set; }

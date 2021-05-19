@@ -6,7 +6,8 @@ namespace Gravitas.Platform.Web.ViewModel.Employee
     {
 
         [DisplayName("Ідентифікатор ролі")]
-        public long RoleId { get; set; }
+        public int RoleId { get; set; }
+        
         [DisplayName("Назва ролі")]
         public string RoleName { get; set; }
 

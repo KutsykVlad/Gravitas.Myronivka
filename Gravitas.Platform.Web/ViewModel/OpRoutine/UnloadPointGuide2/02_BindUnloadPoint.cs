@@ -7,7 +7,7 @@ namespace Gravitas.Platform.Web.ViewModel.OpRoutine.UnloadPointGuide2
     {
         public class BindUnloadPointVm
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
 
             [DisplayName("Продукт")] public string ProductName { get; set; }
             [DisplayName("Авто")] public string TransportNo { get; set; }
@@ -22,7 +22,7 @@ namespace Gravitas.Platform.Web.ViewModel.OpRoutine.UnloadPointGuide2
             [DisplayName("Коментар")] public string Comment { get; set; }
             [DisplayName("Коментар лабораторії")] public string LabComment { get; set; }
 
-            [DisplayName("Пункт розвантаження")] public long UnloadNodeId { get; set; }
+            [DisplayName("Пункт розвантаження")] public int UnloadNodeId { get; set; }
             [DisplayName("Пункт розвантаження")] public string UnloadNodeName { get; set; }
 
             public List<VirtualUnloadPoint> NodeItems = new List<VirtualUnloadPoint>

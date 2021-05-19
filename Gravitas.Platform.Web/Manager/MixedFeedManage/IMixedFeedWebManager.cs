@@ -1,4 +1,3 @@
-using System;
 using Gravitas.Platform.Web.ViewModel;
 
 namespace Gravitas.Platform.Web.Manager.MixedFeedManage
@@ -9,7 +8,7 @@ namespace Gravitas.Platform.Web.Manager.MixedFeedManage
         MixedFeedManageVms.EditVm GetEditVm();
         void Edit_Save(MixedFeedManageVms.EditVm mixedFeedSilo);
         MixedFeedManageVms.WorkstationSiloVm GetSiloItems();
-        void Workstation_SelectSilo(long siloId);
+        void Workstation_SelectSilo(int siloId);
         void Edit_Clear();
     }
 }

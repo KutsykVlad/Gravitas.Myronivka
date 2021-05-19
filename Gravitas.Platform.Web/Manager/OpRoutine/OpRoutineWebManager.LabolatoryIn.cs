@@ -5,6 +5,7 @@ using AutoMapper;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.ExternalData.ReasonForRefund.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.TDO.Json;
@@ -15,6 +16,7 @@ using Gravitas.Platform.Web.ViewModel;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using CardType = Gravitas.Model.DomainValue.CardType;
 using Dom = Gravitas.Model.DomainValue.Dom;
 using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
@@ -24,7 +26,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 {
     public partial class OpRoutineWebManager
     {
-        public LaboratoryInVms.PrintCollisionManageVm GetLaboratoryIn_PrintCollisionManageVm(long nodeId)
+        public LaboratoryInVms.PrintCollisionManageVm GetLaboratoryIn_PrintCollisionManageVm(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.OpDataId == null) return null;
@@ -36,24 +38,24 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 NodeId = nodeId,
                 OpDataId = nodeDto.Context.OpDataId.Value,
                 SamplePrintoutVm = LaboratoryIn_SamplePrintout_GetVm(nodeDto.Context.OpDataId.Value),
-                ReasonsForRefund = _externalDataRepository.GetQuery<ExternalData.ReasonForRefund, string>().ToList(),
-                OpDataState = opDataState.HasValue ? _context.OpDataStates.First(x => x.Id == opDataState.Value).Name : string.Empty,
-                IsLabFile = _ticketRepository.GetTicketFilesByType(Dom.TicketFile.Type.LabCertificate).Any(item => item.TicketId == nodeDto.Context.TicketId)
+                ReasonsForRefund = _externalDataRepository.GetQuery<ReasonForRefund, string>().ToList(),
+                OpDataState = opDataState.HasValue ? _context.OpDataStates.First(x => x.Id == (int) opDataState.Value).Name : string.Empty,
+                IsLabFile = _ticketRepository.GetTicketFilesByType(TicketFileType.LabCertificate).Any(item => item.TicketId == nodeDto.Context.TicketId)
             };
 
             return vm;
         }
 
-        public bool LaboratoryIn_PrintCollisionInit_Return(long nodeId)
+        public bool LaboratoryIn_PrintCollisionInit_Return(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.PrintDataDisclose;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintDataDisclose;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public LaboratoryInVms.PrintLaboratoryProtocol PrintLaboratoryProtocol_GetVm(long nodeId)
+        public LaboratoryInVms.PrintLaboratoryProtocol PrintLaboratoryProtocol_GetVm(int nodeId)
         {
             var result = new LaboratoryInVms.PrintLaboratoryProtocol
             {
@@ -65,7 +67,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return result;
         }
 
-        public void PrintLaboratoryProtocol_Next(long nodeId)
+        public void PrintLaboratoryProtocol_Next(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return;
@@ -74,76 +76,76 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 			nodeDto.Context.TicketContainerId = null;
 			nodeDto.Context.OpDataId = null;
 			nodeDto.Context.OpDataComponentId = null;
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool LaboratoryIn_Idle_SelectTicketContainer(long nodeId, long ticketContainerId)
+        public bool LaboratoryIn_Idle_SelectTicketContainer(int nodeId, int ticketContainerId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            var tmpTicket = _ticketRepository.GetTicketInContainer(ticketContainerId, Dom.Ticket.Status.Processing)
+            var tmpTicket = _ticketRepository.GetTicketInContainer(ticketContainerId, TicketStatus.Processing)
                             ?? _ticketRepository.GetTicketInContainer(ticketContainerId,
-                                Dom.Ticket.Status.ToBeProcessed)
-                            ?? _ticketRepository.GetTicketInContainer(ticketContainerId, Dom.Ticket.Status.New);
+                                TicketStatus.ToBeProcessed)
+                            ?? _ticketRepository.GetTicketInContainer(ticketContainerId, TicketStatus.New);
 
-            var opData = _opDataRepository.GetLastOpData(tmpTicket.Id, Dom.OpDataState.CollisionApproved)
-                         ?? _opDataRepository.GetLastOpData(tmpTicket.Id, Dom.OpDataState.CollisionDisapproved);
+            var opData = _opDataRepository.GetLastOpData(tmpTicket.Id, OpDataState.CollisionApproved)
+                         ?? _opDataRepository.GetLastOpData(tmpTicket.Id, OpDataState.CollisionDisapproved);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.PrintCollisionManage;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintCollisionManage;
             nodeDto.Context.TicketContainerId = ticketContainerId;
             nodeDto.Context.TicketId = tmpTicket.Id;
             nodeDto.Context.OpDataId = opData.Id;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool LaboratoryIn_Idle_СollectSample(long nodeId)
+        public bool LaboratoryIn_Idle_СollectSample(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.SampleReadTruckRfid;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.SampleReadTruckRfid;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool LaboratoryIn_Idle_EditAnalysisResult(long nodeId)
+        public bool LaboratoryIn_Idle_EditAnalysisResult(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.ResultReadTrayRfid;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.ResultReadTrayRfid;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool LaboratoryIn_Idle_PrintAnalysisResult(long nodeId)
+        public bool LaboratoryIn_Idle_PrintAnalysisResult(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.PrintReadTrayRfid;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintReadTrayRfid;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool LaboratoryIn_SampleReadTruckRfid_Back(long nodeId)
+        public bool LaboratoryIn_SampleReadTruckRfid_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool LaboratoryIn_SampleBindTray_Back(long nodeId)
+        public bool LaboratoryIn_SampleBindTray_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
         
-        public bool LaboratoryIn_Idle_PrintCollisionInit(long nodeId, int ticketId)
+        public bool LaboratoryIn_Idle_PrintCollisionInit(int nodeId, int ticketId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
@@ -155,17 +157,17 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             
             nodeDto.Context.OpDataId = opDataId;
             nodeDto.Context.TicketId = ticketId;
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.PrintCollisionInit;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintCollisionInit;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public LaboratoryInVms.SampleBindAnalysisTrayVm LaboratoryIn_SampleBindAnalysisTray_GetVmData(long nodeId)
+        public LaboratoryInVms.SampleBindAnalysisTrayVm LaboratoryIn_SampleBindAnalysisTray_GetVmData(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.OpDataId == null || nodeDto.Context?.TicketId == null) return null;
             var opData = _context.SingleWindowOpDatas.FirstOrDefault(x => x.TicketId == nodeDto.Context.TicketId.Value);
             var card = _context.Cards.FirstOrDefault(e =>
-                    e.TicketContainerId == nodeDto.Context.TicketContainerId && e.TypeId == Dom.Card.Type.TicketCard);
+                    e.TicketContainerId == nodeDto.Context.TicketContainerId && e.TypeId == CardType.TicketCard);
 
             var analysisValueDescriptor = new LaboratoryInVms.AnalysisValueDescriptorVm
             {
@@ -201,19 +203,19 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 && !vmData.AnalysisValueDescriptor.EditIsInfectioned)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error,@"Виберіть значення"));
+                    NodeData.ProcessingMsg.Type.Error,@"Виберіть значення"));
                 return false;
             }
 
             var sampleCard = _context.Cards.FirstOrDefault(c =>
                 c.TicketContainerId == nodeDto.Context.TicketContainerId.Value 
-                && c.TypeId == Dom.Card.Type.LaboratoryTray
+                && c.TypeId == CardType.LaboratoryTray
                 && c.Id == c.ParentCardId);
 
             if (sampleCard == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error, @"Немає прив'язаного лотка"));
+                    NodeData.ProcessingMsg.Type.Error, @"Немає прив'язаного лотка"));
                 return false;
             }
 
@@ -232,20 +234,20 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                                     && x.AnalysisTrayRfid == analysisCard.Id) ?? new LabFacelessOpDataComponent
                                 {
                                     LabFacelessOpDataId = labFacelessOpData.Id,
-                                    StateId = Dom.OpDataState.Init,
+                                    StateId = OpDataState.Init,
                                     AnalysisTrayRfid = analysisCard.Id
                                 };
-                component.AnalysisValueDescriptor = Mapper.Map<AnalysisValueDescriptor>(vmData.AnalysisValueDescriptor)?.ToJson();
-                _opDataRepository.AddOrUpdate<LabFacelessOpDataComponent, long>(component);
+                component.AnalysisValueDescriptor = JsonConvert.SerializeObject(Mapper.Map<AnalysisValueDescriptor>(vmData.AnalysisValueDescriptor));
+                _opDataRepository.AddOrUpdate<LabFacelessOpDataComponent, int>(component);
             }
 
-            _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Success, @"Лотки прив'язано"));
+            _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Success, @"Лотки прив'язано"));
             SignalRInvoke.ReloadHubGroup(nodeDto.Id);
             
             return true;
         }
 
-        public bool LaboratoryIn_SampleBindAnalysisTray_Next(long nodeId)
+        public bool LaboratoryIn_SampleBindAnalysisTray_Next(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
@@ -255,25 +257,25 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             if (areOpDataComponents)
             {
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.SampleAddOpVisa;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.SampleAddOpVisa;
                 _nodeRepository.ClearNodeProcessingMessage(nodeId);
                 return UpdateNodeContext(nodeDto.Id, nodeDto.Context); 
             }
             _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                Dom.Node.ProcessingMsg.Type.Warning, @"Немає прив'язаних лотків"));
+                NodeData.ProcessingMsg.Type.Warning, @"Немає прив'язаних лотків"));
             return false;
         }
 
-        public bool LaboratoryIn_ResultReadTrayRfid_Back(long nodeId)
+        public bool LaboratoryIn_ResultReadTrayRfid_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             return UpdateNodeContext(nodeId, nodeDto.Context);
         }
 
-        public LaboratoryInVms.ResultEditAnalysisVm LaboratoryIn_ResultEditAnalysis_GetVm(long nodeId)
+        public LaboratoryInVms.ResultEditAnalysisVm LaboratoryIn_ResultEditAnalysis_GetVm(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.TicketId == null
@@ -350,12 +352,12 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return routineData;
         }
 
-        public bool LaboratoryIn_ResultEditAnalysis_Back(long nodeId)
+        public bool LaboratoryIn_ResultEditAnalysis_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             return UpdateNodeContext(nodeId, nodeDto.Context);
         }
 
@@ -401,7 +403,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             _context.SaveChanges();
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.ResultAddOpVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.ResultAddOpVisa;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
@@ -427,15 +429,15 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             foreach (var valueVm in vm.ValueList)
                 switch (valueVm.TargetId)
                 {
-                    case Dom.ExternalData.LabDevResultType.Ignore:
+                    case Model.DomainValue.ExternalData.LabDevResultType.Ignore:
                         break;
-                    case Dom.ExternalData.LabDevResultType.SaveAsComment:
+                    case Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment:
                         dao.Comment += $@" {valueVm.Name} = {valueVm.Value};";
                         break;
-                    case Dom.ExternalData.LabDevResultType.SaveAsHumidity:
+                    case Model.DomainValue.ExternalData.LabDevResultType.SaveAsHumidity:
                         dao.HumidityValue = (float?) valueVm.Value;
                         break;
-                    case Dom.ExternalData.LabDevResultType.SaveAsEffectiveValue:
+                    case Model.DomainValue.ExternalData.LabDevResultType.SaveAsEffectiveValue:
                         dao.EffectiveValue = (float?) valueVm.Value;
                         break;
                 }
@@ -443,22 +445,22 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             dao.DataSourceName = $@"{vm.DeviceName}";
             dao.CheckInDateTime = DateTime.Now;
 
-            _opDataRepository.Update<LabFacelessOpDataComponent, long>(dao);
+            _opDataRepository.Update<LabFacelessOpDataComponent, int>(dao);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.ResultAddOpVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.ResultAddOpVisa;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool LaboratoryIn_PrintReadTrayRfid_Back(long nodeId)
+        public bool LaboratoryIn_PrintReadTrayRfid_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             return UpdateNodeContext(nodeId, nodeDto.Context);
         }
 
-        public LaboratoryInVms.PrintAnalysisResultsVm LaboratoryIn_PrintAnalysisResults_GetVmData(long nodeId)
+        public LaboratoryInVms.PrintAnalysisResultsVm LaboratoryIn_PrintAnalysisResults_GetVmData(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.TicketId == null
@@ -538,12 +540,12 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return routineData;
         }
 
-        public bool LaboratoryIn_PrintAnalysisResult_Back(long nodeId)
+        public bool LaboratoryIn_PrintAnalysisResult_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             return UpdateNodeContext(nodeId, nodeDto.Context);
         }
 
@@ -562,30 +564,29 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             _context.SaveChanges();
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.PrintAnalysisAddOpVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintAnalysisAddOpVisa;
             return UpdateNodeContext(vm.NodeId.Value, nodeDto.Context);
         }
 
-        public LaboratoryInVms.PrintDataDiscloseVm LaboratoryIn_PrintDataDisclose_GetVm(long nodeId)
+        public LaboratoryInVms.PrintDataDiscloseVm LaboratoryIn_PrintDataDisclose_GetVm(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.OpDataId == null) return null;
 
-//            FetchLabData(nodeDto.Context.OpDataId.Value);
             var vm = new LaboratoryInVms.PrintDataDiscloseVm
             {
                 NodeId = nodeId,
                 OpDataId = nodeDto.Context.OpDataId.Value,
                 SamplePrintoutVm = LaboratoryIn_SamplePrintout_GetVm(nodeDto.Context.OpDataId.Value),
-                IsLabFile = _ticketRepository.GetTicketFilesByType(Dom.TicketFile.Type.LabCertificate).Any(item => item.TicketId == nodeDto.Context.TicketId),
-                ReasonsForRefund = _externalDataRepository.GetQuery<ExternalData.ReasonForRefund, string>().ToList(),
+                IsLabFile = _ticketRepository.GetTicketFilesByType(TicketFileType.LabCertificate).Any(item => item.TicketId == nodeDto.Context.TicketId),
+                ReasonsForRefund = _externalDataRepository.GetQuery<ReasonForRefund, string>().ToList(),
                 DocumentTypeId = _context.SingleWindowOpDatas.First(x => x.TicketId == nodeDto.Context.TicketId).DocumentTypeId
             };
 
             return vm;
         }
 
-        public bool LaboratoryIn_PrintDataDisclose_Confirm(long nodeId, bool isConfirmed)
+        public bool LaboratoryIn_PrintDataDisclose_Confirm(int nodeId, bool isConfirmed)
         {
             _nodeRepository.ClearNodeProcessingMessage(nodeId);
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -596,13 +597,13 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             if (isConfirmed)
             {
-                labFacelessOpData.StateId = Dom.OpDataState.Processed;
+                labFacelessOpData.StateId = OpDataState.Processed;
                 _opDataRepository.Update<LabFacelessOpData, Guid>(labFacelessOpData);
             }
 
             nodeDto.Context.OpRoutineStateId = isConfirmed
-                ? Dom.OpRoutine.LabolatoryIn.State.PrintAddOpVisa
-                : Dom.OpRoutine.LabolatoryIn.State.PrintCollisionInit;
+                ? Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintAddOpVisa
+                : Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintCollisionInit;
 
             return UpdateNodeContext(nodeId, nodeDto.Context);
         }
@@ -618,12 +619,12 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 || !vm.Phone3.IsNullOrWhiteSpace() && (!vm.Phone3.All(char.IsDigit) || vm.Phone3.Length != 12))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error, @"Не вірний формат телефонного номеру."));
+                    NodeData.ProcessingMsg.Type.Error, @"Не вірний формат телефонного номеру."));
                 return false;
             }
 
             var opData = _context.LabFacelessOpDatas.First(x => x.Id == nodeDto.Context.OpDataId.Value);
-            opData.StateId = Dom.OpDataState.Collision;
+            opData.StateId = OpDataState.Collision;
             if (!string.IsNullOrWhiteSpace(vm.Comment))
             {
                 opData.CollisionComment = vm.Comment;
@@ -637,11 +638,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             
             SignalRInvoke.StartSpinner(vm.NodeId);            
             Logger.Info("Laboratory collision send: Try send driver sms");
-            if (!_connectManager.SendSms(Dom.Sms.Template.DriverQualityMatchingSms, nodeDto.Context.TicketId))
+            if (!_connectManager.SendSms(SmsTemplate.DriverQualityMatchingSms, nodeDto.Context.TicketId))
                 Logger.Error("Message hasn`t been sent");
             else Logger.Info("Laboratory collision send: Driver sms send.");
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             _nodeRepository.ClearNodeProcessingMessage(vm.NodeId);
             return UpdateNodeContext(vm.NodeId, nodeDto.Context);
         }
@@ -652,7 +653,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return long.TryParse(phone, out _) ? $"38{phone}" : "";
         }
 
-        public LaboratoryInVms.PrintCollisionInitVm LaboratoryIn_GetCollisionInitVm(long nodeId)
+        public LaboratoryInVms.PrintCollisionInitVm LaboratoryIn_GetCollisionInitVm(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.TicketId == null) return null;
@@ -677,24 +678,24 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                           };
         }
 
-        public bool LaboratoryIn_PrintCollisionManage_ReturnToCollectSamples(long nodeId)
+        public bool LaboratoryIn_PrintCollisionManage_ReturnToCollectSamples(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpDataId == null || nodeDto.Context.TicketContainerId == null || nodeDto.Context.TicketId == null) return false;
 
             var opData = _context.LabFacelessOpDatas.First(x => x.Id == nodeDto.Context.OpDataId.Value);
-            opData.StateId = Dom.OpDataState.Canceled;
+            opData.StateId = OpDataState.Canceled;
             _context.SaveChanges();
 
             UnbindTrays(nodeDto.Context.TicketContainerId.Value);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.Idle;
-            _connectManager.SendSms(Dom.Sms.Template.ReturnToCollectSamples, opData.TicketId);
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
+            _connectManager.SendSms(SmsTemplate.ReturnToCollectSamples, opData.TicketId);
 
             return UpdateNodeContext(nodeId, nodeDto.Context);
         }
 
-        public bool LaboratoryIn_PrintCollisionManage_SetReturnRoute(long nodeId, string indexRefundReason)
+        public bool LaboratoryIn_PrintCollisionManage_SetReturnRoute(int nodeId, string indexRefundReason)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpDataId == null || nodeDto.Context.TicketContainerId == null) return false;
@@ -702,7 +703,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (nodeDto.Context.TicketId != null)
             {
                 var opData = _context.LabFacelessOpDatas.First(x => x.Id == nodeDto.Context.OpDataId.Value);
-                opData.StateId = Dom.OpDataState.Rejected;
+                opData.StateId = OpDataState.Rejected;
                 _context.SaveChanges();
 
                 var singleWindowOpData = _opDataRepository.GetFirstOrDefault<SingleWindowOpData, Guid>(
@@ -710,13 +711,13 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 singleWindowOpData.ReturnCauseId = indexRefundReason;
                 _opDataRepository.Update<SingleWindowOpData, Guid>(singleWindowOpData);
 
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.PrintAddOpVisa;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintAddOpVisa;
             }
 
             return UpdateNodeContext(nodeId, nodeDto.Context);
         }
         
-        public void LaboratoryIn_PrintCollisionManage_SetReloadRoute(long nodeId)
+        public void LaboratoryIn_PrintCollisionManage_SetReloadRoute(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpDataId == null || nodeDto.Context.TicketContainerId == null) return;
@@ -724,10 +725,10 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (nodeDto.Context.TicketId != null)
             {
                 var opData = _context.LabFacelessOpDatas.First(x => x.Id == nodeDto.Context.OpDataId.Value);
-                opData.StateId = Dom.OpDataState.Rejected;
+                opData.StateId = OpDataState.Rejected;
                 _context.SaveChanges();
 
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LabolatoryIn.State.PrintAddOpVisa;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintAddOpVisa;
             }
 
             UpdateNodeContext(nodeId, nodeDto.Context);
@@ -870,14 +871,14 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             var result = string.Empty;
             switch (opRoutineState.Id)
             {
-                case Dom.OpRoutine.LabolatoryIn.State.PrintAddOpVisa:
-                    var state = labFacelessOpData.StateId == Dom.OpDataState.Rejected ? "Відмовлено" : "Опрацьовано";
+                case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintAddOpVisa:
+                    var state = labFacelessOpData.StateId == OpDataState.Rejected ? "Відмовлено" : "Опрацьовано";
                     result += $"Коментар: {labFacelessOpData.Comment}, Стан: {state}";
                     break;
-                case Dom.OpRoutine.LabolatoryIn.State.PrintCollisionManage:
+                case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintCollisionManage:
                     result += labFacelessOpData.CollisionComment;
                     break;
-                case Dom.OpRoutine.LabolatoryIn.State.PrintAnalysisAddOpVisa:
+                case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintAnalysisAddOpVisa:
                     if (labFacelessOpData.EffectiveValue.HasValue) result += $" Масличність={labFacelessOpData.EffectiveValue.Value}";
                     if (labFacelessOpData.HumidityValue.HasValue) result += $", Вологість={labFacelessOpData.HumidityValue.Value}";
                     if (labFacelessOpData.ImpurityValue.HasValue) result += $", Смітна дом={labFacelessOpData.ImpurityValue.Value}";
@@ -977,7 +978,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             // Unbind trays
             var unbindRfidList = _context.Cards.Where(e =>
                                      e.TicketContainerId == ticketContainerId
-                                     && e.TypeId == Dom.Card.Type.LaboratoryTray)
+                                     && e.TypeId == CardType.LaboratoryTray)
                                  .Select(e => e.Id)
                                  .ToList();
 

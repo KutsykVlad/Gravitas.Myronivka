@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.ExternalData;
-using Gravitas.Model;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.ExternalData
 {
     public class ExternalDataWebManager : IExternalDataWebManager
     {
@@ -193,11 +191,11 @@ namespace Gravitas.Platform.Web.Manager
                 {
                     new LabEffectiveClassifierItemVm
                     {
-                        Name = Dom.LabEffectiveClassifier.DryWet
+                        Name = LabEffectiveClassifier.DryWet
                     },
                     new LabEffectiveClassifierItemVm
                     {
-                        Name = Dom.LabEffectiveClassifier.WetDry
+                        Name = LabEffectiveClassifier.WetDry
                     }
                 }
             };

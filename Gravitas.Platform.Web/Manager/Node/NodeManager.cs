@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.Platform.Web.ViewModel;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.Node
 {
     public class NodeWebManager : INodeWebManager
     {
@@ -17,7 +16,7 @@ namespace Gravitas.Platform.Web.Manager
             _context = context;
         }
 
-        public NodeProgresVm GetNodeProgress(long id)
+        public NodeProgresVm GetNodeProgress(int id)
         {
             var nodeDto = _nodeRepository.GetNodeDto(id);
             if (nodeDto.Context.OpRoutineStateId == null) return null;

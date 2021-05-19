@@ -6,7 +6,7 @@ namespace Gravitas.Platform.Web.ViewModel
     {
         public class CleanupVm
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
             
             [DisplayName("Час очистки (хв)")]
             public int CleanupTime { get; set; }

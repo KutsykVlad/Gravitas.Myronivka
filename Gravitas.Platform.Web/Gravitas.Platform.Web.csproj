@@ -347,7 +347,6 @@
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.LoadPointType1.cs" />
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.MixedFeedGuide.cs" />
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.MixedFeedLoad.cs" />
-    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.UnloadCheckPoint.cs" />
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.UnloadPointGuide.cs" />
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.UnloadPointGuide2.cs" />
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.UnloadPointType1.cs" />

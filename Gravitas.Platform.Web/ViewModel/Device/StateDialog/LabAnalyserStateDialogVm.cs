@@ -9,10 +9,10 @@ namespace Gravitas.Platform.Web.ViewModel
     {
         public class LabAnalyserStateDialogVm
         {
-            public long? NodeId { get; set; }
+            public int? NodeId { get; set; }
             public bool IsActualData { get; set; }
 
-            public long? DeviceId { get; set; }
+            public int? DeviceId { get; set; }
             public string DeviceName { get; set; }
 
             [DisplayName("Дата\\Час")] 
@@ -27,7 +27,7 @@ namespace Gravitas.Platform.Web.ViewModel
         public class LabAnalyserValueVm
         {
             [HiddenInput] 
-            public long Id { get; set; }
+            public int Id { get; set; }
 
             [DisplayName("Назва показника")] 
             public string Name { get; set; }

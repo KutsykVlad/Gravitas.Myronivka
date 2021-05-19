@@ -1,9 +1,9 @@
 ﻿using Gravitas.Platform.Web.ViewModel;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.Node
 {
     public interface INodeWebManager
     {
-        NodeProgresVm GetNodeProgress(long id);
+        NodeProgresVm GetNodeProgress(int id);
     }
 }

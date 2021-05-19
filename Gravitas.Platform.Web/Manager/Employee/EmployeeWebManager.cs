@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Card;
 using Gravitas.DAL.Repository.EmployeeRoles;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.Infrastructure.Platform.ApiClient.Devices;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
 using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
-using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel.Employee;
-using Dom = Gravitas.Model.DomainValue.Dom;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using CardType = Gravitas.Model.DomainValue.CardType;
 
 namespace Gravitas.Platform.Web.Manager.Employee
 {
@@ -43,7 +38,7 @@ namespace Gravitas.Platform.Web.Manager.Employee
 
         public EmployeeListVm GetEmployeeList(string name = "", int pageNumber = 1, int pageSize = 25, int? roleId = null)
         {
-            bool SearchFilter(ExternalData.Employee item)
+            bool SearchFilter(Model.DomainModel.ExternalData.Employee.DAO.Employee item)
             {
                 return IsContaining(item.FullName, name) || IsContaining(item.ShortName, name);
             }
@@ -100,7 +95,7 @@ namespace Gravitas.Platform.Web.Manager.Employee
                 ItemsCount = listCount,
                 CurrentPage = pageNumber,
                 PageSize = pageSize,
-                Roles = _employeeRolesRepository.GetQuery<Role, long>().ToList()
+                Roles = _employeeRolesRepository.GetQuery<Role, int>().ToList()
             };
         }
 
@@ -174,13 +169,13 @@ namespace Gravitas.Platform.Web.Manager.Employee
             {
                 _cardRepository.Add<Card, string>(new Card
                 {
-                    Id = rfidState.InData.Rifd, IsActive = true, TypeId = Dom.Card.Type.EmployeeCard, EmployeeId = employeeId
+                    Id = rfidState.InData.Rifd, IsActive = true, TypeId = CardType.EmployeeCard, EmployeeId = employeeId
                 });
                 return (true, @"Картка створена та при'вязана успішно");
             }
 
             if (!_opRoutineManager.IsRfidCardValid(out var cardErrMsg, card,
-                Dom.Card.Type.EmployeeCard))
+                CardType.EmployeeCard))
                 return (false, cardErrMsg.Text);
 
             if (card.EmployeeId != null) return (false, @"Картка прив'язана до іншого робітника");

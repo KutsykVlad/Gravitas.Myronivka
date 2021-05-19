@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {
     public partial class OpRoutineWebManager
     {
-        public SecurityOutVms.ShowOperationsListVm SecurityOut_ShowOperationsList_GetData(long nodeId)
+        public SecurityOutVms.ShowOperationsListVm SecurityOut_ShowOperationsList_GetData(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.TicketId == null)
@@ -31,11 +30,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
 
             var ticket = _context.Tickets.First(x => x.Id == nodeDto.Context.TicketId.Value);
-            var tickets = _context.Tickets.Where(x => x.ContainerId == ticket.ContainerId && x.StatusId == Dom.Ticket.Status.Completed)
+            var tickets = _context.Tickets.Where(x => x.TicketContainerId == ticket.TicketContainerId && x.StatusId == TicketStatus.Completed)
                 .OrderBy(x => x.OrderNo)
                 .Select(x => x.Id)
                 .ToList();
-            var allTickets = new List<long>();
+            var allTickets = new List<int>();
             allTickets.AddRange(tickets);
             allTickets.Add(ticket.Id);
             
@@ -45,13 +44,13 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 Tickets = allTickets,
                 TruckNo = truckNo,
                 TrailerNo = trailerNo,
-                IsTechRoute = singleWindowOpData.SupplyCode == Dom.SingleWindowOpData.TechnologicalSupplyCode
+                IsTechRoute = singleWindowOpData.SupplyCode == TechRoute.SupplyCode
             };
 
             return routineData;
         }
 
-        public bool SecurityOut_ShowOperationsList_Confirm(long nodeId, bool isConfirmed)
+        public bool SecurityOut_ShowOperationsList_Confirm(int nodeId, bool isConfirmed)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.OpDataId == null) return false;
@@ -64,11 +63,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             if(isConfirmed)
             {
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SecurityOut.State.EditStampList;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityOut.State.EditStampList;
             }
             else
             {
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SecurityOut.State.Idle;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityOut.State.Idle;
                 _nodeRepository.ClearNodeProcessingMessage(nodeId);
                 nodeDto.Context.TicketContainerId = null;
                 nodeDto.Context.TicketId = null;
@@ -78,12 +77,12 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool SecurityOut_EditStampList_Back(long nodeId)
+        public bool SecurityOut_EditStampList_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpRoutineStateId == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SecurityOut.State.ShowOperationsList;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityOut.State.ShowOperationsList;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
@@ -98,25 +97,25 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             securityCheckOutOpData.SealList = vm.StampList;
             _context.SaveChanges();
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SecurityOut.State.AddRouteControlVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityOut.State.AddRouteControlVisa;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public void SecurityOut_CheckOwnTransport_Next(long nodeId)
+        public void SecurityOut_CheckOwnTransport_Next(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpRoutineStateId == null) return;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SecurityOut.State.AddRouteControlVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityOut.State.AddRouteControlVisa;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public void SecurityOut_CheckOwnTransport_Reject(long nodeId)
+        public void SecurityOut_CheckOwnTransport_Reject(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpRoutineStateId == null) return;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SecurityOut.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityOut.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
     }

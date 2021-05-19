@@ -154,28 +154,28 @@ namespace Gravitas.Platform.Web.Manager.Device
                                 Id = 1,
                                 Name = "Вологість",
                                 Value = labFossState.InData.HumidityValue,
-                                TargetId = ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Протеїн",
                                 Value = labFossState.InData.ProteinValue,
-                                TargetId = ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Олійність",
                                 Value = labFossState.InData.OilValue,
-                                TargetId = ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Fibre",
                                 Value = labFossState.InData.FibreValue,
-                                TargetId = ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment
                             }
                         }
                     };
@@ -199,14 +199,14 @@ namespace Gravitas.Platform.Web.Manager.Device
                                 Id = 1,
                                 Name = "Результат 1",
                                 Value = labBrukerState.InData.Result1,
-                                TargetId = ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Результат 2",
                                 Value = labBrukerState.InData.Result2,
-                                TargetId = ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment
                             }
                         }
                     };
@@ -229,28 +229,28 @@ namespace Gravitas.Platform.Web.Manager.Device
                                 Id = 1,
                                 Name = "Білок",
                                 Value = labInfrascanState.InData.ProteinValue,
-                                TargetId = ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Жир",
                                 Value = labInfrascanState.InData.FatValue,
-                                TargetId = ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Волога",
                                 Value = labInfrascanState.InData.HumidityValue,
-                                TargetId = ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Клітковина",
                                 Value = labInfrascanState.InData.CelluloseValue,
-                                TargetId = ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = Model.DomainValue.ExternalData.LabDevResultType.SaveAsComment
                             }
                         }
                     };

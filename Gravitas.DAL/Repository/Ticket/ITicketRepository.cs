@@ -2,6 +2,7 @@
 using Gravitas.DAL.Repository._Base;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Ticket.DAO;
+using TicketFileType = Gravitas.Model.DomainValue.TicketFileType;
 using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.DAL.Repository.Ticket
@@ -13,6 +14,6 @@ namespace Gravitas.DAL.Repository.Ticket
         TicketContainer NewTicketContainer();
         Model.DomainModel.Ticket.DAO.Ticket NewTicket(int ticketContainerId);
         IEnumerable<TicketFile> GetTicketFiles(int ticketId);
-        IEnumerable<TicketFile> GetTicketFilesByType(int typeId);
+        IEnumerable<TicketFile> GetTicketFilesByType(TicketFileType typeId);
     }
 }

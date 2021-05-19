@@ -24,7 +24,7 @@ namespace Gravitas.Model.DomainModel.OpData.TDO.Detail
         public int Id { get; set; }
         public DateTime? CheckInDateTime { get; set; }
         public Guid LabFacelessOpDataId { get; set; }
-        public int StateId { get; set; }
+        public DomainValue.OpDataState StateId { get; set; }
         public int NodeId { get; set; }
         public string AnalysisTrayRfid { get; set; }
         public AnalysisValueDescriptor AnalysisValueDescriptor { get; set; }

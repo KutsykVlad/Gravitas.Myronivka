@@ -7,7 +7,7 @@ namespace Gravitas.Platform.Web.ViewModel.OpRoutine.LoadPointGuide2
     {
         public class BindDestPointVm
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
 
             [DisplayName("Картка")]
             public string Card { get; set; }
@@ -28,7 +28,7 @@ namespace Gravitas.Platform.Web.ViewModel.OpRoutine.LoadPointGuide2
             public bool IsThirdPartyCarrier { get; set; }
 
             [DisplayName("Точка призначення")]
-            public long DestNodeId { get; set; }
+            public int DestNodeId { get; set; }
 
             public string DestNodeName { get; set; }
 

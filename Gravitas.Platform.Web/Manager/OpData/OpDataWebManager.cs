@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Node;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO.Base;
 using Gravitas.Model.DomainModel.OpData.TDO.Json;
-using Gravitas.Model.Dto;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Models;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.NonStandard;
+using Gravitas.Platform.Web.ViewModel.OpData.List;
 using Gravitas.Platform.Web.ViewModel.OpData.NonStandart;
 using Microsoft.Ajax.Utilities;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using Newtonsoft.Json;
 using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
 using LabFacelessOpDataComponent = Gravitas.Model.DomainModel.OpData.TDO.Detail.LabFacelessOpDataComponent;
 
@@ -31,40 +29,40 @@ namespace Gravitas.Platform.Web.Manager.OpData
         private readonly IOpDataRepository _opDataRepository;
         private readonly GravitasDbContext _context;
 
-        private Dictionary<long, string> States = new Dictionary<long, string>
+        private Dictionary<OpDataState, string> States = new Dictionary<OpDataState, string>
         {
             {
-                Dom.OpDataState.Init, "Бланк"
+                OpDataState.Init, "Бланк"
             },
             {
-                Dom.OpDataState.Processing, "В обробці"
+                OpDataState.Processing, "В обробці"
             },
             {
-                Dom.OpDataState.Collision, "На погодженні"
+                OpDataState.Collision, "На погодженні"
             },
             {
-                Dom.OpDataState.CollisionApproved, "Погодженно"
+                OpDataState.CollisionApproved, "Погодженно"
             },
             {
-                Dom.OpDataState.CollisionDisapproved, "Відмовлено у погодженні"
+                OpDataState.CollisionDisapproved, "Відмовлено у погодженні"
             },
             {
-                Dom.OpDataState.Rejected, "Відмовлено"
+                OpDataState.Rejected, "Відмовлено"
             },
             {
-                Dom.OpDataState.Canceled, "Скасовано"
+                OpDataState.Canceled, "Скасовано"
             },
             {
-                Dom.OpDataState.Processed, "Виконано"
+                OpDataState.Processed, "Виконано"
             },
             {
-                Dom.OpDataState.PartLoad, "Часткове завантаження"
+                OpDataState.PartLoad, "Часткове завантаження"
             },
             {
-                Dom.OpDataState.PartUnload, "Часткове розвантаження"
+                OpDataState.PartUnload, "Часткове розвантаження"
             },
             {
-                Dom.OpDataState.Reload, "Перезавантаження"
+                OpDataState.Reload, "Перезавантаження"
             }
         };
 
@@ -258,7 +256,7 @@ namespace Gravitas.Platform.Web.Manager.OpData
                     EffectiveValue = e.EffectiveValue,
                     Comment = e.Comment,
                     AnalysisTrayRfid = e.AnalysisTrayRfid,
-                    AnalysisValueDescriptor = AnalysisValueDescriptor.FromJson(e.AnalysisValueDescriptor)
+                    AnalysisValueDescriptor = JsonConvert.DeserializeObject<AnalysisValueDescriptor>(e.AnalysisValueDescriptor)
                 }).ToList()
             };
 
@@ -329,10 +327,10 @@ namespace Gravitas.Platform.Web.Manager.OpData
                     return singleWindowOpData.SupplyCode;
                 case LabFacelessOpData labFacelessOpData:
                     return $"В:{labFacelessOpData.HumidityValue} З:{labFacelessOpData.ImpurityValue} П/М:{labFacelessOpData.EffectiveValue}\n" +
-                           $"{labFacelessOpData.OpVisaSet.FirstOrDefault(e => e.OpRoutineStateId == Dom.OpRoutine.LabolatoryIn.State.PrintCollisionManage)?.Message}";
+                           $"{labFacelessOpData.OpVisaSet.FirstOrDefault(e => e.OpRoutineStateId == Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintCollisionManage)?.Message}";
                 case ScaleOpData scaleOpData:
                     return
-                        $" {(scaleOpData.TypeId == Dom.ScaleOpData.Type.Tare ? "Tара" : "Брутто")}: {scaleOpData.TruckWeightValue ?? 0 + scaleOpData.TrailerWeightValue ?? 0}";
+                        $" {(scaleOpData.TypeId == ScaleOpDataType.Tare ? "Tара" : "Брутто")}: {scaleOpData.TruckWeightValue ?? 0 + scaleOpData.TrailerWeightValue ?? 0}";
                 case NonStandartOpData nonStandartOpData:
                     return nonStandartOpData.Message;
                 case LoadGuideOpData loadGuideOpData:

@@ -30,7 +30,7 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
     public class LabFacelessOpDataComponent : BaseEntity<int>
     {
         public Guid LabFacelessOpDataId { get; set; }
-        public int StateId { get; set; }
+        public DomainValue.OpDataState StateId { get; set; }
         public int NodeId { get; set; }
         public string AnalysisTrayRfid { get; set; }
         public string AnalysisValueDescriptor { get; set; }

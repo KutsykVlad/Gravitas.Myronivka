@@ -101,9 +101,9 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             _context = context;
         }
 
-        private bool UpdateNodeContext(long nodeId, NodeContext newContext)
+        private bool UpdateNodeContext(int nodeId, NodeContext newContext)
         {
-            if (newContext.TicketContainerId != null && !_nodeRepository.IsFirstState(nodeId, newContext, Dom.OpRoutine.Processor.WebUI))
+            if (newContext.TicketContainerId != null)
                 _trafficRepository.OnNodeHandle(newContext.TicketContainerId.Value, nodeId);
 
             var result = _nodeRepository.UpdateNodeContext(nodeId, newContext);
@@ -111,18 +111,18 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (!result)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeId,
-                    new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Error, @"Не валідна спроба зміни стану вузла."));
+                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Не валідна спроба зміни стану вузла."));
                 return false;
             }
 
             SignalRInvoke.ReloadHubGroup(nodeId);
-            return result;
+            return true;
         }
 
-        private void SendWrongContextMessage(long nodeId)
+        private void SendWrongContextMessage(int nodeId)
         {
             _opRoutineManager.UpdateProcessingMessage(nodeId,
-                new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Error, @"Хибний контекст вузла"));
+                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Хибний контекст вузла"));
         }
     }
 }

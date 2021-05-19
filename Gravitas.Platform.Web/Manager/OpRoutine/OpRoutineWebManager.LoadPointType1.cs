@@ -1,39 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO.Json;
 using Gravitas.Model.DomainValue;
-using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel;
 using Newtonsoft.Json;
-using Dom = Gravitas.Model.DomainValue.Dom;
-using SingleWindowVms = Gravitas.Platform.Web.ViewModel.OpRoutine.SingleWindow.SingleWindowVms;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {
     public partial class OpRoutineWebManager
     {
-        public bool LoadPointType1_ConfirmOperation_Next(long nodeId)
+        public bool LoadPointType1_ConfirmOperation_Next(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpRoutineStateId == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LoadPointType1.State.AddOperationVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointType1.State.AddOperationVisa;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool LoadPointType1_AddOperationVisa_Back(long nodeId)
+        public bool LoadPointType1_AddOperationVisa_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpRoutineStateId == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LoadPointType1.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointType1.State.Idle;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool LoadPointType1_IdleWorkstation_Back(long nodeId)
+        public bool LoadPointType1_IdleWorkstation_Back(int nodeId)
         {
             // Validate node context
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -43,11 +39,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return false;
             }
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LoadPointType1.State.Workstation;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointType1.State.Workstation;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool LoadPointType1_Workstation_Process(long nodeId)
+        public bool LoadPointType1_Workstation_Process(int nodeId)
         {
             // Validate node context
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -57,11 +53,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return false;
             }
 
-            nodeDto.Context.OpRoutineStateId = nodeDto.Group == NodeGroup.Load ? Dom.OpRoutine.LoadPointType1.State.Idle : Dom.OpRoutine.UnloadPointType1.State.Idle;
+            nodeDto.Context.OpRoutineStateId = nodeDto.Group == NodeGroup.Load ? Model.DomainValue.OpRoutine.LoadPointType1.State.Idle : Model.DomainValue.OpRoutine.UnloadPointType1.State.Idle;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public LoadPointType1Vms.IdleVm LoadPointType1_IdleVm(long nodeId)
+        public LoadPointType1Vms.IdleVm LoadPointType1_IdleVm(int nodeId)
         {
             var vm = new LoadPointType1Vms.IdleVm {NodeId = nodeId};
 
@@ -129,7 +125,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return vm;
         }
 
-        public void LoadPointType1_Workstation_SetNodeActive(long nodeId)
+        public void LoadPointType1_Workstation_SetNodeActive(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto == null) return;
@@ -137,7 +133,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (!nodeDto.IsActive) _nodeManager.ChangeNodeState(nodeId, true);
         }
 
-        public void LoadPointType1_ConfirmOperation_Cancel(long nodeId)
+        public void LoadPointType1_ConfirmOperation_Cancel(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.OpDataId == null)
@@ -149,14 +145,14 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             var opData = _context.LoadPointOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
             if (opData == null) return;
 
-            opData.StateId = Dom.OpDataState.Canceled;
+            opData.StateId = OpDataState.Canceled;
             _context.SaveChanges();
             
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LoadPointType1.State.AddOperationVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointType1.State.AddOperationVisa;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public void LoadPointType1_ConfirmOperation_Reject(long nodeId)
+        public void LoadPointType1_ConfirmOperation_Reject(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.OpDataId == null)
@@ -167,14 +163,14 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             
             var opData = _context.LoadPointOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
             if (opData == null) return;
-            opData.StateId = Dom.OpDataState.Rejected;
+            opData.StateId = OpDataState.Rejected;
             _context.SaveChanges();
             
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LoadPointType1.State.AddOperationVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointType1.State.AddOperationVisa;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public void LoadPointType1_AddChangeStateVisa_Back(long nodeId)
+        public void LoadPointType1_AddChangeStateVisa_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null)
@@ -183,24 +179,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return;
             }
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LoadPointType1.State.Idle;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
-        }
-        
-        public void LoadPointType1_Idle_ChangeState(long nodeId)
-        {
-            var nodeDto = _nodeRepository.GetNodeDto(nodeId);
-            if (nodeDto?.Context == null)
-            {
-                SendWrongContextMessage(nodeId);
-                return;
-            }
-
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LoadPointType1.State.AddChangeStateVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointType1.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
         
-        public void LoadPointType1_Idle_GetTareValue(long nodeId)
+        public void LoadPointType1_Idle_ChangeState(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null)
@@ -209,7 +192,20 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return;
             }
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LoadPointType1.State.GetTareValue;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointType1.State.AddChangeStateVisa;
+            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+        }
+        
+        public void LoadPointType1_Idle_GetTareValue(int nodeId)
+        {
+            var nodeDto = _nodeRepository.GetNodeDto(nodeId);
+            if (nodeDto?.Context == null)
+            {
+                SendWrongContextMessage(nodeId);
+                return;
+            }
+
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointType1.State.GetTareValue;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
     }

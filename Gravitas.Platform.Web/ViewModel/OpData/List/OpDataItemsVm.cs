@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Gravitas.Platform.Web.ViewModel.OpData.List;
 
 // ReSharper disable once CheckNamespace
 namespace Gravitas.Platform.Web.ViewModel {

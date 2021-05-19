@@ -4,16 +4,14 @@ using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel.OpRoutine.UnloadPointGuide2;
-using Dom = Gravitas.Model.DomainValue.Dom;
 using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {
     public partial class OpRoutineWebManager
     {
-        public bool UnloadPointGuide2_Idle_SelectTicketContainer(long nodeId, long ticketContainerId)
+        public bool UnloadPointGuide2_Idle_SelectTicketContainer(int nodeId, int ticketContainerId)
         {
             // Validate node context
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -23,12 +21,12 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return false;
             }
 
-            var ticket = _ticketRepository.GetTicketInContainer(ticketContainerId, Dom.Ticket.Status.Processing);
+            var ticket = _ticketRepository.GetTicketInContainer(ticketContainerId, TicketStatus.Processing);
             if (ticket == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
                     new NodeProcessingMsgItem(
-                        Dom.Node.ProcessingMsg.Type.Error,
+                        NodeData.ProcessingMsg.Type.Error,
                         $@"Маршрут не знадено. Маршрутний лист Id:{ticketContainerId}"));
                 return false;
             }
@@ -40,7 +38,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             {
                 unloadGuideOpData = new UnloadGuideOpData
                 {
-                    StateId = Dom.OpDataState.Init,
+                    StateId = OpDataState.Init,
                     NodeId = nodeId,
                     TicketId = ticket.Id,
                     CheckInDateTime = DateTime.Now,
@@ -50,14 +48,14 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
 
             _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointGuide2.State.BindUnloadPoint;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointGuide2.State.BindUnloadPoint;
             nodeDto.Context.TicketContainerId = ticketContainerId;
             nodeDto.Context.TicketId = ticket.Id;
             nodeDto.Context.OpDataId = unloadGuideOpData.Id;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public UnloadPointGuide2Vms.BindUnloadPointVm UnloadPointGuide2_BindUnloadPoint_GetVm(long nodeId)
+        public UnloadPointGuide2Vms.BindUnloadPointVm UnloadPointGuide2_BindUnloadPoint_GetVm(int nodeId)
         {
             // Validate node context
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -73,7 +71,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             var routeId = _context.Tickets.First(x => x.Id == nodeDto.Context.TicketId.Value)?.RouteTemplateId;
             if (!routeId.HasValue) return vm;
             
-            var ticketId = _ticketRepository.GetTicketInContainer(nodeDto.Context.TicketContainerId.Value, Dom.Ticket.Status.Processing)?.Id;
+            var ticketId = _ticketRepository.GetTicketInContainer(nodeDto.Context.TicketContainerId.Value, TicketStatus.Processing)?.Id;
 
             if (ticketId == null) return vm;
 
@@ -104,7 +102,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return vm;
         }
 
-        public bool UnloadPointGuide2_BindUnloadPoint_Back(long nodeId)
+        public bool UnloadPointGuide2_BindUnloadPoint_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto.Context.TicketContainerId == null)
@@ -115,7 +113,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             _nodeRepository.ClearNodeProcessingMessage(nodeId);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointGuide2.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointGuide2.State.Idle;
             nodeDto.Context.TicketContainerId = null;
             nodeDto.Context.TicketId = null;
             nodeDto.Context.OpDataId = null;
@@ -146,7 +144,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (!_routesInfrastructure.GetNextNodes(ticket.Id).Contains(nodeDto.Id))
                 {
                     _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
-                        new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Warning, "Автомобіль не закінчив обробку на попередніх вузлах"));
+                        new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "Автомобіль не закінчив обробку на попередніх вузлах"));
                 
                     return false;
                 }
@@ -154,11 +152,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 _routesInfrastructure.MoveForward(ticket.Id, vm.NodeId);
             }
             
-            unloadGuideOpData.UnloadPointNodeId = (long) NodeIdValue.UnloadPoint50;
+            unloadGuideOpData.UnloadPointNodeId = (int) NodeIdValue.UnloadPoint50;
             _opDataRepository.AddOrUpdate<UnloadGuideOpData, Guid>(unloadGuideOpData);
 
             nodeDto.Context.OpProcessData = vm.UnloadNodeId;
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointGuide2.State.AddOpVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointGuide2.State.AddOpVisa;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
     }

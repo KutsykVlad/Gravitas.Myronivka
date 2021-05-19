@@ -1,11 +1,8 @@
-﻿using Gravitas.Model;
-using Dom = Gravitas.Model.DomainValue.Dom;
-
-namespace Gravitas.Platform.Web.Manager.OpRoutine
+﻿namespace Gravitas.Platform.Web.Manager.OpRoutine
 {
     public partial class OpRoutineWebManager
     {
-        public bool SecurityIn_Entry_Cancelation(long nodeId)
+        public bool SecurityIn_Entry_Cancelation(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null)
@@ -14,7 +11,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return false;
             }
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SecurityIn.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.Idle;
             _nodeRepository.ClearNodeProcessingMessage(nodeId);
             nodeDto.Context.TicketContainerId = null;
             nodeDto.Context.TicketId = null;
@@ -22,21 +19,21 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return UpdateNodeContext(nodeId, nodeDto.Context);
         }
 
-        public void SecurityIn_CheckOwnTransport_Next(long nodeId)
+        public void SecurityIn_CheckOwnTransport_Next(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpRoutineStateId == null) return;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SecurityIn.State.AddOperationVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public void SecurityIn_CheckOwnTransport_Reject(long nodeId)
+        public void SecurityIn_CheckOwnTransport_Reject(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpRoutineStateId == null) return;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SecurityIn.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
     }

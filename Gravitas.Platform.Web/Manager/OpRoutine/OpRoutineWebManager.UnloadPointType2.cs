@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using CardType = Gravitas.Model.DomainValue.CardType;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {
     public partial class OpRoutineWebManager
     {
-        public bool UnloadPointType2_ConfirmOperation_Next(long nodeId, string acceptancePointCode)
+        public bool UnloadPointType2_ConfirmOperation_Next(int nodeId, string acceptancePointCode)
         {
             if (acceptancePointCode == null) return false;
 
@@ -27,20 +24,20 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             singleWindowOpData.CollectionPointId = _context.AcceptancePoints.First(x=> x.Code == acceptancePointCode).Id;
             _opDataRepository.Update<SingleWindowOpData, Guid>(singleWindowOpData);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointType2.State.AddOperationVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointType2.State.AddOperationVisa;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool UnloadPointType2_AddOperationVisa_Back(long nodeId)
+        public bool UnloadPointType2_AddOperationVisa_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context.OpRoutineStateId == null) return false;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointType2.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointType2.State.Idle;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool UnloadPointType2_IdleWorkstation_Back(long nodeId)
+        public bool UnloadPointType2_IdleWorkstation_Back(int nodeId)
         {
             // Validate node context
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -50,11 +47,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return false;
             }
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointType2.State.Workstation;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointType2.State.Workstation;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public bool UnloadPointType2_Workstation_Process(long nodeId)
+        public bool UnloadPointType2_Workstation_Process(int nodeId)
         {
             // Validate node context
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -64,11 +61,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return false;
             }
 
-            nodeDto.Context.OpRoutineStateId = nodeDto.Group == NodeGroup.Load ? Dom.OpRoutine.LoadPointType1.State.Idle : Dom.OpRoutine.UnloadPointType2.State.Idle;
+            nodeDto.Context.OpRoutineStateId = nodeDto.Group == NodeGroup.Load ? Model.DomainValue.OpRoutine.LoadPointType1.State.Idle : Model.DomainValue.OpRoutine.UnloadPointType2.State.Idle;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public UnloadPointType2Vms.IdleVm UnloadPointType2_IdleVm(long nodeId)
+        public UnloadPointType2Vms.IdleVm UnloadPointType2_IdleVm(int nodeId)
         {
             var vm = new UnloadPointType2Vms.IdleVm();
             vm.NodeId = nodeId;
@@ -82,15 +79,15 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             var card = _ticketRepository
                 .GetSingleOrDefault<Card, string>(e =>
                     e.TicketContainerId == nodeDto.Context.TicketContainerId.Value &&
-                    e.TypeId == Dom.Card.Type.TicketCard);
+                    e.TypeId == CardType.TicketCard);
             if (card != null) vm.BindedTruck.CardNumber = card.No.ToString();
 
             var ticketId = (_ticketRepository.GetTicketInContainer(nodeDto.Context.TicketContainerId.Value,
-                                Dom.Ticket.Status.Processing)
+                                TicketStatus.Processing)
                             ?? _ticketRepository.GetTicketInContainer(nodeDto.Context.TicketContainerId.Value,
-                                Dom.Ticket.Status.ToBeProcessed)
+                                TicketStatus.ToBeProcessed)
                             ?? _ticketRepository.GetTicketInContainer(nodeDto.Context.TicketContainerId.Value,
-                                Dom.Ticket.Status.New)
+                                TicketStatus.New)
                 )?.Id;
 
             if (ticketId == null) return vm;
@@ -121,13 +118,13 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 }
 
                 var currentBrutto = _context.ScaleOpDatas.Where(x => x.TicketId == nodeDto.Context.TicketId.Value
-                                                                                       && x.TypeId == Dom.ScaleOpData.Type.Gross
-                                                                                       && x.StateId == Dom.OpDataState.Processed)
+                                                                                       && x.TypeId == ScaleOpDataType.Gross
+                                                                                       && x.StateId == OpDataState.Processed)
                     .OrderByDescending(x => x.Id)
                     .FirstOrDefault();
                 var currentTare = _context.ScaleOpDatas.Where(x => x.TicketId == nodeDto.Context.TicketId.Value
-                                                                                     && x.TypeId == Dom.ScaleOpData.Type.Tare
-                                                                                     && x.StateId == Dom.OpDataState.Processed)
+                                                                                     && x.TypeId == ScaleOpDataType.Tare
+                                                                                     && x.StateId == OpDataState.Processed)
                     .OrderByDescending(x => x.Id)
                     .FirstOrDefault();
 
@@ -143,7 +140,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return vm;
         }
 
-        public void UnloadPointType2_Workstation_SetNodeActive(long nodeId)
+        public void UnloadPointType2_Workstation_SetNodeActive(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto == null) return;
@@ -151,7 +148,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (!nodeDto.IsActive) _nodeManager.ChangeNodeState(nodeId, true);
         }
 
-        public void UnloadPointType2_AddChangeStateVisa_Back(long nodeId)
+        public void UnloadPointType2_AddChangeStateVisa_Back(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null)
@@ -160,11 +157,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return;
             }
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointType2.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointType2.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        public void UnloadPointType2_Idle_ChangeState(long nodeId)
+        public void UnloadPointType2_Idle_ChangeState(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null)
@@ -173,7 +170,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return;
             }
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointType2.State.AddChangeStateVisa;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointType2.State.AddChangeStateVisa;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
