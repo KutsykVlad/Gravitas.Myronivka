@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Gravitas.Model.DomainValue;
+using Gravitas.Platform.Web.ViewModel.OpData.Base;
 
 namespace Gravitas.Platform.Web.ViewModel
 {

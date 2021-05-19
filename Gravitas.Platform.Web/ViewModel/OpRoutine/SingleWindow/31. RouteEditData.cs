@@ -8,12 +8,13 @@ namespace Gravitas.Platform.Web.ViewModel
     {
         public class Route
         {
-            public long NodeId { get; set; }
-            public long? TicketId { get; set; }
+            public int NodeId { get; set; }
+            public int? TicketId { get; set; }
 
             public IEnumerable<SelectListItem> Items { get; set; }
 
-            [DisplayName("Доступні маршрути")] public int SelectedId { get; set; }
+            [DisplayName("Доступні маршрути")] 
+            public int SelectedId { get; set; }
 
             public string RouteJson { get; set; }
         }

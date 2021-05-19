@@ -4,6 +4,7 @@ using System.Web.Http;
 using Gravitas.DAL.Repository.Queue;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager;
+using Gravitas.Platform.Web.Manager.Admin;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
 

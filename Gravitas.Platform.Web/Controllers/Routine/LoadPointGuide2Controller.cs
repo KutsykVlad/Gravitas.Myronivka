@@ -1,6 +1,5 @@
 using System.Net;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.ViewModel.OpRoutine.LoadPointGuide2;
@@ -44,7 +43,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 02_BindLoadPoint
 
         [HttpGet, ChildActionOnly]
-        public ActionResult BindLoadPoint(long? nodeId)
+        public ActionResult BindLoadPoint(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             

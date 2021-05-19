@@ -1,14 +1,13 @@
 ﻿using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Platform.SignalRClient;
-using Gravitas.Model;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.Manager.OpRoutine;
+using Gravitas.Platform.Web.Manager.Ticket;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers.Routine
 {
@@ -34,7 +33,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 01_Idle
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int? nodeId)
         {
             return nodeId.HasValue
                 ? (ActionResult) PartialView("../OpRoutine/LabolatoryIn/01_Idle",
@@ -306,9 +305,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult PrintDataDisclose_SaveFile(long nodeId, HttpPostedFileBase laboratoryFile)
+        public ActionResult PrintDataDisclose_SaveFile(int nodeId, HttpPostedFileBase laboratoryFile)
         {
-            _ticketWebManager.UploadFile(nodeId, laboratoryFile, Dom.TicketFile.Type.LabCertificate);
+            _ticketWebManager.UploadFile(nodeId, laboratoryFile, TicketFileType.LabCertificate);
             SignalRInvoke.ReloadHubGroup(nodeId);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }

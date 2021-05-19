@@ -1,17 +1,18 @@
-﻿using Gravitas.Platform.Web.ViewModel;
+﻿using Gravitas.Model.DomainValue;
+using Gravitas.Platform.Web.ViewModel;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.Device
 {
     public interface IDeviceWebManager
     {
-        long? GetDeviceType(long deviceId);
+        DeviceType? GetDeviceType(int deviceId);
 
-        DeviceStateVms.WeighbridgeStateVm GetWeightbridgeStateVm(long nodeId);
+        DeviceStateVms.WeighbridgeStateVm GetWeightbridgeStateVm(int nodeId);
 
-        DeviceStateVms.LabFossStateVm GetLabFossStateVm(long deviceId);
-        DeviceStateVms.LabBrukerStateVm GetLabBrukerStateVm(long deviceId);
+        DeviceStateVms.LabFossStateVm GetLabFossStateVm(int deviceId);
+        DeviceStateVms.LabBrukerStateVm GetLabBrukerStateVm(int deviceId);
 
-        DeviceStateVms.LabAnalyserStateDialogVm GetLabAnalyserStateDialogVm(long deviceId, long nodeId);
-        DeviceStateVms.LabInfroscanStateVm GetLabInfrascanStateVm(long deviceId);
+        DeviceStateVms.LabAnalyserStateDialogVm GetLabAnalyserStateDialogVm(int deviceId, int nodeId);
+        DeviceStateVms.LabInfroscanStateVm GetLabInfrascanStateVm(int deviceId);
     }
 }

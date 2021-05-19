@@ -1,40 +1,27 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
-using Gravitas.DAL.Repository.Card;
-using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.OwnTransport;
 using Gravitas.Infrastructure.Platform.ApiClient.Devices;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.OwnTransport.DTO;
-using Gravitas.Model.Dto;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using Gravitas.Model.DomainValue;
 
 namespace Gravitas.Platform.Web.Controllers
 {
     public class OwnTransportController : Controller
     {
         private readonly IOwnTransportRepository _ownTransportRepository;
-        private readonly IDeviceRepository _deviceRepository;
-        private readonly ICardRepository _cardRepository;
         private readonly IOpRoutineManager _opRoutineManager;
         private readonly GravitasDbContext _context;
 
         public OwnTransportController(IOwnTransportRepository ownTransportRepository, 
-            IDeviceRepository deviceRepository, 
-            ICardRepository cardRepository, 
             IOpRoutineManager opRoutineManager, 
             GravitasDbContext context)
         {
             _ownTransportRepository = ownTransportRepository;
-            _deviceRepository = deviceRepository;
-            _cardRepository = cardRepository;
             _opRoutineManager = opRoutineManager;
             _context = context;
         }
@@ -45,7 +32,7 @@ namespace Gravitas.Platform.Web.Controllers
             return View(items);
         }
 
-        public ActionResult Remove(long id)
+        public ActionResult Remove(int id)
         {
             _ownTransportRepository.Remove(id);
             return RedirectToAction("Get");
@@ -64,7 +51,7 @@ namespace Gravitas.Platform.Web.Controllers
             var card = _context.Cards.FirstOrDefault(e => 
                 e.Id.Equals(rfidState.InData.Rifd, StringComparison.CurrentCultureIgnoreCase));
 
-            if (card != null && _opRoutineManager.IsRfidCardValid(out var cardErrMsg, card, Dom.Card.Type.TicketCard))
+            if (card != null && _opRoutineManager.IsRfidCardValid(out var cardErrMsg, card, CardType.TicketCard))
             {
                 vm.Card = card.Id;
                 if (ModelState.IsValid)

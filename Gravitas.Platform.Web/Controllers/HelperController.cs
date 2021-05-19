@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.PackingTare;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Node;
 using Gravitas.Infrastructure.Platform.SignalRClient;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.PackingTare.DTO;
 using Gravitas.Model.DomainValue;
@@ -36,24 +33,24 @@ namespace Gravitas.Platform.Web.Controllers
             _opDataRepository = opDataRepository;
         }
 
-        public ActionResult GetShrotLink(long nodeId)
+        public ActionResult GetShrotLink(int nodeId)
         {
-            var nodes = new HashSet<long>
+            var nodes = new HashSet<int>
             {
-                (long) NodeIdValue.UnloadPoint13, 
-                (long) NodeIdValue.UnloadPoint14, 
-                (long) NodeIdValue.LoadPoint40, 
-                (long) NodeIdValue.LoadPoint60,
-                (long) NodeIdValue.LoadPoint30,
-                (long) NodeIdValue.LoadPoint31,
-                (long) NodeIdValue.LoadPoint32,
-                (long) NodeIdValue.LoadPoint33
+                (int) NodeIdValue.UnloadPoint13, 
+                (int) NodeIdValue.UnloadPoint14, 
+                (int) NodeIdValue.LoadPoint40, 
+                (int) NodeIdValue.LoadPoint60,
+                (int) NodeIdValue.LoadPoint30,
+                (int) NodeIdValue.LoadPoint31,
+                (int) NodeIdValue.LoadPoint32,
+                (int) NodeIdValue.LoadPoint33
             };
             var vm = new GetShrotLinkVm
             {
                 Links = new List<ShrotLink>()
             };
-            if (nodeId == (long) NodeIdValue.LoadPointGuideShrotHuskOil)
+            if (nodeId == (int) NodeIdValue.LoadPointGuideShrotHuskOil)
             {
                 vm.Links.AddRange(nodes.Select(x => new ShrotLink
                 {
@@ -61,7 +58,7 @@ namespace Gravitas.Platform.Web.Controllers
                     Title = _nodeManager.GetNodeName(x)
                 }));
             }
-            if (nodeId == (long) NodeIdValue.UnloadPoint50 || nodeId == (long) NodeIdValue.LoadPoint72)
+            if (nodeId == (int) NodeIdValue.UnloadPoint50 || nodeId == (int) NodeIdValue.LoadPoint72)
             {
                 vm.Links.Add(new ShrotLink
                 {
@@ -91,43 +88,43 @@ namespace Gravitas.Platform.Web.Controllers
             {
                 Links = new List<ShrotLink>()
             };
-            if (nodeId == (long) NodeIdValue.UnloadPoint31)
+            if (nodeId == (int) NodeIdValue.UnloadPoint31)
             {
                 vm.Links.Add(new ShrotLink
                 {
                     Link = Url.Action("Routine", "Node", new {id = (int) NodeIdValue.CentralLaboratoryGetCustomStore}),
-                    Title = _nodeManager.GetNodeName((long) NodeIdValue.CentralLaboratoryGetCustomStore)
+                    Title = _nodeManager.GetNodeName((int) NodeIdValue.CentralLaboratoryGetCustomStore)
                 });
             } 
-            if (nodeId == (long) NodeIdValue.CentralLaboratoryGetCustomStore)
+            if (nodeId == (int) NodeIdValue.CentralLaboratoryGetCustomStore)
             {
                 vm.Links.Add(new ShrotLink
                 {
                     Link = Url.Action("Routine", "Node", new {id = (int) NodeIdValue.UnloadPoint31}),
-                    Title = _nodeManager.GetNodeName((long) NodeIdValue.UnloadPoint31)
+                    Title = _nodeManager.GetNodeName((int) NodeIdValue.UnloadPoint31)
                 });
             }
-            if (nodeId == (long) NodeIdValue.UnloadPoint30)
+            if (nodeId == (int) NodeIdValue.UnloadPoint30)
             {
                 vm.Links.Add(new ShrotLink
                 {
                     Link = Url.Action("Routine", "Node", new {id = (int) NodeIdValue.CentralLaboratoryGetTruckRamp}),
-                    Title = _nodeManager.GetNodeName((long) NodeIdValue.CentralLaboratoryGetTruckRamp)
+                    Title = _nodeManager.GetNodeName((int) NodeIdValue.CentralLaboratoryGetTruckRamp)
                 });
             } 
-            if (nodeId == (long) NodeIdValue.CentralLaboratoryGetTruckRamp)
+            if (nodeId == (int) NodeIdValue.CentralLaboratoryGetTruckRamp)
             {
                 vm.Links.Add(new ShrotLink
                 {
                     Link = Url.Action("Routine", "Node", new {id = (int) NodeIdValue.UnloadPoint30}),
-                    Title = _nodeManager.GetNodeName((long) NodeIdValue.UnloadPoint30)
+                    Title = _nodeManager.GetNodeName((int) NodeIdValue.UnloadPoint30)
                 });
             }
             return PartialView("_GetLinkTemplate", vm);
         }
 
         [HttpGet]
-        public ActionResult GetTareValue(long? nodeId, long returnRoutineStateId)
+        public ActionResult GetTareValue(int? nodeId, int returnRoutineStateId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 

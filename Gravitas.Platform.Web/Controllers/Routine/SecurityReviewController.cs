@@ -1,11 +1,7 @@
 ﻿using System.Net;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Node;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpData;
-using Gravitas.Model.DomainModel.OwnTransport.DAO;
-using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.ViewModel;
 
 namespace Gravitas.Platform.Web.Controllers.Routine
@@ -40,7 +36,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult AddOperationVisa(long? nodeId)
+        public ActionResult AddOperationVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 

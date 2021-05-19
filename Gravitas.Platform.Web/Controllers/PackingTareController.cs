@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Web.Mvc;
 using Gravitas.DAL.Repository.PackingTare;
 using Gravitas.Model.DomainModel.PackingTare.DTO;
@@ -20,7 +19,7 @@ namespace Gravitas.Platform.Web.Controllers
             return View(model);
         }
         
-        public ActionResult Remove(long id)
+        public ActionResult Remove(int id)
         {
             _packingTareRepository.Remove(id);
             return RedirectToAction(nameof(Get));

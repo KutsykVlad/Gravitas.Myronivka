@@ -1,10 +1,9 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Web.Mvc;
-using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpData;
-using Gravitas.Model.DomainModel.OwnTransport.DAO;
 using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.ViewModel;
 
@@ -15,14 +14,17 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         private readonly INodeRepository _nodeRepository;
         private readonly IOpDataManager _opDataManager;
         private readonly IOpRoutineWebManager _opRoutineWebManager;
+        private readonly GravitasDbContext _context;
 
         public SecurityInController(IOpRoutineWebManager opRoutineWebManager,
             INodeRepository nodeRepository,
-            IOpDataManager opDataManager)
+            IOpDataManager opDataManager, 
+            GravitasDbContext context)
         {
             _opRoutineWebManager = opRoutineWebManager;
             _nodeRepository = nodeRepository;
             _opDataManager = opDataManager;
+            _context = context;
         }
 
         #region CancelOperation
@@ -54,7 +56,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult BindLongRangeRfid(long? nodeId)
+        public ActionResult BindLongRangeRfid(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var routineData = new SecurityInVms.BindLongRangeRfidVm
@@ -75,7 +77,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult AddOperationVisa(long? nodeId)
+        public ActionResult AddOperationVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -88,7 +90,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             var nodeContext = _nodeRepository.GetNodeContext(nodeId.Value);
             if (nodeContext.OpProcessData.HasValue)
             {
-                var own = _nodeRepository.GetEntity<OwnTransport, long>(nodeContext.OpProcessData.Value);
+                var own = _context.OwnTransports.First(x => x.Id == nodeContext.OpProcessData.Value);
                 routineData.OwnTruck = own.TruckNo;
                 routineData.OwnTrailer = own.TrailerNo;
             }

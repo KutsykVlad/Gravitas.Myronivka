@@ -9,6 +9,7 @@ using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel;
 using Newtonsoft.Json;
 using Dom = Gravitas.Model.DomainValue.Dom;
+using SingleWindowVms = Gravitas.Platform.Web.ViewModel.OpRoutine.SingleWindow.SingleWindowVms;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {

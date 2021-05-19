@@ -1,15 +1,12 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Queue;
 using Gravitas.DAL.Repository.Ticket;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Queue.DAO;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel.Queue;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -36,7 +33,7 @@ namespace Gravitas.Platform.Web.Controllers
         {
             var vm = new ExternalQueueVm
             {
-                Items =  _queueRegisterRepository.GetQuery<QueueRegister, long>().Select(s=> new ExternalQueueItemVm()
+                Items =  _queueRegisterRepository.GetQuery<QueueRegister, int>().Select(s=> new ExternalQueueItemVm()
                 {
                     TicketContainerId = s.TicketContainerId, 
                     TrailerPlate = s.TrailerPlate,
@@ -49,11 +46,11 @@ namespace Gravitas.Platform.Web.Controllers
             return View("List", vm);
         }
         
-        public ActionResult Call(long ticketContainerId)
+        public ActionResult Call(int ticketContainerId)
         {
             _queueInfrastructure.ImmediateEntrance(ticketContainerId);
-            var ticketId = _ticketRepository.GetTicketInContainer(ticketContainerId, Dom.Ticket.Status.ToBeProcessed)?.Id;
-            _connectManager.SendSms(Dom.Sms.Template.EntranceApprovalSms, ticketId);
+            var ticketId = _ticketRepository.GetTicketInContainer(ticketContainerId, TicketStatus.ToBeProcessed)?.Id;
+            _connectManager.SendSms(SmsTemplate.EntranceApprovalSms, ticketId);
             return RedirectToAction("PreRegisteredQueue");
         }
 

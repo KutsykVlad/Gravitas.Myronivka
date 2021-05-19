@@ -1,4 +1,5 @@
 using Gravitas.Model.DomainValue;
+using Gravitas.Platform.Web.ViewModel.Shared;
 
 namespace Gravitas.Platform.Web.ViewModel.TicketContainer
 {

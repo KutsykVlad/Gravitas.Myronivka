@@ -19,7 +19,7 @@ namespace Gravitas.Platform.Web.Controllers.PreRegister
 
         public ActionResult Get()
         {
-            var list = _preRegistrationRepository.GetQuery<PreRegisterCompany, long>()
+            var list = _preRegistrationRepository.GetQuery<PreRegisterCompany, int>()
                 .Select(x => new PreRegisterCompanyVm
                 {
                     AllowToAdd = x.AllowToAdd,
@@ -45,7 +45,7 @@ namespace Gravitas.Platform.Web.Controllers.PreRegister
                     var c = _preRegistrationRepository.FindCompanyByUserName(company.Email);
                     c.AllowToAdd = company.AllowToAdd;
                     c.TrucksMax = company.TrucksMax;
-                    _preRegistrationRepository.Update<PreRegisterCompany, long>(c);
+                    _preRegistrationRepository.Update<PreRegisterCompany, int>(c);
                 }
             }
             catch (Exception e)

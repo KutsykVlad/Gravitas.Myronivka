@@ -1,5 +1,6 @@
 ﻿@using Gravitas.Model.DomainValue
 @using Gravitas.Platform.Web.ViewModel
+@using Gravitas.Platform.Web.ViewModel.Shared
 @using Microsoft.Ajax.Utilities
 @model Gravitas.Platform.Web.ViewModel.LoadPointType1Vms.IdleVm
 @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
@@ -58,7 +59,8 @@ else
             @Ajax.ActionLink("Тара", "Idle_GetTareValue", "LoadPointType1", new {nodeId = Model.NodeId}, null, new {@class = $"btn btn-primary btn-lg btn-block mt-2"})
         </div>   
         <div class="col-3">
-            @Ajax.ActionLink("Завершити", "Idle_Confirm", "LoadPointType1", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-success btn-lg btn-block mt-2"})</div>
+            @Ajax.ActionLink("Завершити", "Idle_Confirm", "LoadPointType1", new {nodeId = Model.NodeId}, null, new {@class = "btn btn-success btn-lg btn-block mt-2"})
+        </div>
     </div>
 }
 

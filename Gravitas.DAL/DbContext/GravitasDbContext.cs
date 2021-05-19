@@ -22,6 +22,7 @@ using Gravitas.DAL.Mapping.Settings;
 using Gravitas.DAL.Mapping.SmsTemplates;
 using Gravitas.DAL.Mapping.Ticket;
 using Gravitas.DAL.Mapping.Traffic;
+using Gravitas.Model.DomainModel.BlackList.DAO;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
@@ -74,6 +75,9 @@ namespace Gravitas.DAL.DbContext
         public DbSet<PreRegisterQueue> PreRegisterQueues { get; set; }
         public DbSet<MixedFeedSiloDevice> MixedFeedSiloDevices { get; set; }
         public DbSet<ExternalUser> ExternalUsers { get; set; }
+        public DbSet<DriversBlackListRecord> DriversBlackListRecords { get; set; }
+        public DbSet<TransportBlackListRecord> TransportBlackListRecords { get; set; }
+        public DbSet<TrailersBlackListRecord> TrailersBlackListRecords { get; set; }
         public DbSet<OpVisa> OpVisas { get; set; }
         public DbSet<TrafficHistory> TrafficHistories { get; set; }
         public DbSet<RoleAssignment> RoleAssignments { get; set; }

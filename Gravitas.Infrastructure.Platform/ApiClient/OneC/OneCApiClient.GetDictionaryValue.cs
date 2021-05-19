@@ -1,9 +1,22 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using Gravitas.Model;
+using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Budget.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Contract.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Crop.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Employee.DAO;
+using Gravitas.Model.DomainModel.ExternalData.ExternalUser.DAO;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DAO;
+using Gravitas.Model.DomainModel.ExternalData.MeasureUnit.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Product.DAO;
+using Gravitas.Model.DomainModel.ExternalData.ReasonForRefund.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Stock.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Subdivision.DAO;
+using Gravitas.Model.DomainModel.ExternalData.YearOfHarvest.DAO;
 using Newtonsoft.Json;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 {
@@ -40,7 +53,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             return responseJson;
         }
 
-        public ExternalData.AcceptancePoint GetAcceptancePoint(string id)
+        public AcceptancePoint GetAcceptancePoint(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetAcceptancePointValueDto.Request
@@ -49,7 +62,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetAcceptancePointValueDto.Response>(responseJson);
 
-            return new ExternalData.AcceptancePoint
+            return new AcceptancePoint
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -59,7 +72,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.Budget GetBudget(string id)
+        public Budget GetBudget(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetBudgetValueDto.Request
@@ -68,7 +81,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetBudgetValueDto.Response>(responseJson);
 
-            return new ExternalData.Budget
+            return new Budget
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -78,7 +91,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.Contract GetContract(string id)
+        public Contract GetContract(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetContractValueDto.Request
@@ -87,7 +100,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetContractValueDto.Response>(responseJson);
 
-            return new ExternalData.Contract
+            return new Contract
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -98,7 +111,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.Crop GetCrop(string id)
+        public Crop GetCrop(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetCropValueDto.Request
@@ -107,7 +120,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetCropValueDto.Response>(responseJson);
 
-            return new ExternalData.Crop
+            return new Crop
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -117,7 +130,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.Employee GetEmployee(string id)
+        public Employee GetEmployee(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetEmployeeValueDto.Request
@@ -126,7 +139,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetEmployeeValueDto.Response>(responseJson);
 
-            return new ExternalData.Employee
+            return new Employee
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -140,7 +153,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.FixedAsset GetFixedAsset(string id)
+        public FixedAsset GetFixedAsset(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetFixedAssetValueDto.Request
@@ -149,7 +162,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetFixedAssetValueDto.Response>(responseJson);
 
-            return new ExternalData.FixedAsset
+            return new FixedAsset
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -162,7 +175,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.Organisation GetOrganisation(string id)
+        public Organisation GetOrganisation(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetOrganisationValueDto.Request
@@ -171,7 +184,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetOrganisationValueDto.Response>(responseJson);
 
-            return new ExternalData.Organisation
+            return new Organisation
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -183,7 +196,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.Partner GetPartner(string id)
+        public Partner GetPartner(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetPartnerValueDto.Request
@@ -192,7 +205,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetPartnerValueDto.Response>(responseJson);
 
-            return new ExternalData.Partner
+            return new Partner
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -205,7 +218,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.Product GetProduct(string id)
+        public Product GetProduct(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetProductValueDto.Request
@@ -214,7 +227,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetProductValueDto.Response>(responseJson);
 
-            return new ExternalData.Product
+            return new Product
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -225,7 +238,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.ReasonForRefund GetReasonForRefund(string id)
+        public ReasonForRefund GetReasonForRefund(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetReasonForRefundValueDto.Request
@@ -234,7 +247,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetReasonForRefundValueDto.Response>(responseJson);
 
-            return new ExternalData.ReasonForRefund
+            return new ReasonForRefund
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -244,26 +257,26 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.Route GetRoute(string id)
-        {
-            var responseJson =
-                GetDictionaryValueJsonResponse(new GetRouteValueDto.Request
-                {
-                    ItemId = id
-                });
-            var responseDto = JsonConvert.DeserializeObject<GetRouteValueDto.Response>(responseJson);
+        // public Route GetRoute(string id)
+        // {
+        //     var responseJson =
+        //         GetDictionaryValueJsonResponse(new GetRouteValueDto.Request
+        //         {
+        //             ItemId = id
+        //         });
+        //     var responseDto = JsonConvert.DeserializeObject<GetRouteValueDto.Response>(responseJson);
+        //
+        //     return new Route
+        //     {
+        //         Id = responseDto.Id,
+        //         Code = responseDto.Code,
+        //         Name = responseDto.Name,
+        //         IsFolder = responseDto.IsFolder == 1,
+        //         ParentId = responseDto.ParentId
+        //     };
+        // }
 
-            return new ExternalData.Route
-            {
-                Id = responseDto.Id,
-                Code = responseDto.Code,
-                Name = responseDto.Name,
-                IsFolder = responseDto.IsFolder == 1,
-                ParentId = responseDto.ParentId
-            };
-        }
-
-        public ExternalData.Stock GetStock(string id)
+        public Stock GetStock(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetStockValueDto.Request
@@ -272,7 +285,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetStockValueDto.Response>(responseJson);
 
-            return new ExternalData.Stock
+            return new Stock
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -285,7 +298,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.Subdivision GetSubdivision(string id)
+        public Subdivision GetSubdivision(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetSubdivisionValueDto.Request
@@ -294,7 +307,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetSubdivisionValueDto.Response>(responseJson);
 
-            return new ExternalData.Subdivision
+            return new Subdivision
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -306,7 +319,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.ExternalUser GetUser(string id)
+        public ExternalUser GetUser(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetUserValueDto.Request
@@ -315,7 +328,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetUserValueDto.Response>(responseJson);
 
-            return new ExternalData.ExternalUser
+            return new ExternalUser
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -327,7 +340,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.YearOfHarvest GetYearOfHarvest(string id)
+        public YearOfHarvest GetYearOfHarvest(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetYearOfHarvestValueDto.Request
@@ -336,7 +349,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetYearOfHarvestValueDto.Response>(responseJson);
 
-            return new ExternalData.YearOfHarvest
+            return new YearOfHarvest
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,
@@ -346,7 +359,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             };
         }
 
-        public ExternalData.MeasureUnit GetUnit(string id)
+        public MeasureUnit GetUnit(string id)
         {
             var responseJson =
                 GetDictionaryValueJsonResponse(new GetUnitValueDto.Request
@@ -355,7 +368,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 });
             var responseDto = JsonConvert.DeserializeObject<GetUnitValueDto.Response>(responseJson);
 
-            return new ExternalData.MeasureUnit
+            return new MeasureUnit
             {
                 Id = responseDto.Id,
                 Code = responseDto.Code,

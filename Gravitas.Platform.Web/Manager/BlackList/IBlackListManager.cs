@@ -1,6 +1,6 @@
 ﻿using Gravitas.Platform.Web.ViewModel;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.BlackList
 {
     public interface IBlackListManager
     {
@@ -11,9 +11,9 @@ namespace Gravitas.Platform.Web.Manager
         (bool, string) AddTrailerRecord(BlackListTrailerRecordVm trailer);
         (bool, string) AddTransportRecord(BlackListTransportRecordVm trailer);
         
-        void DeleteBlackListDriverRecord(long driverId);
-        void DeleteBlackListTrailerRecord(long trailerId);
-        void DeleteBlackListTransportRecord(long transportId);
+        void DeleteBlackListDriverRecord(int driverId);
+        void DeleteBlackListTrailerRecord(int trailerId);
+        void DeleteBlackListTransportRecord(int transportId);
         void DeleteBlackListPartnerRecord(string partnerId);
     }
 }

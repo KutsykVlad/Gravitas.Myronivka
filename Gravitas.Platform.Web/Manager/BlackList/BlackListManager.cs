@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Linq;
-using Gravitas.DAL;
-using Gravitas.DAL.Repository;
+using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.BlackList;
 using Gravitas.DAL.Repository.ExternalData;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 using Gravitas.Platform.Web.ViewModel;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.BlackList
 {
     public class BlackListManager : IBlackListManager
     {
         private readonly IBlackListRepository _blackListRepository;
         private readonly IExternalDataRepository _externalDataRepository;
+        private readonly GravitasDbContext _context;
 
         public BlackListManager(IBlackListRepository blackListRepository,
-            IExternalDataRepository externalDataRepository)
+            IExternalDataRepository externalDataRepository,
+            GravitasDbContext context)
         {
             _blackListRepository = blackListRepository;
             _externalDataRepository = externalDataRepository;
+            _context = context;
         }
 
         public BlackListTableVm GetBlackListTable()
@@ -117,7 +118,7 @@ namespace Gravitas.Platform.Web.Manager
         {
             try
             {
-                _blackListRepository.Add<DriversBlackListRecord, long>(new DriversBlackListRecord
+                _blackListRepository.Add<DriversBlackListRecord, int>(new DriversBlackListRecord
                 {
                     Name = driver.Surname, 
                     Comment = driver.Comment
@@ -135,7 +136,7 @@ namespace Gravitas.Platform.Web.Manager
         {
             try
             {
-                _blackListRepository.Add<TrailersBlackListRecord, long>(new TrailersBlackListRecord
+                _blackListRepository.Add<TrailersBlackListRecord, int>(new TrailersBlackListRecord
                 {
                     TrailerNo = trailer.TrailerNumber, 
                     Comment = trailer.Comment
@@ -154,7 +155,7 @@ namespace Gravitas.Platform.Web.Manager
         {
             try
             {
-                _blackListRepository.Add<TransportBlackListRecord, long>(new TransportBlackListRecord
+                _blackListRepository.Add<TransportBlackListRecord, int>(new TransportBlackListRecord
                 {
                     TransportNo = trailer.TransportNumber,
                     Comment = trailer.Comment
@@ -168,16 +169,16 @@ namespace Gravitas.Platform.Web.Manager
             return (true, @"Авто успішно внесено у чорний список");
         }
         
-        public void DeleteBlackListDriverRecord(long driverId)
+        public void DeleteBlackListDriverRecord(int driverId)
         {
-            var driver = _blackListRepository.GetEntity<DriversBlackListRecord, long>(driverId);
-            _blackListRepository.Delete<DriversBlackListRecord,long>(driver);
+            var driver = _context.DriversBlackListRecords.First(x => x.Id ==driverId);
+            _blackListRepository.Delete<DriversBlackListRecord, int>(driver);
         }
 
-        public void DeleteBlackListTrailerRecord(long trailerId)
+        public void DeleteBlackListTrailerRecord(int trailerId)
         {
-            var trailer = _blackListRepository.GetEntity<TrailersBlackListRecord, long>(trailerId);
-            _blackListRepository.Delete<TrailersBlackListRecord,long>(trailer);
+            var trailer = _context.TrailersBlackListRecords.First(x => x.Id == trailerId);
+            _blackListRepository.Delete<TrailersBlackListRecord, int>(trailer);
         }
 
         public void DeleteBlackListPartnerRecord(string partnerId)
@@ -185,10 +186,10 @@ namespace Gravitas.Platform.Web.Manager
             _blackListRepository.DeletePartner(partnerId);
         }
 
-        public void DeleteBlackListTransportRecord(long transportId)
+        public void DeleteBlackListTransportRecord(int transportId)
         {
-            var transport = _blackListRepository.GetEntity<TransportBlackListRecord, long>(transportId);
-            _blackListRepository.Delete<TransportBlackListRecord, long>(transport);
+            var transport = _context.TransportBlackListRecords.First(x => x.Id == transportId);
+            _blackListRepository.Delete<TransportBlackListRecord, int>(transport);
         }
     }
 }

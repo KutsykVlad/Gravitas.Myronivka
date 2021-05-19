@@ -10,7 +10,7 @@ namespace Gravitas.Platform.Web.ViewModel
             public long NodeId { get; set; }
             public long TicketContainerId { get; set; }
             public long TicketId { get; set; }
-            public long TicketStatusId { get; set; }
+            public Model.DomainValue.TicketStatus TicketStatusId { get; set; }
 
             [DisplayName("Код поставки")]
             [Required(ErrorMessage = "Поле повинне бути заповненим.")]

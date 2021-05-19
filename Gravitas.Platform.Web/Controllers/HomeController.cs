@@ -1,9 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Node;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Node.DAO;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -17,7 +14,7 @@ namespace Gravitas.Platform.Web.Controllers
 
         public ActionResult Index()
         {
-            var nodes = _nodeRepository.GetQuery<Node, long>().ToList();
+            var nodes = _nodeRepository.GetQuery<Gravitas.Model.DomainModel.Node.DAO.Node, int>().ToList();
             return View(nodes);
         }
 

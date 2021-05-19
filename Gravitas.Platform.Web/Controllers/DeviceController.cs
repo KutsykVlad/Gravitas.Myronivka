@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.ExternalData;
-using Gravitas.Model;
-using Gravitas.Platform.Web.Manager;
+using Gravitas.Model.DomainValue;
+using Gravitas.Platform.Web.Manager.Device;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -20,7 +18,7 @@ namespace Gravitas.Platform.Web.Controllers
             _externalDataRepository = externalDataRepository;
         }
 
-        public ActionResult StateDialog(long deviceId, long nodeId)
+        public ActionResult StateDialog(int deviceId, int nodeId)
         {
             var deviceType = _deviceWebManager.GetDeviceType(deviceId);
             if (deviceType == null) return null;
@@ -29,10 +27,10 @@ namespace Gravitas.Platform.Web.Controllers
 
             switch (deviceType.Value)
             {
-                case Dom.Device.Type.LabBruker:
-                case Dom.Device.Type.LabFoss:
-                case Dom.Device.Type.LabFoss2:
-                case Dom.Device.Type.LabInfrascan:
+                case DeviceType.LabBruker:
+                case DeviceType.LabFoss:
+                case DeviceType.LabFoss2:
+                case DeviceType.LabInfrascan:
                     return PartialView("../Device/StateDialog/_LabAnalyserStateDialog",
                         _deviceWebManager.GetLabAnalyserStateDialogVm(deviceId, nodeId));
             }
@@ -40,7 +38,7 @@ namespace Gravitas.Platform.Web.Controllers
             return null;
         }
 
-        public ActionResult State(long deviceId)
+        public ActionResult State(int deviceId)
         {
             var deviceType = _deviceWebManager.GetDeviceType(deviceId);
             if (deviceType == null) return null;
@@ -49,24 +47,24 @@ namespace Gravitas.Platform.Web.Controllers
 
             switch (deviceType.Value)
             {
-                case Dom.Device.Type.LabBruker:
+                case DeviceType.LabBruker:
                     return PartialView("../Device/_LabBrukerState", _deviceWebManager.GetLabBrukerStateVm(deviceId));
-                case Dom.Device.Type.LabFoss:
+                case DeviceType.LabFoss:
                     return PartialView("../Device/_LabFossState", _deviceWebManager.GetLabFossStateVm(deviceId));
-                case Dom.Device.Type.LabInfrascan:
+                case DeviceType.LabInfrascan:
                     return PartialView("../Device/_LabInfrascanState", _deviceWebManager.GetLabInfrascanStateVm(deviceId));
             }
 
             return null;
         }
 
-        public ActionResult ScaleState(long nodeId)
+        public ActionResult ScaleState(int nodeId)
         {
             var routineData = _deviceWebManager.GetWeightbridgeStateVm(nodeId);
             return PartialView("../Device/_ScaleState", routineData);
         }
 
-        public ActionResult DocNetValueDifference(long nodeId, double reduceValue)
+        public ActionResult DocNetValueDifference(int nodeId, double reduceValue)
         {
             var result = _deviceWebManager.GetWeightbridgeStateVm(nodeId);
             var vm = new DeviceStateVms.DocNetValueStateVm
@@ -77,21 +75,21 @@ namespace Gravitas.Platform.Web.Controllers
             return PartialView("../Device/_CurrentDocNetValue", vm);
         }
 
-        public ActionResult LabFossState(long nodeId)
+        public ActionResult LabFossState(int nodeId)
         {
             var routineData = _deviceWebManager.GetLabFossStateVm(nodeId);
 
             return PartialView("../Device/_LabFossState", routineData);
         }
 
-        public ActionResult LabBrukerState(long nodeId)
+        public ActionResult LabBrukerState(int nodeId)
         {
             var routineData = _deviceWebManager.GetLabBrukerStateVm(nodeId);
 
             return PartialView("../Device/_LabBrukerState", routineData);
         }
 
-        public ActionResult LabInfrascanState(long nodeId)
+        public ActionResult LabInfrascanState(int nodeId)
         {
             var routineData = _deviceWebManager.GetLabInfrascanStateVm(nodeId);
 

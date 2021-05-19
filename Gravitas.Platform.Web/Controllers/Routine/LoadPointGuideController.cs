@@ -2,15 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
-using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.List;
-using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.ViewModel;
 
@@ -20,18 +16,18 @@ namespace Gravitas.Platform.Web.Controllers.Routine
     {
         private readonly INodeRepository _nodeRepository;
         private readonly IOpRoutineWebManager _opRoutineWebManager;
-        private readonly ITicketRepository _ticketRepository;
         private readonly IRoutesInfrastructure _routesInfrastructure;
+        private readonly GravitasDbContext _context;
 
         public LoadPointGuideController(IOpRoutineWebManager opRoutineWebManager,
             INodeRepository nodeRepository, 
-            ITicketRepository ticketRepository, 
-            IRoutesInfrastructure routesInfrastructure)
+            IRoutesInfrastructure routesInfrastructure, 
+            GravitasDbContext context)
         {
             _opRoutineWebManager = opRoutineWebManager;
             _nodeRepository = nodeRepository;
-            _ticketRepository = ticketRepository;
             _routesInfrastructure = routesInfrastructure;
+            _context = context;
         }
 
         #region 01_Idle
@@ -77,7 +73,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 02_BindLoadPoint
 
         [HttpGet, ChildActionOnly]
-        public ActionResult BindLoadPoint(long? nodeId)
+        public ActionResult BindLoadPoint(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             
@@ -87,7 +83,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             
-            var ticket = _ticketRepository.GetEntity<Ticket, long>(nodeDto.Context.TicketId.Value);
+            var ticket = _context.Tickets.FirstOrDefault(x => x.Id == nodeDto.Context.TicketId.Value);
             if (ticket == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }

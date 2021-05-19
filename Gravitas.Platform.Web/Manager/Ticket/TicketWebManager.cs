@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using Gravitas.DAL;
 using Gravitas.Infrastructure.Common.Configuration;
-using Gravitas.Infrastructure.Platform.Manager;
-using Gravitas.Model;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.LabAverageRates;
 using Gravitas.Platform.Web.ViewModel.Ticket.History;
-using Microsoft.Ajax.Utilities;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -23,8 +19,11 @@ using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
-using Dom = Gravitas.Model.DomainValue.Dom;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Platform.Web.Manager.Ticket;
+using CardType = Gravitas.Model.DomainValue.CardType;
+using SingleWindowVms = Gravitas.Platform.Web.ViewModel.OpRoutine.SingleWindow.SingleWindowVms;
+using TicketFileType = Gravitas.Model.DomainValue.TicketFileType;
+using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Platform.Web.Manager
 {
@@ -53,22 +52,22 @@ namespace Gravitas.Platform.Web.Manager
             _connectManager = connectManager;
         }
 
-        public TicketItemsVm GetTicketItemsVm(long containerId)
+        public TicketItemsVm GetTicketItemsVm(int containerId)
         {
             var dto = _ticketRepository.GetTicketItems(containerId);
             var vm = Mapper.Map<TicketItemsVm>(dto);
             return vm;
         }
 
-        public SingleWindowVms.GetTicketVm GetTicketVm(long nodeId)
+        public SingleWindowVms.GetTicketVm GetTicketVm(int nodeId)
         {
-            var ticketStatuses = new List<int>
+            var ticketStatuses = new List<TicketStatus>
             {
-                Dom.Ticket.Status.Processing,
-                Dom.Ticket.Status.ToBeProcessed,
-                Dom.Ticket.Status.Closed,
-                Dom.Ticket.Status.Completed,
-                Dom.Ticket.Status.New
+                TicketStatus.Processing,
+                TicketStatus.ToBeProcessed,
+                TicketStatus.Closed,
+                TicketStatus.Completed,
+                TicketStatus.New
             };
             var vm = new SingleWindowVms.GetTicketVm();
 
@@ -76,7 +75,7 @@ namespace Gravitas.Platform.Web.Manager
             if (nodeDto?.Context?.TicketContainerId == null) return vm;
 
             var tickets = _context.Tickets
-                .Where(x => x.ContainerId == nodeDto.Context.TicketContainerId.Value)
+                .Where(x => x.TicketContainerId == nodeDto.Context.TicketContainerId.Value)
                 .ToList();
 
             var ticket = ticketStatuses
@@ -85,12 +84,12 @@ namespace Gravitas.Platform.Web.Manager
                 .FirstOrDefault(t => t != null);
 
             vm.NodeId = nodeId;
-            vm.IsEditable = !Dom.SingleWindowReadonly.All.Contains((NodeIdValue)nodeId);
+            vm.IsEditable = !SingleWindowReadonly.All.Contains((NodeIdValue)nodeId);
             vm.TicketContainerId = nodeDto.Context.TicketContainerId.Value;
             vm.TicketList = GetTicketItemsVm(nodeDto.Context.TicketContainerId.Value);
             vm.CardNumber = _cardRepository.GetFirstOrDefault<Card, string>(item =>
                 item.TicketContainerId == nodeDto.Context.TicketContainerId.Value &&
-                item.TypeId == Dom.Card.Type.TicketCard)?.No.ToString().Remove(0, 2);
+                item.TypeId == CardType.TicketCard)?.No.ToString().Remove(0, 2);
 
             if (ticket == null) return vm;
 
@@ -125,14 +124,14 @@ namespace Gravitas.Platform.Web.Manager
             return vm;
         }
 
-        public bool UploadFile(long nodeId, HttpPostedFileBase upload, int typeId = Dom.TicketFile.Type.Other)
+        public bool UploadFile(int nodeId, HttpPostedFileBase upload, TicketFileType typeId = TicketFileType.Other)
         {
             if (upload == null) return false;
 
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.TicketId == null) return false;
 
-            if (_ticketRepository.GetFirstOrDefault<TicketFile, long>(item =>
+            if (_ticketRepository.GetFirstOrDefault<TicketFile, int>(item =>
                     item.TicketId == nodeDto.Context.TicketId && item.TypeId == typeId) != null) return false;
 
             var fileName = GenerateTicketFilePath(
@@ -152,7 +151,7 @@ namespace Gravitas.Platform.Web.Manager
                 TypeId = typeId,
                 TicketId = nodeDto.Context.TicketId.Value
             };
-            _ticketRepository.Add<TicketFile, long>(ticketFile);
+            _ticketRepository.Add<TicketFile, int>(ticketFile);
 
             return true;
         }

@@ -7,7 +7,7 @@ namespace Gravitas.Platform.Web.ViewModel.RouteEditor
     {
         public bool IsMain { get; set; }
         public List<List<RouteJsonConverter.NodeList>> RouteNodes { get; set; }
-        public long Id { get; set; }
+        public int Id { get; set; }
         public bool IsInQueue { get; set; }
         public bool IsTechnological { get; set; }
     }

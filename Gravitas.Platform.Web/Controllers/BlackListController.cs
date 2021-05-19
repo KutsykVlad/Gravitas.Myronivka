@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 using Gravitas.Model;
 using Gravitas.Platform.Web.Manager;
+using Gravitas.Platform.Web.Manager.BlackList;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -35,8 +35,8 @@ namespace Gravitas.Platform.Web.Controllers
             return RedirectToAction("Records", new 
             {
                 errorType = insertResult.isSucess
-                    ? Dom.User.ProcessingMsg.Type.Success
-                    : Dom.User.ProcessingMsg.Type.Error,
+                    ? NodeData.ProcessingMsg.Type.Success
+                    : NodeData.ProcessingMsg.Type.Error,
                 errorMessage = insertResult.msg
             });
         }
@@ -49,8 +49,8 @@ namespace Gravitas.Platform.Web.Controllers
             return RedirectToAction("Records", new
             {
                 errorType = insertResult.isSucess
-                    ? Dom.User.ProcessingMsg.Type.Success
-                    : Dom.User.ProcessingMsg.Type.Error,
+                    ? NodeData.ProcessingMsg.Type.Success
+                    : NodeData.ProcessingMsg.Type.Error,
                 errorMessage = insertResult.msg
             });
         }
@@ -63,8 +63,8 @@ namespace Gravitas.Platform.Web.Controllers
             return RedirectToAction("Records", new
             {
                 errorType = insertResult.isSucess
-                    ? Dom.User.ProcessingMsg.Type.Success
-                    : Dom.User.ProcessingMsg.Type.Error,
+                    ? NodeData.ProcessingMsg.Type.Success
+                    : NodeData.ProcessingMsg.Type.Error,
                 errorMessage = insertResult.msg
             });
         }
@@ -77,8 +77,8 @@ namespace Gravitas.Platform.Web.Controllers
             return RedirectToAction("Records", new
             {
                 errorType = insertResult.isSucess
-                    ? Dom.User.ProcessingMsg.Type.Success
-                    : Dom.User.ProcessingMsg.Type.Error,
+                    ? NodeData.ProcessingMsg.Type.Success
+                    : NodeData.ProcessingMsg.Type.Error,
                 errorMessage = insertResult.msg
             });
         }

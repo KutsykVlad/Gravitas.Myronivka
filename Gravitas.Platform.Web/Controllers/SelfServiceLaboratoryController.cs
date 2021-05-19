@@ -1,13 +1,11 @@
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Card;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.Ticket;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel.SelfServiceLaboratory;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -34,9 +32,9 @@ namespace Gravitas.Platform.Web.Controllers
             return View();
         }
 
-        public ActionResult DetailByTicketContainer(long id)
+        public ActionResult DetailByTicketContainer(int id)
         {
-            var ticketId = _ticketRepository.GetTicketInContainer(id, Dom.Ticket.Status.Processing)?.Id;
+            var ticketId = _ticketRepository.GetTicketInContainer(id, TicketStatus.Processing)?.Id;
             var labOpData = _opDataRepository.GetLastOpData<LabFacelessOpData>(ticketId, null);
 
             var vm = new SelfServiceLaboratoryDetailVm();

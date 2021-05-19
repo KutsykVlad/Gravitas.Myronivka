@@ -3,19 +3,15 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
-using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
-using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
-using Gravitas.Model.Dto;
-using Gravitas.Platform.Web.Manager;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager.OpRoutine;
+using Gravitas.Platform.Web.Manager.Ticket;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers.Routine
 {
@@ -24,18 +20,15 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         private readonly ITicketWebManager _ticketWebManager;
         private readonly IOpRoutineWebManager _opRoutineWebManager;
         private readonly INodeRepository _nodeRepository;
-        private readonly ITicketRepository _ticketRepository;
         private readonly GravitasDbContext _context;
 
         public CentralLaboratoryProcessController(IOpRoutineWebManager opRoutineWebManager
             , ITicketWebManager ticketWebManager, 
             INodeRepository nodeRepository,
-            ITicketRepository ticketRepository, 
             GravitasDbContext context)
         {
             _ticketWebManager = ticketWebManager;
             _nodeRepository = nodeRepository;
-            _ticketRepository = ticketRepository;
             _context = context;
             _opRoutineWebManager = opRoutineWebManager;
         }
@@ -137,9 +130,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult PrintDataDisclose_SaveFile(long nodeId, HttpPostedFileBase laboratoryFile)
+        public ActionResult PrintDataDisclose_SaveFile(int nodeId, HttpPostedFileBase laboratoryFile)
         {
-            _ticketWebManager.UploadFile(nodeId, laboratoryFile, Dom.TicketFile.Type.CentralLabCertificate);
+            _ticketWebManager.UploadFile(nodeId, laboratoryFile, TicketFileType.CentralLabCertificate);
             SignalRInvoke.ReloadHubGroup(nodeId);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
@@ -152,9 +145,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
         
         [HttpGet]
-        public ActionResult PrintDataDisclose_DownloadFile(long nodeId)
+        public ActionResult PrintDataDisclose_DownloadFile(int nodeId)
         {
-            Node nodeDto = _nodeRepository.GetNodeDto(nodeId);
+            var nodeDto = _nodeRepository.GetNodeDto(nodeId);
 
             if (nodeDto?.Context?.TicketContainerId == null
                 || nodeDto.Context?.TicketId == null) {
@@ -164,7 +157,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             SignalRInvoke.StartSpinner(nodeId);
             var file = _context.TicketFiles.FirstOrDefault(item =>
                 item.TicketId == nodeDto.Context.TicketId 
-                && item.TypeId == Dom.TicketFile.Type.CentralLabCertificate);
+                && item.TypeId == TicketFileType.CentralLabCertificate);
             if (file != null) {
                 var fileBytes = System.IO.File.ReadAllBytes(file.FilePath);
                 var fileName = file.Name;
@@ -172,7 +165,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
 			
-            _nodeRepository.UpdateNodeProcessingMessage(nodeId, new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Warning, @"Немає такого файлу."));
+            _nodeRepository.UpdateNodeProcessingMessage(nodeId, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Немає такого файлу."));
             SignalRInvoke.StopSpinner(nodeId);
             return View();
         }

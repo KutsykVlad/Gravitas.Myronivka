@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Platform.SignalRClient;
-using Gravitas.Model;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.Manager.Report;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -34,10 +32,10 @@ namespace Gravitas.Platform.Web.Controllers
             if (vm == null) templateUri = Server.MapPath("~/Content/reports/errorTemplate.html");
 
             SignalRInvoke.StopSpinner(nodeId);
-            return File(_reportWebManager.GenerateReportById(vm, templateUri, Dom.Pdf.Orientation.Landscape, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Report.pdf");
+            return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Landscape, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Report.pdf");
         }
 
-        public FileResult GenerateCentralLabReport(long nodeId)
+        public FileResult GenerateCentralLabReport(int nodeId)
         {
             SignalRInvoke.StartSpinner(nodeId);
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -48,10 +46,10 @@ namespace Gravitas.Platform.Web.Controllers
             if (vm == null) templateUri = Server.MapPath("~/Content/reports/errorTemplate.html");
 
             SignalRInvoke.StopSpinner(nodeId);
-            return File(_reportWebManager.GenerateReportById(vm, templateUri, Dom.Pdf.Orientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "CentralLaboratoryReport.pdf");
+            return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "CentralLaboratoryReport.pdf");
         }
 
-        public FileResult GenerateCentralLabLabel(Guid id, long nodeId)
+        public FileResult GenerateCentralLabLabel(Guid id, int nodeId)
         {
             SignalRInvoke.StartSpinner(nodeId);
             var templateUri = Server.MapPath("~/Content/reports/centralLabReportLabel.html");
@@ -60,7 +58,7 @@ namespace Gravitas.Platform.Web.Controllers
             if (vm == null) templateUri = Server.MapPath("~/Content/reports/errorTemplate.html");
 
             SignalRInvoke.StopSpinner(nodeId);
-            return File(_reportWebManager.GenerateReportById(vm, templateUri, Dom.Pdf.Orientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "CentralLaboratoryLabel.pdf");
+            return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "CentralLaboratoryLabel.pdf");
         }
 
         public FileResult GenerateProtocol(long nodeId, long? ticketId = null)
@@ -75,7 +73,7 @@ namespace Gravitas.Platform.Web.Controllers
                 templateUri = Server.MapPath("~/Content/reports/errorTemplate.html");
             }
             SignalRInvoke.StopSpinner(nodeId);
-            return File(_reportWebManager.GenerateReportById(vm, templateUri, Dom.Pdf.Orientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Protocol.pdf");
+            return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Protocol.pdf");
         }
 
         public FileResult GenerateSiloProtocol(long nodeId)
@@ -90,7 +88,7 @@ namespace Gravitas.Platform.Web.Controllers
                 templateUri = Server.MapPath("~/Content/reports/errorTemplate.html");
             }
             SignalRInvoke.StopSpinner(nodeId);
-            return File(_reportWebManager.GenerateReportById(vm, templateUri, Dom.Pdf.Orientation.Landscape, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "MixedFeedProtocol.pdf");
+            return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Landscape, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "MixedFeedProtocol.pdf");
         }
 
         public FileResult GenerateRouteReport(long nodeId, long ticketId)
@@ -105,7 +103,7 @@ namespace Gravitas.Platform.Web.Controllers
                 templateUri = Server.MapPath("~/Content/reports/errorTemplate.html");
             }
             SignalRInvoke.StopSpinner(nodeId);
-            return File(_reportWebManager.GenerateReportById(vm, templateUri, Dom.Pdf.Orientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Route.pdf");
+            return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Route.pdf");
         }
 
         public FileResult GenerateTechnicalRouteReport(long nodeId)
@@ -117,8 +115,8 @@ namespace Gravitas.Platform.Web.Controllers
             {
                 templateUri = Server.MapPath("~/Content/reports/errorTemplate.html");
             }
-             SignalRInvoke.StopSpinner(nodeId);
-            return File(_reportWebManager.GenerateReportById(vm, templateUri, Dom.Pdf.Orientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "BillFile.pdf");
+            SignalRInvoke.StopSpinner(nodeId);
+            return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "BillFile.pdf");
 
 
         }

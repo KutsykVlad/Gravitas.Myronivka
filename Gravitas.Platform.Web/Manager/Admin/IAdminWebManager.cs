@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.Admin
 {
     public interface IAdminWebManager
     {
@@ -21,7 +20,7 @@ namespace Gravitas.Platform.Web.Manager
         RoleTableVm GetRoleTableVm();
         void UpdateRole(RoleVm role);
         void CreateRole(RoleVm role);
-        void DeleteRole(long roleId);
+        void DeleteRole(int roleId);
         
         List<PhoneDictionary> GetEmployeePhones();
         void UpdateRolePhone(PhoneDictionary employee);

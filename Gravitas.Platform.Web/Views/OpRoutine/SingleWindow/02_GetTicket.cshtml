@@ -1,6 +1,6 @@
 ﻿@using Gravitas.Model;
 @using Dom = Gravitas.Model.DomainValue.Dom
-@model Gravitas.Platform.Web.ViewModel.SingleWindowVms.GetTicketVm
+@model Gravitas.Platform.Web.ViewModel.OpRoutine.SingleWindow.SingleWindowVms.GetTicketVm
 @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
 
 @using (Ajax.BeginForm("GetTicket", "SingleWindow", FormMethod.Post, null, new { @class = "" }))

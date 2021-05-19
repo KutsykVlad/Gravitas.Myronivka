@@ -3,15 +3,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.OneC;
-using Gravitas.Model;
-using Gravitas.Platform.Web.Manager;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using Gravitas.Model.DomainValue;
+using Gravitas.Platform.Web.Manager.Ticket;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -33,13 +31,13 @@ namespace Gravitas.Platform.Web.Controllers
             _context = context;
         }
 
-        public ActionResult GetTicketFiles(long nodeId)
+        public ActionResult GetTicketFiles(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context?.TicketId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var files = _ticketRepository.GetTicketFiles(nodeDto.Context.TicketId.Value)
-                .Where(item => item.TypeId == Dom.TicketFile.Type.CustomerLabCertificate)
+                .Where(item => item.TypeId == TicketFileType.CustomerLabCertificate)
                 .ToList();
             return PartialView("_GetTicketFiles", files);
         }
@@ -58,7 +56,7 @@ namespace Gravitas.Platform.Web.Controllers
             return View("History", vm);
         }
 
-        public ActionResult HistoryGetDetails(string returnUrl, long ticketContainerId, long ticketId)
+        public ActionResult HistoryGetDetails(string returnUrl, int ticketContainerId, int ticketId)
         {
             var vm = _ticketWebManager.GetHistoryDetails(ticketId, ticketContainerId);
             vm.ReturnUrl = returnUrl;
@@ -101,10 +99,10 @@ namespace Gravitas.Platform.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetLabCertificate(long ticketId, string returnUrl)
+        public ActionResult GetLabCertificate(int ticketId, string returnUrl)
         {
             var file = _context.TicketFiles.FirstOrDefault(item =>
-                item.TicketId == ticketId && item.TypeId == Dom.TicketFile.Type.LabCertificate);
+                item.TicketId == ticketId && item.TypeId == TicketFileType.LabCertificate);
             if (file != null)
             {
                 var fileBytes = System.IO.File.ReadAllBytes(file.FilePath);

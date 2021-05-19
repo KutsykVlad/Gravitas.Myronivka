@@ -1,14 +1,11 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpData;
-using Gravitas.Model;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers.Routine
 {
@@ -41,7 +38,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         #region 02_CentralLabSampleBindTray
         [HttpGet, ChildActionOnly]
-        public ActionResult CentralLabSampleBindTray(long? nodeId)
+        public ActionResult CentralLabSampleBindTray(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var node = _nodeRepository.GetNodeDto(nodeId);
@@ -55,7 +52,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 IsThirdPartyCarrier = data.IsThirdPartyCarrier,
                 CardNumber = _context.Cards.FirstOrDefault(x => 
                     x.TicketContainerId == node.Context.TicketContainerId 
-                    && x.TypeId == Dom.Card.Type.TicketCard)?.No.ToString(),
+                    && x.TypeId == CardType.TicketCard)?.No.ToString(),
                 TransportNo = data.TransportNo,
                 TrailerNo = data.TrailerNo
             };

@@ -21,13 +21,13 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
         {
             if (!scaleState.InData.IsImmobile)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(Model.Node.ProcessingMsg.Type.Warning,@"Вага не стабільна."));
+                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning,@"Вага не стабільна."));
                 return false;
             }
 
             if (scaleState.InData.Value < GlobalConfigurationManager.ScaleMinLoad)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(Model.Node.ProcessingMsg.Type.Info,@"Вага надто мала."));
+                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Info,@"Вага надто мала."));
                 return false;
             }
 

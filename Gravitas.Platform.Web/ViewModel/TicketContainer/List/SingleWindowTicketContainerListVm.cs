@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Gravitas.Platform.Web.ViewModel.Shared;
 
 namespace Gravitas.Platform.Web.ViewModel
 {

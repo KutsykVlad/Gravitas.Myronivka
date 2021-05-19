@@ -1,13 +1,11 @@
 ﻿using System.Net;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers.Routine
 {
@@ -92,7 +90,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 04_EditStampList
 
         [HttpGet, ChildActionOnly]
-        public ActionResult EditStampList(long? nodeId)
+        public ActionResult EditStampList(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -102,7 +100,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             var routineData = new SecurityOutVms.EditStampListVm
             {
                 NodeId = nodeId.Value,
-                IsTechRoute = singleWindowOpData.SupplyCode == Dom.SingleWindowOpData.TechnologicalSupplyCode
+                IsTechRoute = singleWindowOpData.SupplyCode == TechRoute.SupplyCode
             };
             return PartialView("../OpRoutine/SecurityOut/04_EditStampList", routineData);
         }
@@ -126,7 +124,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 05_AddRouteControlVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult AddRouteControlVisa(long? nodeId)
+        public ActionResult AddRouteControlVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             
@@ -136,7 +134,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             var routineData = new SecurityOutVms.AddRouteControlVisaVm
             {
                 NodeId = nodeId.Value,
-                IsTechRoute = singleWindowOpData.SupplyCode == Dom.SingleWindowOpData.TechnologicalSupplyCode
+                IsTechRoute = singleWindowOpData.SupplyCode == TechRoute.SupplyCode
             };
             return PartialView("../OpRoutine/SecurityOut/05_AddRouteControlVisa", routineData);
         }
@@ -146,7 +144,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 06_AddTransportInspectionVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult AddTransportInspectionVisa(long? nodeId)
+        public ActionResult AddTransportInspectionVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -156,7 +154,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             var routineData = new SecurityOutVms.AddTransportInspectionVisaVm
             {
                 NodeId = nodeId.Value,
-                IsTechRoute = singleWindowOpData.SupplyCode == Dom.SingleWindowOpData.TechnologicalSupplyCode
+                IsTechRoute = singleWindowOpData.SupplyCode == TechRoute.SupplyCode
             };
             return PartialView("../OpRoutine/SecurityOut/06_AddTransportInspectionVisa", routineData);
         }

@@ -5,24 +5,21 @@ using System.Net.Mime;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.PackingTare;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.Manager.OpRoutine;
+using Gravitas.Platform.Web.Manager.Ticket;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers.Routine
 {
@@ -87,7 +84,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult GetTicket(long? nodeId)
+        public ActionResult GetTicket(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -157,7 +154,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult ShowTicketMenu(long? nodeId)
+        public ActionResult ShowTicketMenu(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -184,7 +181,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 TrailerNo = ticketVm.TrailerNo,
                 IsPhoneNumberAvailable = !string.IsNullOrEmpty(singleWindowOpData?.ContactPhoneNo),
                 Nomenclature = _externalDataRepository.GetProductDetail(singleWindowOpData?.ProductId)?.ShortName ?? singleWindowOpData?.ProductTitle ?? string.Empty,
-                IsEditable = !Dom.SingleWindowReadonly.All.Contains((NodeIdValue)ticketVm.NodeId)
+                IsEditable = !SingleWindowReadonly.All.Contains((NodeIdValue)ticketVm.NodeId)
             };
 
             return PartialView("../OpRoutine/SingleWindow/03_ShowTicketMenu", routineData);
@@ -227,7 +224,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult ShowTicketMenu_PrintDoc(long? nodeId, string printoutTypeId)
+        public ActionResult ShowTicketMenu_PrintDoc(int? nodeId, string printoutTypeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             SignalRInvoke.StartSpinner(nodeId.Value);
@@ -241,14 +238,14 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             }
 
             _nodeRepository.UpdateNodeProcessingMessage(nodeId.Value,
-                new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Warning, @"Немає такого файлу."));
+                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Немає такого файлу."));
             SignalRInvoke.StopSpinner(nodeId.Value);
             SignalRInvoke.ReloadHubGroup(nodeId.Value);
             return View();
         }
 
         [HttpGet]
-        public ActionResult ShowTicketMenu_GetLabCertificate(long? nodeId)
+        public ActionResult ShowTicketMenu_GetLabCertificate(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -259,7 +256,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             SignalRInvoke.StartSpinner(nodeId.Value);
             var file = _context.TicketFiles.FirstOrDefault(item =>
                 item.TicketId == nodeDto.Context.TicketId
-                && (item.TypeId == Dom.TicketFile.Type.LabCertificate || item.TypeId == Dom.TicketFile.Type.CentralLabCertificate));
+                && (item.TypeId == TicketFileType.LabCertificate || item.TypeId == TicketFileType.CentralLabCertificate));
             if (file != null)
             {
                 var fileBytes = System.IO.File.ReadAllBytes(file.FilePath);
@@ -269,14 +266,14 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             }
 
             _nodeRepository.UpdateNodeProcessingMessage(nodeId.Value,
-                new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Warning, @"Немає такого файлу."));
+                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Немає такого файлу."));
             SignalRInvoke.StopSpinner(nodeId.Value);
             SignalRInvoke.ReloadHubGroup(nodeId.Value);
             return View();
         }
 
         [HttpGet]
-        public ActionResult ShowTicketMenu_SendSms(long? nodeId)
+        public ActionResult ShowTicketMenu_SendSms(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -354,7 +351,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult EditTicketForm(long? nodeId)
+        public ActionResult EditTicketForm(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -364,10 +361,10 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             {
                 NodeId = nodeId.Value,
                 SingleWindowOpDataDetailVm = _opRoutineWebManager.SingleWindow_EditTicketForm_GetData(nodeId.Value),
-                IsEditable = !Dom.SingleWindowReadonly.All.Contains((NodeIdValue)nodeId.Value)
+                IsEditable = !SingleWindowReadonly.All.Contains((NodeIdValue)nodeId.Value)
             };
 
-            if (routineData.SingleWindowOpDataDetailVm.SupplyCode == Dom.SingleWindowOpData.TechnologicalSupplyCode)
+            if (routineData.SingleWindowOpDataDetailVm.SupplyCode == TechRoute.SupplyCode)
             {
                 routineData.SingleWindowOpDataDetailVm.IsTechnologicalRoute = true;
             }
@@ -395,7 +392,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             if (ModelState.IsValid)
             {
                 if (laboratoryFile != null && vmData.NodeId.HasValue)
-                    _ticketWebManager.UploadFile(vmData.NodeId.Value, laboratoryFile, Dom.TicketFile.Type.CustomerLabCertificate);
+                    _ticketWebManager.UploadFile(vmData.NodeId.Value, laboratoryFile, TicketFileType.CustomerLabCertificate);
 
                 _opRoutineWebManager.SingleWindow_EditTicketForm_Save(vmData);
             }
@@ -404,7 +401,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 var errors = ModelState.Where(x => x.Value.Errors.Any()).ToList();
                 var err = errors.SelectMany(x => x.Value.Errors.Select(z => z.ErrorMessage)).ToList();
                 _opRoutineManager.UpdateProcessingMessage(vmData.NodeId.Value,
-                    new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Error, $"{string.Join(@", ", err)}"));
+                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, $"{string.Join(@", ", err)}"));
 
             }
 
@@ -585,7 +582,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             else
             {
                 _opRoutineManager.UpdateProcessingMessage(vmData.NodeId,
-                    new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Warning, "Виберіть маршрут"));
+                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "Виберіть маршрут"));
                 
             }
             return new HttpStatusCodeResult(HttpStatusCode.OK);

@@ -71,7 +71,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
             if (previousScaleData != null && (previousScaleData.TrailerIsAvailable == false && isTruckWeighting || !isTruckWeighting))
             {
                 _logger.Debug($"IsTareMoreGross: isTruckWeighting = {isTruckWeighting}");
-                var scaleConfig = nodeDto.Config.Scale[Model.Node.Config.Scale.Scale1];
+                var scaleConfig = nodeDto.Config.Scale[Model.NodeData.Config.Scale.Scale1];
                 var scaleState = DeviceSyncManager.GetDeviceState(scaleConfig.DeviceId) as ScaleState;
                 if (scaleState == null) throw new Exception("IsTareMoreGross: Scale scale is invalid");
 

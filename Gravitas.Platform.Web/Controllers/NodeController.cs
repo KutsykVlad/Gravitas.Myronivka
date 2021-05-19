@@ -4,17 +4,12 @@ using System.Net;
 using System.Reflection;
 using System.Web.Mvc;
 using AutoMapper;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Common.Attribute;
-using Gravitas.Infrastructure.Platform.SignalRClient;
-using Gravitas.Model;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.ViewModel;
-using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -42,7 +37,7 @@ namespace Gravitas.Platform.Web.Controllers
             return PartialView("_NodeProgres", resultVm);
         }
         
-        public ActionResult RoutineSingle(long? id)
+        public ActionResult RoutineSingle(int? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -68,13 +63,13 @@ namespace Gravitas.Platform.Web.Controllers
             return PartialView("_RoutineSingle", vm);
         }
         
-        public ActionResult NodeProcessingMessage(long nodeId)
+        public ActionResult NodeProcessingMessage(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             return PartialView("_NodeProcessigMessage", Mapper.Map<NodeProcessingMsgVm>(nodeDto.ProcessingMessage));
         }
         
-        public ActionResult Routine(long? id)
+        public ActionResult Routine(int? id)
         {
             if (!id.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             
@@ -107,7 +102,7 @@ namespace Gravitas.Platform.Web.Controllers
                                                                         ?.GetCustomAttribute<OpActionNameAttribute>()
                                                                         ?.ActionName;
 
-        private void InitRoutineActionName(long nodeId)
+        private void InitRoutineActionName(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
 
@@ -118,109 +113,104 @@ namespace Gravitas.Platform.Web.Controllers
 
             switch (nodeDto.OpRoutineId)
             {
-                case Dom.OpRoutine.SingleWindow.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.SingleWindow));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.SingleWindow.State),
+                case OpRoutine.SingleWindow.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.SingleWindow));
+                    actionName = GetActionName(typeof(OpRoutine.SingleWindow.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.SecurityIn.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.SecurityIn));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.SecurityIn.State),
+                case OpRoutine.SecurityIn.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.SecurityIn));
+                    actionName = GetActionName(typeof(OpRoutine.SecurityIn.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.SecurityOut.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.SecurityOut));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.SecurityOut.State),
+                case OpRoutine.SecurityOut.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.SecurityOut));
+                    actionName = GetActionName(typeof(OpRoutine.SecurityOut.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.SecurityReview.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.SecurityReview));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.SecurityReview.State),
+                case OpRoutine.SecurityReview.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.SecurityReview));
+                    actionName = GetActionName(typeof(OpRoutine.SecurityReview.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.LabolatoryIn.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.LabolatoryIn));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.LabolatoryIn.State),
+                case OpRoutine.LaboratoryIn.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.LaboratoryIn));
+                    actionName = GetActionName(typeof(OpRoutine.LaboratoryIn.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.LabolatoryOut.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.LabolatoryOut));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.LabolatoryOut.State),
+                case OpRoutine.Weighbridge.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.Weighbridge));
+                    actionName = GetActionName(typeof(OpRoutine.Weighbridge.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.Weighbridge.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.Weighbridge));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.Weighbridge.State),
+                case OpRoutine.UnloadPointGuide.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.UnloadPointGuide));
+                    actionName = GetActionName(typeof(OpRoutine.UnloadPointGuide.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.UnloadPointGuide.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.UnloadPointGuide));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.UnloadPointGuide.State),
+                case OpRoutine.UnloadPointType1.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.UnloadPointType1));
+                    actionName = GetActionName(typeof(OpRoutine.UnloadPointType1.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.UnloadPointType1.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.UnloadPointType1));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.UnloadPointType1.State),
+                case OpRoutine.LoadCheckPoint.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.LoadCheckPoint));
+                    actionName = GetActionName(typeof(OpRoutine.LoadCheckPoint.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.LoadCheckPoint.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.LoadCheckPoint));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.LoadCheckPoint.State),
+                case OpRoutine.UnloadCheckPoint.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.UnloadCheckPoint));
+                    actionName = GetActionName(typeof(OpRoutine.UnloadCheckPoint.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.UnloadCheckPoint.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.UnloadCheckPoint));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.UnloadCheckPoint.State),
+                case OpRoutine.LoadPointGuide.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.LoadPointGuide));
+                    actionName = GetActionName(typeof(OpRoutine.LoadPointGuide.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.LoadPointGuide.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.LoadPointGuide));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.LoadPointGuide.State),
+                case OpRoutine.CentralLaboratorySamples.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.CentralLaboratorySamples));
+                    actionName = GetActionName(typeof(OpRoutine.CentralLaboratorySamples.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.CentralLaboratorySamples.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.CentralLaboratorySamples));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.CentralLaboratorySamples.State),
+                case OpRoutine.CentralLaboratoryProcess.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.CentralLaboratoryProcess));
+                    actionName = GetActionName(typeof(OpRoutine.CentralLaboratoryProcess.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.CentralLaboratoryProcess.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.CentralLaboratoryProcess));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.CentralLaboratoryProcess.State),
+                case OpRoutine.LoadPointType1.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.LoadPointType1));
+                    actionName = GetActionName(typeof(OpRoutine.LoadPointType1.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.LoadPointType1.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.LoadPointType1));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.LoadPointType1.State),
-                        nodeDto.Context.OpRoutineStateId.Value);
-                    break;
-                case Dom.OpRoutine.UnloadPointType2.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.UnloadPointType2));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.UnloadPointType2.State),
+                case OpRoutine.UnloadPointType2.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.UnloadPointType2));
+                    actionName = GetActionName(typeof(OpRoutine.UnloadPointType2.State),
                     nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.MixedFeedManage.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.MixedFeedManage));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.MixedFeedManage.State),
+                case OpRoutine.MixedFeedManage.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.MixedFeedManage));
+                    actionName = GetActionName(typeof(OpRoutine.MixedFeedManage.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.MixedFeedGuide.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.MixedFeedGuide));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.MixedFeedGuide.State),
+                case OpRoutine.MixedFeedGuide.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.MixedFeedGuide));
+                    actionName = GetActionName(typeof(OpRoutine.MixedFeedGuide.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.MixedFeedLoad.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.MixedFeedLoad));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.MixedFeedLoad.State),
+                case OpRoutine.MixedFeedLoad.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.MixedFeedLoad));
+                    actionName = GetActionName(typeof(OpRoutine.MixedFeedLoad.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.UnloadPointGuide2.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.UnloadPointGuide2));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.UnloadPointGuide2.State),
+                case OpRoutine.UnloadPointGuide2.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.UnloadPointGuide2));
+                    actionName = GetActionName(typeof(OpRoutine.UnloadPointGuide2.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
-                case Dom.OpRoutine.LoadPointGuide2.Id:
-                    controllerName = GetControllerName(typeof(Dom.OpRoutine.LoadPointGuide2));
-                    actionName = GetActionName(typeof(Dom.OpRoutine.LoadPointGuide2.State),
+                case OpRoutine.LoadPointGuide2.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.LoadPointGuide2));
+                    actionName = GetActionName(typeof(OpRoutine.LoadPointGuide2.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
             }
@@ -229,6 +219,6 @@ namespace Gravitas.Platform.Web.Controllers
             ViewBag.ControllerName = controllerName;
         }
 
-        public void ClearNodeProcessingMessage(long nodeId) => _nodeRepository.ClearNodeProcessingMessage(nodeId);
+        public void ClearNodeProcessingMessage(int nodeId) => _nodeRepository.ClearNodeProcessingMessage(nodeId);
     }
 }

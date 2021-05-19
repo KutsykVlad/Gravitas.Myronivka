@@ -4,7 +4,6 @@ using Gravitas.Model;
 using Gravitas.Platform.Web.Manager.Employee;
 using Gravitas.Platform.Web.ViewModel.Employee;
 using Gravitas.Platform.Web.ViewModel.User;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -42,8 +41,8 @@ namespace Gravitas.Platform.Web.Controllers
             {
                 employeeId,
                 errorType = isSuccess
-                    ? Dom.User.ProcessingMsg.Type.Success
-                    : Dom.User.ProcessingMsg.Type.Error,
+                    ? NodeData.ProcessingMsg.Type.Success
+                    : NodeData.ProcessingMsg.Type.Error,
                 errorMessage = msg,
                 returnPage
             });
@@ -59,8 +58,8 @@ namespace Gravitas.Platform.Web.Controllers
             {
                 employeeId,
                 errorType = isSuccess
-                    ? Dom.User.ProcessingMsg.Type.Success
-                    : Dom.User.ProcessingMsg.Type.Error,
+                    ? NodeData.ProcessingMsg.Type.Success
+                    : NodeData.ProcessingMsg.Type.Error,
                 errorMessage = msg,
                 returnPage
             });

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Gravitas.Platform.Web.ViewModel.Employee;
+using Gravitas.Platform.Web.ViewModel.OpData.Base;
 
 namespace Gravitas.Platform.Web.ViewModel {
 

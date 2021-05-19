@@ -1,13 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.OpWorkflow.Routes;
 using Gravitas.DAL.Repository.PreRegistration;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.PreRegistration.DAO;
-using Gravitas.Model.DomainModel.PreRegistration.DTO;
-using Gravitas.Platform.Web.ViewModel.PreRegistration;
+using Gravitas.Platform.Web.ViewModel.PreRegistration.AdminPanel;
 
 namespace Gravitas.Platform.Web.Controllers.PreRegister
 {
@@ -61,7 +58,7 @@ namespace Gravitas.Platform.Web.Controllers.PreRegister
             return View(vm);
         }
         
-        public ActionResult Remove(long id)
+        public ActionResult Remove(int id)
         {
             _preRegistrationRepository.RemoveProduct(id);
             return RedirectToAction(nameof(Get));

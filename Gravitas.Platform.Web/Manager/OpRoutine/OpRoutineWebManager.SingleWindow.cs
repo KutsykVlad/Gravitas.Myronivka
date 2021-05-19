@@ -30,6 +30,7 @@ using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Dom = Gravitas.Model.DomainValue.Dom;
 using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using SingleWindowVms = Gravitas.Platform.Web.ViewModel.OpRoutine.SingleWindow.SingleWindowVms;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {

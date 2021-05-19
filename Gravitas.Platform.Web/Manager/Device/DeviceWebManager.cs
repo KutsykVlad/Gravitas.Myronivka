@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.Node;
@@ -9,11 +8,10 @@ using Gravitas.Infrastructure.Platform.ApiClient.Devices;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
-using Gravitas.Model.Dto;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.Device
 {
     public class DeviceWebManager : IDeviceWebManager
     {
@@ -34,36 +32,36 @@ namespace Gravitas.Platform.Web.Manager
             _context = context;
         }
 
-        public long? GetDeviceType(long deviceId)
+        public DeviceType? GetDeviceType(int deviceId)
         {
             return _context.Devices.First(x => x.Id == deviceId)?.TypeId;
         }
 
-        public DeviceStateVms.WeighbridgeStateVm GetWeightbridgeStateVm(long nodeId)
+        public DeviceStateVms.WeighbridgeStateVm GetWeightbridgeStateVm(int nodeId)
         {
             var nodeDetail = _nodeRepository.GetNodeDto(nodeId);
 
-            if (!nodeDetail.Config.Scale.TryGetValue(Dom.Node.Config.Scale.Scale1, out var scaleConfig)
+            if (!nodeDetail.Config.Scale.TryGetValue(NodeData.Config.Scale.Scale1, out var scaleConfig)
                 || !(DeviceSyncManager.GetDeviceState(scaleConfig.DeviceId) is ScaleState scaleState)
                 || scaleState.InData == null)
                 return null;
 
-            if (!nodeDetail.Config.DI.TryGetValue(Dom.Node.Config.DI.PerimeterLeft, out var plConfig)
+            if (!nodeDetail.Config.DI.TryGetValue(NodeData.Config.DI.PerimeterLeft, out var plConfig)
                 || !(DeviceSyncManager.GetDeviceState(plConfig.DeviceId) is DigitalInState plState)
                 || plState.InData == null)
                 return null;
 
-            if (!nodeDetail.Config.DI.TryGetValue(Dom.Node.Config.DI.PerimeterRight, out var prConfig)
+            if (!nodeDetail.Config.DI.TryGetValue(NodeData.Config.DI.PerimeterRight, out var prConfig)
                 || !(DeviceSyncManager.GetDeviceState(prConfig.DeviceId) is DigitalInState prState)
                 || prState.InData == null)
                 return null;
 
-            if (!nodeDetail.Config.DI.TryGetValue(Dom.Node.Config.DI.PerimeterTop, out var ptConfig)
+            if (!nodeDetail.Config.DI.TryGetValue(NodeData.Config.DI.PerimeterTop, out var ptConfig)
                 || !(DeviceSyncManager.GetDeviceState(ptConfig.DeviceId) is DigitalInState ptState)
                 || ptState.InData == null)
                 return null;
 
-            if (!nodeDetail.Config.DI.TryGetValue(Dom.Node.Config.DI.PerimeterBottom, out var pbConfig)
+            if (!nodeDetail.Config.DI.TryGetValue(NodeData.Config.DI.PerimeterBottom, out var pbConfig)
                 || !(DeviceSyncManager.GetDeviceState(pbConfig.DeviceId) is DigitalInState pbState)
                 || pbState.InData == null)
                 return null;
@@ -92,7 +90,7 @@ namespace Gravitas.Platform.Web.Manager
             return result;
         }
 
-        public DeviceStateVms.LabFossStateVm GetLabFossStateVm(long deviceId)
+        public DeviceStateVms.LabFossStateVm GetLabFossStateVm(int deviceId)
         {
             if (!(_deviceRepository.GetDeviceState(deviceId) is LabFossState labFossState)
                 || !_deviceRepository.IsDeviceStateValid(out _, labFossState))
@@ -111,7 +109,7 @@ namespace Gravitas.Platform.Web.Manager
             return result;
         }
 
-        public DeviceStateVms.LabBrukerStateVm GetLabBrukerStateVm(long deviceId)
+        public DeviceStateVms.LabBrukerStateVm GetLabBrukerStateVm(int deviceId)
         {
             if (!(_deviceRepository.GetDeviceState(deviceId) is LabBrukerState labBrukerState)
                 || !_deviceRepository.IsDeviceStateValid(out _, labBrukerState))
@@ -130,7 +128,7 @@ namespace Gravitas.Platform.Web.Manager
             return result;
         }
 
-        public DeviceStateVms.LabAnalyserStateDialogVm GetLabAnalyserStateDialogVm(long deviceId, long nodeId)
+        public DeviceStateVms.LabAnalyserStateDialogVm GetLabAnalyserStateDialogVm(int deviceId, int nodeId)
         {
             var deviceState = _deviceRepository.GetDeviceState(deviceId);
             if (!_deviceRepository.IsDeviceStateValid(out _, deviceState))
@@ -156,28 +154,28 @@ namespace Gravitas.Platform.Web.Manager
                                 Id = 1,
                                 Name = "Вологість",
                                 Value = labFossState.InData.HumidityValue,
-                                TargetId = Dom.ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Протеїн",
                                 Value = labFossState.InData.ProteinValue,
-                                TargetId = Dom.ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Олійність",
                                 Value = labFossState.InData.OilValue,
-                                TargetId = Dom.ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Fibre",
                                 Value = labFossState.InData.FibreValue,
-                                TargetId = Dom.ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = ExternalData.LabDevResultType.SaveAsComment
                             }
                         }
                     };
@@ -201,14 +199,14 @@ namespace Gravitas.Platform.Web.Manager
                                 Id = 1,
                                 Name = "Результат 1",
                                 Value = labBrukerState.InData.Result1,
-                                TargetId = Dom.ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Результат 2",
                                 Value = labBrukerState.InData.Result2,
-                                TargetId = Dom.ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = ExternalData.LabDevResultType.SaveAsComment
                             }
                         }
                     };
@@ -231,28 +229,28 @@ namespace Gravitas.Platform.Web.Manager
                                 Id = 1,
                                 Name = "Білок",
                                 Value = labInfrascanState.InData.ProteinValue,
-                                TargetId = Dom.ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Жир",
                                 Value = labInfrascanState.InData.FatValue,
-                                TargetId = Dom.ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Волога",
                                 Value = labInfrascanState.InData.HumidityValue,
-                                TargetId = Dom.ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = ExternalData.LabDevResultType.SaveAsComment
                             },
                             new DeviceStateVms.LabAnalyserValueVm
                             {
                                 Id = 1,
                                 Name = "Клітковина",
                                 Value = labInfrascanState.InData.CelluloseValue,
-                                TargetId = Dom.ExternalData.LabDevResultType.SaveAsComment
+                                TargetId = ExternalData.LabDevResultType.SaveAsComment
                             }
                         }
                     };
@@ -262,7 +260,7 @@ namespace Gravitas.Platform.Web.Manager
             return null;
         }
 
-        public DeviceStateVms.LabInfroscanStateVm GetLabInfrascanStateVm(long deviceId)
+        public DeviceStateVms.LabInfroscanStateVm GetLabInfrascanStateVm(int deviceId)
         {
             if (!(_deviceRepository.GetDeviceState(deviceId) is LabInfrascanState labInfrascanState)
                 || !_deviceRepository.IsDeviceStateValid(out _, labInfrascanState))

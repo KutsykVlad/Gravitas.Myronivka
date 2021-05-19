@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Platform.SignalRClient;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.PreRegistration.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Platform.Web.Manager;
+using Gravitas.Platform.Web.Manager.Ticket;
+using Gravitas.Platform.Web.Manager.TicketContainer;
 using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.Shared;
 using Gravitas.Platform.Web.ViewModel.TicketContainer;
 using Gravitas.Platform.Web.ViewModel.TicketContainer.List;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -49,7 +49,7 @@ namespace Gravitas.Platform.Web.Controllers
             return PartialView("_GetRegistry", vm);
         }
         
-        public ActionResult TicketList(long? id)
+        public ActionResult TicketList(int? id)
         {
             return id == null
                 ? (ActionResult) new HttpStatusCodeResult(HttpStatusCode.BadRequest)
@@ -113,7 +113,7 @@ namespace Gravitas.Platform.Web.Controllers
         {
             if (!detailActionLink.NodeId.HasValue) return new HttpStatusCodeResult(400);
 
-            var items = _opDataRepository.GetQuery<PreRegisterQueue, long>()
+            var items = _opDataRepository.GetQuery<PreRegisterQueue, int>()
                 .ToList()
                 .Where(x => x.RegisterDateTime.AddMinutes(30) > DateTime.Now)
                 .Select(x => new PreRegisterTicketContainerItemVm
@@ -187,8 +187,8 @@ namespace Gravitas.Platform.Web.Controllers
             var items = activeTicketContainers
                 .Where(item =>
                 {
-                    var tmpTicket = _ticketRepository.GetTicketInContainer(item, Dom.Ticket.Status.Processing)
-                                    ?? _ticketRepository.GetTicketInContainer(item, Dom.Ticket.Status.ToBeProcessed);
+                    var tmpTicket = _ticketRepository.GetTicketInContainer(item, TicketStatus.Processing)
+                                    ?? _ticketRepository.GetTicketInContainer(item, TicketStatus.ToBeProcessed);
     
                     var loadPointArrival = _opDataRepository.GetFirstOrDefault<UnloadPointOpData, Guid>(x => x.TicketId == tmpTicket.Id);
                     return loadPointArrival == null;
@@ -238,8 +238,8 @@ namespace Gravitas.Platform.Web.Controllers
             var items = activeTicketContainers
                 .Where(item =>
                 {
-                    var tmpTicket = _ticketRepository.GetTicketInContainer(item, Dom.Ticket.Status.Processing)
-                                    ?? _ticketRepository.GetTicketInContainer(item, Dom.Ticket.Status.ToBeProcessed);
+                    var tmpTicket = _ticketRepository.GetTicketInContainer(item, TicketStatus.Processing)
+                                    ?? _ticketRepository.GetTicketInContainer(item, TicketStatus.ToBeProcessed);
 
                     var loadPointArrival = _opDataRepository.GetFirstOrDefault<LoadPointOpData, Guid>(x => x.TicketId == tmpTicket.Id);
                     return loadPointArrival == null;
@@ -276,23 +276,23 @@ namespace Gravitas.Platform.Web.Controllers
         {
             if (!detailActionLink.NodeId.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var activeTicketContainers = GetRelatedTicketContainers(detailActionLink.NodeId.Value).ToList();
-            var sortedTicketContainers = new List<long>();
+            var sortedTicketContainers = new List<int>();
 
             foreach (var activeTicketContainer in activeTicketContainers)
             {
-                var ticket = _ticketRepository.GetFirstOrDefault<Ticket, long>(item =>
-                    item.ContainerId == activeTicketContainer && item.StatusId == Dom.Ticket.Status.Processing);
+                var ticket = _ticketRepository.GetFirstOrDefault<Ticket, int>(item =>
+                    item.TicketContainerId == activeTicketContainer && item.StatusId == TicketStatus.Processing);
                 if (ticket == null) continue;
 
                 var routeMapStatus = ticket.RouteType;
-                if (routeMapStatus != Dom.Route.Type.PartLoad && routeMapStatus != Dom.Route.Type.Reload) continue;
+                if (routeMapStatus != RouteType.PartLoad && routeMapStatus != RouteType.Reload) continue;
                 
-                var centralOpData = _opDataRepository.GetLastOpData<CentralLabOpData>(ticket.Id, Dom.OpDataState.Rejected);
-                var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, Dom.OpDataState.Canceled);
+                var centralOpData = _opDataRepository.GetLastOpData<CentralLabOpData>(ticket.Id, OpDataState.Rejected);
+                var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, OpDataState.Canceled);
                 if (centralOpData != null || scaleOpData != null)
                 {
                     var data = centralOpData?.CheckOutDateTime ?? scaleOpData?.CheckOutDateTime;
-                    var loadOpData = _opDataRepository.GetLastOpData<LoadPointOpData>(ticket.Id, Dom.OpDataState.Processed);
+                    var loadOpData = _opDataRepository.GetLastOpData<LoadPointOpData>(ticket.Id, OpDataState.Processed);
                     if (data > loadOpData?.CheckOutDateTime) sortedTicketContainers.Add(activeTicketContainer);
                 }
             }
@@ -311,25 +311,25 @@ namespace Gravitas.Platform.Web.Controllers
         {
             if (!detailActionLink.NodeId.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var activeTicketContainers = GetRelatedTicketContainers(detailActionLink.NodeId.Value).ToList();
-            var sortedTicketContainers = new List<long>();
+            var sortedTicketContainers = new List<int>();
 
             foreach (var activeTicketContainer in activeTicketContainers)
             {
-                var ticket = _ticketRepository.GetFirstOrDefault<Ticket, long>(item =>
-                    item.ContainerId == activeTicketContainer && item.StatusId == Dom.Ticket.Status.Processing);
+                var ticket = _ticketRepository.GetFirstOrDefault<Ticket, int>(item =>
+                    item.TicketContainerId == activeTicketContainer && item.StatusId == TicketStatus.Processing);
                 if (ticket == null) continue;
 
                 var routeMapStatus = ticket.RouteType;
-                if (routeMapStatus != Dom.Route.Type.PartUnload 
-                    && routeMapStatus != Dom.Route.Type.Reload 
-                    && routeMapStatus != Dom.Route.Type.Move) continue;
+                if (routeMapStatus != RouteType.PartUnload 
+                    && routeMapStatus != RouteType.Reload 
+                    && routeMapStatus != RouteType.Move) continue;
                 
-                var centralOpData = _opDataRepository.GetLastOpData<CentralLabOpData>(ticket.Id, Dom.OpDataState.Rejected);
-                var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, Dom.OpDataState.Canceled);
+                var centralOpData = _opDataRepository.GetLastOpData<CentralLabOpData>(ticket.Id, OpDataState.Rejected);
+                var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, OpDataState.Canceled);
                 if (centralOpData != null || scaleOpData != null)
                 {
                     var data = centralOpData?.CheckOutDateTime ?? scaleOpData?.CheckOutDateTime;
-                    var unloadOpData = _opDataRepository.GetLastOpData<UnloadPointOpData>(ticket.Id, Dom.OpDataState.Processed);
+                    var unloadOpData = _opDataRepository.GetLastOpData<UnloadPointOpData>(ticket.Id, OpDataState.Processed);
                     if (data > unloadOpData?.CheckOutDateTime || unloadOpData == null) sortedTicketContainers.Add(activeTicketContainer);
                 }
             }
@@ -352,22 +352,22 @@ namespace Gravitas.Platform.Web.Controllers
         {
             if (!detailActionLink.NodeId.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var activeTicketContainers = GetRelatedTicketContainers(detailActionLink.NodeId.Value).ToList();
-            var sortedTicketContainers = new List<long>();
+            var sortedTicketContainers = new List<int>();
 
             foreach (var activeTicketContainer in activeTicketContainers)
             {
-                var ticket = _ticketRepository.GetFirstOrDefault<Ticket, long>(item =>
-                    item.ContainerId == activeTicketContainer && item.StatusId == Dom.Ticket.Status.Processing);
+                var ticket = _ticketRepository.GetFirstOrDefault<Ticket, int>(item =>
+                    item.TicketContainerId == activeTicketContainer && item.StatusId == TicketStatus.Processing);
                 if (ticket == null) continue;
 
                 var routeMapStatus = ticket.RouteType;
-                if (routeMapStatus != Dom.Route.Type.PartLoad && routeMapStatus != Dom.Route.Type.Reload) continue;
+                if (routeMapStatus != RouteType.PartLoad && routeMapStatus != RouteType.Reload) continue;
 
-                var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, Dom.OpDataState.Canceled);
+                var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, OpDataState.Canceled);
                 if (scaleOpData != null)
                 {
                     var data = scaleOpData.CheckOutDateTime;
-                    var loadOpData = _opDataRepository.GetLastOpData<MixedFeedLoadOpData>(ticket.Id, Dom.OpDataState.Processed);
+                    var loadOpData = _opDataRepository.GetLastOpData<MixedFeedLoadOpData>(ticket.Id, OpDataState.Processed);
                     if (data > loadOpData?.CheckOutDateTime) sortedTicketContainers.Add(activeTicketContainer);
                 }
             }
@@ -386,22 +386,22 @@ namespace Gravitas.Platform.Web.Controllers
         {
             if (!detailActionLink.NodeId.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var activeTicketContainers = GetRelatedTicketContainers(detailActionLink.NodeId.Value).ToList();
-            var sortedTicketContainers = new List<long>();
+            var sortedTicketContainers = new List<int>();
 
             foreach (var activeTicketContainer in activeTicketContainers)
             {
-                var ticket = _ticketRepository.GetFirstOrDefault<Ticket, long>(item =>
-                    item.ContainerId == activeTicketContainer && item.StatusId == Dom.Ticket.Status.Processing);
+                var ticket = _ticketRepository.GetFirstOrDefault<Ticket, int>(item =>
+                    item.TicketContainerId == activeTicketContainer && item.StatusId == TicketStatus.Processing);
                 if (ticket == null) continue;
 
                 var routeMapStatus = ticket.RouteType;
-                if (routeMapStatus != Dom.Route.Type.PartUnload && routeMapStatus != Dom.Route.Type.Reload) continue;
+                if (routeMapStatus != RouteType.PartUnload && routeMapStatus != RouteType.Reload) continue;
 
-                var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, Dom.OpDataState.Canceled);
+                var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, OpDataState.Canceled);
                 if (scaleOpData != null)
                 {
                     var data = scaleOpData.CheckOutDateTime;
-                    var loadOpData = _opDataRepository.GetLastOpData<MixedFeedLoadOpData>(ticket.Id, Dom.OpDataState.Processed);
+                    var loadOpData = _opDataRepository.GetLastOpData<MixedFeedLoadOpData>(ticket.Id, OpDataState.Processed);
                     if (data > loadOpData?.CheckOutDateTime) sortedTicketContainers.Add(activeTicketContainer);
                 }
             }
@@ -447,71 +447,71 @@ namespace Gravitas.Platform.Web.Controllers
 
         #endregion
         
-        private IEnumerable<long> GetRelatedTicketContainers(long nodeId)
+        private IEnumerable<int> GetRelatedTicketContainers(int nodeId)
         {
-            var nodeList = new List<long>();
+            var nodeList = new List<int>();
             switch (nodeId)
             {
-                case (long)NodeIdValue.LoadPointGuideMPZ:
-                    nodeList.AddRange(new List<long> 
+                case (int)NodeIdValue.LoadPointGuideMPZ:
+                    nodeList.AddRange(new List<int> 
                     {
-                        (long) NodeIdValue.LoadPoint60,
-                        (long) NodeIdValue.LoadPoint61,
-                        (long) NodeIdValue.LoadPoint62
+                        (int) NodeIdValue.LoadPoint60,
+                        (int) NodeIdValue.LoadPoint61,
+                        (int) NodeIdValue.LoadPoint62
                     });
                     break; 
-                case (long)NodeIdValue.MixedFeedGuide:
-                    nodeList.AddRange(new List<long> 
+                case (int)NodeIdValue.MixedFeedGuide:
+                    nodeList.AddRange(new List<int> 
                     {
-                        (long) NodeIdValue.MixedFeedLoad1,
-                        (long) NodeIdValue.MixedFeedLoad2,
-                        (long) NodeIdValue.MixedFeedLoad3,
-                        (long) NodeIdValue.MixedFeedLoad4,
-                        (long) NodeIdValue.MixedFeedGuide,
-                        (long) NodeIdValue.UnloadPoint30
+                        (int) NodeIdValue.MixedFeedLoad1,
+                        (int) NodeIdValue.MixedFeedLoad2,
+                        (int) NodeIdValue.MixedFeedLoad3,
+                        (int) NodeIdValue.MixedFeedLoad4,
+                        (int) NodeIdValue.MixedFeedGuide,
+                        (int) NodeIdValue.UnloadPoint30
                     });
                     break; 
-                case (long)NodeIdValue.CentralLaboratoryProcess1:
-                case (long)NodeIdValue.CentralLaboratoryProcess2:
-                case (long)NodeIdValue.CentralLaboratoryProcess3:
-                    nodeList.AddRange(new List<long> 
+                case (int)NodeIdValue.CentralLaboratoryProcess1:
+                case (int)NodeIdValue.CentralLaboratoryProcess2:
+                case (int)NodeIdValue.CentralLaboratoryProcess3:
+                    nodeList.AddRange(new List<int> 
                     {
-                        (long) NodeIdValue.CentralLaboratoryGetOil1,
-                        (long) NodeIdValue.CentralLaboratoryGetOil2,
-                        (long) NodeIdValue.CentralLaboratoryGetShrot,
-                        (long) NodeIdValue.CentralLaboratoryGetCustomStore,
-                        (long) NodeIdValue.CentralLaboratoryGetTruckRamp
+                        (int) NodeIdValue.CentralLaboratoryGetOil1,
+                        (int) NodeIdValue.CentralLaboratoryGetOil2,
+                        (int) NodeIdValue.CentralLaboratoryGetShrot,
+                        (int) NodeIdValue.CentralLaboratoryGetCustomStore,
+                        (int) NodeIdValue.CentralLaboratoryGetTruckRamp
                     });
                     break; 
                 default:
-                    nodeList.AddRange(new List<long> { nodeId });
+                    nodeList.AddRange(new List<int> { nodeId });
                     break; 
             }
 
             return GetNodesContainers(nodeList.Any() ? nodeList : null);
         }
 
-        private IEnumerable<long> GetNodesContainers(List<long> nodeList)
+        private IEnumerable<int> GetNodesContainers(List<int> nodeList)
         {
             return _ticketContainerRegistryManager
                    .GetActiveTicketContainers(nodeList)
                    .ToList();
         }
         
-        private IEnumerable<long> FilterSingleWindowTicketContainers(int nodeId)
+        private IEnumerable<int> FilterSingleWindowTicketContainers(int nodeId)
         {
             var filterId = NodeFilters[nodeId];
-            var result = new List<long>();
+            var result = new List<int>();
             
             var tickets = 
                 (from card in _context.Cards
-                    join ticket in _context.Tickets on card.TicketContainerId equals ticket.ContainerId 
+                    join ticket in _context.Tickets on card.TicketContainerId equals ticket.TicketContainerId 
                     where card.TicketContainerId.HasValue
-                        && (filterId == 0 || (ticket.StatusId == Dom.Ticket.Status.Processing
-                                          || ticket.StatusId == Dom.Ticket.Status.ToBeProcessed
-                                          || ticket.StatusId == Dom.Ticket.Status.New))
+                        && (filterId == 0 || (ticket.StatusId == TicketStatus.Processing
+                                          || ticket.StatusId == TicketStatus.ToBeProcessed
+                                          || ticket.StatusId == TicketStatus.New))
                     select ticket)
-                .GroupBy(x => x.ContainerId)
+                .GroupBy(x => x.TicketContainerId)
                 .Select(x => x.OrderByDescending(z => z.StatusId)
                     .FirstOrDefault())
                 .ToList();
@@ -522,7 +522,7 @@ namespace Gravitas.Platform.Web.Controllers
                 
                 if (filterId == 0)
                 {
-                    result.Add(ticket.ContainerId);
+                    result.Add(ticket.TicketContainerId);
                     continue;
                 }
 
@@ -533,19 +533,19 @@ namespace Gravitas.Platform.Web.Controllers
                     case (int)SingleWindowRegisterFilter.InQueue:
                         if (opData.Node.Id == (long) NodeIdValue.SingleWindowFirst 
                             || opData.Node.Id == (long) NodeIdValue.SingleWindowSecond 
-                            || opData.Node.Id == (long) NodeIdValue.SingleWindowThird) result.Add(ticket.ContainerId);
+                            || opData.Node.Id == (long) NodeIdValue.SingleWindowThird) result.Add(ticket.TicketContainerId);
                         break;
                     case (int)SingleWindowRegisterFilter.Inside:
                         if (opData.Node.Id != (long) NodeIdValue.SingleWindowFirst 
                             && opData.Node.Id != (long) NodeIdValue.SingleWindowSecond
                             && opData.Node.Id != (long) NodeIdValue.SingleWindowThird
                             && opData.Node.Id != (long) NodeIdValue.SecurityOut2
-                            && opData.Node.Id != (long) NodeIdValue.SecurityOut1) result.Add(ticket.ContainerId);
+                            && opData.Node.Id != (long) NodeIdValue.SecurityOut1) result.Add(ticket.TicketContainerId);
                         break;
                     case (int)SingleWindowRegisterFilter.Completed:
-                        if (ticket.StatusId == Dom.Ticket.Status.Closed 
+                        if (ticket.StatusId == TicketStatus.Closed 
                             || opData.Node.Id == (long) NodeIdValue.SecurityOut2 
-                            || opData.Node.Id == (long) NodeIdValue.SecurityOut1) result.Add(ticket.ContainerId);
+                            || opData.Node.Id == (long) NodeIdValue.SecurityOut1) result.Add(ticket.TicketContainerId);
                         break;
                 }
             }

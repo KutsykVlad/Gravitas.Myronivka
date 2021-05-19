@@ -1,10 +1,8 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Web.Mvc;
-using Gravitas.DAL;
-using Gravitas.DAL.Repository.Node;
+using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Platform.SignalRClient;
-using Gravitas.Model;
-using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Platform.Web.Manager.OpRoutine;
 using Gravitas.Platform.Web.Manager.Workstation;
 using Gravitas.Platform.Web.ViewModel;
@@ -13,18 +11,17 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 {
     public class MixedFeedLoadController : Controller
     {
-        private readonly INodeRepository _nodeRepository;
         private readonly IOpRoutineWebManager _opRoutineWebManager;
         private readonly IWorkstationWebManager _workstationWebManager;
-
+        private readonly GravitasDbContext _context;
 
         public MixedFeedLoadController(IOpRoutineWebManager opRoutineWebManager,
             IWorkstationWebManager workstationWebManager, 
-            INodeRepository nodeRepository)
+            GravitasDbContext context)
         {
             _opRoutineWebManager = opRoutineWebManager;
             _workstationWebManager = workstationWebManager;
-            _nodeRepository = nodeRepository;
+            _context = context;
         }
 
         #region 01_Workstation
@@ -34,7 +31,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var node = _nodeRepository.GetEntity<Node, long>(nodeId.Value);
+            var node = _context.Nodes.First(x => x.Id == nodeId.Value);
 
             var workstationData = _workstationWebManager.GetWorkstationNodes(node.OrganisationUnitId ?? 0);
             workstationData.CurrentNodeId = nodeId.Value;
@@ -48,7 +45,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             if (nodeId != null)
             {
                 _opRoutineWebManager.MixedFeedLoad_Workstation_SetNodeActive(nodeId.Value);
-                var node = _nodeRepository.GetEntity<Node, long>(nodeId.Value);
+                var node = _context.Nodes.First(x => x.Id == nodeId.Value);
                 if (node.OrganisationUnitId.HasValue) SignalRInvoke.ReloadHubGroup(node.OrganisationUnitId.Value);
             }
 

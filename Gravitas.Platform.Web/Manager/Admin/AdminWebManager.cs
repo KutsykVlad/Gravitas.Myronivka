@@ -1,27 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
-using Gravitas.DAL.Repository;
 using Gravitas.DAL.Repository.EmployeeRoles;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.Phones;
 using Gravitas.DAL.Repository.Queue;
 using Gravitas.DAL.Repository.Traffic;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
-using Gravitas.Model.Dto;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
 using Gravitas.Platform.Web.ViewModel.OpData.NonStandart;
-using Dom = Gravitas.Model.DomainValue.Dom;
 using Node = Gravitas.Model.DomainModel.Node.DAO.Node;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.Admin
 {
     public class AdminWebManager : IAdminWebManager
     {
@@ -67,11 +63,11 @@ namespace Gravitas.Platform.Web.Manager
                         Count = t.Count,
                         Priority = t.PriorityId,
                         ReceiverId = t.PartnerId,
-                        Category =t.CategoryId,
-                        CategoryDescription = categories.FirstOrDefault(category => category.Id == t.CategoryId).Description,
-                        PriorityDescription = priorities.FirstOrDefault(priority => priority.Id == t.PriorityId).Description,
+                        Category = t.CategoryId,
+                        CategoryDescription = categories.FirstOrDefault(category => category.Id == (int) t.CategoryId)?.Description,
+                        PriorityDescription = priorities.FirstOrDefault(priority => priority.Id == (int) t.PriorityId)?.Description,
                         ReceiverName = t.PartnerId == null? null :_externalDataRepository.GetPartnerDetail(t.PartnerId).ShortName,
-                        IsFixed = t.CategoryId != Dom.Queue.Category.Partners
+                        IsFixed = t.CategoryId != QueueCategory.Partners
                     })
                     .OrderBy(vm => vm.Category)
                     .ToList()
@@ -84,7 +80,7 @@ namespace Gravitas.Platform.Web.Manager
 
         public void UpdateQueuePatternItem(QueuePatternItemVm itemVm)
         {
-            _queueSettingsRepository.AddOrUpdate<QueuePatternItem, long>(new QueuePatternItem
+            _queueSettingsRepository.AddOrUpdate<QueuePatternItem, int>(new QueuePatternItem
             {
                 CategoryId =
                    itemVm.Category,
@@ -98,11 +94,11 @@ namespace Gravitas.Platform.Web.Manager
 
         public void DeleteQueuePatternItem(QueuePatternItemVm itemVm)
         {
-            _queueSettingsRepository.Delete<QueuePatternItem, long>(
+            _queueSettingsRepository.Delete<QueuePatternItem, int>(
                 _context.QueuePatternItems.First(x => x.Id == itemVm.QueuePatternItemId));
         }
 
-        private int CountInQueue(long nodeId)
+        private int CountInQueue(int nodeId)
         {
             return _trafficRepository.GetNodeTrafficHistory(nodeId).Items.Count(t => t.DepartureTime == null);
         }
@@ -115,7 +111,7 @@ namespace Gravitas.Platform.Web.Manager
         {
             var vm = new NodeEditListVm
             {
-                Items = _nodeRepository.GetQuery<Node, long>()
+                Items = _nodeRepository.GetQuery<Node, int>()
                     .Select(node => new NodeEditVm
                     {
                         Id = node.Id,
@@ -137,7 +133,7 @@ namespace Gravitas.Platform.Web.Manager
             {
                 current.Quota = vm.Quota;
                 current.MaximumProcessingTime = vm.MaximumProcessingTime;
-                _nodeRepository.Update<Node, long>(current);
+                _nodeRepository.Update<Node, int>(current);
             }
         }
 
@@ -150,7 +146,7 @@ namespace Gravitas.Platform.Web.Manager
         {
             var vm = new NodesTrafficListVm
             {
-                Items = _nodeRepository.GetQuery<Node, long>()
+                Items = _nodeRepository.GetQuery<Node, int>()
                     .Select(t => new NodeTrafficListVm
                     {
                         NodeName = t.Name, 
@@ -176,7 +172,7 @@ namespace Gravitas.Platform.Web.Manager
                 if (handledRecords.Any())
                 {
                     var avg = handledRecords.Average(i => (i.DepartureTime - i.EntranceTime).Value.Minutes);
-                    item.AverageTime = (long)avg;
+                    item.AverageTime = (int)avg;
                 }
                 else
                 {
@@ -197,7 +193,7 @@ namespace Gravitas.Platform.Web.Manager
         {
             var vm = new NodesTrafficListVm
             {
-                Items = _nodeRepository.GetQuery<Node, long>()
+                Items = _nodeRepository.GetQuery<Node, int>()
                     .Select(t => new NodeTrafficListVm
                     {
                         NodeName = t.Name,
@@ -298,9 +294,11 @@ namespace Gravitas.Platform.Web.Manager
 
         public void UpdateRole(RoleVm role)
         {
-            var roleToUpdate = new RoleDetail();
-            roleToUpdate.Name = role.RoleName;
-            roleToUpdate.RoleId = role.RoleId;
+            var roleToUpdate = new RoleDetail
+            {
+                Name = role.RoleName,
+                RoleId = role.RoleId
+            };
             var assignments = role.Assignments.Where(t => t.IsAssigned).ToList();
             roleToUpdate.Nodes = assignments.Select(t => t.NodeInfo.NodeId.Value).ToList();
 
@@ -316,7 +314,7 @@ namespace Gravitas.Platform.Web.Manager
             });
         }
 
-        public void DeleteRole(long roleId)
+        public void DeleteRole(int roleId)
         {
             _employeeRolesRepository.DeleteRole(roleId);
         }
@@ -333,7 +331,7 @@ namespace Gravitas.Platform.Web.Manager
 
         public void UpdateRolePhone(PhoneDictionary employee)
         {
-            _phonesRepository.Update<PhoneDictionary, long>(new PhoneDictionary
+            _phonesRepository.Update<PhoneDictionary, int>(new PhoneDictionary
             {
                 Id = employee.Id,
                 PhoneNumber = employee.PhoneNumber,

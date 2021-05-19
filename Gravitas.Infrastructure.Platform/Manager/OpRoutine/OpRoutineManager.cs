@@ -40,14 +40,14 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
 
             if (isEmployeeBinded && card.EmployeeId == null)
             {
-                errMsgItem = new NodeProcessingMsgItem(Model.Node.ProcessingMsg.Type.Warning,
+                errMsgItem = new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning,
                     @"Картка не містить інформації про користувача");
                 return false;
             }
 
             if (!isEmployeeBinded && card.EmployeeId != null)
             {
-                errMsgItem = new NodeProcessingMsgItem(Model.Node.ProcessingMsg.Type.Warning,
+                errMsgItem = new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning,
                     $@"Картку вже зарезрововано за користувачем. Id:{card.EmployeeId}");
                 return false;
             }
@@ -61,7 +61,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
 
             if (cardTypeId != card.TypeId)
             {
-                errMsgItem = new NodeProcessingMsgItem(Model.Node.ProcessingMsg.Type.Warning, @"Хибний тип картки");
+                errMsgItem = new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning, @"Хибний тип картки");
                 return false;
             }
 
@@ -73,13 +73,13 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
             if (card == null)
             {
                 errMsgItem =
-                    new NodeProcessingMsgItem(Model.Node.ProcessingMsg.Type.Warning, @"Картку не ідентифіковано");
+                    new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning, @"Картку не ідентифіковано");
                 return false;
             }
 
             if (!card.IsActive)
             {
-                errMsgItem = new NodeProcessingMsgItem(Model.Node.ProcessingMsg.Type.Warning, @"Картка не активна");
+                errMsgItem = new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning, @"Картка не активна");
                 return false;
             }
 
@@ -92,7 +92,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
             if (!_visaValidationManager.ValidateEmployeeAccess(nodeId, card.EmployeeId))
             {
                 errMsgItem =
-                    new NodeProcessingMsgItem(Model.Node.ProcessingMsg.Type.Warning, @"У робітника нема прав підписувати даний вузол");
+                    new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning, @"У робітника нема прав підписувати даний вузол");
                 return false;
             }
 

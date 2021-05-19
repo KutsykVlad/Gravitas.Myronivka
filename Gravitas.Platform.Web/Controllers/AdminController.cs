@@ -2,23 +2,28 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Web.Mvc;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Card;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.OneC;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Contract.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Employee.DAO;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Product.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Stock.DAO;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
+using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager;
+using Gravitas.Platform.Web.Manager.Admin;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin;
 using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
 using Gravitas.Platform.Web.ViewModel.Admin.Version;
-using Dom = Gravitas.Model.DomainValue.Dom;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 using Settings = Gravitas.Model.DomainModel.Settings.DAO.Settings;
 
 namespace Gravitas.Platform.Web.Controllers
@@ -138,10 +143,12 @@ namespace Gravitas.Platform.Web.Controllers
             {  
                 return RedirectToAction("Login");  
             } 
-            _adminWebManager.UpdateQueuePatternItem(new QueuePatternItemVm()
+            _adminWebManager.UpdateQueuePatternItem(new QueuePatternItemVm
             {
-                Count = 0, ReceiverId = null, Priority = Dom.Queue.Priority.Medium,
-                Category = Dom.Queue.Category.Partners
+                Count = 0, 
+                ReceiverId = null, 
+                Priority = QueuePriority.Medium,
+                Category = QueueCategory.Partners
             });
             return RedirectToAction("QueuePatternItemsTable");
         }
@@ -285,37 +292,37 @@ namespace Gravitas.Platform.Web.Controllers
                 case "Employee":
                     var employee = oneCApiClient.GetEmployee(id);
                     obj = employee;
-                    _externalDataRepository.AddOrUpdate<ExternalData.Employee, string>(employee);
+                    _externalDataRepository.AddOrUpdate<Employee, string>(employee);
                     break;
                 case "Contract":
                     var contract = oneCApiClient.GetContract(id);
                     obj = contract;
-                    _externalDataRepository.AddOrUpdate<ExternalData.Contract, string>(contract);
+                    _externalDataRepository.AddOrUpdate<Contract, string>(contract);
                     break;
                 case "Organisation":
                     var organisation = oneCApiClient.GetOrganisation(id);
                     obj = organisation;
-                    _externalDataRepository.AddOrUpdate<ExternalData.Organisation, string>(organisation);
+                    _externalDataRepository.AddOrUpdate<Organisation, string>(organisation);
                     break;
                 case "Partner":
                     var partner = oneCApiClient.GetPartner(id);
                     obj = partner;
-                    _externalDataRepository.AddOrUpdate<ExternalData.Partner, string>(partner);
+                    _externalDataRepository.AddOrUpdate<Partner, string>(partner);
                     break;
                 case "Product":
                     var product = oneCApiClient.GetProduct(id);
                     obj = product;
-                    _externalDataRepository.AddOrUpdate<ExternalData.Product, string>(product);
+                    _externalDataRepository.AddOrUpdate<Product, string>(product);
                     break;
                 case "Stock":
                     var stock = oneCApiClient.GetStock(id);
                     obj = stock;
-                    _externalDataRepository.AddOrUpdate<ExternalData.Stock, string>(stock);
+                    _externalDataRepository.AddOrUpdate<Stock, string>(stock);
                     break;
                 case "FixedAssets":
                     var fixedAssets = oneCApiClient.GetFixedAsset(id);
                     obj = fixedAssets;
-                    _externalDataRepository.AddOrUpdate<ExternalData.FixedAsset, string>(fixedAssets);
+                    _externalDataRepository.AddOrUpdate<FixedAsset, string>(fixedAssets);
                     break;
             }
 
