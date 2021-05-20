@@ -1,14 +1,11 @@
 using System;
-using System.Data.Entity;
 using System.Linq;
 using Gravitas.Core.DeviceManager.Device;
 using Gravitas.Core.DeviceManager.User;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.Ticket;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.Queue;
@@ -18,8 +15,6 @@ using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Model.Dto;
-using Dom = Gravitas.Model.DomainValue.Dom;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
@@ -59,7 +54,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
         public override bool ValidateNodeConfig(NodeConfig config)
         {
-            return config != null && config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader);
+            return config != null && config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader);
         }
 
         public override void Process()
@@ -69,11 +64,11 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             switch (_nodeDto.Context.OpRoutineStateId)
             {
-                case Dom.OpRoutine.MixedFeedGuide.State.Idle:
+                case Model.DomainValue.OpRoutine.MixedFeedGuide.State.Idle:
                     break;
-                case Dom.OpRoutine.MixedFeedGuide.State.BindLoadPoint:
+                case Model.DomainValue.OpRoutine.MixedFeedGuide.State.BindLoadPoint:
                     break;
-                case Dom.OpRoutine.MixedFeedGuide.State.AddOpVisa:
+                case Model.DomainValue.OpRoutine.MixedFeedGuide.State.AddOpVisa:
                     AddOperationVisa(_nodeDto);
                     break;
             }
@@ -95,8 +90,8 @@ namespace Gravitas.Core.Processor.OpRoutine
             var ticket = _context.Tickets.First(x => x.Id == nodeDto.Context.TicketId.Value);
             
             var isNotFirstTicket = _context.Tickets.AsNoTracking().Any(x => 
-                    x.ContainerId == nodeDto.Context.TicketContainerId
-                    && (x.StatusId == Dom.Ticket.Status.Completed || x.StatusId == Dom.Ticket.Status.Closed)
+                    x.TicketContainerId == nodeDto.Context.TicketContainerId
+                    && (x.StatusId == TicketStatus.Completed || x.StatusId == TicketStatus.Closed)
                     && x.OrderNo < ticket.OrderNo);
 
             var visa = new OpVisa
@@ -105,22 +100,22 @@ namespace Gravitas.Core.Processor.OpRoutine
                 Message = "Призначена точка завантаження",
                 MixedFeedGuideOpDataId = mixedFeedGuideOpData.Id,
                 EmployeeId = card.EmployeeId,
-                OpRoutineStateId = Dom.OpRoutine.MixedFeedGuide.State.AddOpVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.MixedFeedGuide.State.AddOpVisa
             };
-            _nodeRepository.Add<OpVisa, long>(visa);
+            _nodeRepository.Add<OpVisa, int>(visa);
             
             if (!isNotFirstTicket && _opDataRepository.GetFirstOrDefault<SecurityCheckInOpData, Guid>(x => x.TicketId == nodeDto.Context.TicketId.Value) == null)
             {
                 _queueManager.OnImmediateEntranceAccept(nodeDto.Context.TicketContainerId.Value);
             }
             
-            mixedFeedGuideOpData.StateId = Dom.OpDataState.Processed;
+            mixedFeedGuideOpData.StateId = OpDataState.Processed;
             _ticketRepository.Update<MixedFeedGuideOpData, Guid>(mixedFeedGuideOpData);
             
-            _connectManager.SendSms(Dom.Sms.Template.DestinationPointApprovalSms, nodeDto.Context.TicketId);
+            _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDto.Context.TicketId);
 
             var nextNodes = _routesInfrastructure.GetNextNodes(ticket.Id);
-            if (!isNotFirstTicket && nextNodes.Contains((long) NodeIdValue.MixedFeedGuide))
+            if (!isNotFirstTicket && nextNodes.Contains((int) NodeIdValue.MixedFeedGuide))
             {
                 _routesInfrastructure.MoveForward(nodeDto.Context.TicketId.Value, nodeDto.Id);
             }
@@ -129,7 +124,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             nodeDto.Context.TicketContainerId = null;
             nodeDto.Context.OpDataId = null;
             nodeDto.Context.OpProcessData = null;
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.MixedFeedGuide.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.MixedFeedGuide.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
     }

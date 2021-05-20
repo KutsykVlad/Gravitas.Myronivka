@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
-using Gravitas.DAL.Repository.Device;
 using Gravitas.Infrastructure.Common.Configuration;
-using Gravitas.Infrastructure.Platform.Manager.Settings;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
+using Newtonsoft.Json;
 using NLog;
-using Settings = Gravitas.Model.DomainModel.Settings.DAO.Settings;
 
 namespace Gravitas.Core.Processor.QueueDisplay
 {
@@ -19,18 +14,12 @@ namespace Gravitas.Core.Processor.QueueDisplay
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private readonly IDeviceRepository _deviceRepository;
-        private readonly ISettings _settings;
         private Infrastructure.Platform.Manager.Display.QueueDisplay _display;
         private readonly GravitasDbContext _context;
 
 
-        public QueueDisplayProcessor(IDeviceRepository deviceRepository, 
-            ISettings settings, 
-            GravitasDbContext context)
+        public QueueDisplayProcessor(GravitasDbContext context)
         {
-            _deviceRepository = deviceRepository;
-            _settings = settings;
             _context = context;
         }
 
@@ -54,9 +43,9 @@ namespace Gravitas.Core.Processor.QueueDisplay
             }
         }
 
-        public void Config(long deviceId)
+        public void Config(int deviceId)
         {
-            var device = DisplayParam.FromJson(_context.Devices.First(x => x.Id == deviceId).DeviceParam.ParamJson);
+            var device = JsonConvert.DeserializeObject<DisplayParam>(_context.Devices.First(x => x.Id == deviceId).DeviceParam.ParamJson);
             _display =
                 new Infrastructure.Platform.Manager.Display.QueueDisplay(device.IpAddress, device.IpPort, true);
         }
@@ -64,7 +53,7 @@ namespace Gravitas.Core.Processor.QueueDisplay
         private async Task Process()
         {
             var time = 15000;
-            var text = $"{_deviceRepository.GetEntity<Settings, int>(1)?.QueueDisplayText} - Дозволений в'їзд: ";
+            var text = $"{_context.Settings.First().QueueDisplayText} - Дозволений в'їзд: ";
             var trailers = _context.QueueRegisters.AsNoTracking().Where(t => t.IsAllowedToEnterTerritory).ToList();
             foreach (var trailer in trailers)
             {

@@ -5,11 +5,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using Gravitas.Core.DeviceManager;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
-using Gravitas.Model.Dto;
+using Newtonsoft.Json;
 using NLog;
 
 namespace Gravitas.Core.Manager.ScaleMettlerPT6S3
@@ -17,7 +16,7 @@ namespace Gravitas.Core.Manager.ScaleMettlerPT6S3
     public class ScaleMettlerPT6S3Manager : IScaleMettlerPT6S3Manager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly long _deviceId;
+        private readonly int _deviceId;
 
         private readonly char[] _prefixCharset =
         {
@@ -97,7 +96,7 @@ namespace Gravitas.Core.Manager.ScaleMettlerPT6S3
 
         private double _oldVal;
 
-        public ScaleMettlerPT6S3Manager(long deviceId)
+        public ScaleMettlerPT6S3Manager(int deviceId)
         {
             _deviceId = deviceId;
         }
@@ -106,7 +105,7 @@ namespace Gravitas.Core.Manager.ScaleMettlerPT6S3
         {
             var deviceParam = Program.DeviceParams[_deviceId];
 
-            var param = ScaleMettlerPT6S3Param.FromJson(deviceParam.ParamJson);
+            var param = JsonConvert.DeserializeObject<ScaleMettlerPT6S3Param>(deviceParam.ParamJson);
             if (param == null) return;
 
             if (!IPAddress.TryParse(param.IpAddress, out var ipAddress)) return;
@@ -126,8 +125,8 @@ namespace Gravitas.Core.Manager.ScaleMettlerPT6S3
                         Parse(ans);
 
                         var deviceState = Program.DeviceStates[_deviceId];
-                        var scaleOutJsonState = ScaleOutJsonState.FromJson(deviceState.OutData);
-                        var scaleInJsonState = ScaleInJsonState.FromJson(deviceState.InData);
+                        var scaleOutJsonState = JsonConvert.DeserializeObject<ScaleOutJsonState>(deviceState.OutData);
+                        var scaleInJsonState = JsonConvert.DeserializeObject<ScaleInJsonState>(deviceState.InData);
 
                         if (scaleOutJsonState != null
                             && scaleOutJsonState.ZeroScaleCmd
@@ -179,7 +178,7 @@ namespace Gravitas.Core.Manager.ScaleMettlerPT6S3
 
             if (Math.Abs(_oldVal - state.Value) > 1)
             {
-                Logger.Debug($@"Device: {_deviceId}. Scale: {state.ToJson()}");
+                Logger.Debug($@"Device: {_deviceId}. Scale: {JsonConvert.SerializeObject(state)}");
                 _oldVal = state.Value;
             }
 
@@ -203,7 +202,7 @@ namespace Gravitas.Core.Manager.ScaleMettlerPT6S3
 
             if (deviceState == null) return;
 
-            var outState = ScaleOutJsonState.FromJson(deviceState.OutData);
+            var outState = JsonConvert.DeserializeObject<ScaleOutJsonState>(deviceState.OutData);
             if (outState != null
                 && outState.ZeroScaleCmd
                 && inState.Value == 0)
@@ -211,8 +210,8 @@ namespace Gravitas.Core.Manager.ScaleMettlerPT6S3
 
             deviceState.ErrorCode = errorCode;
             deviceState.LastUpdate = DateTime.Now;
-            deviceState.InData = inState.ToJson();
-            deviceState.OutData = outState?.ToJson();
+            deviceState.InData = JsonConvert.SerializeObject(inState);
+            deviceState.OutData = JsonConvert.SerializeObject(outState);
 
             Program.DeviceStates[_deviceId] = deviceState;
         }

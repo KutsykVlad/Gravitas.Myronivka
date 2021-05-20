@@ -7,23 +7,21 @@ using System.Text;
 using System.Threading;
 using Gravitas.Core.DeviceManager;
 using Gravitas.Infrastrructure.Common;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
-using Gravitas.Model.Dto;
 using Newtonsoft.Json;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using DeviceType = Gravitas.Model.DomainValue.DeviceType;
 
 namespace Gravitas.Core.Manager.VkModuleSocket2
 {
     public class VkModuleSocket2Manager : IVkModuleSocket2Manager
     {
-        private readonly long _deviceId;
+        private readonly int _deviceId;
 
-        public VkModuleSocket2Manager(long deviceId)
+        public VkModuleSocket2Manager(int deviceId)
         {
             _deviceId = deviceId;
         }
@@ -153,7 +151,7 @@ namespace Gravitas.Core.Manager.VkModuleSocket2
                 json = new VkModuleI2O2State
                 {
                     LastUpdate = DateTime.Now,
-                    ErrorCode = Dom.Device.Status.ErrorCode.Timeout,
+                    ErrorCode = 255,
                     InData = new VkModuleI2O2InJsonState
                     {
                         DigitalIn = new Dictionary<int, DigitalInJsonState>
@@ -226,17 +224,17 @@ namespace Gravitas.Core.Manager.VkModuleSocket2
                     || childParam.ParamJson == null)
                     continue;
 
-                var digitalOutJsonState = DigitalOutJsonState.FromJson(childState.OutData);
-                var digitalInOutParam = DigitalInOutParam.FromJson(childParam.ParamJson);
+                var digitalOutJsonState = JsonConvert.DeserializeObject<DigitalOutJsonState>(childState.OutData);
+                var digitalInOutParam = JsonConvert.DeserializeObject<DigitalInOutParam>(childParam.ParamJson);
 
-                if (childDevice.TypeId == Dom.Device.Type.DigitalOut)
+                if (childDevice.TypeId == DeviceType.DigitalOut)
                 {
                     if (!parentState.OutData.DigitalOut.ContainsKey(digitalInOutParam.No))
                         parentState.OutData.DigitalOut.Add(digitalInOutParam.No, new DigitalOutJsonState());
                     parentState.OutData.DigitalOut[digitalInOutParam.No].Value = digitalOutJsonState.Value;
                 }
                 
-                Program.DeviceStates[_deviceId].OutData = parentState.OutData?.ToJson();
+                Program.DeviceStates[_deviceId].OutData = JsonConvert.SerializeObject(parentState.OutData);
             }
         }
 
@@ -280,7 +278,7 @@ namespace Gravitas.Core.Manager.VkModuleSocket2
 
                 childState.InData = null;
 
-                if (childDevice.TypeId == Dom.Device.Type.DigitalIn
+                if (childDevice.TypeId == DeviceType.DigitalIn
                     && parentState.InData.DigitalIn.TryGetValue(digitalInOutParam.No, out var inJsonState))
                     childState.InData = JsonConvert.SerializeObject(inJsonState);
 
@@ -341,8 +339,8 @@ namespace Gravitas.Core.Manager.VkModuleSocket2
                     Id = _deviceId,
                     ErrorCode = dbState.ErrorCode,
                     LastUpdate = DateTime.Now,
-                    InData = dbState.InData?.ToJson(),
-                    OutData = dbState.OutData?.ToJson()
+                    InData = JsonConvert.SerializeObject(dbState.InData),
+                    OutData = JsonConvert.SerializeObject(dbState.OutData)
                 };
                 return;
             }
@@ -359,8 +357,8 @@ namespace Gravitas.Core.Manager.VkModuleSocket2
 
             Program.DeviceStates[_deviceId].ErrorCode = dbState.ErrorCode;
             Program.DeviceStates[_deviceId].LastUpdate = dbState.LastUpdate;
-            Program.DeviceStates[_deviceId].InData = dbState.InData?.ToJson();
-            Program.DeviceStates[_deviceId].OutData = dbState.OutData?.ToJson();
+            Program.DeviceStates[_deviceId].InData = JsonConvert.SerializeObject(dbState.InData);
+            Program.DeviceStates[_deviceId].OutData = JsonConvert.SerializeObject(dbState.OutData);
 
             PushChildDeviceInState();
         }

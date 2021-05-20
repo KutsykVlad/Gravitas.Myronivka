@@ -3,20 +3,19 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
-using Gravitas.Model.Dto;
+using Newtonsoft.Json;
 
 namespace Gravitas.Core.Manager.RfidObidRwAutoAnswer
 {
     public class RfidObidRwManager : IRfidObidRwManager
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        private readonly long _deviceId;
+        private readonly int _deviceId;
 
-        public RfidObidRwManager(long deviceId)
+        public RfidObidRwManager(int deviceId)
         {
             _deviceId = deviceId;
         }
@@ -85,7 +84,7 @@ namespace Gravitas.Core.Manager.RfidObidRwAutoAnswer
 
             var deviceParams = Program.DeviceParams[_deviceId];
 
-            RfidObidRwParam param = RfidObidRwParam.FromJson(deviceParams.ParamJson);
+            var param = JsonConvert.DeserializeObject<RfidObidRwParam>(deviceParams.ParamJson);
             if (param == null)
             {
                 return;
@@ -165,7 +164,7 @@ namespace Gravitas.Core.Manager.RfidObidRwAutoAnswer
 
             Program.DeviceStates[_deviceId].ErrorCode = errorCode;
             Program.DeviceStates[_deviceId].LastUpdate = DateTime.Now;
-            Program.DeviceStates[_deviceId].InData = state.ToJson();
+            Program.DeviceStates[_deviceId].InData = JsonConvert.SerializeObject(state);
         }
     }
 }

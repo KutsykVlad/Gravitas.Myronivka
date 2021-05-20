@@ -6,16 +6,13 @@ using Gravitas.Core.Manager;
 using Gravitas.DAL.DeviceTransfer;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Infrastructure.Platform.Manager.Queue;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
-using Gravitas.Model.Dto;
 using Newtonsoft.Json;
 using NLog;
 using Topshelf;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Core
 {
@@ -61,16 +58,16 @@ namespace Gravitas.Core
         {
             [OperationContract]
             [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-            DeviceStateTransfer GetState(long deviceId);
+            DeviceStateTransfer GetState(int deviceId);
 
             [OperationContract]
             [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-            void SetState(long deviceId, string outJson);
+            void SetState(int deviceId, string outJson);
         }
 
         private class ServiceApi : IService
         {
-            public DeviceStateTransfer GetState(long deviceId)
+            public DeviceStateTransfer GetState(int deviceId)
             {
                 if (!Program.Devices.ContainsKey(deviceId)) return null;
 
@@ -86,7 +83,7 @@ namespace Gravitas.Core
                 };
             }
 
-            public void SetState(long deviceId, string outJson)
+            public void SetState(int deviceId, string outJson)
             {
                 if (!Program.Devices.ContainsKey(deviceId)) return;
 
@@ -99,11 +96,11 @@ namespace Gravitas.Core
 
     static class Program
     {
-        public static readonly ConcurrentDictionary<long, Device> Devices = new ConcurrentDictionary<long, Device>();
-        public static readonly ConcurrentDictionary<long, DeviceState> DeviceStates = new ConcurrentDictionary<long, DeviceState>();
-        public static readonly ConcurrentDictionary<long, DeviceParam> DeviceParams = new ConcurrentDictionary<long, DeviceParam>();
+        public static readonly ConcurrentDictionary<int, Device> Devices = new ConcurrentDictionary<int, Device>();
+        public static readonly ConcurrentDictionary<int, DeviceState> DeviceStates = new ConcurrentDictionary<int, DeviceState>();
+        public static readonly ConcurrentDictionary<int, DeviceParam> DeviceParams = new ConcurrentDictionary<int, DeviceParam>();
 
-        public static void SetDeviceOutData(long deviceId, bool outData)
+        public static void SetDeviceOutData(int deviceId, bool outData)
         {
             if (!Devices.ContainsKey(deviceId)) return;
 
@@ -117,7 +114,7 @@ namespace Gravitas.Core
             DeviceStates[deviceId].ErrorCode = 0;
         }
         
-        public static BaseDeviceState GetDeviceState(long deviceId)
+        public static BaseDeviceState GetDeviceState(int deviceId)
         {
             if (!DeviceStates.TryGetValue(deviceId, out var dev))
             {
@@ -126,95 +123,104 @@ namespace Gravitas.Core
             }
             switch (Devices[deviceId].TypeId)
             {
-                case Dom.Device.Type.RelayVkmodule4In0Out:
+                case Model.DomainValue.DeviceType.RelayVkmodule4In0Out:
                     return new VkModuleI4O0State
                     {
                         Id = dev.Id,
                         ErrorCode = dev.ErrorCode,
                         LastUpdate = dev.LastUpdate,
-                        InData = VkModuleI4O0InJsonState.FromJson(dev.InData),
-                        OutData = VkModuleI4O0OutJsonState.FromJson(dev.OutData)
+                        InData = JsonConvert.DeserializeObject<VkModuleI4O0InJsonState>(dev.InData),
+                        OutData = JsonConvert.DeserializeObject<VkModuleI4O0OutJsonState>(dev.OutData)
                     };
-                case Dom.Device.Type.RelayVkmodule2In2Out:
+                case Model.DomainValue.DeviceType.RelayVkmodule2In2Out:
                     return new VkModuleI2O2State
                     {
                         Id = dev.Id,
                         ErrorCode = dev.ErrorCode,
                         LastUpdate = dev.LastUpdate,
-                        InData = VkModuleI2O2InJsonState.FromJson(dev.InData),
-                        OutData = VkModuleI2O2OutJsonState.FromJson(dev.OutData)
+                        InData = JsonConvert.DeserializeObject<VkModuleI2O2InJsonState>(dev.InData),
+                        OutData = JsonConvert.DeserializeObject<VkModuleI2O2OutJsonState>(dev.OutData)
                     };
-                case Dom.Device.Type.DigitalIn:
+                case Model.DomainValue.DeviceType.DigitalIn:
                     return new DigitalInState
                     {
                         Id = dev.Id,
                         ErrorCode = dev.ErrorCode,
                         LastUpdate = dev.LastUpdate,
-                        InData = DigitalInJsonState.FromJson(dev.InData),
+                        InData = JsonConvert.DeserializeObject<DigitalInJsonState>(dev.InData),
                         OutData = null
                     };
-                case Dom.Device.Type.DigitalOut:
+                case Model.DomainValue.DeviceType.DigitalOut:
                     return new DigitalOutState
                     {
                         Id = dev.Id,
                         ErrorCode = dev.ErrorCode,
                         LastUpdate = dev.LastUpdate,
                         InData = null,
-                        OutData = DigitalOutJsonState.FromJson(dev.OutData)
+                        OutData = JsonConvert.DeserializeObject<DigitalOutJsonState>(dev.OutData)
                     };
-                case Dom.Device.Type.RfidObidRw:
+                case Model.DomainValue.DeviceType.RfidObidRw:
                     return new RfidObidRwState
                     {
                         Id = dev.Id,
                         ErrorCode = dev.ErrorCode,
                         LastUpdate = dev.LastUpdate,
-                        InData = RfidObidRwInJsonState.FromJson(dev.InData),
-                        OutData = RfidObidRwOutJsonState.FromJson(dev.OutData)
+                        InData = JsonConvert.DeserializeObject<RfidObidRwInJsonState>(dev.InData),
+                        OutData = JsonConvert.DeserializeObject<RfidObidRwOutJsonState>(dev.OutData)
                     };
-                case Dom.Device.Type.RfidZebraFx9500Antenna:
+                case Model.DomainValue.DeviceType.RfidZebraFx9500Antenna:
                     return new RfidZebraFx9500AntennaState
                     {
                         Id = dev.Id,
                         ErrorCode = dev.ErrorCode,
                         LastUpdate = dev.LastUpdate,
-                        InData = RfidZebraFx9500AntennaInJsonState.FromJson(dev.InData),
-                        OutData = RfidZebraFx9500AntennaOutJsonState.FromJson(dev.OutData)
+                        InData = JsonConvert.DeserializeObject<RfidZebraFx9500AntennaInJsonState>(dev.InData),
+                        OutData = JsonConvert.DeserializeObject<RfidZebraFx9500AntennaOutJsonState>(dev.OutData)
                     };
-                case Dom.Device.Type.ScaleMettlerPT6S3:
+                case Model.DomainValue.DeviceType.ScaleMettlerPT6S3:
                     return new ScaleState
                     {
                         Id = dev.Id,
                         ErrorCode = dev.ErrorCode,
                         LastUpdate = dev.LastUpdate,
-                        InData = ScaleInJsonState.FromJson(dev.InData),
-                        OutData = ScaleOutJsonState.FromJson(dev.OutData)
+                        InData = JsonConvert.DeserializeObject<ScaleInJsonState>(dev.InData),
+                        OutData = JsonConvert.DeserializeObject<ScaleOutJsonState>(dev.OutData)
                     };
-                case Dom.Device.Type.LabFoss:
+                case Model.DomainValue.DeviceType.LabFoss:
                     return new LabFossState
                     {
                         Id = dev.Id,
                         ErrorCode = dev.ErrorCode,
                         LastUpdate = dev.LastUpdate,
-                        InData = LabFossInJsonState.FromJson(dev.InData),
-                        OutData = LabFossOutJsonState.FromJson(dev.OutData)
+                        InData = JsonConvert.DeserializeObject<LabFossInJsonState>(dev.InData),
+                        OutData = JsonConvert.DeserializeObject<LabFossOutJsonState>(dev.OutData)
                     };
-                case Dom.Device.Type.LabBruker:
+                case Model.DomainValue.DeviceType.LabFoss2:
+                    return new LabFossState
+                    {
+                        Id = dev.Id,
+                        ErrorCode = dev.ErrorCode,
+                        LastUpdate = dev.LastUpdate,
+                        InData = JsonConvert.DeserializeObject<LabFossInJsonState>(dev.InData),
+                        OutData = JsonConvert.DeserializeObject<LabFossOutJsonState>(dev.OutData)
+                    };
+                case Model.DomainValue.DeviceType.LabBruker:
                     return new LabBrukerState
                     {
                         Id = dev.Id,
                         ErrorCode = dev.ErrorCode,
                         LastUpdate = dev.LastUpdate,
-                        InData = LabBrukerInJsonState.FromJson(dev.InData),
-                        OutData = LabBrukerOutJsonState.FromJson(dev.OutData)
+                        InData = JsonConvert.DeserializeObject<LabBrukerInJsonState>(dev.InData),
+                        OutData = JsonConvert.DeserializeObject<LabBrukerOutJsonState>(dev.OutData)
                     };
-                case Dom.Device.Type.LabInfrascan:
+                case Model.DomainValue.DeviceType.LabInfrascan:
                     return new LabInfrascanState
                     {
                         Id = dev.Id,
                         ErrorCode = dev.ErrorCode,
                         LastUpdate = dev.LastUpdate,
-                        InData = LabInfrascanInJsonState.FromJson(dev.InData),
-                        OutData = LabInfrascanOutJsonState.FromJson(dev.OutData)
+                        InData = JsonConvert.DeserializeObject<LabInfrascanInJsonState>(dev.InData),
+                        OutData = JsonConvert.DeserializeObject<LabInfrascanOutJsonState>(dev.OutData)
                     };
                 default: return null;
             }

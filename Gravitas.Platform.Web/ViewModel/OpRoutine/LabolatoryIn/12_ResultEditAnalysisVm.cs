@@ -8,9 +8,9 @@ namespace Gravitas.Platform.Web.ViewModel {
 
 		public class ResultEditAnalysisVm {
 
-			public long NodeId { get; set; }
+			public int NodeId { get; set; }
 			public Guid OpDataId { get; set; }
-			public long OpDataComponentId { get; set; }
+			public int OpDataComponentId { get; set; }
 
 			// 13
 			[DisplayName("Номенклатура")]
@@ -23,7 +23,7 @@ namespace Gravitas.Platform.Web.ViewModel {
 			public float? DocImpurityValue { get; set; }
 			
 			public bool IsLabDevicesEnable { get; set; }
-			public List<long> LabAnalyserDevices { get; set; }
+			public List<int> LabAnalyserDevices { get; set; }
 
 			public LabFacelessOpDataDetailVm LabFacelessOpDataDetail { get; set; }
 			public LabFacelessOpDataComponentDetailVm LabFacelessOpDataComponentDetail { get; set; }

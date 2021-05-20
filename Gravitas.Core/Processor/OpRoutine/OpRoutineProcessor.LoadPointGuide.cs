@@ -1,25 +1,19 @@
 using System;
-using System.Data.Entity;
 using System.Linq;
 using Gravitas.Core.DeviceManager.Device;
 using Gravitas.Core.DeviceManager.User;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.LoadPoint;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.Queue;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Model.Dto;
-using Dom = Gravitas.Model.DomainValue.Dom;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
@@ -76,11 +70,11 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             switch (_nodeDto.Context.OpRoutineStateId)
             {
-                case Dom.OpRoutine.LoadPointGuide.State.Idle:
+                case Model.DomainValue.OpRoutine.LoadPointGuide.State.Idle:
                     break;
-                case Dom.OpRoutine.LoadPointGuide.State.BindLoadPoint:
+                case Model.DomainValue.OpRoutine.LoadPointGuide.State.BindLoadPoint:
                     break;
-                case Dom.OpRoutine.LoadPointGuide.State.AddOpVisa:
+                case Model.DomainValue.OpRoutine.LoadPointGuide.State.AddOpVisa:
                     AddOperationVisa(_nodeDto);
                     break;
             }
@@ -98,8 +92,8 @@ namespace Gravitas.Core.Processor.OpRoutine
                
             var isNotFirstTicket =
                 _context.Tickets.AsNoTracking().Any(x => 
-                    x.ContainerId == nodeDto.Context.TicketContainerId
-                    && (x.StatusId == Dom.Ticket.Status.Completed || x.StatusId == Dom.Ticket.Status.Closed)
+                    x.TicketContainerId == nodeDto.Context.TicketContainerId
+                    && (x.StatusId == TicketStatus.Completed || x.StatusId == TicketStatus.Closed)
                     && x.OrderNo < ticket.OrderNo);
             
             if (nodeDto.Context.OpProcessData.HasValue && nodeDto.Context.OpProcessData == (long) NodeIdValue.UnloadPointGuideEl23)
@@ -119,7 +113,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 }
             }
             
-            _connectManager.SendSms(Dom.Sms.Template.DestinationPointApprovalSms, nodeDto.Context.TicketId);
+            _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDto.Context.TicketId);
          
             if (ticket.RouteItemIndex == 0 || (ticket.SecondaryRouteTemplateId.HasValue && ticket.SecondaryRouteItemIndex == 0))
             {
@@ -127,7 +121,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
 
             nodeDto.Context.OpProcessData = null;
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LoadPointGuide.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointGuide.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
     }

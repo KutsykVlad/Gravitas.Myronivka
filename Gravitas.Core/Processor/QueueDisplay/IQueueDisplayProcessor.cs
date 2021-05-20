@@ -4,7 +4,7 @@ namespace Gravitas.Core.Processor.QueueDisplay
 {
     public interface IQueueDisplayProcessor
     {
-        void Config(long deviceId);
+        void Config(int deviceId);
         void ProcessLoop(CancellationToken token);
     }
 }

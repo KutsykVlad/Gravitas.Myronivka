@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Gravitas.Core.DeviceManager.Device;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
-using Gravitas.Infrastructure.Platform.DependencyInjection;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
-using Gravitas.Model.Dto;
+using Gravitas.Model.DomainValue;
 using NLog;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
-namespace Gravitas.Core.Processor
+namespace Gravitas.Core.Processor.OpRoutine
 {
     public abstract class BaseOpRoutineProcessor : IOpRoutineProcessor
     {
@@ -28,7 +24,7 @@ namespace Gravitas.Core.Processor
         protected IDeviceRepository _deviceRepository;
         protected Node _nodeDto;
 
-        protected long _nodeId;
+        protected int _nodeId;
         protected INodeRepository _nodeRepository;
         protected IOpDataRepository _opDataRepository;
 
@@ -83,7 +79,7 @@ namespace Gravitas.Core.Processor
 
         public abstract void Process();
 
-        public virtual void Config(long nodeId)
+        public virtual void Config(int nodeId)
         {
             _nodeId = nodeId;
         }
@@ -93,7 +89,7 @@ namespace Gravitas.Core.Processor
             _nodeDto = _nodeRepository.GetNodeDto(_nodeId);
         }
 
-        protected bool UpdateNodeContext(long nodeId, NodeContext newContext, bool reload = true)
+        protected bool UpdateNodeContext(int nodeId, NodeContext newContext, bool reload = true)
         {
             CheckProcessingTime(newContext);
 
@@ -101,7 +97,7 @@ namespace Gravitas.Core.Processor
 
             if (!result)
                 _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error, "Не валідна спроба зміни стану вузла."));
+                    NodeData.ProcessingMsg.Type.Error, "Не валідна спроба зміни стану вузла."));
 
             if (result && reload)
             {
@@ -136,7 +132,7 @@ namespace Gravitas.Core.Processor
                     TicketId = currentDto.Context.TicketId,
                     CheckInDateTime = DateTime.Now,
                     CheckOutDateTime = DateTime.Now,
-                    StateId = Dom.OpDataState.Processed,
+                    StateId = OpDataState.Processed,
                     Message = "Час опрацювання на вузлі перевищило допустимий ліміт"
                 };
                 _opDataRepository.Add<NonStandartOpData, Guid>(standardOpData);

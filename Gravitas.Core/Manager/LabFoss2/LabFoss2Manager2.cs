@@ -5,11 +5,9 @@ using System.Linq;
 using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Common.Helper;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
-using Gravitas.Model.Dto;
 using Newtonsoft.Json;
 using NLog;
 
@@ -123,17 +121,17 @@ namespace Gravitas.Core.Manager.LabFoss2
                 if (deviceState == null)
                 {
                     deviceState = new DeviceState();
-                    _deviceRepository.Add<DeviceState, long>(deviceState);
+                    _deviceRepository.Add<DeviceState, int>(deviceState);
 
                     device.StateId = deviceState.Id;
-                    _deviceRepository.Update<Device, long>(device);
+                    _deviceRepository.Update<Device, int>(device);
                 }
 
                 // Update head device DB data
                 deviceState.ErrorCode = 0;
                 deviceState.LastUpdate = DateTime.Now;
-                deviceState.InData = fossInJsonState.ToJson();
-                _deviceRepository.AddOrUpdate<DeviceState, long>(deviceState);
+                deviceState.InData = JsonConvert.SerializeObject(fossInJsonState);
+                _deviceRepository.AddOrUpdate<DeviceState, int>(deviceState);
 
                 Logger.Info($@"Device: {_deviceId}. State has been updated.");
             }

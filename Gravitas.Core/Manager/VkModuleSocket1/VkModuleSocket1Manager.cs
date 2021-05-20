@@ -4,23 +4,21 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using Gravitas.Core.DeviceManager;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceParam;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
-using Gravitas.Model.Dto;
 using Newtonsoft.Json;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using DeviceType = Gravitas.Model.DomainValue.DeviceType;
 
 namespace Gravitas.Core.Manager.VkModuleSocket1
 {
     public class VkModuleSocket1Manager : IVkModuleSocket1Manager
     {
-        private readonly long _deviceId;
+        private readonly int _deviceId;
 
-        public VkModuleSocket1Manager(long deviceId)
+        public VkModuleSocket1Manager(int deviceId)
         {
             _deviceId = deviceId;
         }
@@ -67,7 +65,7 @@ namespace Gravitas.Core.Manager.VkModuleSocket1
                 json = new VkModuleI4O0State
                 {
                     LastUpdate = DateTime.Now,
-                    ErrorCode = Dom.Device.Status.ErrorCode.Timeout,
+                    ErrorCode = 255,
                     InData = new VkModuleI4O0InJsonState
                     {
                         DigitalIn = new Dictionary<int, DigitalInJsonState>
@@ -123,14 +121,14 @@ namespace Gravitas.Core.Manager.VkModuleSocket1
                 childState.InData = null;
                 childState.OutData = null;
 
-                if (childDevice.TypeId == Dom.Device.Type.DigitalIn
+                if (childDevice.TypeId == DeviceType.DigitalIn
                     && parentState.InData.DigitalIn.TryGetValue(digitalInOutParam.No, out var inJsonState))
                 {
                     childState.InData = JsonConvert.SerializeObject(inJsonState);
                     childState.OutData = null;
                 }
 
-                if (childDevice.TypeId == Dom.Device.Type.DigitalOut
+                if (childDevice.TypeId == DeviceType.DigitalOut
                     && parentState.OutData.DigitalOut.TryGetValue(digitalInOutParam.No, out var outJsonState))
                 {
                     childState.InData = null;
@@ -176,7 +174,7 @@ namespace Gravitas.Core.Manager.VkModuleSocket1
                 Id = _deviceId,
                 ErrorCode = dbState.ErrorCode,
                 LastUpdate = dbState.LastUpdate,
-                InData = dbState.InData?.ToJson()
+                InData = JsonConvert.SerializeObject(dbState.InData)
             };
 
             PushChildDeviceInState();

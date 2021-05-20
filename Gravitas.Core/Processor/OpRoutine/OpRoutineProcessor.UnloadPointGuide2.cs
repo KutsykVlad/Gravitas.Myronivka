@@ -1,17 +1,15 @@
 ﻿using Gravitas.Core.DeviceManager.Device;
 using Gravitas.Core.DeviceManager.User;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using Gravitas.Model.DomainValue;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -48,7 +46,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 return false;
             }
 
-            var rfidValid = config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader);
+            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader);
             return rfidValid;
         }
 
@@ -62,11 +60,11 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             switch (_nodeDto.Context.OpRoutineStateId)
             {
-                case Dom.OpRoutine.UnloadPointGuide2.State.Idle:
+                case Model.DomainValue.OpRoutine.UnloadPointGuide2.State.Idle:
                     break;
-                case Dom.OpRoutine.UnloadPointGuide2.State.BindUnloadPoint:
+                case Model.DomainValue.OpRoutine.UnloadPointGuide2.State.BindUnloadPoint:
                     break;
-                case Dom.OpRoutine.UnloadPointGuide2.State.AddOpVisa:
+                case Model.DomainValue.OpRoutine.UnloadPointGuide2.State.AddOpVisa:
                     AddOperationVisa(_nodeDto);
                     break;
             }
@@ -82,12 +80,12 @@ namespace Gravitas.Core.Processor.OpRoutine
             var unloadResult = _unloadPointManager.ConfirmUnloadGuide(nodeDto.Context.TicketId.Value, card.EmployeeId);
             if (!unloadResult) return;
 
-            if (!_connectManager.SendSms(Dom.Sms.Template.DestinationPointApprovalSms, nodeDto.Context.TicketId))
+            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDto.Context.TicketId))
             {
                 Logger.Error("Sms hasn`t been sent");
             }
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointGuide2.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointGuide2.State.Idle;
             nodeDto.Context.OpDataId = null;
             nodeDto.Context.OpProcessData = null;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);

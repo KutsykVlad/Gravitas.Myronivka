@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Gravitas.Core.DeviceManager.Device;
 using Gravitas.Core.DeviceManager.User;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Card;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.ExternalData;
@@ -19,7 +17,6 @@ using Gravitas.DAL.Repository.Phones;
 using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.OneC;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.OpData;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
@@ -29,6 +26,11 @@ using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.ExternalData.Contract.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Product.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Stock.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpCameraImage;
 using Gravitas.Model.DomainModel.OpData.DAO;
@@ -37,14 +39,14 @@ using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Model.Dto;
 using Newtonsoft.Json;
+using CardType = Gravitas.Model.DomainValue.CardType;
 using DateTime = System.DateTime;
-using Dom = Gravitas.Model.DomainValue.Dom;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
 using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
+using TicketContainerStatus = Gravitas.Model.DomainValue.TicketContainerStatus;
+using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -113,48 +115,48 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!ValidateNode(_nodeDto)) return;
 
             switch (_nodeDto.Context.OpRoutineStateId) {
-                case Dom.OpRoutine.SingleWindow.State.Idle:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.Idle:
                     Idle(_nodeDto);
                     break;
-                case Dom.OpRoutine.SingleWindow.State.GetTicket:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.GetTicket:
                     break;
-                case Dom.OpRoutine.SingleWindow.State.ShowTicketMenu:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu:
                     break;
-                case Dom.OpRoutine.SingleWindow.State.ContainerCloseAddOpVisa:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.ContainerCloseAddOpVisa:
                     ContainerCloseAddOpVisa(_nodeDto);
                     break;  
-                case Dom.OpRoutine.SingleWindow.State.SupplyChangeAddOpVisa:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.SupplyChangeAddOpVisa:
                     SupplyChangeAddOpVisa(_nodeDto);
                     break;
-                case Dom.OpRoutine.SingleWindow.State.DivideTicketAddOpVisa:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.DivideTicketAddOpVisa:
                     DivideTicketAddOpVisa(_nodeDto);
                     break;
-                case Dom.OpRoutine.SingleWindow.State.DeleteTicketAddOpVisa:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.DeleteTicketAddOpVisa:
                     DeleteTicketAddOpVisa(_nodeDto);
                     break;
 
-                case Dom.OpRoutine.SingleWindow.State.EditTicketForm:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.EditTicketForm:
                     break;
-                case Dom.OpRoutine.SingleWindow.State.EditGetApiData:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.EditGetApiData:
                     EditGetApiData(_nodeDto);
                     break;
-                case Dom.OpRoutine.SingleWindow.State.EditAddOpVisa:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.EditAddOpVisa:
                     EditAddOpVisa(_nodeDto);
                     break;
-                case Dom.OpRoutine.SingleWindow.State.EditPostApiData:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.EditPostApiData:
                     EditPostApiData(_nodeDto);
                     break;
 
-                case Dom.OpRoutine.SingleWindow.State.CloseAddOpVisa:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.CloseAddOpVisa:
                     CloseAddOpVisa(_nodeDto);
                     break;
-                case Dom.OpRoutine.SingleWindow.State.ClosePostApiData:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.ClosePostApiData:
                     ClosePostApiData(_nodeDto);
                     break;
 
-                case Dom.OpRoutine.SingleWindow.State.RouteEditData:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.RouteEditData:
                     break;
-                case Dom.OpRoutine.SingleWindow.State.RouteAddOpVisa:
+                case Model.DomainValue.OpRoutine.SingleWindow.State.RouteAddOpVisa:
                     RouteAddOpVisa(_nodeDto);
                     break;
             }
@@ -162,7 +164,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
         private void Idle(Node nodeDto)
         {
-            if (nodeDto.Config == null || !nodeDto.Config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader)) return;
+            if (nodeDto.Config == null || !nodeDto.Config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader)) return;
 
             var card = GetCardFromTableReader(nodeDto);
             if (card == null) return;
@@ -178,7 +180,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 _cardRepository.Update<Card, string>(card);
             }
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.GetTicket;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.GetTicket;
             nodeDto.Context.TicketContainerId = ticketContainer.Id;
             _nodeRepository.ClearNodeProcessingMessage(_nodeId);
 
@@ -187,7 +189,7 @@ namespace Gravitas.Core.Processor.OpRoutine
         
         private void ContainerCloseAddOpVisa(Node nodeDto)
         {
-            if (nodeDto?.Context?.TicketContainerId == null || !nodeDto.Config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader)) return;
+            if (nodeDto?.Context?.TicketContainerId == null || !nodeDto.Config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader)) return;
 
             var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
             if (card == null) return;
@@ -204,13 +206,13 @@ namespace Gravitas.Core.Processor.OpRoutine
                 _cardRepository.Update<Card, string>(c);
             }
             
-            var tickets = _context.Tickets.AsNoTracking().Where(x => x.ContainerId == nodeDto.Context.TicketContainerId.Value && x.RouteTemplateId.HasValue);
+            var tickets = _context.Tickets.AsNoTracking().Where(x => x.TicketContainerId == nodeDto.Context.TicketContainerId.Value && x.RouteTemplateId.HasValue);
             foreach (var t in tickets)
             {
                 var routeTemplateId = t.RouteTemplateId;
                 t.RouteTemplateId = null;
-                t.StatusId = Dom.Ticket.Status.Closed;
-                _ticketRepository.Update<Ticket, long>(t);
+                t.StatusId = TicketStatus.Closed;
+                _ticketRepository.Update<Ticket, int>(t);
                 if (routeTemplateId.HasValue)
                 {
                     var routeTemplate = _routesRepository.GetRoute(routeTemplateId.Value);
@@ -221,22 +223,22 @@ namespace Gravitas.Core.Processor.OpRoutine
                 }
             }
 
-            container.StatusId = Dom.TicketContainer.Status.Inactive;
-            _nodeRepository.Update<TicketContainer, long>(container);
+            container.StatusId = TicketContainerStatus.Inactive;
+            _nodeRepository.Update<TicketContainer, int>(container);
             
             _nodeRepository.UpdateNodeProcessingMessage(nodeDto.Id,
-                new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Success, "Мітки та картки роз'єднано"));
+                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Success, "Мітки та картки роз'єднано"));
 
-            var ticket = _ticketRepository.GetTicketInContainer(nodeDto.Context.TicketContainerId.Value, Dom.Ticket.Status.ToBeProcessed);
-            if (ticket == null) _connectManager.SendSms(Dom.Sms.Template.RemovedFromQueue, nodeDto.Context.TicketId);
+            var ticket = _ticketRepository.GetTicketInContainer(nodeDto.Context.TicketContainerId.Value, TicketStatus.ToBeProcessed);
+            if (ticket == null) _connectManager.SendSms(SmsTemplate.RemovedFromQueue, nodeDto.Context.TicketId);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
         private void SupplyChangeAddOpVisa(Node nodeDto)
         {
-            if (nodeDto?.Context?.TicketContainerId == null || !nodeDto.Config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader)) return;
+            if (nodeDto?.Context?.TicketContainerId == null || !nodeDto.Config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader)) return;
 
             var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
             if (card == null) return;
@@ -247,17 +249,17 @@ namespace Gravitas.Core.Processor.OpRoutine
                 Message = "Зміна коду поставки",
                 SingleWindowOpDataId = nodeDto.Context.OpDataId,
                 EmployeeId = card.EmployeeId,
-                OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.SupplyChangeAddOpVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.SupplyChangeAddOpVisa
             };
-            _nodeRepository.Add<OpVisa, long>(visa);
+            _nodeRepository.Add<OpVisa, int>(visa);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.ShowTicketMenu;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
         
         private void DeleteTicketAddOpVisa(Node nodeDto)
         {
-            if (nodeDto?.Context?.TicketId == null || !nodeDto.Config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader)) return;
+            if (nodeDto?.Context?.TicketId == null || !nodeDto.Config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader)) return;
 
             var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
             if (card == null) return;
@@ -274,26 +276,26 @@ namespace Gravitas.Core.Processor.OpRoutine
                 Message = "Видалення ТТН",
                 SingleWindowOpDataId = opData.Id,
                 EmployeeId = card.EmployeeId,
-                OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.DeleteTicketAddOpVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.DeleteTicketAddOpVisa
             };
-            _nodeRepository.Add<OpVisa, long>(visa);
+            _nodeRepository.Add<OpVisa, int>(visa);
             
-            ticket.StatusId = Dom.Ticket.Status.Canceled;
-            _ticketRepository.Update<Ticket, long>(ticket);
+            ticket.StatusId = TicketStatus.Canceled;
+            _ticketRepository.Update<Ticket, int>(ticket);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.GetTicket;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.GetTicket;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
         
         private void DivideTicketAddOpVisa(Node nodeDto)
         {
-            if (nodeDto?.Context?.TicketContainerId == null || nodeDto.Context?.TicketId == null || !nodeDto.Config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader)) return;
+            if (nodeDto?.Context?.TicketContainerId == null || nodeDto.Context?.TicketId == null || !nodeDto.Config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader)) return;
 
             var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
             if (card == null) return;
 
             var ticket = _context.Tickets.First(x => x.Id == nodeDto.Context.TicketId.Value);
-            if (ticket.StatusId != Dom.Ticket.Status.Completed)
+            if (ticket.StatusId != TicketStatus.Completed)
             {
                 return;
             }
@@ -301,20 +303,20 @@ namespace Gravitas.Core.Processor.OpRoutine
             SignalRInvoke.StartSpinner(nodeDto.Id);
             
             var newTicket = _ticketRepository.NewTicket(nodeDto.Context.TicketContainerId.Value);
-            newTicket.StatusId = Dom.Ticket.Status.Completed;
-            _ticketRepository.Update<Ticket, long>(newTicket);
+            newTicket.StatusId = TicketStatus.Completed;
+            _ticketRepository.Update<Ticket, int>(newTicket);
             
             var opVisas = new List<OpVisa>();
             var pictures = new List<OpCameraImage>();
             var netto = nodeDto.Context.OpProcessData.Value;
             var currentBrutto = _context.ScaleOpDatas.AsNoTracking().Where(x => x.TicketId == nodeDto.Context.TicketId.Value
-                                                                                   && x.TypeId == Dom.ScaleOpData.Type.Gross
-                                                                                   && x.StateId == Dom.OpDataState.Processed)
+                                                                                   && x.TypeId == ScaleOpDataType.Gross
+                                                                                   && x.StateId == OpDataState.Processed)
                 .OrderByDescending(x => x.Id)
                 .First();
             var currentTare = _context.ScaleOpDatas.AsNoTracking().Where(x => x.TicketId == nodeDto.Context.TicketId.Value
-                                                                              && x.TypeId == Dom.ScaleOpData.Type.Tare
-                                                                              && x.StateId == Dom.OpDataState.Processed)
+                                                                              && x.TypeId == ScaleOpDataType.Tare
+                                                                              && x.StateId == OpDataState.Processed)
                 .OrderByDescending(x => x.Id)
                 .First();
             
@@ -337,7 +339,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (deliveryBill == null || deliveryBill.ErrorCode != 0 || deliveryBill.Id == null || deliveryBill.Id == string.Empty) 
             {
                 _nodeRepository.UpdateNodeProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Warning, $"Помилка WebAPI. {deliveryBill?.ErrorMsg}"));
+                    NodeData.ProcessingMsg.Type.Warning, $"Помилка WebAPI. {deliveryBill?.ErrorMsg}"));
     
                 return;
             }
@@ -374,13 +376,13 @@ namespace Gravitas.Core.Processor.OpRoutine
                         foreach (var opVisa in opVisas)
                         {
                             opVisa.SingleWindowOpDataId = sOpData.Id;
-                            _opDataRepository.Add<OpVisa, long>(opVisa);
+                            _opDataRepository.Add<OpVisa, int>(opVisa);
                         }
                         
                         foreach (var picture in pictures)
                         {
                             picture.SingleWindowOpDataId = sOpData.Id;
-                            _opDataRepository.Add<OpCameraImage, long>(picture);
+                            _opDataRepository.Add<OpCameraImage, int>(picture);
                         }
                         
                         break;
@@ -396,13 +398,13 @@ namespace Gravitas.Core.Processor.OpRoutine
                         foreach (var opVisa in opVisas)
                         {
                             opVisa.MixedFeedGuideOpDataId = mOpData.Id;
-                            _opDataRepository.Add<OpVisa, long>(opVisa);
+                            _opDataRepository.Add<OpVisa, int>(opVisa);
                         }
                         
                         foreach (var picture in pictures)
                         {
                             picture.MixedFeedGuideOpDataId = mOpData.Id;
-                            _opDataRepository.Add<OpCameraImage, long>(picture);
+                            _opDataRepository.Add<OpCameraImage, int>(picture);
                         }
                         
                         break;
@@ -418,13 +420,13 @@ namespace Gravitas.Core.Processor.OpRoutine
                         foreach (var opVisa in opVisas)
                         {
                             opVisa.SecurityCheckInOpDataId = sqOpData.Id;
-                            _opDataRepository.Add<OpVisa, long>(opVisa);
+                            _opDataRepository.Add<OpVisa, int>(opVisa);
                         }
                         
                         foreach (var picture in pictures)
                         {
                             picture.SecurityCheckInOpDataId = sqOpData.Id;
-                            _opDataRepository.Add<OpCameraImage, long>(picture);
+                            _opDataRepository.Add<OpCameraImage, int>(picture);
                         }
                         
                         break;
@@ -440,13 +442,13 @@ namespace Gravitas.Core.Processor.OpRoutine
                         foreach (var opVisa in opVisas)
                         {
                             opVisa.SecurityCheckOutOpDataId = sqoOpData.Id;
-                            _opDataRepository.Add<OpVisa, long>(opVisa);
+                            _opDataRepository.Add<OpVisa, int>(opVisa);
                         }
                         
                         foreach (var picture in pictures)
                         {
                             picture.SecurityCheckOutOpDataId = sqoOpData.Id;
-                            _opDataRepository.Add<OpCameraImage, long>(picture);
+                            _opDataRepository.Add<OpCameraImage, int>(picture);
                         }
                         
                         break;
@@ -457,19 +459,19 @@ namespace Gravitas.Core.Processor.OpRoutine
                         
                         scOpData.Id = new Guid();
                         scOpData.TicketId = newTicket.Id;
-                        scOpData.TruckWeightValue = scOpData.TypeId == Dom.ScaleOpData.Type.Gross ? newTicketBrutto : newTicketTare;
+                        scOpData.TruckWeightValue = scOpData.TypeId == ScaleOpDataType.Gross ? newTicketBrutto : newTicketTare;
                         _opDataRepository.Add<ScaleOpData, Guid>(scOpData);
                         
                         foreach (var opVisa in opVisas)
                         {
                             opVisa.ScaleTareOpDataId = scOpData.Id;
-                            _opDataRepository.Add<OpVisa, long>(opVisa);
+                            _opDataRepository.Add<OpVisa, int>(opVisa);
                         }
                         
                         foreach (var picture in pictures)
                         {
                             picture.ScaleOpDataId = scOpData.Id;
-                            _opDataRepository.Add<OpCameraImage, long>(picture);
+                            _opDataRepository.Add<OpCameraImage, int>(picture);
                         }
                         
                         break;
@@ -485,13 +487,13 @@ namespace Gravitas.Core.Processor.OpRoutine
                         foreach (var opVisa in opVisas)
                         {
                             opVisa.MixedFeedLoadOpDataId = mlOpData.Id;
-                            _opDataRepository.Add<OpVisa, long>(opVisa);
+                            _opDataRepository.Add<OpVisa, int>(opVisa);
                         }
                         
                         foreach (var picture in pictures)
                         {
                             picture.MixedFeedLoadOpDataId = mlOpData.Id;
-                            _opDataRepository.Add<OpCameraImage, long>(picture);
+                            _opDataRepository.Add<OpCameraImage, int>(picture);
                         }
                         
                         break;
@@ -519,7 +521,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     Weight = e.Weight,
                     TypeOfTransaction = e.TypeOfTransaction
                 };
-                _opDataRepository.Add<OpDataEvent, long>(newEvent);
+                _opDataRepository.Add<OpDataEvent, int>(newEvent);
             }
 
             _opDataRepository.Update<ScaleOpData, Guid>(currentTare);
@@ -531,12 +533,12 @@ namespace Gravitas.Core.Processor.OpRoutine
                 Message = "Розділена ТТН",
                 SingleWindowOpDataId = nodeDto.Context.OpDataId,
                 EmployeeId = card.EmployeeId,
-                OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.DivideTicketAddOpVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.DivideTicketAddOpVisa
             };
-            _nodeRepository.Add<OpVisa, long>(visa);
+            _nodeRepository.Add<OpVisa, int>(visa);
 
             nodeDto.Context.OpProcessData = null;
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.ShowTicketMenu;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
@@ -552,15 +554,15 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             var windowOpData = _context.SingleWindowOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
             if (windowOpData == null) return;
-            var result = windowOpData.SupplyCode == Dom.SingleWindowOpData.TechnologicalSupplyCode || GetOneCDataForSingleWindowOpData(windowOpData);
+            var result = windowOpData.SupplyCode == TechRoute.SupplyCode || GetOneCDataForSingleWindowOpData(windowOpData);
             if (!result)
             {
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.ShowTicketMenu;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
                 UpdateNodeContext(nodeDto.Id, nodeDto.Context);
                 return;
             }
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.EditTicketForm;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.EditTicketForm;
             nodeDto.Context.OpDataId = windowOpData.Id;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
@@ -573,7 +575,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     deliveryBill = !string.IsNullOrWhiteSpace(windowOpData.SupplyCode) 
                         ? oneCApiClient.GetDeliveryBillViaSupplyCode(windowOpData.SupplyCode)
                         : oneCApiClient.GetDeliveryBillViaBarCode(windowOpData.BarCode);
-            }
+                }
                 catch (Exception e) {
                     Logger.Error($"SingleWindow. EditGetApi: Error while processing OneC api request: {e}");
                 }
@@ -581,7 +583,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 if (deliveryBill == null || deliveryBill.ErrorCode != 0 || deliveryBill.Id == null || deliveryBill.Id == string.Empty) 
                 {
                     _nodeRepository.UpdateNodeProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
-                        Dom.Node.ProcessingMsg.Type.Warning, $"Помилка WebAPI. {deliveryBill?.ErrorMsg}"));
+                        NodeData.ProcessingMsg.Type.Warning, $"Помилка WebAPI. {deliveryBill?.ErrorMsg}"));
     
                     return false;
                     
@@ -645,7 +647,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 UpdateDeliveryBillDictionaryItems(windowOpData, oneCApiClient);
 
                 _nodeRepository.UpdateNodeProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Success, "WebAPI. Дані отримано успішно"));
+                    NodeData.ProcessingMsg.Type.Success, "WebAPI. Дані отримано успішно"));
                 return true;
         }
 
@@ -657,7 +659,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Partner: Id = {windowOpData.ReceiverId}");
                     var partner = oneCApiClient.GetPartner(windowOpData.ReceiverId);
-                    if (partner != null) _externalDataRepository.AddOrUpdate<ExternalData.Partner, string>(partner);
+                    if (partner != null) _externalDataRepository.AddOrUpdate<Partner, string>(partner);
                 }
             }
             catch (Exception e)
@@ -670,7 +672,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Partner: Id = {windowOpData.CarrierId}");
                     var partner = oneCApiClient.GetPartner(windowOpData.CarrierId);
-                    if (partner != null) _externalDataRepository.AddOrUpdate<ExternalData.Partner, string>(partner); 
+                    if (partner != null) _externalDataRepository.AddOrUpdate<Partner, string>(partner); 
                 }
             }
             catch (Exception e)
@@ -683,7 +685,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Stock: Id = {windowOpData.ReceiverId}");
                     var stock = oneCApiClient.GetStock(windowOpData.ReceiverId);
-                    if (stock != null) _externalDataRepository.AddOrUpdate<ExternalData.Stock, string>(stock);
+                    if (stock != null) _externalDataRepository.AddOrUpdate<Stock, string>(stock);
                 }
             }
             catch (Exception e)
@@ -696,7 +698,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Organisation: Id = {windowOpData.OrganizationId}");
                     var organisation = oneCApiClient.GetOrganisation(windowOpData.OrganizationId);
-                    if (organisation != null) _externalDataRepository.AddOrUpdate<ExternalData.Organisation, string>(organisation);  
+                    if (organisation != null) _externalDataRepository.AddOrUpdate<Organisation, string>(organisation);  
                 }
             }
             catch (Exception e)
@@ -709,7 +711,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Product: Id = {windowOpData.ProductId}");
                     var product = oneCApiClient.GetProduct(windowOpData.ProductId);
-                    if (product != null) _externalDataRepository.AddOrUpdate<ExternalData.Product, string>(product);  
+                    if (product != null) _externalDataRepository.AddOrUpdate<Product, string>(product);  
                 }
             }
             catch (Exception e)
@@ -722,7 +724,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Stock: Id = {windowOpData.StockId}");
                     var stock = oneCApiClient.GetStock(windowOpData.StockId);
-                    if (stock != null) _externalDataRepository.AddOrUpdate<ExternalData.Stock, string>(stock); 
+                    if (stock != null) _externalDataRepository.AddOrUpdate<Stock, string>(stock); 
                 }
             }
             catch (Exception e)
@@ -735,7 +737,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Contract: Id = {windowOpData.ContractCarrierId}");
                     var contract = oneCApiClient.GetContract(windowOpData.ContractCarrierId);
-                    if (contract != null) _externalDataRepository.AddOrUpdate<ExternalData.Contract, string>(contract);
+                    if (contract != null) _externalDataRepository.AddOrUpdate<Contract, string>(contract);
                 }
             }
             catch (Exception e)
@@ -750,7 +752,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (nodeDto?.Context?.TicketContainerId == null
                 || nodeDto.Context?.TicketId == null
                 || nodeDto.Context?.OpDataId == null
-                || !nodeDto.Config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader))
+                || !nodeDto.Config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader))
                 return;
 
             var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
@@ -765,23 +767,23 @@ namespace Gravitas.Core.Processor.OpRoutine
                 Message = "Правка документу",
                 SingleWindowOpDataId = windowOpData.Id,
                 EmployeeId = card.EmployeeId,
-                OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.EditAddOpVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.EditAddOpVisa
             };
-            _nodeRepository.Add<OpVisa, long>(visa);
+            _nodeRepository.Add<OpVisa, int>(visa);
 
             windowOpData.EditOperatorId = card.EmployeeId;
             windowOpData.CheckOutDateTime = DateTime.Now;
-            windowOpData.StateId = Dom.OpDataState.Processed;
+            windowOpData.StateId = OpDataState.Processed;
             _opDataRepository.Update<SingleWindowOpData, Guid>(windowOpData);
             
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.EditPostApiData;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.EditPostApiData;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
             _nodeRepository.ClearNodeProcessingMessage(_nodeId);
         }
 
         private OneCApiClient.UpdateDeliveryBillDto.Request GetUpdateDeliveryBillDtoRequest(SingleWindowOpData singleWindowOpData)
         {
-            var createData = _opDataRepository.GetLastProcessed<ScaleOpData>(x => x.TicketId == singleWindowOpData.TicketId && x.TypeId == Dom.ScaleOpData.Type.Gross)?
+            var createData = _opDataRepository.GetLastProcessed<ScaleOpData>(x => x.TicketId == singleWindowOpData.TicketId && x.TypeId == ScaleOpDataType.Gross)?
                 .CheckOutDateTime;
             return new OneCApiClient.UpdateDeliveryBillDto.Request
             {
@@ -826,7 +828,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 LabImpurityValue = singleWindowOpData.LabImpurityValue ?? 0,
                 DocHumidityValue = singleWindowOpData.DocHumidityValue ?? 0,
                 DocImpurityValue = singleWindowOpData.DocImpurityValue ?? 0,
-                DocNetValue = singleWindowOpData.DocumentTypeId == Dom.ExternalData.DeliveryBill.Type.Outgoing 
+                DocNetValue = singleWindowOpData.DocumentTypeId == ExternalData.DeliveryBill.Type.Outgoing 
                     ? (singleWindowOpData.NetValue ?? 0) - (singleWindowOpData.PackingWeightValue ?? 0) 
                     : singleWindowOpData.DocNetValue ?? 0,
                 DocNetDateTime = singleWindowOpData.DocNetDateTime,
@@ -873,7 +875,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             var singleWindowOpData = _context.SingleWindowOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
             if (singleWindowOpData == null) return;
 
-            var useOneC = singleWindowOpData.SupplyCode != Dom.SingleWindowOpData.TechnologicalSupplyCode;
+            var useOneC = singleWindowOpData.SupplyCode != TechRoute.SupplyCode;
 
             OneCApiClient.UpdateDeliveryBillDto.Response response = null;
             if (useOneC)
@@ -897,27 +899,27 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             if (useOneC && (response == null || response.ErrorCode != 0)) {
                 _nodeRepository.UpdateNodeProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error, $"Помилка WebAPI. {response?.ErrorMsg}"));
+                    NodeData.ProcessingMsg.Type.Error, $"Помилка WebAPI. {response?.ErrorMsg}"));
 
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.EditTicketForm;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.EditTicketForm;
             }
             else
             {
                 if (useOneC)
                 {
                     _nodeRepository.UpdateNodeProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                        Dom.Node.ProcessingMsg.Type.Success,
+                        NodeData.ProcessingMsg.Type.Success,
                         "WebAPI. Дані передано успішно")); 
                 }
                 else
                 {
                     _nodeRepository.UpdateNodeProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                        Dom.Node.ProcessingMsg.Type.Warning,
+                        NodeData.ProcessingMsg.Type.Warning,
                         "Дані в 1С не були відправлені."));
                 }
                 
 
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.ShowTicketMenu;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
             }
            
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
@@ -925,7 +927,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
         private void CloseAddOpVisa(Node nodeDto)
         {
-            if (nodeDto.Context?.TicketId == null || !nodeDto.Config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader)) return;
+            if (nodeDto.Context?.TicketId == null || !nodeDto.Config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader)) return;
 
             var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
             if (card == null) return;
@@ -939,15 +941,15 @@ namespace Gravitas.Core.Processor.OpRoutine
                 Message = "Проводка документу",
                 SingleWindowOpDataId = windowOpData.Id,
                 EmployeeId = card.EmployeeId,
-                OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.CloseAddOpVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.CloseAddOpVisa
             };
-            _nodeRepository.Add<OpVisa, long>(visa);
+            _nodeRepository.Add<OpVisa, int>(visa);
 
-            windowOpData.StateId = Dom.OpDataState.Processed;
+            windowOpData.StateId = OpDataState.Processed;
             windowOpData.CheckInDateTime = DateTime.Now;
             _ticketRepository.Update<SingleWindowOpData, Guid>(windowOpData);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.ClosePostApiData;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ClosePostApiData;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
             _nodeRepository.ClearNodeProcessingMessage(_nodeId);
         }
@@ -976,9 +978,9 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (cameraPostRequests.Count == 0)
             {
                 _nodeRepository.UpdateNodeProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error, $"Немає фотографій. Проводка документу відмінена."));
+                    NodeData.ProcessingMsg.Type.Error, $"Немає фотографій. Проводка документу відмінена."));
 
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.ShowTicketMenu;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
                 UpdateNodeContext(nodeDto.Id, nodeDto.Context);
                 return;
             }
@@ -1004,24 +1006,24 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (updateResponse == null || updateResponse.ErrorCode != 0) 
             {
                 _nodeRepository.UpdateNodeProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error,$"Помилка WebAPI. {updateResponse?.ErrorMsg}"));
+                    NodeData.ProcessingMsg.Type.Error,$"Помилка WebAPI. {updateResponse?.ErrorMsg}"));
 
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.ShowTicketMenu;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
                 UpdateNodeContext(nodeDto.Id, nodeDto.Context);
                 return;
             }
 
             var ticket = _context.Tickets.First(x => x.Id == nodeDto.Context.TicketId.Value);
-            ticket.StatusId = Dom.Ticket.Status.Closed;
+            ticket.StatusId = TicketStatus.Closed;
             _context.SaveChanges();
             
             singleWindowOpData.CheckOutDateTime = DateTime.Now;
             _opDataRepository.Update<SingleWindowOpData, Guid>(singleWindowOpData);
 
             _nodeRepository.UpdateNodeProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                Dom.Node.ProcessingMsg.Type.Success, "WebAPI. Дані передано успішно"));
+                NodeData.ProcessingMsg.Type.Success, "WebAPI. Дані передано успішно"));
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.ShowTicketMenu;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
@@ -1090,7 +1092,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (nodeDto?.Context?.TicketContainerId == null
                 || nodeDto.Context?.TicketId == null
                 || nodeDto.Context?.OpDataId == null
-                || !nodeDto.Config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader))
+                || !nodeDto.Config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader))
                 return;
 
             var ticket = _context.Tickets.FirstOrDefault(x => x.Id == nodeDto.Context.TicketId.Value);
@@ -1108,22 +1110,22 @@ namespace Gravitas.Core.Processor.OpRoutine
                 Message = "Правка маршруту",
                 SingleWindowOpDataId = windowOpData.Id,
                 EmployeeId = card.EmployeeId,
-                OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.RouteAddOpVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.RouteAddOpVisa
             };
-            _nodeRepository.Add<OpVisa, long>(visa);
-            windowOpData.StateId = Dom.OpDataState.Processed;
+            _nodeRepository.Add<OpVisa, int>(visa);
+            windowOpData.StateId = OpDataState.Processed;
 
-            var isMixedFeedRoute = _routesInfrastructure.IsNodeAvailable((long) NodeIdValue.MixedFeedGuide, ticket.RouteTemplateId.Value);
+            var isMixedFeedRoute = _routesInfrastructure.IsNodeAvailable((int) NodeIdValue.MixedFeedGuide, ticket.RouteTemplateId.Value);
             if (isMixedFeedRoute)
             {
-                ticket.RouteType = Dom.Route.Type.MixedFeedLoad;
-                _ticketRepository.Update<Ticket, long>(ticket);
+                ticket.RouteType = RouteType.MixedFeedLoad;
+                _ticketRepository.Update<Ticket, int>(ticket);
             }
             
             var isSecondaryTicket = _context.Tickets.AsNoTracking().Any(x => 
-                    x.ContainerId == ticket.ContainerId 
-                    && (x.StatusId == Dom.Ticket.Status.ToBeProcessed
-                        || x.StatusId == Dom.Ticket.Status.Processing)
+                    x.TicketContainerId == ticket.TicketContainerId 
+                    && (x.StatusId == TicketStatus.ToBeProcessed
+                        || x.StatusId == TicketStatus.Processing)
                     && x.OrderNo < ticket.OrderNo);
             
             if (ticket.RouteItemIndex == 0)
@@ -1135,22 +1137,15 @@ namespace Gravitas.Core.Processor.OpRoutine
                         var freeMixedFeedSilo = _queueManager.GetFreeSiloDrive(windowOpData.ProductId, ticket.Id);
                         if (freeMixedFeedSilo == null)
                         {
-                            _connectManager.SendSms(Dom.Sms.Template.NoMixedFeedProduct, nodeDto.Context.TicketId, _phonesRepository.GetPhone(Dom.Phone.MixedFeedManager));
+                            _connectManager.SendSms(SmsTemplate.NoMixedFeedProduct, nodeDto.Context.TicketId, _phonesRepository.GetPhone(Phone.MixedFeedManager));
                         }
                     }
 
                     var time = "---";
-//                    if (_routesInfrastructure.IsInQueue(ticket.Id) && (!isMixedFeedRoute || freeMixedFeedSilo.HasValue))
-//                    {
-//                        windowOpData.PredictionEntranceTime = _queueInfrastructure.GetPredictionEntranceTime(ticket.RouteTemplateId.Value);
-//                        time = windowOpData.PredictionEntranceTime.Value.ToString("dd/MM/yyyy HH:mm");
-//                    }
-//                    
-//                    Logger.Info($"RouteAddOpVisa: Time of arrival {time}. Ticket = {ticket.Id}");
 
                     if (!isSecondaryTicket) 
                     {
-                        _connectManager.SendSms(Dom.Sms.Template.QueueRegistrationSms, nodeDto.Context.TicketId, null,
+                        _connectManager.SendSms(SmsTemplate.QueueRegistrationSms, nodeDto.Context.TicketId, null,
                         new Dictionary<string, object> {
                             { "EntranceTime", time }
                         });
@@ -1158,19 +1153,19 @@ namespace Gravitas.Core.Processor.OpRoutine
 
                     foreach (var item in _phoneInformTicketAssignmentRepository.GetAll().Where(e => e.TicketId == ticket.Id))
                     {
-                        _connectManager.SendSms(Dom.Sms.Template.OnRegisterEmployeeInformation, nodeDto.Context.TicketId, item.PhoneDictionary.PhoneNumber);
+                        _connectManager.SendSms(SmsTemplate.OnRegisterEmployeeInformation, nodeDto.Context.TicketId, item.PhoneDictionary.PhoneNumber);
                     }
                 }
 
-                if (ticket.StatusId != Dom.Ticket.Status.ToBeProcessed)
+                if (ticket.StatusId != TicketStatus.ToBeProcessed)
                 {
-                    ticket.StatusId = Dom.Ticket.Status.ToBeProcessed;
-                    _ticketRepository.Update<Ticket, long>(ticket);
+                    ticket.StatusId = TicketStatus.ToBeProcessed;
+                    _ticketRepository.Update<Ticket, int>(ticket);
                 }
             }
             else
             {
-                if (!_connectManager.SendSms(Dom.Sms.Template.RouteChangeSms, nodeDto.Context.TicketId))
+                if (!_connectManager.SendSms(SmsTemplate.RouteChangeSms, nodeDto.Context.TicketId))
                 {
                     Logger.Error("SingleWindow. RouteAddOpVisa: Sms hasn`t been sent");
                 }
@@ -1184,7 +1179,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             
             _nodeRepository.ClearNodeProcessingMessage(_nodeId);
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.SingleWindow.State.ShowTicketMenu;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context); 
         }
 
@@ -1192,7 +1187,7 @@ namespace Gravitas.Core.Processor.OpRoutine
         {
             if (nodeDto.IsEmergency) return null;
             
-            var rfidConfig = nodeDto.Config.Rfid[Dom.Node.Config.Rfid.TableReader];
+            var rfidConfig = nodeDto.Config.Rfid[NodeData.Config.Rfid.TableReader];
             var rfidObidRwState = (RfidObidRwState) Program.GetDeviceState(rfidConfig.DeviceId);
 
             if (!_deviceRepository.IsDeviceStateValid(out var errMsg, rfidObidRwState, TimeSpan.FromSeconds(rfidConfig.Timeout)))
@@ -1204,7 +1199,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             var card = _context.Cards.AsNoTracking().FirstOrDefault(e =>
                 e.Id.Equals(rfidObidRwState.InData.Rifd, StringComparison.CurrentCultureIgnoreCase));
 
-            if (!_opRoutineManager.IsRfidCardValid(out var errMsgItem, card, Dom.Card.Type.TicketCard))
+            if (!_opRoutineManager.IsRfidCardValid(out var errMsgItem, card, CardType.TicketCard))
             {
                 if (!string.IsNullOrEmpty(errMsg?.Text)) _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, errMsgItem);
                 return null;

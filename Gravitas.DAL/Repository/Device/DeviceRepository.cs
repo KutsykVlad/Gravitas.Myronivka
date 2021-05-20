@@ -260,9 +260,7 @@ namespace Gravitas.DAL
             return IsDeviceStateValid(out errMsgItem, baseDeviceState);
         }
 
-        // public void SetDeviceInData<TInJson, TOutJson>(DeviceState<TInJson, TOutJson> dto)
-        //     where TInJson : BaseJsonConverter<TInJson>
-        //     where TOutJson : BaseJsonConverter<TOutJson>
+        // public void SetDeviceInData<TInJson, TOutJson>(DeviceState<TInJson, TOutJson> dto);
         // {
         //     var dao = GetEntity<DeviceState, long>(dto.Id);
         //     if (dao == null) return;
@@ -275,8 +273,6 @@ namespace Gravitas.DAL
         // }
         //
         // public void SetDeviceOutData<TInJson, TOutJson>(DeviceState<TInJson, TOutJson> dto)
-        //     where TInJson : BaseJsonConverter<TInJson>
-        //     where TOutJson : BaseJsonConverter<TOutJson>
         // {
         //     SetDeviceOutData(dto.Id, dto.OutData);
         // }

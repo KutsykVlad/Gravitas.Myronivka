@@ -5,7 +5,6 @@ using System.Threading;
 using Gravitas.Core.DeviceManager;
 using Gravitas.Core.DeviceManager.Device;
 using Gravitas.Core.DeviceManager.User;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Card;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.Node;
@@ -14,7 +13,6 @@ using Gravitas.DAL.Repository.OpWorkflow.Routes;
 using Gravitas.DAL.Repository.Phones;
 using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Common.Configuration;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Camera;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.OpData;
@@ -32,11 +30,10 @@ using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Model.DomainValue.NodeProcesses;
-using Gravitas.Model.Dto;
 using Newtonsoft.Json;
-using Dom = Gravitas.Model.DomainValue.Dom;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
+using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -97,13 +94,13 @@ namespace Gravitas.Core.Processor.OpRoutine
         {
             if (config == null) return false;
 
-            var diValid = config.DI.ContainsKey(Dom.Node.Config.DI.LoopIncoming)
-                          && config.DI.ContainsKey(Dom.Node.Config.DI.LoopOutgoing);
-            var doValid = config.DO.ContainsKey(Dom.Node.Config.DO.TrafficLightIncoming)
-                          && config.DO.ContainsKey(Dom.Node.Config.DO.TrafficLightOutgoing);
-            var rfidValid = config.Rfid.ContainsKey(Dom.Node.Config.Rfid.OnGateReader);
-            var scaleValid = config.Scale.ContainsKey(Dom.Node.Config.Scale.Scale1);
-            var cameraValid = config.Camera.ContainsKey(Dom.Node.Config.Camera.Camera1);
+            var diValid = config.DI.ContainsKey(NodeData.Config.DI.LoopIncoming)
+                          && config.DI.ContainsKey(NodeData.Config.DI.LoopOutgoing);
+            var doValid = config.DO.ContainsKey(NodeData.Config.DO.TrafficLightIncoming)
+                          && config.DO.ContainsKey(NodeData.Config.DO.TrafficLightOutgoing);
+            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.OnGateReader);
+            var scaleValid = config.Scale.ContainsKey(NodeData.Config.Scale.Scale1);
+            var cameraValid = config.Camera.ContainsKey(NodeData.Config.Camera.Camera1);
 
             return diValid && doValid && rfidValid && scaleValid && cameraValid;
         }
@@ -115,63 +112,63 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             switch (_nodeDto.Context.OpRoutineStateId)
             {
-                case Dom.OpRoutine.Weighbridge.State.Idle:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.Idle:
                     Idle(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GetScaleZero:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GetScaleZero:
                     GetScaleZero(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.OpenBarrierIn:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.OpenBarrierIn:
                     OpenBarrierIn(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.CheckScaleNotEmpty:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.CheckScaleNotEmpty:
                     CheckScaleNotEmpty(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GetTicketCard:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GetTicketCard:
                     GetTicketCard(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.DriverTrailerEnableCheck:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.DriverTrailerEnableCheck:
                     ValidateTruckPresence(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GuardianCardPrompt:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GuardianCardPrompt:
                     GetGuardianCard(_nodeDto);
                     ValidateTruckPresence(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GuardianTruckVerification:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GuardianTruckVerification:
                     ValidateTruckPresence(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GuardianTrailerEnableCheck:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GuardianTrailerEnableCheck:
                     ValidateTruckPresence(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.TruckWeightPrompt:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.TruckWeightPrompt:
                     ValidateTruckPresence(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GetGuardianTruckWeightPermission:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GetGuardianTruckWeightPermission:
                     GetGuardianCard(_nodeDto);
                     ValidateTruckPresence(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GetTruckWeight:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GetTruckWeight:
                     GetWeight(_nodeDto, true);
                     ValidateTruckPresence(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.TrailerWeightPrompt:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.TrailerWeightPrompt:
                     ValidateTruckPresence(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GetGuardianTrailerWeightPermission:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GetGuardianTrailerWeightPermission:
                     GetGuardianCard(_nodeDto);
                     ValidateTruckPresence(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GetTrailerWeight:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GetTrailerWeight:
                     GetWeight(_nodeDto, false);
                     ValidateTruckPresence(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.WeightResultsValidation:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.WeightResultsValidation:
                     ValidateWeightResults(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.OpenBarrierOut:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.OpenBarrierOut:
                     OpenBarrierOut(_nodeDto);
                     break;
-                case Dom.OpRoutine.Weighbridge.State.CheckScaleEmpty:
+                case Model.DomainValue.OpRoutine.Weighbridge.State.CheckScaleEmpty:
                     CheckScaleEmpty(_nodeDto);
                     break;
             }
@@ -182,8 +179,6 @@ namespace Gravitas.Core.Processor.OpRoutine
         private void Idle(Node nodeDto)
         {
             _deviceManager.GetLoopState(nodeDto, out var incomingLoopState, out var outgoingLoopState, 5);
-//            _deviceManager.SetOutput(nodeDto.Config.DO[Dom.Node.Config.DO.TrafficLightIncoming], false);
-//            _deviceManager.SetOutput(nodeDto.Config.DO[Dom.Node.Config.DO.TrafficLightOutgoing], false);
 
             if (nodeDto.Id == (long) NodeIdValue.Weighbridge5)
             {
@@ -191,7 +186,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             } 
             else if (incomingLoopState != true && outgoingLoopState != true) return;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.GetScaleZero;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.GetScaleZero;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
@@ -207,8 +202,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (scaleState.OutData == null) scaleState.OutData = new ScaleOutJsonState();
             if (!scaleState.OutData.ZeroScaleCmd)
             {
-                scaleState.OutData.ZeroScaleCmd = true;
-                _deviceRepository.SetDeviceOutData(scaleState);
+                Program.SetDeviceOutData(nodeDto.Config.Scale.First().Value.DeviceId, true);
             }
 
             Thread.Sleep(1000);
@@ -217,11 +211,11 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             Program.SetDeviceOutData(
                 outgoingLoopState == (nodeDto.Id != (long) NodeIdValue.Weighbridge5)
-                    ? nodeDto.Config.DO[Dom.Node.Config.DO.TrafficLightOutgoing].DeviceId
-                    : nodeDto.Config.DO[Dom.Node.Config.DO.TrafficLightIncoming].DeviceId, true);
+                    ? nodeDto.Config.DO[NodeData.Config.DO.TrafficLightOutgoing].DeviceId
+                    : nodeDto.Config.DO[NodeData.Config.DO.TrafficLightIncoming].DeviceId, true);
             Logger.Trace($"TurnLightsOn on {nodeDto.Id}");
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.OpenBarrierIn;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.OpenBarrierIn;
             _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
@@ -234,7 +228,7 @@ namespace Gravitas.Core.Processor.OpRoutine
         {
             if (nodeDto.Config == null) return;
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.CheckScaleNotEmpty;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.CheckScaleNotEmpty;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
@@ -251,7 +245,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 TurnLightsOff(nodeDto);
                 Logger.Trace($"CheckScaleNotEmpty: Timeout on nodeId = {nodeDto.Id}. nodeDto.Context.LastStateChangeTime.Value = {nodeDto.Context.LastStateChangeTime.Value}");
                 Logger.Trace($"CheckScaleNotEmpty: Timeout on nodeId = {nodeDto.Id}. GlobalConfigurationManager.WeighbridgeCheckScaleReloadTime = {GlobalConfigurationManager.WeighbridgeCheckScaleReloadTime}");
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.Idle;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.Idle;
                 UpdateNodeContext(nodeDto.Id, nodeDto.Context);
                
                 return;
@@ -271,7 +265,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             TurnLightsOff(nodeDto);
             TurnLightsOff(nodeDto);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.GetTicketCard;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.GetTicketCard;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
@@ -286,7 +280,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (scaleState.InData.Value < 300)
             {
                 TurnLightsOff(nodeDto);
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.Idle;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.Idle;
                 UpdateNodeContext(nodeDto.Id, nodeDto.Context);
                 return;
             }
@@ -297,17 +291,17 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDto.Id, out var errorMessage))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
-                    new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Error, errorMessage));
+                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
                 return;
             }
 
             TurnLightsOff(nodeDto);
 
-            var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(card.Ticket.Id, Dom.OpDataState.Processing);
+            var scaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(card.Ticket.Id, OpDataState.Processing);
             if (scaleOpData != null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
-                    new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Error, $"Автомобіль в обробці на {scaleOpData.Node.Name}"));
+                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, $"Автомобіль в обробці на {scaleOpData.Node.Name}"));
                 return;
             }
 
@@ -317,14 +311,14 @@ namespace Gravitas.Core.Processor.OpRoutine
             {
                 NodeId = nodeDto.Id,
                 TicketId = card.Ticket.Id,
-                StateId = Dom.OpDataState.Processing,
+                StateId = OpDataState.Processing,
                 TypeId = scaleOpType,
                 CheckInDateTime = DateTime.Now,
-                TicketContainerId = card.Ticket.ContainerId
+                TicketContainerId = card.Ticket.TicketContainerId
             };
 
-            var previousScale = _opDataRepository.GetLastOpData<ScaleOpData>(card.Ticket.Id, Dom.OpDataState.Processed)
-                                ?? _opDataRepository.GetLastOpData<ScaleOpData>(card.Ticket.Id, Dom.OpDataState.Rejected);
+            var previousScale = _opDataRepository.GetLastOpData<ScaleOpData>(card.Ticket.Id, OpDataState.Processed)
+                                ?? _opDataRepository.GetLastOpData<ScaleOpData>(card.Ticket.Id, OpDataState.Rejected);
             if (previousScale != null)
             {
                 scaleOpData.TrailerIsAvailable = previousScale.TrailerIsAvailable;
@@ -340,13 +334,13 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!validationResult.IsValid)
             {
                 scaleOpData.GuardianPresence = true;
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.GuardianCardPrompt;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.GuardianCardPrompt;
 
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Info, $"{validationResult.ValidationMessage} Очікуйте охоронця"));
+                    NodeData.ProcessingMsg.Type.Info, $"{validationResult.ValidationMessage} Очікуйте охоронця"));
 
-                var securityPhoneNo = _phonesRepository.GetPhone(Dom.Phone.Security);
-                if (!_connectManager.SendSms(Dom.Sms.Template.InvalidPerimeterGuardianSms, card.Ticket.Id, securityPhoneNo, new Dictionary<string, object>
+                var securityPhoneNo = _phonesRepository.GetPhone(Phone.Security);
+                if (!_connectManager.SendSms(SmsTemplate.InvalidPerimeterGuardianSms, card.Ticket.Id, securityPhoneNo, new Dictionary<string, object>
                 {
                     {"ScaleValidationText", validationResult.ValidationMessage}
                 }))
@@ -355,17 +349,17 @@ namespace Gravitas.Core.Processor.OpRoutine
             else
             {
                 Logger.Info($"DriverTrailerEnableCheck: previousScaleId = {previousScale?.Id}");
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.TruckWeightPrompt;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.TruckWeightPrompt;
             }
             
             if (!scaleOpData.TrailerIsAvailable)
             {
-                nodeDto.Context.OpProcessData = (long?) scaleState.InData.Value;
+                nodeDto.Context.OpProcessData = (int?) scaleState.InData.Value;
             }
 
             _phonesRepository.Add<ScaleOpData, Guid>(scaleOpData);
 
-            nodeDto.Context.TicketContainerId = card.Ticket.ContainerId;
+            nodeDto.Context.TicketContainerId = card.Ticket.TicketContainerId;
             nodeDto.Context.TicketId = card.Ticket.Id;
             nodeDto.Context.OpDataId = scaleOpData.Id;
             
@@ -392,18 +386,18 @@ namespace Gravitas.Core.Processor.OpRoutine
                 OpRoutineStateId = nodeDto.Context.OpRoutineStateId.Value
             };
 
-            _cardRepository.Add<OpVisa, long>(opVisa);
+            _cardRepository.Add<OpVisa, int>(opVisa);
 
             switch (nodeDto.Context.OpRoutineStateId.Value)
             {
-                case Dom.OpRoutine.Weighbridge.State.GuardianCardPrompt:
-                    nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.GuardianTruckVerification;
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GuardianCardPrompt:
+                    nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.GuardianTruckVerification;
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GetGuardianTruckWeightPermission:
-                    nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.GetTruckWeight;
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GetGuardianTruckWeightPermission:
+                    nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.GetTruckWeight;
                     break;
-                case Dom.OpRoutine.Weighbridge.State.GetGuardianTrailerWeightPermission:
-                    nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.GetTrailerWeight;
+                case Model.DomainValue.OpRoutine.Weighbridge.State.GetGuardianTrailerWeightPermission:
+                    nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.GetTrailerWeight;
                     break;
             }
             
@@ -428,19 +422,19 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (scaleOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено."));
+                    NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено."));
                 return;
             }
             
             if (!scaleOpData.TrailerIsAvailable && (scaleState.InData.Value > nodeDto.Context.OpProcessData + 60 || scaleState.InData.Value < nodeDto.Context.OpProcessData - 60))
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Error, @"Зміна ваги."));
+                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Зміна ваги."));
                 
                 _opDataManager.AddEvent(new OpDataEvent
                 {
                     Created = DateTime.Now,
                     NodeId = nodeDto.Id,
-                    TypeOfTransaction = Dom.TypeOfTransaction.Other,
+                    TypeOfTransaction = TypeOfTransaction.Other,
                     Cause = $"Зміна ваги під час зваження",
                     TicketId = nodeDto.Context.TicketId.Value,
                     Weight = scaleState.InData.Value,
@@ -448,9 +442,9 @@ namespace Gravitas.Core.Processor.OpRoutine
                 });
                 
                 scaleOpData.CheckOutDateTime = DateTime.Now;
-                scaleOpData.StateId =  Dom.OpDataState.Rejected;
+                scaleOpData.StateId =  OpDataState.Rejected;
                 _opDataRepository.Update<ScaleOpData, Guid>(scaleOpData);
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.Idle;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.Idle;
                 UpdateNodeContext(nodeDto.Id, nodeDto.Context);
                 return;
             }
@@ -461,15 +455,15 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             scaleOpData.CheckOutDateTime = DateTime.Now;
             
-            if (scaleOpData.StateId == Dom.OpDataState.Rejected)
+            if (scaleOpData.StateId == OpDataState.Rejected)
             {
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.OpenBarrierOut;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.OpenBarrierOut;
             }
             else
             {
                 scaleOpData.StateId = scaleOpData.TruckWeightIsAccepted == false || scaleOpData.TrailerWeightIsAccepted == false
-                    ? Dom.OpDataState.Rejected
-                    : Dom.OpDataState.Processing;
+                    ? OpDataState.Rejected
+                    : OpDataState.Processing;
             }
 
             _opDataRepository.Update<ScaleOpData, Guid>(scaleOpData);
@@ -488,7 +482,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
         private void AddTruckWeight(ScaleOpData scaleOpData, ScaleState scaleState, bool isTruckWeighting)
         {
-            var prevScale = _context.ScaleOpDatas.AsNoTracking().Where(x => x.TypeId == (scaleOpData.TypeId == Dom.ScaleOpData.Type.Gross ? Dom.ScaleOpData.Type.Tare : Dom.ScaleOpData.Type.Gross)
+            var prevScale = _context.ScaleOpDatas.AsNoTracking().Where(x => x.TypeId == (scaleOpData.TypeId == ScaleOpDataType.Gross ? ScaleOpDataType.Tare : ScaleOpDataType.Gross)
                                                                            && x.TicketId == scaleOpData.TicketId)
                 .OrderByDescending(x => x.CheckOutDateTime)
                 .FirstOrDefault();
@@ -496,7 +490,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 .OrderByDescending(x => x.CheckOutDateTime)
                 .FirstOrDefault();
    
-            var isRejected = prevScale?.StateId == Dom.OpDataState.Rejected || prevLab?.StateId == Dom.OpDataState.Rejected;
+            var isRejected = prevScale?.StateId == OpDataState.Rejected || prevLab?.StateId == OpDataState.Rejected;
             Logger.Trace($"isRejected = {isRejected}");
             Logger.Trace($"prev id = {prevScale?.Id}");
             Logger.Trace($"isTruckWeighting = {isTruckWeighting}");
@@ -516,8 +510,8 @@ namespace Gravitas.Core.Processor.OpRoutine
                 }
                 
                 _nodeDto.Context.OpRoutineStateId = scaleOpData.TrailerIsAvailable == false
-                    ? Dom.OpRoutine.Weighbridge.State.WeightResultsValidation
-                    : Dom.OpRoutine.Weighbridge.State.TrailerWeightPrompt;
+                    ? Model.DomainValue.OpRoutine.Weighbridge.State.WeightResultsValidation
+                    : Model.DomainValue.OpRoutine.Weighbridge.State.TrailerWeightPrompt;
             }
             else
             {
@@ -532,7 +526,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     scaleOpData.TrailerWeightValue = scaleState.InData.Value;
                 }
                 
-                _nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.WeightResultsValidation;
+                _nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.WeightResultsValidation;
             }
         }
 
@@ -555,7 +549,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             var centralLabOpData = _opDataRepository.GetLastOpData<CentralLabOpData>(nodeDto.Context.TicketId, null);
             var lastTareScaleOpData = _context.ScaleOpDatas.AsNoTracking()
-                .Where(x => x.TypeId == Dom.ScaleOpData.Type.Tare)
+                .Where(x => x.TypeId == ScaleOpDataType.Tare)
                 .OrderByDescending(x => x.CheckOutDateTime)
                 .FirstOrDefault();
             
@@ -564,25 +558,25 @@ namespace Gravitas.Core.Processor.OpRoutine
                                ?? _opDataRepository.GetLastProcessed<LoadPointOpData>(ticket.Id)?.StateId;
 
             if (singleWindowOpData.LoadTarget > 0
-                && endpointState != Dom.OpDataState.Rejected
-                && endpointState != Dom.OpDataState.Canceled
-                && singleWindowOpData.DocumentTypeId == Dom.ExternalData.DeliveryBill.Type.Outgoing
-                && scaleOpData.TypeId == Dom.ScaleOpData.Type.Gross
-                && (centralLabOpData == null || (ticket.RouteType == Dom.Route.Type.Reload || centralLabOpData.StateId != Dom.OpDataState.Rejected))
-                && lastTareScaleOpData?.StateId != Dom.OpDataState.Rejected)
+                && endpointState != OpDataState.Rejected
+                && endpointState != OpDataState.Canceled
+                && singleWindowOpData.DocumentTypeId == ExternalData.DeliveryBill.Type.Outgoing
+                && scaleOpData.TypeId == ScaleOpDataType.Gross
+                && (centralLabOpData == null || (ticket.RouteType == RouteType.Reload || centralLabOpData.StateId != OpDataState.Rejected))
+                && lastTareScaleOpData?.StateId != OpDataState.Rejected)
             {
                 result = _scaleManager.IsWeightResultsValid(scaleValidationData, nodeDto.Context.TicketId.Value);
                 Logger.Debug($"WeighbridgeWeightResultsValidation: {JsonConvert.SerializeObject(scaleValidationData)}");
             }
 
-            var isMixedFeedRoute = ticket.RouteType == Dom.Route.Type.MixedFeedLoad;
+            var isMixedFeedRoute = ticket.RouteType == RouteType.MixedFeedLoad;
             if (isMixedFeedRoute)
             {
                 CheckRemoveMixedFeedFromSilo(ticket.Id, scaleValidationData.WeightOnTruck, nodeDto.Context.OpDataId.Value);
             }
 
             var mainCondition = string.IsNullOrWhiteSpace(result) && _routesInfrastructure.IsLastScaleProcess(ticket.Id);
-            var moveCondition = routeType == Dom.Route.Type.Move && scaleOpData.TypeId == Dom.ScaleOpData.Type.Tare;
+            var moveCondition = routeType == RouteType.Move && scaleOpData.TypeId == ScaleOpDataType.Tare;
             if (moveCondition || mainCondition)
             {
                 var newTicket = MoveToNextTicket(ticket);
@@ -595,7 +589,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!string.IsNullOrWhiteSpace(result))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error, @"Ліміти не виконані"));
+                    NodeData.ProcessingMsg.Type.Error, @"Ліміти не виконані"));
             }
             else
             {
@@ -603,18 +597,18 @@ namespace Gravitas.Core.Processor.OpRoutine
                     && scaleOpData.TruckWeightDateTime.HasValue)
                 {
                     _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                        Dom.Node.ProcessingMsg.Type.Success, @"Перевірка пройшла успішно"));
+                        NodeData.ProcessingMsg.Type.Success, @"Перевірка пройшла успішно"));
                 }
                 else
                 {
                     Logger.Error($"Scale weight validation error: TruckWeight is NULL in the database. ScaleOpData.Id={scaleOpData.Id}");
                     _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                        Dom.Node.ProcessingMsg.Type.Error, @"Увага, не коректне зважування. Повторіть процедуру зважуванняя з початку."));
-                    scaleOpData.StateId = Dom.OpDataState.Canceled;
+                        NodeData.ProcessingMsg.Type.Error, @"Увага, не коректне зважування. Повторіть процедуру зважуванняя з початку."));
+                    scaleOpData.StateId = OpDataState.Canceled;
                     _opDataRepository.Update<ScaleOpData, Guid>(scaleOpData);
                 }
             }
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.OpenBarrierOut;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.OpenBarrierOut;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
@@ -628,16 +622,16 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (scaleOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
+                    NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
                 return;
             }
-            if (scaleOpData.StateId == Dom.OpDataState.Rejected)
+            if (scaleOpData.StateId == OpDataState.Rejected)
             {
-                _routesInfrastructure.SetSecondaryRoute(nodeDto.Context.TicketId.Value, nodeDto.Id, Dom.Route.Type.Reject);
+                _routesInfrastructure.SetSecondaryRoute(nodeDto.Context.TicketId.Value, nodeDto.Id, RouteType.Reject);
             }
             Thread.Sleep(12000);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.CheckScaleEmpty;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.CheckScaleEmpty;
             _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
@@ -658,14 +652,14 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (scaleOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
+                    NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
                 return;
             }
 
-            if (scaleOpData.StateId == Dom.OpDataState.Processing)
+            if (scaleOpData.StateId == OpDataState.Processing)
             {
                 _routesInfrastructure.AssignSingleUnloadPoint(nodeDto.Context.TicketId.Value, nodeDto.Id);
-                scaleOpData.StateId = Dom.OpDataState.Processed;
+                scaleOpData.StateId = OpDataState.Processed;
                 _opDataRepository.Update<ScaleOpData, Guid>(scaleOpData);
                 _routesInfrastructure.MoveForward(nodeDto.Context.TicketId.Value, nodeDto.Id);
             }
@@ -677,7 +671,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             nodeDto.Context.TicketId = null;
             nodeDto.Context.OpDataId = null;
             nodeDto.Context.OpProcessData = 0;
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.Idle;
             _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
@@ -687,8 +681,8 @@ namespace Gravitas.Core.Processor.OpRoutine
         private void TurnLightsOff(Node nodeDto)
         {
             Logger.Trace($"TurnLightsOff on {nodeDto.Id}");
-            Program.SetDeviceOutData(nodeDto.Config.DO[Dom.Node.Config.DO.TrafficLightIncoming].DeviceId, false);
-            Program.SetDeviceOutData(nodeDto.Config.DO[Dom.Node.Config.DO.TrafficLightOutgoing].DeviceId, false);
+            Program.SetDeviceOutData(nodeDto.Config.DO[NodeData.Config.DO.TrafficLightIncoming].DeviceId, false);
+            Program.SetDeviceOutData(nodeDto.Config.DO[NodeData.Config.DO.TrafficLightOutgoing].DeviceId, false);
         }
         
         private void ValidateTruckPresence(Node nodeDto)
@@ -703,13 +697,13 @@ namespace Gravitas.Core.Processor.OpRoutine
                 nodeDto.Context.OpDataId = null;
                 nodeDto.Context.OpProcessData = null;
                 nodeDto.Context.OpProcessData = 0;
-                nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.Weighbridge.State.Idle;
+                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.Idle;
                 _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
                 UpdateNodeContext(nodeDto.Id, nodeDto.Context);
             }
         }
         
-        private void AddWeightEvent(Node nodeDto, long typeId, double weight, bool isTruckWeighting)
+        private void AddWeightEvent(Node nodeDto, ScaleOpDataType typeId, double weight, bool isTruckWeighting)
         {
             var opDataEvent = new OpDataEvent
             {
@@ -721,14 +715,14 @@ namespace Gravitas.Core.Processor.OpRoutine
             };
             switch (typeId)
             {
-                case Dom.ScaleOpData.Type.Tare:
+                case ScaleOpDataType.Tare:
                     opDataEvent.TypeOfTransaction =
-                        isTruckWeighting ? Dom.TypeOfTransaction.TareWeighting : Dom.TypeOfTransaction.TareTrailerWeighting;
+                        isTruckWeighting ? TypeOfTransaction.TareWeighting : TypeOfTransaction.TareTrailerWeighting;
                     opDataEvent.Cause = isTruckWeighting ? "Зважування тари автомобіля" : "Зважування тари причепа";
                     break;
-                case Dom.ScaleOpData.Type.Gross:
+                case ScaleOpDataType.Gross:
                     opDataEvent.TypeOfTransaction =
-                        isTruckWeighting ? Dom.TypeOfTransaction.GrossWeighting : Dom.TypeOfTransaction.GrossTrailerWeighting;
+                        isTruckWeighting ? TypeOfTransaction.GrossWeighting : TypeOfTransaction.GrossTrailerWeighting;
                     opDataEvent.Cause = isTruckWeighting ? "Зважування брутто автомобіля" : "Зважування брутто причепа";
                     break;
             }
@@ -740,12 +734,12 @@ namespace Gravitas.Core.Processor.OpRoutine
         {
             var lastOpDataList = _context.ScaleOpDatas.AsNoTracking().Where(x => x.TicketId == ticketId
                                                   && x.Id != opDataId
-                                                  && x.TypeId == Dom.ScaleOpData.Type.Gross
-                                                  && x.StateId == Dom.OpDataState.Canceled);
+                                                  && x.TypeId == ScaleOpDataType.Gross
+                                                  && x.StateId == OpDataState.Canceled);
             var tareOpDataList = _opDataRepository
                 .GetFirstOrDefault<ScaleOpData, Guid>(x => x.TicketId == ticketId
-                                                           && x.TypeId == Dom.ScaleOpData.Type.Tare
-                                                           && x.StateId == Dom.OpDataState.Processed);
+                                                           && x.TypeId == ScaleOpDataType.Tare
+                                                           && x.StateId == OpDataState.Processed);
             double previousScaleValue = 0;
             if (lastOpDataList.Any())
                 foreach (var opData in lastOpDataList)
@@ -780,15 +774,15 @@ namespace Gravitas.Core.Processor.OpRoutine
                 silo.SiloEmpty = (float) (maxHeight - (silo.SiloWeight/ (fullWeight / 100) / 100) * maxHeight);
                 silo.SiloFull = maxHeight - silo.SiloEmpty;
                     
-                _opDataRepository.Update<MixedFeedSilo, long>(silo);
+                _opDataRepository.Update<MixedFeedSilo, int>(silo);
             }
         }
 
         private Ticket MoveToNextTicket(Ticket ticket)
         {
             var nextTicket = _context.Tickets.AsNoTracking().Where(x => 
-                    x.ContainerId == ticket.ContainerId 
-                    && x.StatusId == Dom.Ticket.Status.ToBeProcessed
+                    x.TicketContainerId == ticket.TicketContainerId 
+                    && x.StatusId == TicketStatus.ToBeProcessed
                     && x.OrderNo > ticket.OrderNo)
                 .OrderBy(x => x.OrderNo)
                 .FirstOrDefault();
@@ -800,8 +794,8 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             if (nextTicket.RouteTemplateId == null) throw new ArgumentException();
                 
-            ticket.StatusId = Dom.Ticket.Status.Completed;
-            _ticketRepository.Update<Ticket, long>(ticket);
+            ticket.StatusId = TicketStatus.Completed;
+            _ticketRepository.Update<Ticket, int>(ticket);
                 
             var route = _routesRepository
                 .GetRoute(nextTicket.RouteTemplateId.Value)
@@ -820,16 +814,16 @@ namespace Gravitas.Core.Processor.OpRoutine
                 }
             }
                 
-            nextTicket.StatusId = Dom.Ticket.Status.Processing;
-            _ticketRepository.Update<Ticket, long>(nextTicket);
+            nextTicket.StatusId = TicketStatus.Processing;
+            _ticketRepository.Update<Ticket, int>(nextTicket);
             return nextTicket;
         }
 
         private ScaleValidationResult ValidateScaleData(Node node, double scaleValue, Ticket ticket)
         {
             var scaleOpType = GetScaleOpType(ticket.Id, node.Id);
-            var previousScale = _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, Dom.OpDataState.Processed)
-                                ?? _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, Dom.OpDataState.Rejected);
+            var previousScale = _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, OpDataState.Processed)
+                                ?? _opDataRepository.GetLastOpData<ScaleOpData>(ticket.Id, OpDataState.Rejected);
             
             var windowInOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(ticket.Id);
             if (windowInOpData is null) return null;
@@ -845,33 +839,33 @@ namespace Gravitas.Core.Processor.OpRoutine
             return validator.Validate();
         }
 
-        private int GetScaleOpType(long ticketId, long nodeId)
+        private ScaleOpDataType GetScaleOpType(int ticketId, int nodeId)
         {
             var process = _routesInfrastructure.GetNodeProcess(ticketId, nodeId);
-            if (process != (int) ScaleProcess.Auto) return process;
+            if (process != (int) ScaleProcess.Auto) return (ScaleOpDataType) process;
             
             var windowInOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(ticketId);
             if (windowInOpData is null) throw new Exception($"GetScaleOpType: SingleWindowOpData with ticket {ticketId} doesn't exist");
 
-            int? scaleOpType = null;
-            var previousScaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticketId, Dom.OpDataState.Processed) 
-                                      ?? _opDataRepository.GetLastOpData<ScaleOpData>(ticketId, Dom.OpDataState.Rejected);
+            ScaleOpDataType scaleOpType = (ScaleOpDataType) 0;
+            var previousScaleOpData = _opDataRepository.GetLastOpData<ScaleOpData>(ticketId, OpDataState.Processed) 
+                                      ?? _opDataRepository.GetLastOpData<ScaleOpData>(ticketId, OpDataState.Rejected);
 
             switch (windowInOpData.DocumentTypeId)
             {
-                case Dom.ExternalData.DeliveryBill.Type.Incoming:
-                    scaleOpType = previousScaleOpData?.TypeId == Dom.ScaleOpData.Type.Gross
-                        ? Dom.ScaleOpData.Type.Tare
-                        : Dom.ScaleOpData.Type.Gross;
+                case ExternalData.DeliveryBill.Type.Incoming:
+                    scaleOpType = previousScaleOpData?.TypeId == ScaleOpDataType.Gross
+                        ? ScaleOpDataType.Tare
+                        : ScaleOpDataType.Gross;
                     break;
-                case Dom.ExternalData.DeliveryBill.Type.Outgoing:
-                    scaleOpType = previousScaleOpData?.TypeId == Dom.ScaleOpData.Type.Tare
-                        ? Dom.ScaleOpData.Type.Gross
-                        : Dom.ScaleOpData.Type.Tare;
+                case ExternalData.DeliveryBill.Type.Outgoing:
+                    scaleOpType = previousScaleOpData?.TypeId == ScaleOpDataType.Tare
+                        ? ScaleOpDataType.Gross
+                        : ScaleOpDataType.Tare;
                     break;
             }
             
-            return scaleOpType ?? throw new ArgumentException("GetScaleOpType: Type is not identified.");
+            return scaleOpType;
         }
 
         private bool ValidateTruckPresence2(Node nodeDto)
@@ -884,7 +878,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             var scaleOpData = _context.ScaleOpDatas.AsNoTracking().FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
             if (scaleOpData == null) throw new ArgumentException($"Invalid scaleOpData = {nodeDto.Name}");
-            if (scaleOpData.StateId == Dom.OpDataState.Canceled)
+            if (scaleOpData.StateId == OpDataState.Canceled)
             {
                 return false;
             }
@@ -895,12 +889,12 @@ namespace Gravitas.Core.Processor.OpRoutine
                 TicketId = nodeDto.Context.TicketId,
                 CheckInDateTime = DateTime.Now,
                 CheckOutDateTime = DateTime.Now,
-                StateId = Dom.OpDataState.Processed,
+                StateId = OpDataState.Processed,
                 Message = "Машина з'їхала з ваг в процесі зважування або вага її змінилася"
             };
             _opDataRepository.Add<NonStandartOpData, Guid>(standardOpData);
 
-            scaleOpData.StateId = Dom.OpDataState.Canceled;
+            scaleOpData.StateId = OpDataState.Canceled;
             scaleOpData.CheckOutDateTime = DateTime.Now;
             _opDataRepository.Update<ScaleOpData, Guid>(scaleOpData);
             
@@ -908,7 +902,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             {
                 Created = DateTime.Now,
                 NodeId = nodeDto.Id,
-                TypeOfTransaction = Dom.TypeOfTransaction.Other,
+                TypeOfTransaction = TypeOfTransaction.Other,
                 Cause = "Машина з'їхала з ваг в процесі зважування або вага її змінилася",
                 TicketId = nodeDto.Context.TicketId.Value,
                 Weight = 0,

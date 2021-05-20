@@ -1,17 +1,12 @@
 using System;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.Node;
-using Gravitas.Infrastructure.Platform.ApiClient.Devices;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Base;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
-using Gravitas.Model.Dto;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.DeviceManager.Device
@@ -32,7 +27,7 @@ namespace Gravitas.Core.DeviceManager.Device
             _opRoutineManager = opRoutineManager;
         }
 
-        public BaseDeviceState GetDeviceState(long nodeId, string deviceName)
+        public BaseDeviceState GetDeviceState(int nodeId, string deviceName)
         {
             var nodeDetail = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDetail == null)
@@ -61,11 +56,11 @@ namespace Gravitas.Core.DeviceManager.Device
 
             if (nodeDto.Config == null) return;
 
-            var iLoopLeftConfig = nodeDto.Config.DI.ContainsKey(Dom.Node.Config.DI.LoopIncoming)
-                ? nodeDto.Config.DI[Dom.Node.Config.DI.LoopIncoming]
+            var iLoopLeftConfig = nodeDto.Config.DI.ContainsKey(NodeData.Config.DI.LoopIncoming)
+                ? nodeDto.Config.DI[NodeData.Config.DI.LoopIncoming]
                 : null;
-            var iLoopRightConfig = nodeDto.Config.DI.ContainsKey(Dom.Node.Config.DI.LoopOutgoing)
-                ? nodeDto.Config.DI[Dom.Node.Config.DI.LoopOutgoing]
+            var iLoopRightConfig = nodeDto.Config.DI.ContainsKey(NodeData.Config.DI.LoopOutgoing)
+                ? nodeDto.Config.DI[NodeData.Config.DI.LoopOutgoing]
                 : null;
 
             DigitalInState iLoopLeftState = null;
@@ -91,7 +86,7 @@ namespace Gravitas.Core.DeviceManager.Device
 
         public ScaleState GetScaleState(Node nodeDto)
         {
-            var scaleConfig = nodeDto.Config.Scale[Dom.Node.Config.Scale.Scale1];
+            var scaleConfig = nodeDto.Config.Scale[NodeData.Config.Scale.Scale1];
             var scaleState = Program.GetDeviceState(scaleConfig.DeviceId) as ScaleState;
 
             if (!_deviceRepository.IsDeviceStateValid(out var errMsgItem, scaleState))
@@ -103,7 +98,7 @@ namespace Gravitas.Core.DeviceManager.Device
             if (scaleState == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error,
+                    NodeData.ProcessingMsg.Type.Error,
                     @"Помилка. Ваги не знайдено"));
                 return null;
             }
@@ -111,7 +106,7 @@ namespace Gravitas.Core.DeviceManager.Device
             if (scaleState.InData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Error,
+                    NodeData.ProcessingMsg.Type.Error,
                     @"Помилка. Стан ваг не визначено"));
                 return null;
             }
@@ -119,7 +114,7 @@ namespace Gravitas.Core.DeviceManager.Device
             if (scaleState.InData.IsScaleError)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Warning,
+                    NodeData.ProcessingMsg.Type.Warning,
                     @"Зауваження. Помилка на вагах"));
                 return null;
             }

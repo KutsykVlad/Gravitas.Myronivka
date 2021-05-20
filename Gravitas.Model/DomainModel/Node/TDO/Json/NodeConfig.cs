@@ -23,35 +23,35 @@ namespace Gravitas.Model.DomainModel.Node.TDO.Json
 
         public class DiConfig
         {
-            public long DeviceId { get; set; }
+            public int DeviceId { get; set; }
         }
 
         public class DoConfig
         {
-            public long DeviceId { get; set; }
+            public int DeviceId { get; set; }
         }
 
         public class RfidConfig
         {
-            public long DeviceId { get; set; }
+            public int DeviceId { get; set; }
             public int Timeout { get; set; }
         }
 
         public class ScaleConfig
         {
-            public long DeviceId { get; set; }
+            public int DeviceId { get; set; }
             public int Timeout { get; set; }
         }
 
         public class LabAnalyserConfig
         {
-            public long DeviceId { get; set; }
+            public int DeviceId { get; set; }
             public int Timeout { get; set; }
         }
 
         public class CameraConfig
         {
-            public long DeviceId { get; set; }
+            public int DeviceId { get; set; }
         }
     }
 }

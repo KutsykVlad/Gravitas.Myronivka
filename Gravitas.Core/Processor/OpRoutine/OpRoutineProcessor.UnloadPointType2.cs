@@ -1,12 +1,10 @@
 ﻿using System;
 using Gravitas.Core.DeviceManager.Device;
 using Gravitas.Core.DeviceManager.User;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.Ticket;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Node;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
@@ -16,8 +14,7 @@ using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
-using Gravitas.Model.Dto;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using Gravitas.Model.DomainValue;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
@@ -65,7 +62,7 @@ namespace Gravitas.Core.Processor.OpRoutine
         {
             if (config == null) return false;
             
-            var rfidValid = config.Rfid.ContainsKey(Dom.Node.Config.Rfid.OnGateReader);
+            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.OnGateReader);
 
             return rfidValid;
         }
@@ -77,18 +74,18 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             switch (_nodeDto.Context.OpRoutineStateId)
             {
-                case Dom.OpRoutine.UnloadPointType2.State.Workstation:
+                case Model.DomainValue.OpRoutine.UnloadPointType2.State.Workstation:
                     Idle(_nodeDto);
                     break;
-                case Dom.OpRoutine.UnloadPointType2.State.Idle:
+                case Model.DomainValue.OpRoutine.UnloadPointType2.State.Idle:
                     Idle(_nodeDto);
                     break;      
-                case Dom.OpRoutine.UnloadPointType2.State.SelectAcceptancePoint:
+                case Model.DomainValue.OpRoutine.UnloadPointType2.State.SelectAcceptancePoint:
                     break;
-                case Dom.OpRoutine.UnloadPointType2.State.AddOperationVisa:
+                case Model.DomainValue.OpRoutine.UnloadPointType2.State.AddOperationVisa:
                     AddOperationVisa(_nodeDto);
                     break;
-                case Dom.OpRoutine.UnloadPointType2.State.AddChangeStateVisa:
+                case Model.DomainValue.OpRoutine.UnloadPointType2.State.AddChangeStateVisa:
                     AddChangeStateVisa(_nodeDto);
                     break;
             }
@@ -99,7 +96,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (nodeDto.Context.TicketContainerId.HasValue || !nodeDto.IsActive)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    Dom.Node.ProcessingMsg.Type.Info,
+                    NodeData.ProcessingMsg.Type.Info,
                     $"Вузол {nodeDto.Id} не активний або зайнятий."));
                 return;
             }
@@ -111,7 +108,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             {
                 _cardManager.SetRfidValidationDO(false, nodeDto);
 
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(Dom.Node.ProcessingMsg.Type.Error, errorMessage));
+                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
                 return;
             }
             
@@ -119,15 +116,15 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             var unloadPointOpData = new UnloadPointOpData
             {
-                StateId = Dom.OpDataState.Init,
+                StateId = OpDataState.Init,
                 NodeId = _nodeId,
                 TicketId = card.Ticket.Id,
                 CheckInDateTime = DateTime.Now
             };
             _ticketRepository.Add<UnloadPointOpData, Guid>(unloadPointOpData);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointType2.State.Idle;
-            nodeDto.Context.TicketContainerId = card.Ticket.ContainerId;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointType2.State.Idle;
+            nodeDto.Context.TicketContainerId = card.Ticket.TicketContainerId;
             nodeDto.Context.TicketId = card.Ticket.Id;
             nodeDto.Context.OpDataId = unloadPointOpData.Id;
 
@@ -149,7 +146,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             _routesInfrastructure.MoveForward(nodeDto.Context.TicketId.Value, nodeDto.Id);
             
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointType2.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointType2.State.Idle;
             nodeDto.Context.TicketContainerId = null;
             nodeDto.Context.TicketId = null;
             nodeDto.Context.OpDataId = null;
@@ -170,13 +167,13 @@ namespace Gravitas.Core.Processor.OpRoutine
                 DateTime = DateTime.Now,
                 Message = $"Вузол {nodeDto.Name} деактивовано",
                 EmployeeId = card.EmployeeId,
-                OpRoutineStateId = Dom.OpRoutine.UnloadPointType2.State.AddChangeStateVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointType2.State.AddChangeStateVisa
             };
-            _nodeRepository.Add<OpVisa, long>(visa);
+            _nodeRepository.Add<OpVisa, int>(visa);
 
             _nodeManager.ChangeNodeState(nodeDto.Id, false);
 
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.UnloadPointType2.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointType2.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
     }

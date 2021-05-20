@@ -1,17 +1,13 @@
 ﻿using System;
 using Gravitas.Core.DeviceManager.Device;
 using Gravitas.Core.DeviceManager.User;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
-using Gravitas.Model.Dto;
-using Dom = Gravitas.Model.DomainValue.Dom;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
@@ -39,7 +35,7 @@ namespace Gravitas.Core.Processor.OpRoutine
         public override bool ValidateNodeConfig(NodeConfig config)
         {
             if (config == null) return false;
-            var rfidValid = config.Rfid.ContainsKey(Dom.Node.Config.Rfid.TableReader);
+            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader);
             return rfidValid;
         }
 
@@ -50,11 +46,11 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             switch (_nodeDto.Context.OpRoutineStateId)
             {
-                case Dom.OpRoutine.MixedFeedManage.State.Workstation:
+                case Model.DomainValue.OpRoutine.MixedFeedManage.State.Workstation:
                     break;
-                case Dom.OpRoutine.MixedFeedManage.State.Edit:
+                case Model.DomainValue.OpRoutine.MixedFeedManage.State.Edit:
                     break;
-                case Dom.OpRoutine.MixedFeedManage.State.AddOperationVisa:
+                case Model.DomainValue.OpRoutine.MixedFeedManage.State.AddOperationVisa:
                     AddOperationVisa(_nodeDto);
                     break;
             }
@@ -71,11 +67,11 @@ namespace Gravitas.Core.Processor.OpRoutine
                 Message = "Зміна показників силоса",
                 MixedFeedSiloId = nodeDto.Context.OpProcessData,
                 EmployeeId = card.EmployeeId,
-                OpRoutineStateId = Dom.OpRoutine.MixedFeedManage.State.AddOperationVisa
+                OpRoutineStateId = Model.DomainValue.OpRoutine.MixedFeedManage.State.AddOperationVisa
             };
-            _nodeRepository.Add<OpVisa, long>(visa);
+            _nodeRepository.Add<OpVisa, int>(visa);
             
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.MixedFeedManage.State.Workstation;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.MixedFeedManage.State.Workstation;
             nodeDto.Context.TicketContainerId = null;
             nodeDto.Context.TicketId = null;
             nodeDto.Context.OpDataId = null;

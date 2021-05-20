@@ -72,6 +72,7 @@ namespace Gravitas.DAL.DbContext
         {
         }
 
+        public DbSet<Settings> Settings { get; set; }
         public DbSet<PreRegisterQueue> PreRegisterQueues { get; set; }
         public DbSet<MixedFeedSiloDevice> MixedFeedSiloDevices { get; set; }
         public DbSet<ExternalUser> ExternalUsers { get; set; }

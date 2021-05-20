@@ -18,10 +18,10 @@ namespace Gravitas.Core.Manager.RfidZebraFx9500
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private readonly long _deviceId;
+        private readonly int _deviceId;
         private RFIDReader _rfid3;
 
-        public RfidZebraFx9500Manager(long deviceId)
+        public RfidZebraFx9500Manager(int deviceId)
         {
             _deviceId = deviceId;
         }

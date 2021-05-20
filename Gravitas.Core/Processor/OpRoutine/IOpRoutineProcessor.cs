@@ -2,16 +2,16 @@
 using System.Threading.Tasks;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 
-namespace Gravitas.Core.Processor {
+namespace Gravitas.Core.Processor.OpRoutine
+{
+    public interface IOpRoutineProcessor
+    {
+        bool ValidateNodeConfig(NodeConfig nodeConfig);
 
-	public interface IOpRoutineProcessor {
+        void Config(int nodeId);
 
-		bool ValidateNodeConfig(NodeConfig nodeConfig);
-
-		void Config(long nodeId);
-
-		void ReadDbData();
-		Task ProcessLoop(CancellationToken token);
-		void Process();
-	}
+        void ReadDbData();
+        Task ProcessLoop(CancellationToken token);
+        void Process();
+    }
 }

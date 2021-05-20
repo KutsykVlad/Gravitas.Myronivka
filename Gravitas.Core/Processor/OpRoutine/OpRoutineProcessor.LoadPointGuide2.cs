@@ -1,18 +1,14 @@
 using System.Linq;
 using Gravitas.Core.DeviceManager.Device;
 using Gravitas.Core.DeviceManager.User;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Device;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.LoadPoint;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
-using Gravitas.Model.Dto;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using Gravitas.Model.DomainValue;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
@@ -56,11 +52,11 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             switch (_nodeDto.Context.OpRoutineStateId)
             {
-                case Dom.OpRoutine.LoadPointGuide2.State.Idle:
+                case Model.DomainValue.OpRoutine.LoadPointGuide2.State.Idle:
                     break;
-                case Dom.OpRoutine.LoadPointGuide2.State.BindLoadPoint:
+                case Model.DomainValue.OpRoutine.LoadPointGuide2.State.BindLoadPoint:
                     break;
-                case Dom.OpRoutine.LoadPointGuide2.State.AddOpVisa:
+                case Model.DomainValue.OpRoutine.LoadPointGuide2.State.AddOpVisa:
                     AddOperationVisa(_nodeDto);
                     break;
             }
@@ -79,14 +75,14 @@ namespace Gravitas.Core.Processor.OpRoutine
             var loadResultConfirm = _loadPointManager.ConfirmLoadGuide(nodeDto.Context.TicketId.Value, card.EmployeeId);
             if (!loadResultConfirm) return;
 
-            if (!_connectManager.SendSms(Dom.Sms.Template.DestinationPointApprovalSms, nodeDto.Context.TicketId))
+            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDto.Context.TicketId))
             {
                 Logger.Error("Sms hasn`t been sent");
             }
 
             nodeDto.Context.OpDataId = null;
             nodeDto.Context.OpProcessData = null;
-            nodeDto.Context.OpRoutineStateId = Dom.OpRoutine.LoadPointGuide2.State.Idle;
+            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointGuide2.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
     }

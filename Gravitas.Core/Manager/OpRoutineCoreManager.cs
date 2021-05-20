@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Gravitas.Core.Processor;
 using Gravitas.Core.Processor.OpRoutine;
 using Gravitas.Core.Processor.QueueDisplay;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.Node.DAO;
+using Gravitas.Model.DomainValue;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using DeviceType = Gravitas.Model.DomainValue.DeviceType;
 
 namespace Gravitas.Core.Manager
 {
@@ -23,7 +21,7 @@ namespace Gravitas.Core.Manager
         private readonly CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
 
         private readonly INodeRepository _nodeRepository;
-        private IDictionary<long, Task> _taskDictionary;
+        private IDictionary<int, Task> _taskDictionary;
 
         public OpRoutineCoreManager(INodeRepository nodeRepository)
         {
@@ -32,11 +30,11 @@ namespace Gravitas.Core.Manager
 
         public void StartOpRoutineTasks()
         {
-            IEnumerable<Node> nodeList = _nodeRepository.GetQuery<Node, long>();
+            IEnumerable<Node> nodeList = _nodeRepository.GetQuery<Node, int>();
 
             Logger.Info($"Node routine tasks to be started: {nodeList.Count()}");
 
-            _taskDictionary = new Dictionary<long, Task>();
+            _taskDictionary = new Dictionary<int, Task>();
             foreach (var node in nodeList)
             {
                 var task = GetTask(node, _cancelTokenSource.Token);
@@ -55,7 +53,7 @@ namespace Gravitas.Core.Manager
             if (_taskDictionary != null)
             {
                 IEnumerable<Device> displayList =
-                    _nodeRepository.GetQuery<Device, long>().Where(t => t.IsActive && t.TypeId == Dom.Device.Type.Display);
+                    _nodeRepository.GetQuery<Device, int>().Where(t => t.IsActive && t.TypeId == DeviceType.Display);
 
                 Logger.Info($"Display tasks to be started: {displayList.Count()}");
                 foreach (var display in displayList)
@@ -98,64 +96,64 @@ namespace Gravitas.Core.Manager
             IOpRoutineProcessor processor;
             switch (node.OpRoutineId)
             {
-                case Dom.OpRoutine.SingleWindow.Id:
+                case OpRoutine.SingleWindow.Id:
                     processor = DependencyResolverConfig.Resolve<SingleWindowOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.SecurityIn.Id:
+                case OpRoutine.SecurityIn.Id:
                     processor = DependencyResolverConfig.Resolve<SecurityInOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.SecurityOut.Id:
+                case OpRoutine.SecurityOut.Id:
                     processor = DependencyResolverConfig.Resolve<SecurityOutOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.SecurityReview.Id:
+                case OpRoutine.SecurityReview.Id:
                     processor = DependencyResolverConfig.Resolve<SecurityReviewOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.LabolatoryIn.Id:
+                case OpRoutine.LaboratoryIn.Id:
                     processor = DependencyResolverConfig.Resolve<LaboratoryInOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.Weighbridge.Id:
+                case OpRoutine.Weighbridge.Id:
                     processor = DependencyResolverConfig.Resolve<WeighbridgeOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.UnloadPointGuide.Id:
+                case OpRoutine.UnloadPointGuide.Id:
                     processor = DependencyResolverConfig.Resolve<UnloadPointGuideOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.UnloadPointType1.Id:
+                case OpRoutine.UnloadPointType1.Id:
                     processor = DependencyResolverConfig.Resolve<UnloadPointType1OpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.LoadPointType1.Id:
+                case OpRoutine.LoadPointType1.Id:
                     processor = DependencyResolverConfig.Resolve<LoadPointType1OpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.UnloadPointType2.Id:
+                case OpRoutine.UnloadPointType2.Id:
                     processor = DependencyResolverConfig.Resolve<UnloadPointType2OpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.LoadCheckPoint.Id:
+                case OpRoutine.LoadCheckPoint.Id:
                     processor = DependencyResolverConfig.Resolve<LoadCheckPointOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.UnloadCheckPoint.Id:
+                case OpRoutine.UnloadCheckPoint.Id:
                     processor = DependencyResolverConfig.Resolve<UnloadCheckPointOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.LoadPointGuide.Id:
+                case OpRoutine.LoadPointGuide.Id:
                     processor = DependencyResolverConfig.Resolve<LoadPointGuideOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.CentralLaboratorySamples.Id:
+                case OpRoutine.CentralLaboratorySamples.Id:
                     processor = DependencyResolverConfig.Resolve<CentralLaboratorySamplesOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.CentralLaboratoryProcess.Id:
+                case OpRoutine.CentralLaboratoryProcess.Id:
                     processor = DependencyResolverConfig.Resolve<CentralLaboratoryProcessOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.MixedFeedManage.Id:
+                case OpRoutine.MixedFeedManage.Id:
                     processor = DependencyResolverConfig.Resolve<MixedFeedManageOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.MixedFeedGuide.Id:
+                case OpRoutine.MixedFeedGuide.Id:
                     processor = DependencyResolverConfig.Resolve<MixedFeedGuideOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.MixedFeedLoad.Id:
+                case OpRoutine.MixedFeedLoad.Id:
                     processor = DependencyResolverConfig.Resolve<MixedFeedLoadOpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.UnloadPointGuide2.Id:
+                case OpRoutine.UnloadPointGuide2.Id:
                     processor = DependencyResolverConfig.Resolve<UnloadPointGuide2OpRoutineProcessor>();
                     break;
-                case Dom.OpRoutine.LoadPointGuide2.Id:
+                case OpRoutine.LoadPointGuide2.Id:
                     processor = DependencyResolverConfig.Resolve<LoadPointGuide2OpRoutineProcessor>();
                     break;
                 default:
@@ -169,7 +167,7 @@ namespace Gravitas.Core.Manager
             return new Task(async () => await processor.ProcessLoop(token));
         }
 
-        private Task GetDisplayTask(long displayId, CancellationToken token)
+        private Task GetDisplayTask(int displayId, CancellationToken token)
         {
             IQueueDisplayProcessor processor = DependencyResolverConfig.Resolve<QueueDisplayProcessor>();
             processor.Config(displayId);

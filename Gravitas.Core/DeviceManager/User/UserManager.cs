@@ -1,16 +1,12 @@
 using System;
 using System.Linq;
 using Gravitas.Core.DeviceManager.Card;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Device;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
-using Gravitas.Model.Dto;
-using Dom = Gravitas.Model.DomainValue.Dom;
 using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.DeviceManager.User
@@ -35,12 +31,12 @@ namespace Gravitas.Core.DeviceManager.User
 
         public Model.DomainModel.Card.DAO.Card GetValidatedUsersCardByTableReader(Node nodeDto)
         {
-            return GetValidatedUsersCard(nodeDto, Dom.Node.Config.Rfid.TableReader);
+            return GetValidatedUsersCard(nodeDto, NodeData.Config.Rfid.TableReader);
         }
 
         public Model.DomainModel.Card.DAO.Card GetValidatedUsersCardByOnGateReader(Node nodeDto)
         {
-            return GetValidatedUsersCard(nodeDto, Dom.Node.Config.Rfid.OnGateReader);
+            return GetValidatedUsersCard(nodeDto, NodeData.Config.Rfid.OnGateReader);
         }
 
         private Model.DomainModel.Card.DAO.Card GetValidatedUsersCard(Node nodeDto, string readerType)
@@ -80,7 +76,7 @@ namespace Gravitas.Core.DeviceManager.User
             return null;
         }
 
-        private bool IsCardValid(out NodeProcessingMsgItem msgItem, Model.DomainModel.Card.DAO.Card card, long nodeId)
+        private bool IsCardValid(out NodeProcessingMsgItem msgItem, Model.DomainModel.Card.DAO.Card card, int nodeId)
         {
             if (!_opRoutineManager.IsEmployeeBindedRfidCardValid(out var errMsgItem, card))
             {
