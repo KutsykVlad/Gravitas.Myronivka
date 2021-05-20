@@ -8,7 +8,6 @@ using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Common.Attribute;
 using Gravitas.Model.DomainValue;
-using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.Manager.Node;
 using Gravitas.Platform.Web.ViewModel;
 
@@ -30,7 +29,7 @@ namespace Gravitas.Platform.Web.Controllers
             _context = context;
         }
 
-        public ActionResult NodeProgres(long? id)
+        public ActionResult NodeProgres(int? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 

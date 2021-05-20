@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using Gravitas.Model;
+﻿using System.Linq;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {

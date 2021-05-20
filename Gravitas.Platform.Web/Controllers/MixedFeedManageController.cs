@@ -31,7 +31,7 @@ namespace Gravitas.Platform.Web.Controllers
         }
         
         [HttpGet]
-        public ActionResult Workstation_SelectSilo(long siloId)
+        public ActionResult Workstation_SelectSilo(int siloId)
         {
             _mixedFeedWebManager.Workstation_SelectSilo(siloId);
             return new HttpStatusCodeResult(HttpStatusCode.OK);

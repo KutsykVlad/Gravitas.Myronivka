@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient;
+using Gravitas.Model.DomainValue;
 using Newtonsoft.Json;
 using NLog;
 
@@ -14,7 +15,7 @@ namespace Gravitas.Platform.Web.Manager.CollisionManager
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public bool SendToConfirmation(long ticketId, IEnumerable<string> phoneList, IEnumerable<string> emailList, int? templateId = null)
+        public bool SendToConfirmation(int ticketId, IEnumerable<string> phoneList, IEnumerable<string> emailList, EmailTemplate? templateId = null)
         {
             _logger.Info("Entry to SendToConfirmation");
             using (var requestMessage = new HttpRequestMessage())

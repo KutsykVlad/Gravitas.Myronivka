@@ -82,7 +82,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 06_DriverTrailerEnableCheck
 
         [HttpGet, ChildActionOnly]
-        public ActionResult DriverTrailerEnableCheck(long? nodeId)
+        public ActionResult DriverTrailerEnableCheck(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -90,7 +90,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult DriverTrailerEnable_Accept(long? nodeId, bool isTrailerAccepted)
+        public ActionResult DriverTrailerEnable_Accept(int? nodeId, bool isTrailerAccepted)
         {
             if (nodeId != null) _opRoutineWebManager.Weighbridge_DriverTrailerAccepted(nodeId.Value, isTrailerAccepted);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -113,7 +113,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 08_GuardianTruckVerification
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GuardianTruckVerification(long? nodeId)
+        public ActionResult GuardianTruckVerification(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -122,7 +122,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult GuardianTruckVerification_Accept(long? nodeId, bool isPermissionGranted)
+        public ActionResult GuardianTruckVerification_Accept(int? nodeId, bool isPermissionGranted)
         {
             if (nodeId != null)  _opRoutineWebManager.Weighbridge_GuardianTruckVerification_Process(nodeId.Value, isPermissionGranted);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -133,7 +133,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 09_GuardianTrailerEnableCheck
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GuardianTrailerEnableCheck(long? nodeId)
+        public ActionResult GuardianTrailerEnableCheck(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -142,7 +142,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult GuardianTrailerEnable_Accept(long? nodeId, bool isTrailerAccepted)
+        public ActionResult GuardianTrailerEnable_Accept(int? nodeId, bool isTrailerAccepted)
         {
             if (nodeId != null) _opRoutineWebManager.Weighbridge_GuardianTrailerEnable_Process(nodeId.Value, isTrailerAccepted);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -153,7 +153,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 10_TruckWeightPrompt
 
         [HttpGet, ChildActionOnly]
-        public ActionResult TruckWeightPrompt(long? nodeId)
+        public ActionResult TruckWeightPrompt(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var routineData = _opRoutineWebManager.WeighbridgeGetTruckWeightPromptVm(nodeId.Value);
@@ -162,7 +162,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult TruckWeightPrompt_Accept(long? nodeId, bool isWeightAccepted)
+        public ActionResult TruckWeightPrompt_Accept(int? nodeId, bool isWeightAccepted)
         {
             if (nodeId != null) _opRoutineWebManager.Weighbridge_GetWeightPrompt_Process(nodeId.Value, isWeightAccepted, true);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -173,7 +173,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 11_GetGuardianTruckWeightPermission
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GetGuardianTruckWeightPermission(long? nodeId)
+        public ActionResult GetGuardianTruckWeightPermission(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var routineData = _opRoutineWebManager.Weighbridge__GetGuardianTruckWeightPermissionVm(nodeId.Value);
@@ -198,7 +198,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 13_TrailerWeightPrompt
 
         [HttpGet, ChildActionOnly]
-        public ActionResult TrailerWeightPrompt(long? nodeId)
+        public ActionResult TrailerWeightPrompt(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var routineData = _opRoutineWebManager.Weighbridge__GetTrailerWeightPromptVm(nodeId.Value);
@@ -207,7 +207,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult TrailerWeightPrompt_Accept(long? nodeId, bool isWeightAccepted)
+        public ActionResult TrailerWeightPrompt_Accept(int? nodeId, bool isWeightAccepted)
         {
             if (nodeId != null) _opRoutineWebManager.Weighbridge_GetWeightPrompt_Process(nodeId.Value, isWeightAccepted, false);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -218,7 +218,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 14_GetGuardianTrailerWeightPermission
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GetGuardianTrailerWeightPermission(long? nodeId)
+        public ActionResult GetGuardianTrailerWeightPermission(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var routineData = _opRoutineWebManager.Weighbridge__GetGuardianTrailerWeightPermissionVm(nodeId.Value);
@@ -256,7 +256,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 17_OpenBarrierOut
 
         [HttpGet, ChildActionOnly]
-        public ActionResult OpenBarrierOut(long? nodeId)
+        public ActionResult OpenBarrierOut(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -280,7 +280,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region ResetWeightbridge
 
         [HttpGet]
-        public ActionResult ResetWeighbridge(long? nodeId)
+        public ActionResult ResetWeighbridge(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.Weighbridge_ResetWeighbridge(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);

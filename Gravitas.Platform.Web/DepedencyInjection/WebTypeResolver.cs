@@ -45,9 +45,9 @@ using Gravitas.Platform.Web.Manager.MixedFeedManage;
 using Gravitas.Platform.Web.Manager.Node;
 using Gravitas.Platform.Web.Manager.OpData;
 using Gravitas.Platform.Web.Manager.OpRoutine;
+using Gravitas.Platform.Web.Manager.OrganizationUnit;
 using Gravitas.Platform.Web.Manager.Report;
 using Gravitas.Platform.Web.Manager.Routes;
-using Gravitas.Platform.Web.Manager.Test;
 using Gravitas.Platform.Web.Manager.Ticket;
 using Gravitas.Platform.Web.Manager.TicketContainer;
 using Gravitas.Platform.Web.Manager.Workstation;
@@ -117,9 +117,6 @@ namespace Gravitas.Platform.Web.DepedencyInjection
 		    container.RegisterType<IPreRegistrationRepository, PreRegistrationRepository>();
 		    container.RegisterType<IOwnTransportRepository, OwnTransportRepository>();
 		    container.RegisterType<IPackingTareRepository, PackingTareRepository>();
-
-		    container.RegisterInstance<ITestManager>(new TestManager(container.Resolve<INodeRepository>(), container.Resolve<IDeviceRepository>()));
-
 		}
 	}
 }

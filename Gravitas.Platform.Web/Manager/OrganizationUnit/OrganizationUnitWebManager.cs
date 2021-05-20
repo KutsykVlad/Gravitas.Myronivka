@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.OrganizationUnit;
 using Gravitas.Platform.Web.ViewModel;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.OrganizationUnit
 {
     public class OrganizationUnitWebManager : IOrganizationUnitWebManager
     {
@@ -14,7 +13,7 @@ namespace Gravitas.Platform.Web.Manager
             _organizationUnitRepository = organizationUnitRepository;
         }
 
-        public OrganizationUnitDetailVm GetOrganizationUnitDetailVm(long id)
+        public OrganizationUnitDetailVm GetOrganizationUnitDetailVm(int id)
         {
             var dto = _organizationUnitRepository.GetOrganizationUnitDetail(id);
             var vm = Mapper.Map<OrganizationUnitDetailVm>(dto);

@@ -18,7 +18,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -30,7 +30,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult Idle_SelectTicketContainer(long? nodeId, long ticketContainerId)
+        public ActionResult Idle_SelectTicketContainer(int? nodeId, int ticketContainerId)
         {
             if (nodeId != null) _opRoutineWebManager.UnloadPointGuide2_Idle_SelectTicketContainer(nodeId.Value, ticketContainerId);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -42,7 +42,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult BindUnloadPoint(long? nodeId)
+        public ActionResult BindUnloadPoint(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -52,7 +52,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         
         
         [HttpGet]
-        public ActionResult BindUnloadPoint_Back(long? nodeId)
+        public ActionResult BindUnloadPoint_Back(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.UnloadPointGuide2_BindUnloadPoint_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);

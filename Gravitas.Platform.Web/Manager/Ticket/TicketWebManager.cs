@@ -21,7 +21,6 @@ using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Platform.Web.Manager.Ticket;
 using CardType = Gravitas.Model.DomainValue.CardType;
-using SingleWindowVms = Gravitas.Platform.Web.ViewModel.OpRoutine.SingleWindow.SingleWindowVms;
 using TicketFileType = Gravitas.Model.DomainValue.TicketFileType;
 using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 

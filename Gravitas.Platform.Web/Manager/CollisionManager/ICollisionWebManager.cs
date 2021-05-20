@@ -5,6 +5,6 @@ namespace Gravitas.Platform.Web.Manager.CollisionManager
 {
     public interface ICollisionWebManager
     {
-        bool SendToConfirmation(long ticketId, IEnumerable<string> phoneList, IEnumerable<string> emailList, EmailTemplate? templateId = null);
+        bool SendToConfirmation(int ticketId, IEnumerable<string> phoneList, IEnumerable<string> emailList, EmailTemplate? templateId = null);
     }
 }

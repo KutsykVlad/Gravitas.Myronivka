@@ -2,7 +2,6 @@
 using Gravitas.Model.DomainModel.OpData.TDO.Json;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.OpData.Base;
-using SingleWindowVms = Gravitas.Platform.Web.ViewModel.OpRoutine.SingleWindow.SingleWindowVms;
 
 namespace Gravitas.Platform.Web.AutoMapper
 {

@@ -30,7 +30,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region CancelOperation
 
         [HttpGet]
-        public ActionResult CancelOperation(long? nodeId)
+        public ActionResult CancelOperation(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.SecurityIn_Entry_Cancelation(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -148,7 +148,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult CheckOwnTransport(long? nodeId)
+        public ActionResult CheckOwnTransport(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -158,7 +158,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult CheckOwnTransport_Next(long? nodeId)
+        public ActionResult CheckOwnTransport_Next(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -168,7 +168,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult CheckOwnTransport_Reject(long? nodeId)
+        public ActionResult CheckOwnTransport_Reject(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 

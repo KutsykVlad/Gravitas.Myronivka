@@ -27,7 +27,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region Workstation
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Workstation(long? nodeId)
+        public ActionResult Workstation(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -40,7 +40,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult SetNodeActive(long? nodeId)
+        public ActionResult SetNodeActive(int? nodeId)
         {
             if (nodeId != null)
             {
@@ -52,7 +52,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult Workstation_Process(long? nodeId)
+        public ActionResult Workstation_Process(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             _opRoutineWebManager.UnloadPointType1_Workstation_Process(nodeId.Value);
@@ -65,33 +65,33 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region Idle
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Idle(long? nodeId) => nodeId.HasValue
+        public ActionResult Idle(int? nodeId) => nodeId.HasValue
             ? (ActionResult) PartialView("../OpRoutine/UnloadPointType1/Idle",
                 _opRoutineWebManager.UnloadPointType1_IdleVm(nodeId.Value))
             : new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
         [HttpGet]
-        public ActionResult IdleWorkstation_Back(long? nodeId)
+        public ActionResult IdleWorkstation_Back(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.UnloadPointType1_IdleWorkstation_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         [HttpGet]
-        public ActionResult Idle_Confirm(long? nodeId)
+        public ActionResult Idle_Confirm(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.UnloadPointType1_ConfirmOperation_Next(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
         
         [HttpGet]
-        public ActionResult Idle_ChangeState(long? nodeId)
+        public ActionResult Idle_ChangeState(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.UnloadPointType1_Idle_ChangeState(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
         
-        public ActionResult Idle_GetTareValue(long? nodeId)
+        public ActionResult Idle_GetTareValue(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.UnloadPointType1_Idle_GetTareValue(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -122,7 +122,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region AddChangeStateVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult AddChangeStateVisa(long? nodeId)
+        public ActionResult AddChangeStateVisa(int? nodeId)
         {
             return nodeId.HasValue
                 ? (ActionResult) PartialView("../OpRoutine/UnloadPointType1/AddChangeStateVisa", new UnloadPointType1Vms.AddOperationVisaVm()
@@ -133,7 +133,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
         
         [HttpGet]
-        public ActionResult AddChangeStateVisa_Back(long? nodeId)
+        public ActionResult AddChangeStateVisa_Back(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.UnloadPointType1_AddChangeStateVisa_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);

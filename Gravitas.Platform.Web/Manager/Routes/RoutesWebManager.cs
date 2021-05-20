@@ -20,7 +20,7 @@ namespace Gravitas.Platform.Web.Manager.Routes
         {
             var vm = new RoutesListVm
             {
-                Routes = _routesRepository.GetQuery<RouteTemplate, long>().ToList()
+                Routes = _routesRepository.GetQuery<RouteTemplate, int>().ToList()
                     .Select(item => new RoutesListItemVm
                     {
                         Id = item.Id,

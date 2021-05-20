@@ -61,7 +61,7 @@ namespace Gravitas.Platform.Web.Controllers
             return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "CentralLaboratoryLabel.pdf");
         }
 
-        public FileResult GenerateProtocol(long nodeId, long? ticketId = null)
+        public FileResult GenerateProtocol(int nodeId, int? ticketId = null)
         {
             SignalRInvoke.StartSpinner(nodeId);
             var templateUri = Server.MapPath("~/Content/reports/ProtocolTemplate.html");
@@ -76,7 +76,7 @@ namespace Gravitas.Platform.Web.Controllers
             return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Protocol.pdf");
         }
 
-        public FileResult GenerateSiloProtocol(long nodeId)
+        public FileResult GenerateSiloProtocol(int nodeId)
         {
             SignalRInvoke.StartSpinner(nodeId);
             var templateUri = Server.MapPath("~/Content/reports/mixedFeedSiloReport.html");
@@ -91,7 +91,7 @@ namespace Gravitas.Platform.Web.Controllers
             return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Landscape, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "MixedFeedProtocol.pdf");
         }
 
-        public FileResult GenerateRouteReport(long nodeId, long ticketId)
+        public FileResult GenerateRouteReport(int nodeId, int ticketId)
         {
             SignalRInvoke.StartSpinner(nodeId);
             var templateUri = Server.MapPath("~/Content/reports/routeTemplate.html");
@@ -106,7 +106,7 @@ namespace Gravitas.Platform.Web.Controllers
             return File(_reportWebManager.GenerateReportById(vm, templateUri, PdfOrientation.Portrait, "A4").ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Route.pdf");
         }
 
-        public FileResult GenerateTechnicalRouteReport(long nodeId)
+        public FileResult GenerateTechnicalRouteReport(int nodeId)
         {
            SignalRInvoke.StartSpinner(nodeId); var templateUri = Server.MapPath("~/Content/reports/technologicalRouteTemplate.html");
             var vm =  _opRoutineWebManager.SingleWindow_TechnologicalRoutePrintout_GetVm(nodeId);

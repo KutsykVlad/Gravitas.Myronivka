@@ -38,7 +38,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 02_CheckOwnTransport
 
         [HttpGet, ChildActionOnly]
-        public ActionResult CheckOwnTransport(long? nodeId)
+        public ActionResult CheckOwnTransport(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -47,7 +47,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         } 
         
         [HttpGet, ChildActionOnly]
-        public ActionResult CheckOwnTransport_Next(long? nodeId)
+        public ActionResult CheckOwnTransport_Next(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -56,7 +56,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
         
         [HttpGet, ChildActionOnly]
-        public ActionResult CheckOwnTransport_Reject(long? nodeId)
+        public ActionResult CheckOwnTransport_Reject(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -69,7 +69,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 03_ShowOperationsList
 
         [HttpGet, ChildActionOnly]
-        public ActionResult ShowOperationsList(long? nodeId)
+        public ActionResult ShowOperationsList(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -79,7 +79,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult ShowOperationsList_Confirm(long? nodeId, bool isConfirmed)
+        public ActionResult ShowOperationsList_Confirm(int? nodeId, bool isConfirmed)
         {
             if (nodeId != null) _opRoutineWebManager.SecurityOut_ShowOperationsList_Confirm(nodeId.Value, isConfirmed);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -106,7 +106,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult EditStampList_Back(long? nodeId)
+        public ActionResult EditStampList_Back(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.SecurityOut_EditStampList_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);

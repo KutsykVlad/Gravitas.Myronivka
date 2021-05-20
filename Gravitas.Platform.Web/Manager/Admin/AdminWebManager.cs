@@ -111,7 +111,7 @@ namespace Gravitas.Platform.Web.Manager.Admin
         {
             var vm = new NodeEditListVm
             {
-                Items = _nodeRepository.GetQuery<Node, int>()
+                Items = _nodeRepository.GetQuery<Model.DomainModel.Node.DAO.Node, int>()
                     .Select(node => new NodeEditVm
                     {
                         Id = node.Id,
@@ -133,7 +133,7 @@ namespace Gravitas.Platform.Web.Manager.Admin
             {
                 current.Quota = vm.Quota;
                 current.MaximumProcessingTime = vm.MaximumProcessingTime;
-                _nodeRepository.Update<Node, int>(current);
+                _nodeRepository.Update<Model.DomainModel.Node.DAO.Node, int>(current);
             }
         }
 
@@ -146,7 +146,7 @@ namespace Gravitas.Platform.Web.Manager.Admin
         {
             var vm = new NodesTrafficListVm
             {
-                Items = _nodeRepository.GetQuery<Node, int>()
+                Items = _nodeRepository.GetQuery<Model.DomainModel.Node.DAO.Node, int>()
                     .Select(t => new NodeTrafficListVm
                     {
                         NodeName = t.Name, 
@@ -193,7 +193,7 @@ namespace Gravitas.Platform.Web.Manager.Admin
         {
             var vm = new NodesTrafficListVm
             {
-                Items = _nodeRepository.GetQuery<Node, int>()
+                Items = _nodeRepository.GetQuery<Model.DomainModel.Node.DAO.Node, int>()
                     .Select(t => new NodeTrafficListVm
                     {
                         NodeName = t.Name,

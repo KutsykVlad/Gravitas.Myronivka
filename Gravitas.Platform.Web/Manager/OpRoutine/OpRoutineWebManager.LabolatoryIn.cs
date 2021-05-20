@@ -11,14 +11,11 @@ using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.TDO.Json;
 using Gravitas.Model.DomainModel.OpRoutine.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.ViewModel;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using CardType = Gravitas.Model.DomainValue.CardType;
-using Dom = Gravitas.Model.DomainValue.Dom;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
 using LabFacelessOpDataComponent = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpDataComponent;
 

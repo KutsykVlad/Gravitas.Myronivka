@@ -33,7 +33,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 01_Idle
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -42,7 +42,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult Idle_SelectTicketContainer(long? nodeId, long ticketContainerId)
+        public ActionResult Idle_SelectTicketContainer(int? nodeId, int ticketContainerId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -51,7 +51,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
         
         [HttpGet]
-        public ActionResult Idle_SelectRejectedForUnload(long? nodeId, long ticketContainerId)
+        public ActionResult Idle_SelectRejectedForUnload(int? nodeId, int ticketContainerId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -60,7 +60,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
         
         [HttpGet]
-        public ActionResult Idle_SelectRejectedForLoad(long? nodeId, long ticketContainerId)
+        public ActionResult Idle_SelectRejectedForLoad(int? nodeId, int ticketContainerId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -122,7 +122,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult BindLoadPoint_Back(long? nodeId)
+        public ActionResult BindLoadPoint_Back(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -142,7 +142,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 03_AddOpVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult AddOpVisa(long? nodeId)
+        public ActionResult AddOpVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -151,7 +151,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         } 
         
         [HttpGet]
-        public ActionResult AddOpVisa_Back(long? nodeId)
+        public ActionResult AddOpVisa_Back(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 

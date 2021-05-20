@@ -7,9 +7,9 @@ namespace Gravitas.Platform.Web.ViewModel
     {
         public class ShowTicketMenuVm
         {
-            public long NodeId { get; set; }
-            public long TicketContainerId { get; set; }
-            public long TicketId { get; set; }
+            public int NodeId { get; set; }
+            public int TicketContainerId { get; set; }
+            public int TicketId { get; set; }
             public Model.DomainValue.TicketStatus TicketStatusId { get; set; }
 
             [DisplayName("Код поставки")]

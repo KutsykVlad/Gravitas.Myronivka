@@ -36,7 +36,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 01_Idle
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -44,7 +44,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             return PartialView("../OpRoutine/CentralLabolatoryProcess/01_Idle", routineData);
         }
 
-        public ActionResult Idle_SelectTicket(long? nodeId, Guid opDataId)
+        public ActionResult Idle_SelectTicket(int? nodeId, Guid opDataId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -53,7 +53,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult Idle_AddSample(long? nodeId)
+        public ActionResult Idle_AddSample(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -66,7 +66,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 02_AddSample
 
         [HttpGet, ChildActionOnly]
-        public ActionResult AddSample(long? nodeId)
+        public ActionResult AddSample(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -75,7 +75,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult AddSample_Back(long? nodeId)
+        public ActionResult AddSample_Back(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -102,7 +102,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 04_PrintLabel
 
         [HttpGet, ChildActionOnly]
-        public ActionResult PrintLabel(long? nodeId)
+        public ActionResult PrintLabel(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -110,7 +110,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             return PartialView("../OpRoutine/CentralLabolatoryProcess/04_PrintLabel", routineData);
         }
 
-        public ActionResult PrintLabel_Confirm(long? nodeId)
+        public ActionResult PrintLabel_Confirm(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintLabel_Confirm(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -121,7 +121,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 05_PrintDataDisclose
 
         [HttpGet, ChildActionOnly]
-        public ActionResult PrintDataDisclose(long? nodeId)
+        public ActionResult PrintDataDisclose(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -138,7 +138,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
         
         [HttpGet]
-        public ActionResult PrintDataDisclose_DeleteFile(long? nodeId)
+        public ActionResult PrintDataDisclose_DeleteFile(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintDataDisclose_DeleteFile(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -171,39 +171,39 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult PrintDataDisclose_BackToIdle(long? nodeId)
+        public ActionResult PrintDataDisclose_BackToIdle(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintDataDisclose_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         [HttpPost]
-        public ActionResult PrintDataDisclose_ReturnToCollectSamples(long? nodeId, string comment)
+        public ActionResult PrintDataDisclose_ReturnToCollectSamples(int? nodeId, string comment)
         {
             if (nodeId != null && !string.IsNullOrEmpty(comment)) _opRoutineWebManager.CentralLaboratoryProcess_PrintCollisionManage_ReturnToCollectSamples(nodeId.Value, comment);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         [HttpGet]
-        public ActionResult PrintDataDisclose_Confirm(long? nodeId)
+        public ActionResult PrintDataDisclose_Confirm(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintDataDisclose_Confirm(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
         
-        public ActionResult PrintDataDisclose_MoveWithLoad(long? nodeId)
+        public ActionResult PrintDataDisclose_MoveWithLoad(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintDataDisclose_MoveWithLoad(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        public ActionResult PrintDataDisclose_UnloadToStoreWithLoad(long? nodeId)
+        public ActionResult PrintDataDisclose_UnloadToStoreWithLoad(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintDataDisclose_UnloadToStoreWithLoad(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
         
-        public ActionResult PrintDataDisclose_ToCollisionInit(long? nodeId)
+        public ActionResult PrintDataDisclose_ToCollisionInit(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintDataDisclose_ToCollisionInit(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -214,7 +214,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 06_PrintCollisionStartVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult PrintCollisionStartVisa(long? nodeId)
+        public ActionResult PrintCollisionStartVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -223,7 +223,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         
-        public ActionResult PrintCollisionStartVisa_Back(long? nodeId)
+        public ActionResult PrintCollisionStartVisa_Back(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintDataDiscloseVisa_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -234,7 +234,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 07_PrintCollisionInit
 
         [HttpGet, ChildActionOnly]
-        public ActionResult PrintCollisionInit(long? nodeId)
+        public ActionResult PrintCollisionInit(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -244,7 +244,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
         
         [HttpPost]
-        public ActionResult PrintCollisionInit_Send(long? nodeId, string comment)
+        public ActionResult PrintCollisionInit_Send(int? nodeId, string comment)
         {
             if (nodeId != null && !string.IsNullOrEmpty(comment)) _opRoutineWebManager.CentralLaboratoryProcess_PrintCollisionInit_Send(nodeId.Value, comment);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -260,7 +260,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult PrintCollisionInit_Return(long? nodeId)
+        public ActionResult PrintCollisionInit_Return(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintCollisionInit_Return(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -271,7 +271,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 08_PrintCollisionInitVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult PrintCollisionInitVisa(long? nodeId)
+        public ActionResult PrintCollisionInitVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -279,7 +279,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             return PartialView("../OpRoutine/CentralLabolatoryProcess/08_PrintCollisionInitVisa", routineData);
         }
 
-        public ActionResult PrintCollisionVisa_Back(long? nodeId)
+        public ActionResult PrintCollisionVisa_Back(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintCollisionVisa_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -290,7 +290,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 09_PrintAddOpVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult PrintAddOpVisa(long? nodeId)
+        public ActionResult PrintAddOpVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -298,7 +298,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             return PartialView("../OpRoutine/CentralLabolatoryProcess/09_PrintAddOpVisa", routineData);
         }
         
-        public ActionResult PrintAddOpVisa_Back(long? nodeId)
+        public ActionResult PrintAddOpVisa_Back(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.CentralLaboratoryProcess_PrintAddOpVisa_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -309,7 +309,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 10_PrintDocument
 
         [HttpGet, ChildActionOnly]
-        public ActionResult PrintDocument(long? nodeId)
+        public ActionResult PrintDocument(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -318,7 +318,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult PrintDocument_Confirm(long? nodeId)
+        public ActionResult PrintDocument_Confirm(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             _opRoutineWebManager.CentralLaboratoryProcess_PrintDocument_Confirm(nodeId.Value);

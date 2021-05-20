@@ -91,7 +91,6 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return vm;
         }
 
-
         public WeightbridgeVms.BaseWeightPromptVm Weighbridge_GetWeightPrompt_GetData(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);

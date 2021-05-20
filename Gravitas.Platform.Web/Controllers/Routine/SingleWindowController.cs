@@ -61,7 +61,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -70,7 +70,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult Idle_SelectTicketContainer(long? nodeId, long ticketContainerId)
+        public ActionResult Idle_SelectTicketContainer(int? nodeId, int ticketContainerId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -101,7 +101,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult GetTicket_Back(long? nodeId)
+        public ActionResult GetTicket_Back(int? nodeId)
         {
             if (nodeId == null)
             {
@@ -113,7 +113,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult GetTicket_Detail(long? nodeId, long? ticketId)
+        public ActionResult GetTicket_Detail(int? nodeId, int? ticketId)
         {
             if (nodeId == null || ticketId == null)
             {
@@ -125,7 +125,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult GetTicket_Delete(long? nodeId, long? ticketId)
+        public ActionResult GetTicket_Delete(int? nodeId, int? ticketId)
         {
             if (nodeId == null || ticketId == null)
             {
@@ -137,7 +137,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult GetTicket_Close(long? nodeId)
+        public ActionResult GetTicket_Close(int? nodeId)
         {
             if (nodeId == null)
             {
@@ -188,7 +188,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult ShowTicketMenu_Back(long? nodeId)
+        public ActionResult ShowTicketMenu_Back(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -197,7 +197,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult ShowTicketMenu_Route(long? nodeId)
+        public ActionResult ShowTicketMenu_Route(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -206,7 +206,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult ShowTicketMenu_Edit(long? nodeId)
+        public ActionResult ShowTicketMenu_Edit(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -215,7 +215,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult ShowTicketMenu_Commit(long? nodeId)
+        public ActionResult ShowTicketMenu_Commit(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -287,7 +287,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult ShowTicketMenu_Exit(long? nodeId)
+        public ActionResult ShowTicketMenu_Exit(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -328,7 +328,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult ContainerCloseAddOpVisa(long? nodeId)
+        public ActionResult ContainerCloseAddOpVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -337,7 +337,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult ContainerCloseAddOpVisa_Back(long? nodeId)
+        public ActionResult ContainerCloseAddOpVisa_Back(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -377,7 +377,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult EditTicketForm_Back(long? nodeId)
+        public ActionResult EditTicketForm_Back(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -428,7 +428,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult EditAddOpVisa(long? nodeId)
+        public ActionResult EditAddOpVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -437,7 +437,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult EditAddOpVisa_Back(long? nodeId)
+        public ActionResult EditAddOpVisa_Back(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -493,7 +493,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult DeleteTicketAddOpVisa(long? nodeId)
+        public ActionResult DeleteTicketAddOpVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -502,7 +502,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
         
         [HttpGet]
-        public ActionResult DeleteTicketAddOpVisa_Back(long? nodeId)
+        public ActionResult DeleteTicketAddOpVisa_Back(int? nodeId)
         {
             if (nodeId == null)
             {
@@ -519,7 +519,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult CloseAddOpVisa(long? nodeId)
+        public ActionResult CloseAddOpVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -528,7 +528,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult AddOperationVisa_Back(long? nodeId)
+        public ActionResult AddOperationVisa_Back(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             _opRoutineWebManager.SingleWindow_AddOperationVisa_Back(nodeId.Value);
@@ -555,7 +555,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult RouteEditData(long? nodeId)
+        public ActionResult RouteEditData(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -563,7 +563,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult RouteEditData_Back(long? nodeId)
+        public ActionResult RouteEditData_Back(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -594,7 +594,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult RouteAddOpVisa(long? nodeId)
+        public ActionResult RouteAddOpVisa(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -603,7 +603,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult RouteAddOpVisa_Back(long? nodeId)
+        public ActionResult RouteAddOpVisa_Back(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 

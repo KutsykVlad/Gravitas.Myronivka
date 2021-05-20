@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using Gravitas.Model;
-using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.Manager.BlackList;
 using Gravitas.Platform.Web.ViewModel;
 
@@ -83,7 +82,7 @@ namespace Gravitas.Platform.Web.Controllers
             });
         }
 
-        public ActionResult DeleteDriverRecord(long id)
+        public ActionResult DeleteDriverRecord(int id)
         {
             _blackListManager.DeleteBlackListDriverRecord(id);
             return RedirectToAction("Records");
@@ -95,13 +94,13 @@ namespace Gravitas.Platform.Web.Controllers
             return RedirectToAction("Records");
         }
 
-        public ActionResult DeleteTrailerRecord(long id)
+        public ActionResult DeleteTrailerRecord(int id)
         {
             _blackListManager.DeleteBlackListTrailerRecord(id);
             return RedirectToAction("Records");
         }
 
-        public ActionResult DeleteTransportRecord(long id)
+        public ActionResult DeleteTransportRecord(int id)
         {
             _blackListManager.DeleteBlackListTransportRecord(id);
             return RedirectToAction("Records");

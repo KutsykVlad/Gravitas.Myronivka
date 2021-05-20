@@ -18,7 +18,6 @@ using Gravitas.Model.DomainModel.ExternalData.Product.DAO;
 using Gravitas.Model.DomainModel.ExternalData.Stock.DAO;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.Manager.Admin;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin;
@@ -254,7 +253,7 @@ namespace Gravitas.Platform.Web.Controllers
             return RedirectToAction("RolesEditor");
         }
 
-        public ActionResult DeleteRoleRecord(long roleId)
+        public ActionResult DeleteRoleRecord(int roleId)
         {
             if (Session["UserID"] == null)  
             {  

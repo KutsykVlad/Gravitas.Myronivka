@@ -27,7 +27,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 01_Workstation
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Workstation(long? nodeId)
+        public ActionResult Workstation(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -40,7 +40,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult SetNodeActive(long? nodeId)
+        public ActionResult SetNodeActive(int? nodeId)
         {
             if (nodeId != null)
             {
@@ -53,7 +53,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult Workstation_Process(long? nodeId)
+        public ActionResult Workstation_Process(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             _opRoutineWebManager.MixedFeedLoad_Workstation_Process(nodeId.Value);
@@ -62,7 +62,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
         
         [HttpGet]
-        public ActionResult Workstation_Cleanup(long? nodeId)
+        public ActionResult Workstation_Cleanup(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             _opRoutineWebManager.MixedFeedLoad_Workstation_Cleanup(nodeId.Value);
@@ -75,7 +75,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 02_Idle
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int? nodeId)
         {
             return nodeId.HasValue
                 ? (ActionResult) PartialView("../OpRoutine/MixedFeedLoad/02_Idle", _opRoutineWebManager.MixedFeedLoad_IdleVm(nodeId.Value))
@@ -83,35 +83,35 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
 
         [HttpGet]
-        public ActionResult IdleWorkstation_Back(long? nodeId)
+        public ActionResult IdleWorkstation_Back(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.MixedFeedLoad_IdleWorkstation_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         [HttpGet]
-        public ActionResult Idle_Confirm(long? nodeId)
+        public ActionResult Idle_Confirm(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.MixedFeedLoad_ConfirmOperation_Next(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
         
         [HttpGet]
-        public ActionResult Idle_Cancel(long? nodeId)
+        public ActionResult Idle_Cancel(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.MixedFeedLoad_ConfirmOperation_Cancel(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
         
         [HttpGet]
-        public ActionResult Idle_Reject(long? nodeId)
+        public ActionResult Idle_Reject(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.MixedFeedLoad_ConfirmOperation_Reject(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         } 
         
         [HttpGet]
-        public ActionResult Idle_ChangeState(long? nodeId)
+        public ActionResult Idle_ChangeState(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.MixedFeedLoad_Idle_ChangeState(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -134,7 +134,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 04_Cleanup
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Cleanup(long? nodeId)
+        public ActionResult Cleanup(int? nodeId)
         {
             if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var vm = new MixedFeedLoadVms.CleanupVm
@@ -155,7 +155,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
         
-        public ActionResult Cleanup_Back(long? nodeId)
+        public ActionResult Cleanup_Back(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.MixedFeedLoad_Cleanup_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -166,7 +166,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 05_AddCleanupVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult AddCleanupVisa(long? nodeId)
+        public ActionResult AddCleanupVisa(int? nodeId)
         {
             return nodeId.HasValue
                 ? (ActionResult) PartialView("../OpRoutine/MixedFeedLoad/05_AddCleanupVisa", new MixedFeedLoadVms.AddCleanupVisaVm
@@ -181,7 +181,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 06_AddChangeStateVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult AddChangeStateVisa(long? nodeId)
+        public ActionResult AddChangeStateVisa(int? nodeId)
         {
             return nodeId.HasValue
                 ? (ActionResult) PartialView("../OpRoutine/MixedFeedLoad/06_AddChangeStateVisa", new MixedFeedLoadVms.AddOperationVisaVm()
@@ -192,7 +192,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         }
         
         [HttpGet]
-        public ActionResult AddChangeStateVisa_Back(long? nodeId)
+        public ActionResult AddChangeStateVisa_Back(int? nodeId)
         {
             if (nodeId != null) _opRoutineWebManager.MixedFeedLoad_AddChangeStateVisa_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);

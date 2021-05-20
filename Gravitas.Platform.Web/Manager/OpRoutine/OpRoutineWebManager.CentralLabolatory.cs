@@ -317,7 +317,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             UpdateNodeContext(nodeId, nodeDto.Context);
         }
 
-        public CentralLaboratoryProcess.CentralLabolatorySamplePrintoutVm CentralLaboratory_GetSamplePrintoutVm(long ticketId)
+        public CentralLaboratoryProcess.CentralLabolatorySamplePrintoutVm CentralLaboratory_GetSamplePrintoutVm(int ticketId)
         {
             var vm = new CentralLaboratoryProcess.CentralLabolatorySamplePrintoutVm();
 

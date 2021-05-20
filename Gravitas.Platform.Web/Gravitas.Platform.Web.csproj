@@ -357,8 +357,6 @@
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.SingleWindow.cs" />
     <Compile Include="Manager\Routes\IRoutesWebManager.cs" />
     <Compile Include="Manager\Routes\RoutesWebManager.cs" />
-    <Compile Include="Manager\Test\ITestManager.cs" />
-    <Compile Include="Manager\Test\TestManager.cs" />
     <Compile Include="Manager\TicketContainer\ITicketContainerWebManager.cs" />
     <Compile Include="Manager\TicketContainer\TicketContainerWebManager.cs" />
     <Compile Include="Manager\Report\IReportWebManager.cs" />

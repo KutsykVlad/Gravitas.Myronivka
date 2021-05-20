@@ -72,7 +72,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         #region getData
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetRoutineData(long? nodeId)
+        public async Task<IHttpActionResult> GetRoutineData(int? nodeId)
         {
             if (nodeId == null) return BadRequest("There is no nodeId provided");
 
