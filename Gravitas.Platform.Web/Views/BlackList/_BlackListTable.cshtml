@@ -1,16 +1,15 @@
 ﻿@using Gravitas.Model
-@using Dom = Gravitas.Model.DomainValue.Dom
-@model Gravitas.Platform.Web.ViewModel.BlackListTableVm
+@model Gravitas.Platform.Web.ViewModel.BlackList.BlackListTableVm
 
 @if (!String.IsNullOrEmpty(Model.ErrorMessage))
 {
     var alertClass = string.Empty;
     switch (Model.ErrorType)
     {
-        case Dom.User.ProcessingMsg.Type.Error:
+        case NodeData.ProcessingMsg.Type.Error:
             alertClass = "alert-danger";
             break;
-        case Dom.User.ProcessingMsg.Type.Success:
+        case NodeData.ProcessingMsg.Type.Success:
             alertClass = "alert-success";
             break;
     }

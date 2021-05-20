@@ -21,7 +21,9 @@ using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager.Admin;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin;
+using Gravitas.Platform.Web.ViewModel.Admin.NodeDetails;
 using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
+using Gravitas.Platform.Web.ViewModel.Admin.Role;
 using Gravitas.Platform.Web.ViewModel.Admin.Version;
 using Settings = Gravitas.Model.DomainModel.Settings.DAO.Settings;
 

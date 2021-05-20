@@ -4,7 +4,7 @@ using Gravitas.Model.DomainModel.OpDataState.DAO;
 
 namespace Gravitas.DAL.Mapping.OpData
 {
-    class OpDataStateMap : BaseEntityMap<OpDataState, int>
+    class OpDataStateMap : BaseEntityMap<OpDataState, Model.DomainValue.OpDataState>
     {
         public OpDataStateMap()
         {

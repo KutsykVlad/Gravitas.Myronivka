@@ -1,4 +1,6 @@
-﻿namespace Gravitas.Platform.Web.ViewModel
+﻿using Gravitas.Platform.Web.ViewModel.Device._Base;
+
+namespace Gravitas.Platform.Web.ViewModel.ExternalData.Stock.List
 {
     public class StockItemVm : BaseEntityVm<string>
     {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Gravitas.Platform.Web.ViewModel.BlackList.Record;
 
-namespace Gravitas.Platform.Web.ViewModel
+namespace Gravitas.Platform.Web.ViewModel.BlackList.List
 {
     public class BlackListTrailersListVm
     {

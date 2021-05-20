@@ -5,6 +5,9 @@ using Gravitas.DAL.Repository.BlackList;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.BlackList;
+using Gravitas.Platform.Web.ViewModel.BlackList.List;
+using Gravitas.Platform.Web.ViewModel.BlackList.Record;
 
 namespace Gravitas.Platform.Web.Manager.BlackList
 {

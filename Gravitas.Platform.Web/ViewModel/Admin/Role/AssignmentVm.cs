@@ -1,6 +1,6 @@
 ﻿using Gravitas.Platform.Web.ViewModel.OpData.NonStandart;
 
-namespace Gravitas.Platform.Web.ViewModel
+namespace Gravitas.Platform.Web.ViewModel.Admin.Role
 {
     public class AssignmentVm
     {

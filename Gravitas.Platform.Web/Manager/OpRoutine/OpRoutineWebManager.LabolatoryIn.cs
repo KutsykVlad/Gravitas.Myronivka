@@ -36,7 +36,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 OpDataId = nodeDto.Context.OpDataId.Value,
                 SamplePrintoutVm = LaboratoryIn_SamplePrintout_GetVm(nodeDto.Context.OpDataId.Value),
                 ReasonsForRefund = _externalDataRepository.GetQuery<ReasonForRefund, string>().ToList(),
-                OpDataState = opDataState.HasValue ? _context.OpDataStates.First(x => x.Id == (int) opDataState.Value).Name : string.Empty,
+                OpDataState = opDataState.HasValue ? _context.OpDataStates.First(x => x.Id == opDataState.Value).Name : string.Empty,
                 IsLabFile = _ticketRepository.GetTicketFilesByType(TicketFileType.LabCertificate).Any(item => item.TicketId == nodeDto.Context.TicketId)
             };
 

@@ -1,4 +1,6 @@
-﻿namespace Gravitas.Platform.Web.ViewModel
+﻿using Gravitas.Platform.Web.ViewModel.BlackList.List;
+
+namespace Gravitas.Platform.Web.ViewModel.BlackList
 {
     public class BlackListTableVm
     {

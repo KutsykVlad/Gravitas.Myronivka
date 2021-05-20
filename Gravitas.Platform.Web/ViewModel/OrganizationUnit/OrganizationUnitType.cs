@@ -1,16 +1,11 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Gravitas.Model.DomainModel.OrganizationUnit.DAO;
-using OrganizationUnit = Gravitas.Model.DomainValue.OrganizationUnit;
 
-namespace Gravitas.Model {
+namespace Gravitas.Platform.Web.ViewModel.OrganizationUnit
+{
+    public class OrganizationUnitTypeVm
+    {
+        public string Name { get; set; }
 
-	public partial class OrganizationUnitTypeVm {
-
-		
-		public string Name { get; set; }
- 
-		public virtual ICollection<OrganizationUnit> OrganizationUnitSet { get; set; }
-	}
+        public virtual ICollection<Model.DomainModel.OrganizationUnit.DAO.OrganizationUnit> OrganizationUnitSet { get; set; }
+    }
 }

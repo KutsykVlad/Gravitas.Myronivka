@@ -1,10 +1,9 @@
-﻿@using Gravitas.Model
-@using Dom = Gravitas.Model.DomainValue.Dom
+﻿@using Gravitas.Model.DomainValue
 @model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.PrintDataDiscloseVm
 @Html.HiddenFor(m => m.OpDataId)
 
 <div class="row justify-content-between mb-5">
-    @if (Model.DocumentTypeId == Dom.ExternalData.DeliveryBill.Type.Incoming)
+    @if (Model.DocumentTypeId == ExternalData.DeliveryBill.Type.Incoming)
     {
         <div class="col-sm-4">
             @Html.DropDownListFor(
@@ -108,7 +107,7 @@
 </div>
 <div class="row justify-content-between mb-5" id="labButtons">
     <div class="col-sm-4">
-         @if (Model.DocumentTypeId == Dom.ExternalData.DeliveryBill.Type.Incoming)
+         @if (Model.DocumentTypeId == ExternalData.DeliveryBill.Type.Incoming)
          {
              @Ajax.ActionLink(@"Відмовити", "PrintDataDisclose_Cancel", "LaboratoryIn", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-danger btn-lg btn-block disabled", @id = "rejectButton" })
          }

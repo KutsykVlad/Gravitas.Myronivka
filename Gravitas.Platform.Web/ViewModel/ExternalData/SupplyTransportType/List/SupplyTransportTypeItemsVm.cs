@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Gravitas.Platform.Web.ViewModel
+namespace Gravitas.Platform.Web.ViewModel.ExternalData.SupplyTransportType.List
 {
     public class SupplyTransportTypeItemsVm
     {

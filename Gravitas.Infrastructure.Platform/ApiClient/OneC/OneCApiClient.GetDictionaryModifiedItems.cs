@@ -3,9 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using Gravitas.Model;
+using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Budget.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Contract.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Crop.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Employee.DAO;
+using Gravitas.Model.DomainModel.ExternalData.ExternalUser.DAO;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DAO;
+using Gravitas.Model.DomainModel.ExternalData.MeasureUnit.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Organization.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Partner.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Product.DAO;
+using Gravitas.Model.DomainModel.ExternalData.ReasonForRefund.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Stock.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Subdivision.DAO;
+using Gravitas.Model.DomainModel.ExternalData.YearOfHarvest.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Route.DAO;
 using Newtonsoft.Json;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 {
@@ -35,14 +49,14 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             return responseJson;
         }
 
-        public List<ExternalData.AcceptancePoint> GetAcceptancePointModifiedItems()
+        public List<AcceptancePoint> GetAcceptancePointModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetAcceptancePointModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetAcceptancePointModifiedItemsDto.Response>(responseJson);
 
             return responseDto.Items.Select(e =>
-                new ExternalData.AcceptancePoint
+                new AcceptancePoint
                 {
                     Id = e.Id,
                     Code = e.Code,
@@ -52,13 +66,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 }).ToList();
         }
 
-        public List<ExternalData.Budget> GetBudgetModifiedItems()
+        public List<Budget> GetBudgetModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetBudgetModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetBudgetModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.Budget
+            return responseDto.Items.Select(e => new Budget
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -68,13 +82,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.Contract> GetContractModifiedItems()
+        public List<Contract> GetContractModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetContractModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetContractModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.Contract
+            return responseDto.Items.Select(e => new Contract
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -85,13 +99,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.Crop> GetCropModifiedItems()
+        public List<Crop> GetCropModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetCropModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetCropModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.Crop
+            return responseDto.Items.Select(e => new Crop
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -101,13 +115,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.Employee> GetEmployeeModifiedItems()
+        public List<Employee> GetEmployeeModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetEmployeeModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetEmployeeModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.Employee
+            return responseDto.Items.Select(e => new Employee
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -121,13 +135,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.FixedAsset> GetFixedAssetModifiedItems()
+        public List<FixedAsset> GetFixedAssetModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetFixedAssetModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetFixedAssetModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.FixedAsset
+            return responseDto.Items.Select(e => new FixedAsset
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -140,13 +154,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.Organisation> GetOrganisationModifiedItems()
+        public List<Organisation> GetOrganisationModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetOrganisationModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetOrganisationModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.Organisation
+            return responseDto.Items.Select(e => new Organisation
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -158,13 +172,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.Partner> GetPartnerModifiedItems()
+        public List<Partner> GetPartnerModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetPartnerModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetPartnerModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.Partner
+            return responseDto.Items.Select(e => new Partner
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -177,13 +191,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.Product> GetProductModifiedItems()
+        public List<Product> GetProductModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetProductModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetProductModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.Product
+            return responseDto.Items.Select(e => new Product
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -194,13 +208,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.ReasonForRefund> GetReasonForRefundModifiedItems()
+        public List<ReasonForRefund> GetReasonForRefundModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetReasonForRefundModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetReasonForRefundModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.ReasonForRefund
+            return responseDto.Items.Select(e => new ReasonForRefund
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -210,13 +224,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.Route> GetRouteModifiedItems()
+        public List<Route> GetRouteModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetRouteModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetRouteModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.Route
+            return responseDto.Items.Select(e => new Route
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -226,13 +240,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.Stock> GetStockModifiedItems()
+        public List<Stock> GetStockModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetStockModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetStockModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.Stock
+            return responseDto.Items.Select(e => new Stock
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -245,13 +259,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.Subdivision> GetSubdivisionModifiedItems()
+        public List<Subdivision> GetSubdivisionModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetSubdivisionModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetSubdivisionModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.Subdivision
+            return responseDto.Items.Select(e => new Subdivision
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -263,13 +277,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.ExternalUser> GetUserModifiedItems()
+        public List<ExternalUser> GetUserModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetUserModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetUserModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.ExternalUser
+            return responseDto.Items.Select(e => new ExternalUser
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -281,13 +295,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.YearOfHarvest> GetYearOfHarvestModifiedItems()
+        public List<YearOfHarvest> GetYearOfHarvestModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetYearOfHarvestModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetYearOfHarvestModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.YearOfHarvest
+            return responseDto.Items.Select(e => new YearOfHarvest
             {
                 Id = e.Id,
                 Code = e.Code,
@@ -297,13 +311,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
             }).ToList();
         }
 
-        public List<ExternalData.MeasureUnit> GetUnitModifiedItems()
+        public List<MeasureUnit> GetUnitModifiedItems()
         {
             var responseJson =
                 GetDictionaryModifiedItemsJsonResponse(new GetUnitModifiedItemsDto.Request());
             var responseDto = JsonConvert.DeserializeObject<GetUnitModifiedItemsDto.Response>(responseJson);
 
-            return responseDto.Items.Select(e => new ExternalData.MeasureUnit
+            return responseDto.Items.Select(e => new MeasureUnit
             {
                 Id = e.Id,
                 Code = e.Code,

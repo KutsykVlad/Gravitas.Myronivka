@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Gravitas.Platform.Web.ViewModel.ExternalData.LabClassifier.Detail;
 
-namespace Gravitas.Platform.Web.ViewModel
+namespace Gravitas.Platform.Web.ViewModel.ExternalData.LabClassifier.List
 {
     public class LabEffectiveClassifierItemsVm
     {

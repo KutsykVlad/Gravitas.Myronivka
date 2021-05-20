@@ -1,6 +1,5 @@
-﻿@using Gravitas.Model;
-@using Dom = Gravitas.Model.DomainValue.Dom
-@model Gravitas.Platform.Web.ViewModel.OpRoutine.SingleWindow.SingleWindowVms.GetTicketVm
+﻿@using Gravitas.Model.DomainValue
+@model Gravitas.Platform.Web.ViewModel.SingleWindowVms.GetTicketVm
 @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
 
 @using (Ajax.BeginForm("GetTicket", "SingleWindow", FormMethod.Post, null, new { @class = "" }))
@@ -103,7 +102,7 @@
                         <td>
                             <div class="btn-group float-right" role="group">
 
-                                @if (item.StatusId != Dom.Ticket.Status.Canceled)
+                                @if (item.StatusId != TicketStatus.Canceled)
                                 {
                                     @Ajax.ActionLink("Деталі", "GetTicket_Detail", "SingleWindow", new { nodeId = Model.NodeId, ticketId = item.Id }, null, new { @class = "btn btn-primary btn-sm" })
 

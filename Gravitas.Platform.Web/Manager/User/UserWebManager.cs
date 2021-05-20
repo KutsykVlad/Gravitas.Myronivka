@@ -1,19 +1,14 @@
 using System;
 using System.Linq;
-using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Card;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.Infrastructure.Platform.ApiClient.Devices;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
-using Gravitas.Model.Dto;
+using Gravitas.Model.DomainModel.ExternalData.ExternalUser.DAO;
 using Gravitas.Platform.Web.ViewModel.User;
-using Dom = Gravitas.Model.DomainValue.Dom;
-using ExternalData = Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
 
 namespace Gravitas.Platform.Web.Manager.User
 {
@@ -37,7 +32,7 @@ namespace Gravitas.Platform.Web.Manager.User
 
         public UserListVm GetUserList(string name, int pageNumber, int pageSize)
         {
-            bool SearchFilter(ExternalData.ExternalUser item)
+            bool SearchFilter(ExternalUser item)
             {
                 return IsContaining(item.FullName, name) || IsContaining(item.ShortName, name);
             }
@@ -104,13 +99,13 @@ namespace Gravitas.Platform.Web.Manager.User
                 {
                     Id = rfidState.InData.Rifd,
                     IsActive = true, 
-                    TypeId = Dom.Card.Type.EmployeeCard, 
+                    TypeId = Model.DomainValue.CardType.EmployeeCard,
                     EmployeeId = userId
                 });
                 return (true, @"Картка створена та при'вязана успішно");
             }
 
-            if (!_opRoutineManager.IsRfidCardValid(out var cardErrMsg, card, Dom.Card.Type.EmployeeCard))
+            if (!_opRoutineManager.IsRfidCardValid(out var cardErrMsg, card, Model.DomainValue.CardType.EmployeeCard))
                 return (false, cardErrMsg.Text);
 
             if (card.EmployeeId != null) return (false, @"Картка прив'язана до іншого користувача");

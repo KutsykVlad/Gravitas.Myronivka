@@ -1,4 +1,6 @@
 ﻿using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.BlackList;
+using Gravitas.Platform.Web.ViewModel.BlackList.Record;
 
 namespace Gravitas.Platform.Web.Manager.BlackList
 {

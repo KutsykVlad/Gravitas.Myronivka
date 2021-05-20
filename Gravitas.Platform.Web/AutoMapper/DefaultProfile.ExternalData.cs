@@ -6,6 +6,13 @@ using Gravitas.Model.DomainModel.ExternalData.Partner.DTO.List;
 using Gravitas.Model.DomainModel.ExternalData.Stock.DTO.List;
 using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DTO.List;
 using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Budget.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Employee.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.FixedAsset.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Organisation;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Partner.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Stock.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.SupplyTransportType.List;
 
 namespace Gravitas.Platform.Web.AutoMapper
 {

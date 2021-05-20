@@ -1,4 +1,4 @@
-﻿@using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail
+﻿@using Gravitas.Model.DomainModel.ExternalData.LabClassifier.DTO.List
 @model Gravitas.Platform.Web.ViewModel.DeviceStateVms.LabAnalyserStateDialogVm
 @{
     Html.EnableClientValidation(false);
@@ -59,7 +59,7 @@
                         <div class="col-6 form-group">
                             @Html.LabelFor(m => Model.ValueList[i].TargetId)
                             @Html.DropDownListFor(m => Model.ValueList[i].TargetId,
-                                ((ExternalData.LabDeviceResultTypeItems) ViewBag.LabDevResultTypeItems).Items.Select(e => new SelectListItem() {Value = e.Id, Text = e.Name}),
+                                ((LabDeviceResultTypeItems) ViewBag.LabDevResultTypeItems).Items.Select(e => new SelectListItem() {Value = e.Id, Text = e.Name}),
                                 new {@class = "form-control"})
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Gravitas.Platform.Web.ViewModel
+namespace Gravitas.Platform.Web.ViewModel.Admin.NodeDetails
 {
     public class NodeEditVm
     {

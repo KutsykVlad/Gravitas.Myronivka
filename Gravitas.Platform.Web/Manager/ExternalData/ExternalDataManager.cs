@@ -5,6 +5,16 @@ using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Budget.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Employee.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.FixedAsset.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.LabClassifier.Detail;
+using Gravitas.Platform.Web.ViewModel.ExternalData.LabClassifier.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Organisation;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Partner.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Product.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.Stock.List;
+using Gravitas.Platform.Web.ViewModel.ExternalData.SupplyTransportType.List;
 
 namespace Gravitas.Platform.Web.Manager.ExternalData
 {

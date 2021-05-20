@@ -50,14 +50,14 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
         {
             var singleWindowOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(route.ActiveTicketId);
 
-            var category = OwnerCategory;
+            var category = QueueCategory.Company;
 
             if (singleWindowOpData.IsPreRegistered)
             {
-                category = PreRegisterCategory;
+                category = QueueCategory.PreRegisterCategory;
             } else if (IsNodeAvailable((int) NodeIdValue.MixedFeedGuide, route.PathNodes))
             {
-                category = MixedFeedCategory;
+                category = QueueCategory.MixedFeedLoad;
             } else if (singleWindowOpData != null && singleWindowOpData.IsThirdPartyCarrier)
             {
                 if (!string.IsNullOrEmpty(singleWindowOpData.CarrierId))
@@ -67,16 +67,16 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     if (partner != null)
                     {
                         var resPatternCategory = _patterns.FirstOrDefault(p =>
-                            p.PartnerId == partner.Id && p.CategoryId == PartnersCategory);
+                            p.PartnerId == partner.Id && p.CategoryId == QueueCategory.Partners);
 
                         if (resPatternCategory != null) return (int) resPatternCategory.Id;
                     }
 
-                    category = OtherCategory;
+                    category = QueueCategory.Others;
                 }
                 else
                 {
-                    category = OtherCategory;
+                    category = QueueCategory.Others;
                 }
             }
 

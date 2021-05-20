@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Gravitas.Platform.Web.Manager;
+using Gravitas.Platform.Web.Manager.TicketContainer;
 
 namespace Gravitas.Platform.Web.ViewModel {
 

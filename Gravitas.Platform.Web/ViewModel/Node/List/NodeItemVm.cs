@@ -1,4 +1,5 @@
 using Gravitas.Model;
+using Gravitas.Platform.Web.ViewModel.Device._Base;
 
 namespace Gravitas.Platform.Web.ViewModel {
 

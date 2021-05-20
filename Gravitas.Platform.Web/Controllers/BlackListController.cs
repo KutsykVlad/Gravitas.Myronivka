@@ -2,6 +2,7 @@
 using Gravitas.Model;
 using Gravitas.Platform.Web.Manager.BlackList;
 using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.BlackList.Record;
 
 namespace Gravitas.Platform.Web.Controllers
 {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using static Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO.ExternalData;
+using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO;
 
 namespace Gravitas.Platform.Web.ViewModel
 {

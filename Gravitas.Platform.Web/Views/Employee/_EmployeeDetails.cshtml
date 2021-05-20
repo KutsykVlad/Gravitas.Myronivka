@@ -1,14 +1,13 @@
 ﻿@using Gravitas.Model
-@using Dom = Gravitas.Model.DomainValue.Dom
 @model Gravitas.Platform.Web.ViewModel.Employee.EmployeeDetailsVm
 
 @if (Model.CardProcessingMsgError != null) {
     var alertClass = string.Empty;
     switch (Model.CardProcessingMsgError.TypeId) {
-        case Dom.User.ProcessingMsg.Type.Error:
+        case NodeData.ProcessingMsg.Type.Error:
             alertClass = "alert-danger";
             break;
-        case Dom.User.ProcessingMsg.Type.Success:
+        case NodeData.ProcessingMsg.Type.Success:
             alertClass = "alert-success";
             break;
     }

@@ -1,30 +1,31 @@
-﻿using AutoMapper;
-using Gravitas.Infrastructure.Common.Configuration;
-using Gravitas.Model.DomainValue;
-using Gravitas.Platform.Web.ViewModel;
-using Gravitas.Platform.Web.ViewModel.LabAverageRates;
-using Gravitas.Platform.Web.ViewModel.Ticket.History;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using AutoMapper;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Card;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.Ticket;
+using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.ExternalData.FixedAsset.DAO;
+using Gravitas.Model.DomainModel.ExternalData.Product.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
-using Gravitas.Platform.Web.Manager.Ticket;
+using Gravitas.Model.DomainValue;
+using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.LabAverageRates;
+using Gravitas.Platform.Web.ViewModel.Ticket.History;
+using NLog;
 using CardType = Gravitas.Model.DomainValue.CardType;
 using TicketFileType = Gravitas.Model.DomainValue.TicketFileType;
 using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
-namespace Gravitas.Platform.Web.Manager
+namespace Gravitas.Platform.Web.Manager.Ticket
 {
     public class TicketWebManager : ITicketWebManager
     {
@@ -155,7 +156,7 @@ namespace Gravitas.Platform.Web.Manager
             return true;
         }
 
-        public bool SendReplySms(long nodeId)
+        public bool SendReplySms(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             var singleWindowOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(nodeDto.Context.TicketId)
@@ -164,7 +165,7 @@ namespace Gravitas.Platform.Web.Manager
 
             Logger.Debug($"SendReplySms: Trying to send sms on {singleWindowOpData.ContactPhoneNo}");
 
-            if (!_connectManager.SendSms(Dom.Sms.Template.QueueRegistrationSms, nodeDto.Context.TicketId,
+            if (!_connectManager.SendSms(SmsTemplate.QueueRegistrationSms, nodeDto.Context.TicketId,
                 singleWindowOpData.ContactPhoneNo))
             {
                 Logger.Error($"SendReplySms: Error while sending sms on {singleWindowOpData.ContactPhoneNo}");
@@ -181,9 +182,9 @@ namespace Gravitas.Platform.Web.Manager
             var nextDay = date?.AddDays(1);
 
             var data = (from i in _context.Set<SingleWindowOpData>()
-                        join t in _context.Set<ExternalData.FixedAsset>() on i.TransportId equals t.Id into transportJoin
-                        join tr in _context.Set<ExternalData.FixedAsset>() on i.TrailerId equals tr.Id into trailerJoin
-                        join p in _context.Set<ExternalData.Product>() on i.ProductId equals p.Id into productJoin
+                        join t in _context.Set<FixedAsset>() on i.TransportId equals t.Id into transportJoin
+                        join tr in _context.Set<FixedAsset>() on i.TrailerId equals tr.Id into trailerJoin
+                        join p in _context.Set<Product>() on i.ProductId equals p.Id into productJoin
                         join s in _context.Stocks on i.ReceiverId ?? string.Empty equals s.Id into stockJoin
                         join p in _context.Partners on i.ReceiverId ?? string.Empty equals p.Id into partnerJoin
                         join sub in _context.Subdivisions on i.ReceiverId ?? string.Empty equals sub.Id into subDivisionJoin
@@ -204,7 +205,7 @@ namespace Gravitas.Platform.Web.Manager
                         select new TicketHistoryItem
                         {
                             TicketId = i.TicketId.Value,
-                            TicketContainerId = ticket.ContainerId,
+                            TicketContainerId = ticket.TicketContainerId,
                             IsThirdPartyCarrier = i.IsThirdPartyCarrier,
                             ProductName = product != null ? product.ShortName : string.Empty,
                             EditDateTime = i.EditDate.ToString(),
@@ -244,11 +245,11 @@ namespace Gravitas.Platform.Web.Manager
             };
         }
 
-        public TicketHistoryDetails GetHistoryDetails(long ticketId, long ticketContainerId)
+        public TicketHistoryDetails GetHistoryDetails(int ticketId, int ticketContainerId)
         {
             var data = (from item in _context.Set<SingleWindowOpData>()
-                        join t in _context.Set<ExternalData.FixedAsset>() on item.TransportId equals t.Id into transportJoin
-                        join tr in _context.Set<ExternalData.FixedAsset>() on item.TrailerId equals tr.Id into trailerJoin
+                        join t in _context.Set<FixedAsset>() on item.TransportId equals t.Id into transportJoin
+                        join tr in _context.Set<FixedAsset>() on item.TrailerId equals tr.Id into trailerJoin
                         from transport in transportJoin.DefaultIfEmpty()
                         from trailer in trailerJoin.DefaultIfEmpty()
                         where item.TicketId == ticketId
@@ -267,7 +268,7 @@ namespace Gravitas.Platform.Web.Manager
 
             data.CardNumber = (from i in _context.Cards
                                where i.TicketContainerId == ticketContainerId &&
-                                     i.TypeId == Dom.Card.Type.TicketCard
+                                     i.TypeId == CardType.TicketCard
                                select i).FirstOrDefault()?.No.ToString().Remove(0, 2);
             return data;
         }
@@ -287,7 +288,7 @@ namespace Gravitas.Platform.Web.Manager
                     item.CheckOutDateTime.HasValue
                     && item.CheckOutDateTime.Value > date
                     && item.CheckOutDateTime.Value < dateTo
-                    && item.StateId == Dom.OpDataState.Processed)
+                    && item.StateId == OpDataState.Processed)
                 .AsEnumerable()
                 .Select(item =>
                 {
@@ -319,14 +320,14 @@ namespace Gravitas.Platform.Web.Manager
                                 CheckOutDateTime = item.CheckOutDateTime,
                                 Netto = (from weight in _context.ScaleOpDatas
                                          where weight.TicketId == item.TicketId &&
-                                               weight.StateId == Dom.OpDataState.Processed &&
-                                               weight.TypeId == Dom.ScaleOpData.Type.Gross
+                                               weight.StateId == OpDataState.Processed &&
+                                               weight.TypeId == ScaleOpDataType.Gross
                                          select weight.TruckWeightValue).OrderByDescending(k => k.Value).FirstOrDefault()
                                          -
                                          (from weight in _context.ScaleOpDatas
                                           where weight.TicketId == item.TicketId &&
-                                                weight.StateId == Dom.OpDataState.Processed &&
-                                                weight.TypeId == Dom.ScaleOpData.Type.Tare
+                                                weight.StateId == OpDataState.Processed &&
+                                                weight.TypeId == ScaleOpDataType.Tare
                                           select weight.TruckWeightValue).OrderByDescending(k => k.Value).FirstOrDefault()
                             }).FirstOrDefault();
                 });
@@ -370,7 +371,7 @@ namespace Gravitas.Platform.Web.Manager
                                                 }).FirstOrDefault();
                                     })
                                 })
-                                .Where(c => !c.Classifier.IsNullOrWhiteSpace())
+                                .Where(c => !string.IsNullOrWhiteSpace(c.Classifier))
                         })
                 });
 

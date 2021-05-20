@@ -3,6 +3,7 @@ using System.Linq;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
+using Gravitas.Model.DomainValue;
 
 namespace Gravitas.DAL.Repository.Phones
 {
@@ -15,11 +16,11 @@ namespace Gravitas.DAL.Repository.Phones
             _context = context;
         }
 
-        public string GetPhone(int phoneId) => _context.PhoneDictionaries.FirstOrDefault(x => x.Id == phoneId)?.PhoneNumber ?? string.Empty;
+        public string GetPhone(Phone phoneId) => _context.PhoneDictionaries.FirstOrDefault(x => x.Id == phoneId)?.PhoneNumber ?? string.Empty;
         
         public List<PhoneDictionary> GetAll()
         {
-            return GetQuery<PhoneDictionary, int>().ToList();
+            return GetQuery<PhoneDictionary, Phone>().ToList();
         }
     }
 }

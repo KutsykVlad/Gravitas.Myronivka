@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Gravitas.DAL.Mapping._Base;
+using Gravitas.Model.DomainValue;
 
 namespace Gravitas.DAL.Mapping.PhoneDictionary
 {
-    class PhoneDictionaryMap : BaseEntityMap<Model.DomainModel.PhoneDictionary.DAO.PhoneDictionary, int>
+    class PhoneDictionaryMap : BaseEntityMap<Model.DomainModel.PhoneDictionary.DAO.PhoneDictionary, Phone>
     {
         public PhoneDictionaryMap()
         {

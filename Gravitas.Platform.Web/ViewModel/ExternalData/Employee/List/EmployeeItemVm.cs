@@ -1,4 +1,6 @@
-﻿namespace Gravitas.Platform.Web.ViewModel
+﻿using Gravitas.Platform.Web.ViewModel.Device._Base;
+
+namespace Gravitas.Platform.Web.ViewModel.ExternalData.Employee.List
 {
     public class EmployeeItemVm : BaseEntityVm<string>
     {

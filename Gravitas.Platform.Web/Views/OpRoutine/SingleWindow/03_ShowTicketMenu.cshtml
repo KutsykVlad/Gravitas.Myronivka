@@ -1,18 +1,17 @@
 ﻿@using Gravitas.Infrastructure.Platform.ApiClient.OneC
-@using Gravitas.Model
-@using Dom = Gravitas.Model.DomainValue.Dom
-@model Gravitas.Platform.Web.ViewModel.OpRoutine.SingleWindow.SingleWindowVms.ShowTicketMenuVm
+@using Gravitas.Model.DomainValue
+@model Gravitas.Platform.Web.ViewModel.SingleWindowVms.ShowTicketMenuVm
 @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
 @{
     var closedAttribute = "";
     var processingAttribute = "";
     if (Model.DeliveryBillId == null
-         || Model.TicketStatusId == Dom.Ticket.Status.Closed
-         || Model.TicketStatusId == Dom.Ticket.Status.Canceled)
+         || Model.TicketStatusId == TicketStatus.Closed
+         || Model.TicketStatusId == TicketStatus.Canceled)
     {
         closedAttribute = " disabled";
     }
-    if (Model.TicketStatusId != Dom.Ticket.Status.Completed)
+    if (Model.TicketStatusId != TicketStatus.Completed)
     {
         processingAttribute = " disabled";
     }
@@ -69,7 +68,7 @@
             </button>
 
             <div class="dropdown-menu">
-                @if (Model.SupplyCode != Dom.SingleWindowOpData.TechnologicalSupplyCode)
+                @if (Model.SupplyCode != TechRoute.SupplyCode)
                 {
                     @Html.ActionLink(@"Протокол", "GenerateProtocol", "Report",
                              new { nodeId = Model.NodeId }, new { @class = "dropdown-item", @target = "_blank" })

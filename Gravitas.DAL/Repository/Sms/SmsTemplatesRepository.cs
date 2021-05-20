@@ -15,7 +15,7 @@ namespace Gravitas.DAL.Repository.Sms
             _context = context;
         }
 
-        public string GetSmsTemplate(int templateId)
+        public string GetSmsTemplate(Model.DomainValue.SmsTemplate templateId)
         {
             return _context.SmsTemplates.AsNoTracking().FirstOrDefault(x => x.Id == templateId)?.Text ?? string.Empty;
         }
@@ -24,7 +24,7 @@ namespace Gravitas.DAL.Repository.Sms
         {
             var result = new SmsTemplates
             {
-                Items = GetQuery<SmsTemplate, int>().ToList()
+                Items = GetQuery<SmsTemplate, Model.DomainValue.SmsTemplate>().ToList()
             };
             result.Count = result.Items.Count;
             return result;

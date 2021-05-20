@@ -13,7 +13,10 @@ using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.Admin.NodeDetails;
+using Gravitas.Platform.Web.ViewModel.Admin.NodeTraffic;
 using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
+using Gravitas.Platform.Web.ViewModel.Admin.Role;
 using Gravitas.Platform.Web.ViewModel.OpData.NonStandart;
 using Node = Gravitas.Model.DomainModel.Node.DAO.Node;
 
@@ -331,7 +334,7 @@ namespace Gravitas.Platform.Web.Manager.Admin
 
         public void UpdateRolePhone(PhoneDictionary employee)
         {
-            _phonesRepository.Update<PhoneDictionary, int>(new PhoneDictionary
+            _phonesRepository.Update<PhoneDictionary, Phone>(new PhoneDictionary
             {
                 Id = employee.Id,
                 PhoneNumber = employee.PhoneNumber,

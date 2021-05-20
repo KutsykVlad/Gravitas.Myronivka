@@ -4,7 +4,7 @@ using Gravitas.Model.DomainModel.Sms.DAO;
 
 namespace Gravitas.DAL.Mapping.SmsTemplates
 {
-    class SmsTemplateMap:BaseEntityMap<SmsTemplate, int>
+    class SmsTemplateMap:BaseEntityMap<SmsTemplate, Model.DomainValue.SmsTemplate>
     {
         public SmsTemplateMap()
         {

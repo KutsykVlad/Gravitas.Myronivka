@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Gravitas.Platform.Web.ViewModel
+namespace Gravitas.Platform.Web.ViewModel.ExternalData.LabClassifier.List
 {
     public class LabHumidityСlassifierItemsVm
     {

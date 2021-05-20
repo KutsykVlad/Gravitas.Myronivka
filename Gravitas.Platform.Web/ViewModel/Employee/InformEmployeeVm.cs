@@ -1,5 +1,4 @@
-﻿using Gravitas.Model;
-using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
+﻿using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 
 namespace Gravitas.Platform.Web.ViewModel.Employee
 {

@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.Admin.NodeDetails;
+using Gravitas.Platform.Web.ViewModel.Admin.NodeTraffic;
 using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
+using Gravitas.Platform.Web.ViewModel.Admin.Role;
 
 namespace Gravitas.Platform.Web.Manager.Admin
 {

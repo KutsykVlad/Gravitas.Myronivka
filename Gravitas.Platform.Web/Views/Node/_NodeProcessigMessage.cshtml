@@ -1,5 +1,4 @@
 @using Gravitas.Model
-@using Dom = Gravitas.Model.DomainValue.Dom
 @model Gravitas.Platform.Web.ViewModel.NodeProcessingMsgVm
 
 @{
@@ -12,16 +11,16 @@
     {
         switch (item.TypeId)
         {
-            case Dom.Node.ProcessingMsg.Type.Error:
+            case NodeData.ProcessingMsg.Type.Error:
                 alertClass = "alert-danger";
                 break;
-            case Dom.Node.ProcessingMsg.Type.Warning:
+            case NodeData.ProcessingMsg.Type.Warning:
                 alertClass = "alert-warning";
                 break;
-            case Dom.Node.ProcessingMsg.Type.Info:
+            case NodeData.ProcessingMsg.Type.Info:
                 alertClass = "alert-info";
                 break;
-            case Dom.Node.ProcessingMsg.Type.Success:
+            case NodeData.ProcessingMsg.Type.Success:
                 alertClass = "alert-success";
                 break;
         }
