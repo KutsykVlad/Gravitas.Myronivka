@@ -5,28 +5,25 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Gravitas.DAL;
-using Gravitas.DAL.Repository.Node;
+using Gravitas.DAL.DbContext;
 using Gravitas.DeviceMonitor.ViewModel.Ip;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
-using Gravitas.Model.Dto;
 using NLog;
-using Dom = Gravitas.Model.DomainValue.Dom;
 
 namespace Gravitas.DeviceMonitor.Monitor
 {
     public abstract class BaseMonitor
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly INodeRepository _nodeRepository;
-        protected long NodeId;
+        private readonly GravitasDbContext _context;
+        protected int NodeId;
 
-        protected BaseMonitor(INodeRepository nodeRepository)
+        protected BaseMonitor(GravitasDbContext context)
         {
-            _nodeRepository = nodeRepository;
+            _context = context;
         }
 
         public void ProcessLoop(CancellationToken token)
@@ -46,7 +43,7 @@ namespace Gravitas.DeviceMonitor.Monitor
             }
         }
 
-        public void Config(long nodeId)
+        public void Config(int nodeId)
         {
             NodeId = nodeId;
         }
@@ -111,10 +108,10 @@ namespace Gravitas.DeviceMonitor.Monitor
             var result = new List<string>();
             foreach (var device in configScale)
             {
-                var d = _nodeRepository.GetEntity<Device, long>(device.Value.DeviceId);
+                var d = _context.Devices.First(x => x.Id == device.Value.DeviceId);
                 if (d.IsActive)
                 {
-                    var deviceParams = _nodeRepository.GetEntity<DeviceParam, long>(device.Value.DeviceId);
+                    var deviceParams = _context.DeviceParams.First(x => x.Id == device.Value.DeviceId);
                     var match = Regex.Match(deviceParams.ParamJson, @"\d+\.\d+\.\d+\.\d+");
                     result.Add(match.Value);
                 }
@@ -131,25 +128,25 @@ namespace Gravitas.DeviceMonitor.Monitor
                 DeviceParam deviceParams;
                 switch (device.Key)
                 {
-                    case Dom.Node.Config.Rfid.LongRangeReader:
-                        var parent = _nodeRepository.GetEntity<Device, long>(device.Value.DeviceId)?.ParentDeviceId;
+                    case NodeData.Config.Rfid.LongRangeReader:
+                        var parent = _context.Devices.FirstOrDefault(x => x.Id == device.Value.DeviceId)?.ParentDeviceId;
                         if (!parent.HasValue) continue;
-                        var p = _nodeRepository.GetEntity<Device, long>(parent.Value);
+                        var p = _context.Devices.First(x => x.Id == parent.Value);
                         if (!p.IsActive)
                         {
                             continue;
                         }
 
-                        deviceParams = _nodeRepository.GetEntity<DeviceParam, long>(parent.Value);
+                        deviceParams = _context.DeviceParams.First(x => x.Id == parent.Value);
                         break;
-                    case Dom.Node.Config.Rfid.TableReader:
-                        var d = _nodeRepository.GetEntity<Device, long>(device.Value.DeviceId);
+                    case NodeData.Config.Rfid.TableReader:
+                        var d = _context.Devices.First(x => x.Id == device.Value.DeviceId);
                         if (!d.IsActive)
                         {
                             continue;
                         }
 
-                        deviceParams = _nodeRepository.GetEntity<DeviceParam, long>(device.Value.DeviceId);
+                        deviceParams = _context.DeviceParams.First(x => x.Id == device.Value.DeviceId);
                         break;
                     default:
                         return result;
@@ -167,12 +164,12 @@ namespace Gravitas.DeviceMonitor.Monitor
             var result = new List<string>();
             foreach (var device in configDo)
             {
-                var parent = _nodeRepository.GetEntity<Device, long>(device.Value.DeviceId)?.ParentDeviceId;
+                var parent = _context.Devices.FirstOrDefault(x => x.Id == device.Value.DeviceId)?.ParentDeviceId;
                 if (!parent.HasValue) continue;
-                var p = _nodeRepository.GetEntity<Device, long>(parent.Value);
+                var p = _context.Devices.First(x => x.Id == parent.Value);
                 if (p.IsActive)
                 {
-                    var deviceParams = _nodeRepository.GetEntity<DeviceParam, long>(parent.Value);
+                    var deviceParams = _context.DeviceParams.First(x => x.Id == parent.Value);
                     var match = Regex.Match(deviceParams.ParamJson, @"\d+\.\d+\.\d+\.\d+");
                     result.Add(match.Value);
                 }
@@ -186,12 +183,12 @@ namespace Gravitas.DeviceMonitor.Monitor
             var result = new List<string>();
             foreach (var device in configDi)
             {
-                var parent = _nodeRepository.GetEntity<Device, long>(device.Value.DeviceId)?.ParentDeviceId;
+                var parent = _context.Devices.FirstOrDefault(x => x.Id == device.Value.DeviceId)?.ParentDeviceId;
                 if (!parent.HasValue) continue;
-                var p = _nodeRepository.GetEntity<Device, long>(parent.Value);
+                var p = _context.Devices.First(x => x.Id == parent.Value);
                 if (p.IsActive)
                 {
-                    var deviceParams = _nodeRepository.GetEntity<DeviceParam, long>(parent.Value);
+                    var deviceParams = _context.DeviceParams.First(x => x.Id == parent.Value);
                     var match = Regex.Match(deviceParams.ParamJson, @"\d+\.\d+\.\d+\.\d+");
                     result.Add(match.Value);
                 }
@@ -205,13 +202,13 @@ namespace Gravitas.DeviceMonitor.Monitor
             var result = new List<string>();
             foreach (var device in configCamera)
             {
-                var d = _nodeRepository.GetEntity<Device, long>(device.Value.DeviceId);
+                var d = _context.Devices.First(x => x.Id == device.Value.DeviceId);
                 if (!d.IsActive)
                 {
                     continue;
                 }
 
-                var deviceParams = _nodeRepository.GetEntity<DeviceParam, long>(device.Value.DeviceId);
+                var deviceParams = _context.DeviceParams.First(x => x.Id == device.Value.DeviceId);
                 var match = Regex.Match(deviceParams.ParamJson, @"\d+\.\d+\.\d+\.\d+");
                 result.Add(match.Value);
             }

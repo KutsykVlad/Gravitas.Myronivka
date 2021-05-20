@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DeviceMonitor.Monitor;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.DAO;
 using NLog;
 
@@ -27,7 +25,7 @@ namespace Gravitas.DeviceMonitor.Manager
 
         public void StartTasks()
         {
-            var nodeList = _nodeRepository.GetQuery<Node, long>();
+            var nodeList = _nodeRepository.GetQuery<Node, int>();
 
             foreach (var node in nodeList)
             {

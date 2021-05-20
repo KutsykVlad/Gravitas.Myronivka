@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gravitas.DAL;
+using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DeviceMonitor.ViewModel.Report;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.Settings;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.DAO;
-using Dom = Gravitas.Model.DomainValue.Dom;
+using Gravitas.Model.DomainValue;
 
 namespace Gravitas.DeviceMonitor.Monitor
 {
@@ -18,21 +16,24 @@ namespace Gravitas.DeviceMonitor.Monitor
         private readonly IConnectManager _connectManager;
         private readonly INodeRepository _nodeRepository;
         private readonly ISettings _settings;
+        private readonly GravitasDbContext _context;
         private DateTime? _emailSendAt;
 
         public DeviceIpMonitor(INodeRepository nodeRepository,
             IConnectManager connectManager, 
-            ISettings settings)
-            : base(nodeRepository)
+            ISettings settings, 
+            GravitasDbContext context)
+            : base(context)
         {
             _nodeRepository = nodeRepository;
             _connectManager = connectManager;
             _settings = settings;
+            _context = context;
         }
 
         protected override void Process()
         {
-            var node = _nodeRepository.GetEntity<Node, long>(NodeId);
+            var node = _context.Nodes.First(x => x.Id == NodeId);
             var deviceIps = GetDeviceIps(NodeId);
             var invalidIps = GetInvalidIps(deviceIps);
 
@@ -43,25 +44,25 @@ namespace Gravitas.DeviceMonitor.Monitor
                     NodeName = node.Name, Ips = invalidIps
                 };
                
-                _connectManager.SendEmail(Dom.Email.Template.DeviceInvalidInformation, _settings.AdminEmail, vm);
+                _connectManager.SendEmail(EmailTemplate.DeviceInvalidInformation, _settings.AdminEmail, vm);
                 _emailSendAt = DateTime.Now;
             }
             
             if (invalidIps.Count != 0 && !node.IsEmergency)
             {
                 node.IsEmergency = true;
-                _nodeRepository.Update<Node, long>(node);
+                _nodeRepository.Update<Node, int>(node);
             }
             
             if (invalidIps.Count == 0 && node.IsEmergency)
             {
                 _emailSendAt = null;
                 node.IsEmergency = false;
-                _nodeRepository.Update<Node, long>(node);
+                _nodeRepository.Update<Node, int>(node);
             }
         }
 
-        private IEnumerable<string> GetDeviceIps(long nodeId)
+        private IEnumerable<string> GetDeviceIps(int nodeId)
         {
             var ips = new List<string>();
 
