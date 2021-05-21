@@ -7,7 +7,6 @@ using Gravitas.Core.Manager.LabBruker;
 using Gravitas.Core.Manager.LabFoss;
 using Gravitas.Core.Manager.LabFoss2;
 using Gravitas.Core.Manager.LabInfrascan;
-using Gravitas.Core.Manager.RfidObidRwAutoAnswer;
 using Gravitas.Core.Manager.RfidZebraFx9500;
 using Gravitas.Core.Manager.ScaleMettlerPT6S3;
 using Gravitas.DAL;
@@ -110,16 +109,6 @@ namespace Gravitas.Core.Manager
             Task task = null;
             switch (device.TypeId)
             {
-                case DeviceType.RfidObidRw:
-                    var obidManager = DependencyResolverConfig.Resolve<IRfidObidRwManager>(
-                        new ParameterOverride("deviceId", device.Id));
-                    task = new Task(() => obidManager.SyncData(token));
-                    break;
-                case DeviceType.RfidZebraFx9500Head:
-                    var zebraManager = DependencyResolverConfig.Resolve<IRfidZebraFx9500Manager>(
-                        new ParameterOverride("deviceId", device.Id));
-                    task = new Task(() => zebraManager.SyncData(token));
-                    break;
                 case DeviceType.RelayVkmodule2In2Out:
                     var socket2Manager = DependencyResolverConfig.Resolve<VkModuleSocket2.IVkModuleSocket2Manager>(
                         new ParameterOverride("deviceId", device.Id));
@@ -129,11 +118,6 @@ namespace Gravitas.Core.Manager
                     var socket1Manager = DependencyResolverConfig.Resolve<VkModuleSocket1.IVkModuleSocket1Manager>(
                         new ParameterOverride("deviceId", device.Id));
                     task = new Task(() => socket1Manager.SyncData(token));
-                    break;
-                case DeviceType.ScaleMettlerPT6S3:
-                    var mettlerPT6S3Manager = DependencyResolverConfig.Resolve<IScaleMettlerPT6S3Manager>(
-                        new ParameterOverride("deviceId", device.Id));
-                    task = new Task(() => mettlerPT6S3Manager.SyncData(token));
                     break;
                 case DeviceType.LabBruker:
                     var LabBrukerManager = DependencyResolverConfig.Resolve<ILabBrukerManager>(

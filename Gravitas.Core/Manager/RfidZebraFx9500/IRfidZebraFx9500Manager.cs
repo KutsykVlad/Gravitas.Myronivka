@@ -1,9 +1,9 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
 
 namespace Gravitas.Core.Manager.RfidZebraFx9500
 {
     public interface IRfidZebraFx9500Manager
     {
-        void SyncData(CancellationToken token);
+        List<string> GetCard(int deviceId);
     }
 }
