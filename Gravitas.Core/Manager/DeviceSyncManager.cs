@@ -7,8 +7,6 @@ using Gravitas.Core.Manager.LabBruker;
 using Gravitas.Core.Manager.LabFoss;
 using Gravitas.Core.Manager.LabFoss2;
 using Gravitas.Core.Manager.LabInfrascan;
-using Gravitas.Core.Manager.RfidZebraFx9500;
-using Gravitas.Core.Manager.ScaleMettlerPT6S3;
 using Gravitas.DAL;
 using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
@@ -109,16 +107,6 @@ namespace Gravitas.Core.Manager
             Task task = null;
             switch (device.TypeId)
             {
-                case DeviceType.RelayVkmodule2In2Out:
-                    var socket2Manager = DependencyResolverConfig.Resolve<VkModuleSocket2.IVkModuleSocket2Manager>(
-                        new ParameterOverride("deviceId", device.Id));
-                    task = new Task(() => socket2Manager.SyncData(token));
-                    break;
-                case DeviceType.RelayVkmodule4In0Out:
-                    var socket1Manager = DependencyResolverConfig.Resolve<VkModuleSocket1.IVkModuleSocket1Manager>(
-                        new ParameterOverride("deviceId", device.Id));
-                    task = new Task(() => socket1Manager.SyncData(token));
-                    break;
                 case DeviceType.LabBruker:
                     var LabBrukerManager = DependencyResolverConfig.Resolve<ILabBrukerManager>(
                         new ParameterOverride("deviceId", device.Id));
