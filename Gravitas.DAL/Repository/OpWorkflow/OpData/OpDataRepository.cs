@@ -124,7 +124,7 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
             dao.LoadTargetDeviationPlus = dto.LoadTargetDeviationPlus;
             dao.ContactPhoneNo = dto.ContactPhoneNo;
             dao.LoadTarget = dto.LoadTarget;
-            dao.CreteDate = dto.CreateDate;
+            dao.CreateDate = dto.CreateDate;
             dao.EditDate = dto.EditDate;
             dao.DriverOneId = dto.DriverOneId;
             dao.DriverTwoId = dto.DriverTwoId;

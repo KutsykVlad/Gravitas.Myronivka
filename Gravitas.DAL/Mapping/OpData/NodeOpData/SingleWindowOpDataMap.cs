@@ -30,7 +30,7 @@ namespace Gravitas.DAL.Mapping.OpData.NodeOpData
 
             Property(e => e.EditDate)
                 .HasColumnType("datetime2");
-            Property(e => e.CreteDate)
+            Property(e => e.CreateDate)
                 .HasColumnType("datetime2");
             Property(e => e.DocNetDateTime)
                 .HasColumnType("datetime2");

@@ -589,7 +589,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     
                 }
                 
-                windowOpData.CreteDate = DateTime.Now;
+                windowOpData.CreateDate = DateTime.Now;
                 windowOpData.DeliveryBillId = deliveryBill.Id;
                 windowOpData.DeliveryBillCode = deliveryBill.Code;
                 windowOpData.SupplyTypeId = deliveryBill.SupplyTypeId;
@@ -791,7 +791,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
                 Id = singleWindowOpData.DeliveryBillId,
                 CreateOperatorId = singleWindowOpData.CreateOperatorId,
-                CreateDate = createData ?? singleWindowOpData.CreteDate,
+                CreateDate = createData ?? singleWindowOpData.CreateDate,
                 EditDate = singleWindowOpData.EditDate,
                 RegistrationTime = singleWindowOpData.RegistrationDateTime,
                 InTime = singleWindowOpData.InTime,

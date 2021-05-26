@@ -13,7 +13,7 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public string OrganizationTitle { get; set; }
         public string ProductTitle { get; set; }
         public string CreateOperatorId { get; set; }
-        public DateTime? CreteDate { get; set; }
+        public DateTime? CreateDate { get; set; }
         public string EditOperatorId { get; set; }
         public DateTime? EditDate { get; set; }
         public string DocumentTypeId { get; set; }

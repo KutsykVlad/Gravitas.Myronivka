@@ -16,7 +16,7 @@ namespace Gravitas.DAL.Extension
             refOpData.LoadTarget = srcOpData.LoadTarget;
             refOpData.OrganizationId = srcOpData.OrganizationId;
             refOpData.CreateOperatorId = srcOpData.OpVisaSet.FirstOrDefault()?.EmployeeId;
-            refOpData.CreteDate = srcOpData.OpVisaSet.FirstOrDefault()?.DateTime;
+            refOpData.CreateDate = srcOpData.OpVisaSet.FirstOrDefault()?.DateTime;
             refOpData.EditOperatorId = srcOpData.OpVisaSet.LastOrDefault()?.EmployeeId;
             refOpData.EditDate = srcOpData.OpVisaSet.LastOrDefault()?.DateTime;
             refOpData.DocumentTypeId = srcOpData.DocumentTypeId;

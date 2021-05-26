@@ -107,7 +107,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpData
                 CreateOperatorName = !string.IsNullOrWhiteSpace(dao.CreateOperatorId)
                     ? _externalDataRepository.GetExternalEmployeeDetail(dao.CreateOperatorId)?.ShortName ?? "- Хибний ключ -"
                     : string.Empty,
-                CreateDate = dao.CreteDate,
+                CreateDate = dao.CreateDate,
                 EditOperatorId = dao.EditOperatorId,
                 EditOperatorName = !string.IsNullOrWhiteSpace(dao.EditOperatorId)
                     ? _externalDataRepository.GetExternalEmployeeDetail(dao.EditOperatorId)?.ShortName ?? "- Хибний ключ -"
