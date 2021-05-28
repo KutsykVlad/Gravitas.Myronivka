@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using Gravitas.DAL.DbContext;
+﻿using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
-using Gravitas.Model.DomainModel.Sms.DAO;
-using Gravitas.Model.DomainModel.Sms.DTO;
 
 namespace Gravitas.DAL.Repository.Sms
 {
@@ -17,17 +14,7 @@ namespace Gravitas.DAL.Repository.Sms
 
         public string GetSmsTemplate(Model.DomainValue.SmsTemplate templateId)
         {
-            return _context.SmsTemplates.AsNoTracking().FirstOrDefault(x => x.Id == templateId)?.Text ?? string.Empty;
-        }
-
-        public SmsTemplates GetSmsTemplates()
-        {
-            var result = new SmsTemplates
-            {
-                Items = GetQuery<SmsTemplate, Model.DomainValue.SmsTemplate>().ToList()
-            };
-            result.Count = result.Items.Count;
-            return result;
+            return string.Empty;
         }
     }
 }

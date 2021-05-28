@@ -18,7 +18,6 @@ using Gravitas.DAL.Mapping.PreRegistration;
 using Gravitas.DAL.Mapping.Queue;
 using Gravitas.DAL.Mapping.RouteTemplate;
 using Gravitas.DAL.Mapping.Settings;
-using Gravitas.DAL.Mapping.SmsTemplates;
 using Gravitas.DAL.Mapping.Ticket;
 using Gravitas.DAL.Mapping.Traffic;
 using Gravitas.Model.DomainModel.BlackList.DAO;
@@ -136,7 +135,6 @@ namespace Gravitas.DAL.DbContext
         public DbSet<PhoneDictionary> PhoneDictionaries { get; set; }
         public DbSet<TicketFile> TicketFiles { get; set; }
         public DbSet<UnloadPointOpData> UnloadPointOpDatas { get; set; }
-        public DbSet<Model.DomainModel.Sms.DAO.SmsTemplate> SmsTemplates { get; set; }
         public DbSet<PreRegisterProduct> PreRegisterProducts { get; set; }
         public DbSet<SupplyTransportType> SupplyTransportTypes { get; set; }
         public DbSet<SupplyType> SupplyTypes { get; set; }
@@ -164,7 +162,6 @@ namespace Gravitas.DAL.DbContext
             modelBuilder.Configurations.Add(new OrganizationUnitTypeMap());
             modelBuilder.Configurations.Add(new TrafficHistoryMap());
             modelBuilder.Configurations.Add(new QueuePatternItemMap());
-            modelBuilder.Configurations.Add(new SmsTemplateMap());
             modelBuilder.Configurations.Add(new LabFacelessOpDataMap());
             modelBuilder.Configurations.Add(new CentralLabOpDataMap());
             modelBuilder.Configurations.Add(new LabFacelessOpDataComponentMap());
