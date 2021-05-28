@@ -18,8 +18,8 @@ namespace Gravitas.Platform.Web.Bootstrapper
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(DependencyResolverConfig.Container));
 
-            GlobalConfiguration.Configuration.DependencyResolver =
-                new Unity.WebApi.UnityDependencyResolver(DependencyResolverConfig.Container);
+            // GlobalConfiguration.Configuration.DependencyResolver =
+            //     new Unity.UnityDependencyResolver(DependencyResolverConfig.Container);
 
             Mapper.Initialize(cfg => { cfg.AddProfile<DefaultProfile>(); });
             Mapper.AssertConfigurationIsValid();
