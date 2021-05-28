@@ -8,10 +8,9 @@ namespace Gravitas.DAL.Mapping.OpData.NodeOpData
         {
             ToTable("opd.LabFacelessOpData");
 
-            HasRequired(e => e.OpDataState)
-                .WithMany(e => e.LabFacelessOpDataSet)
-                .HasForeignKey(e => e.StateId);
-
+            Property(e => e.StateId)
+                .IsRequired();
+            
             HasMany(e => e.LabFacelessOpDataComponentSet)
                 .WithRequired(e => e.LabFacelessOpData)
                 .HasForeignKey(e => e.LabFacelessOpDataId);

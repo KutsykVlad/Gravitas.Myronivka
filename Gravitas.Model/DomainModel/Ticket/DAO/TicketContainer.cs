@@ -19,7 +19,6 @@ namespace Gravitas.Model.DomainModel.Ticket.DAO
         public int QueueStatusId { get; set; }
         public string ProcessingMessage { get; set; }
 
-        public virtual TicketContainerStatus TicketContainerStatus { get; set; }
         public virtual ICollection<Card.DAO.Card> CardSet { get; set; }
         public virtual ICollection<Ticket> TicketSet { get; set; }
         public virtual ICollection<TrafficHistory> TrafficHistory { get; set; }

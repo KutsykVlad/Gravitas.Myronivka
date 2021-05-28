@@ -8,9 +8,8 @@ namespace Gravitas.DAL.Mapping.OpData.NodeOpData
         {
             ToTable("opd.LoadGuideOpData");
 
-            HasRequired(e => e.OpDataState)
-                .WithMany(e => e.LoadGuideOpDataSet)
-                .HasForeignKey(e => e.StateId);
+            Property(e => e.StateId)
+                .IsRequired();
             
             HasOptional(e => e.Node)
                 .WithMany(e => e.LoadGuideOpDataSet)

@@ -8,9 +8,8 @@ namespace Gravitas.DAL.Mapping.OpData.NodeOpData
         {
             ToTable("opd.SingleWindowOpData");
 
-            HasRequired(e => e.OpDataState)
-                .WithMany(e => e.SingleWindowOpDataSet)
-                .HasForeignKey(e => e.StateId);
+            Property(e => e.StateId)
+                .IsRequired();
 
             HasOptional(e => e.Ticket)
                 .WithMany(e => e.SingleWindowOpDataSet)

@@ -13,10 +13,9 @@ namespace Gravitas.DAL.Mapping.Ticket
                 .WithMany(e => e.TicketFileSet)
                 .HasForeignKey(e => e.TicketId);
 
-            HasRequired(e => e.TicketFileType)
-                .WithMany(e => e.TicketFileSet)
-                .HasForeignKey(e => e.TypeId);
-
+            Property(e => e.TypeId)
+                .IsRequired();
+            
             Property(e => e.Name)
                 .IsRequired();
 

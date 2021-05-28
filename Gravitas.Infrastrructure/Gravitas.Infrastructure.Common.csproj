@@ -54,6 +54,7 @@
     <Compile Include="Attribute\OpControllerNameAttribute.cs" />
     <Compile Include="Attribute\OpActionNameAttribute.cs" />
     <Compile Include="Configuration\GlobalConfigurationManager.cs" />
+    <Compile Include="Helper\EnumExtensions.cs" />
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

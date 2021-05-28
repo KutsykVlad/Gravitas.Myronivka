@@ -2,11 +2,10 @@
 using System.Linq;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
+using Gravitas.Infrastructure.Common.Helper;
 using Gravitas.Model.DomainModel.Ticket.DAO;
+using Gravitas.Model.DomainValue;
 using Gravitas.Model.Dto;
-using TicketContainerStatus = Gravitas.Model.DomainValue.TicketContainerStatus;
-using TicketFileType = Gravitas.Model.DomainValue.TicketFileType;
-using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.DAL.Repository.Ticket
 {
@@ -53,7 +52,7 @@ namespace Gravitas.DAL.Repository.Ticket
                        {
                            Id = i.Id,
                            StatusId = i.StatusId,
-                           StatusName = i.TicketStatus.Name,
+                           StatusName = i.StatusId.GetDescription(),
                            SupplyCode = singleWindowOpData != null ? singleWindowOpData.SupplyCode : null,
                            Product = product != null ? product.ShortName : string.Empty
                        }).ToList();

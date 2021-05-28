@@ -5,7 +5,7 @@ using System.Web.Routing;
 using AutoMapper;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Platform.Web.AutoMapper;
-using Gravitas.Platform.Web.DepedencyInjection;
+using Gravitas.Platform.Web.DependencyInjection;
 using Unity.Mvc5;
 
 namespace Gravitas.Platform.Web.Bootstrapper

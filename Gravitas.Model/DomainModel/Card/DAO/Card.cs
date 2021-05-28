@@ -16,6 +16,5 @@ namespace Gravitas.Model.DomainModel.Card.DAO
 
         public virtual Employee Employee { get; set; }
         public virtual TicketContainer TicketContainer { get; set; }
-        public virtual CardType CardType { get; set; }
     }
 }

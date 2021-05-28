@@ -8,17 +8,16 @@ using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.Phones;
 using Gravitas.DAL.Repository.Queue;
 using Gravitas.DAL.Repository.Traffic;
+using Gravitas.Infrastructure.Common.Helper;
 using Gravitas.Model.DomainModel.EmployeeRoles.DTO;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin.NodeDetails;
 using Gravitas.Platform.Web.ViewModel.Admin.NodeTraffic;
 using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
 using Gravitas.Platform.Web.ViewModel.Admin.Role;
 using Gravitas.Platform.Web.ViewModel.OpData.NonStandart;
-using Node = Gravitas.Model.DomainModel.Node.DAO.Node;
 
 namespace Gravitas.Platform.Web.Manager.Admin
 {
@@ -54,8 +53,6 @@ namespace Gravitas.Platform.Web.Manager.Admin
 
         public QueuePatternVm GetQueueTable()
         {
-            var categories = _queueSettingsRepository.GetCategories();
-            var priorities = _queueSettingsRepository.GetPriorities();
             var result = new QueuePatternVm
             {
                 Items = _queueSettingsRepository.GetQueuePatternItems()
@@ -67,8 +64,8 @@ namespace Gravitas.Platform.Web.Manager.Admin
                         Priority = t.PriorityId,
                         ReceiverId = t.PartnerId,
                         Category = t.CategoryId,
-                        CategoryDescription = categories.FirstOrDefault(category => category.Id == (int) t.CategoryId)?.Description,
-                        PriorityDescription = priorities.FirstOrDefault(priority => priority.Id == (int) t.PriorityId)?.Description,
+                        CategoryDescription = t.CategoryId.GetDescription(),
+                        PriorityDescription = t.PriorityId.GetDescription(),
                         ReceiverName = t.PartnerId == null? null :_externalDataRepository.GetPartnerDetail(t.PartnerId).ShortName,
                         IsFixed = t.CategoryId != QueueCategory.Partners
                     })

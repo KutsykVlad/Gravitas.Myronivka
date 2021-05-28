@@ -9,7 +9,6 @@ using Gravitas.DAL.Mapping.MixedFeed;
 using Gravitas.DAL.Mapping.OpData;
 using Gravitas.DAL.Mapping.OpData.NodeOpData;
 using Gravitas.DAL.Mapping.OpDataEvent;
-using Gravitas.DAL.Mapping.OpRoutine;
 using Gravitas.DAL.Mapping.OrganizationUnit;
 using Gravitas.DAL.Mapping.OwnTransport;
 using Gravitas.DAL.Mapping.PackingTare;
@@ -50,7 +49,6 @@ using Gravitas.Model.DomainModel.MixedFeed.DAO;
 using Gravitas.Model.DomainModel.OpCameraImage;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
-using Gravitas.Model.DomainModel.OpRoutine.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.DomainModel.OrganizationUnit.DAO;
 using Gravitas.Model.DomainModel.OwnTransport.DAO;
@@ -88,7 +86,6 @@ namespace Gravitas.DAL.DbContext
         public DbSet<Card> Cards { get; set; }
         public DbSet<Model.DomainModel.Node.DAO.Node> Nodes { get; set; }
         public DbSet<SingleWindowOpData> SingleWindowOpDatas { get; set; }
-        public DbSet<Settings> Set { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketContainer> TicketContainers { get; set; }
         public DbSet<DeviceParam> DeviceParams { get; set; }
@@ -136,13 +133,11 @@ namespace Gravitas.DAL.DbContext
         public DbSet<SecurityCheckOutOpData> SecurityCheckOutOpDatas { get; set; }
         public DbSet<QueuePatternItem> QueuePatternItems { get; set; }
         public DbSet<MixedFeedSilo> MixedFeedSilos { get; set; }
-        public DbSet<OpRoutineState> OpRoutineStates { get; set; }
         public DbSet<PhoneDictionary> PhoneDictionaries { get; set; }
         public DbSet<TicketFile> TicketFiles { get; set; }
         public DbSet<UnloadPointOpData> UnloadPointOpDatas { get; set; }
         public DbSet<Model.DomainModel.Sms.DAO.SmsTemplate> SmsTemplates { get; set; }
         public DbSet<PreRegisterProduct> PreRegisterProducts { get; set; }
-        public DbSet<Model.DomainModel.OpDataState.DAO.OpDataState> OpDataStates { get; set; }
         public DbSet<SupplyTransportType> SupplyTransportTypes { get; set; }
         public DbSet<SupplyType> SupplyTypes { get; set; }
         public DbSet<YearOfHarvest> YearOfHarvests { get; set; }
@@ -151,15 +146,9 @@ namespace Gravitas.DAL.DbContext
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new CardMap());
-            modelBuilder.Configurations.Add(new CardTypeMap());
             modelBuilder.Configurations.Add(new TicketMap());
-            modelBuilder.Configurations.Add(new TicketStatusMap());
             modelBuilder.Configurations.Add(new TicketContainerMap());
-            modelBuilder.Configurations.Add(new TicketContainerStatusMap());
             modelBuilder.Configurations.Add(new TicketFileMap());
-            modelBuilder.Configurations.Add(new TicketFileTypeMap());
-            modelBuilder.Configurations.Add(new OpRoutineMap());
-            modelBuilder.Configurations.Add(new OpRoutineStateMap());
             modelBuilder.Configurations.Add(new OpVisaMap());
             modelBuilder.Configurations.Add(new OpCameraImageMap());
             modelBuilder.Configurations.Add(new PhoneDictionaryMap());
@@ -169,17 +158,13 @@ namespace Gravitas.DAL.DbContext
             modelBuilder.Configurations.Add(new EndPointNodeMap());
             modelBuilder.Configurations.Add(new RouteTemplateMap());
             modelBuilder.Configurations.Add(new DeviceMap());
-            modelBuilder.Configurations.Add(new DeviceTypeMap());
             modelBuilder.Configurations.Add(new DeviceParamMap());
             modelBuilder.Configurations.Add(new DeviceStateMap());
             modelBuilder.Configurations.Add(new OrganizationUnitMap());
             modelBuilder.Configurations.Add(new OrganizationUnitTypeMap());
             modelBuilder.Configurations.Add(new TrafficHistoryMap());
-            modelBuilder.Configurations.Add(new PriorityMap());
-            modelBuilder.Configurations.Add(new CategoryMap());
             modelBuilder.Configurations.Add(new QueuePatternItemMap());
             modelBuilder.Configurations.Add(new SmsTemplateMap());
-            modelBuilder.Configurations.Add(new OpDataStateMap());
             modelBuilder.Configurations.Add(new LabFacelessOpDataMap());
             modelBuilder.Configurations.Add(new CentralLabOpDataMap());
             modelBuilder.Configurations.Add(new LabFacelessOpDataComponentMap());

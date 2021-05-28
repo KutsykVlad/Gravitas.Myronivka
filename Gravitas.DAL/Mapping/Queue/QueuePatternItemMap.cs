@@ -12,14 +12,12 @@ namespace Gravitas.DAL.Mapping.Queue
 
             Property(e => e.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
-            HasRequired(t => t.QueueItemCategory)
-                .WithMany(t => t.QueuePatternItemsSet)
-                .HasForeignKey(t=>t.CategoryId);
-
-            HasRequired(t => t.QueueItemPriority)
-                .WithMany(t => t.Items)
-                .HasForeignKey(t=>t.PriorityId);
+            
+            Property(e => e.CategoryId)
+                .IsRequired();
+            
+            Property(e => e.PriorityId)
+                .IsRequired();
 
             HasOptional(t => t.Partner)
                 .WithMany(t => t.QueuePatternItemsSet)

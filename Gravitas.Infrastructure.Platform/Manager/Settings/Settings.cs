@@ -22,7 +22,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Settings
 
         private void Update()
         {
-            var s = _context.Set.First();
+            var s = _context.Settings.First();
             AdminEmail = s.AdminEmail;
             QueueDisplayText = s.QueueDisplayText;
             LabDataExpireMinutes = s.LabDataExpireMinutes;
@@ -32,7 +32,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Settings
         
         public void Save()
         {
-            var settings = _context.Set.First();
+            var settings = _context.Settings.First();
             if (settings == null) {
                 throw new Exception("No settings");
             }

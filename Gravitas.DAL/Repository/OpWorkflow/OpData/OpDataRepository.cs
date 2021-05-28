@@ -5,7 +5,6 @@ using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.OpData.DAO.Base;
 using Gravitas.Model.DomainModel.OpData.TDO.Detail;
-using Gravitas.Model.DomainModel.OpDataState.DTO.Detail;
 using Gravitas.Model.DomainValue;
 using SingleWindowOpData = Gravitas.Model.DomainModel.OpData.DAO.SingleWindowOpData;
 
@@ -18,19 +17,7 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
         {
             _context = context;
         }
-
-        public OpDataStateDetail GetOpDataStateDetail(OpDataState id)
-        {
-            var dao = _context.OpDataStates.FirstOrDefault(x=> x.Id == id);
-            if (dao == null) return null;
-            var dto = new OpDataStateDetail
-            {
-                Id = dao.Id,
-                Name = dao.Name
-            };
-            return dto;
-        }
-
+        
         public ICollection<BaseOpData> GetOpDataList(long ticketId)
         {
             var dao = _context.Tickets.AsNoTracking().FirstOrDefault(x => x.Id == ticketId);

@@ -8,9 +8,8 @@ namespace Gravitas.DAL.Mapping.OpData.NodeOpData
         {
             ToTable("opd.NonStandartOpData");
 
-            HasRequired(e => e.OpDataState)
-                .WithMany(e => e.NonStandartOpDataSet)
-                .HasForeignKey(e => e.StateId);
+            Property(e => e.StateId)
+                .IsRequired();
 
             HasOptional(e => e.Node)
                 .WithMany(e => e.NonStandartOpDataSet)

@@ -8,7 +8,6 @@ using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Common.Attribute;
 using Gravitas.Model.DomainValue;
-using Gravitas.Platform.Web.Manager.Node;
 using Gravitas.Platform.Web.ViewModel;
 
 namespace Gravitas.Platform.Web.Controllers
@@ -16,27 +15,16 @@ namespace Gravitas.Platform.Web.Controllers
     public class NodeController : Controller
     {
         private readonly NodeRepository _nodeRepository;
-        private readonly NodeWebManager _nodeWebManager;
         private readonly GravitasDbContext _context;
 
         public NodeController(
             NodeRepository nodeRepository,
-            NodeWebManager nodeWebManager, 
             GravitasDbContext context)
         {
             _nodeRepository = nodeRepository;
-            _nodeWebManager = nodeWebManager;
             _context = context;
         }
 
-        public ActionResult NodeProgres(int? id)
-        {
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var resultVm = _nodeWebManager.GetNodeProgress(id.Value);
-            return PartialView("_NodeProgres", resultVm);
-        }
-        
         public ActionResult RoutineSingle(int? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

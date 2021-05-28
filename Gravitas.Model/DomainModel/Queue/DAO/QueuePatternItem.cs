@@ -12,7 +12,5 @@ namespace Gravitas.Model.DomainModel.Queue.DAO
 		public string PartnerId { get; set; }
         
         public Partner Partner { get; set; }
-        public QueueItemPriority QueueItemPriority { get; set; }
-        public QueueItemCategory QueueItemCategory { get; set; }
     }
 }

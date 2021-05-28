@@ -10,8 +10,6 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
 {
     public interface IOpDataRepository : IBaseRepository
     {
-        OpDataStateDetail GetOpDataStateDetail(OpDataState id);
-
         ICollection<BaseOpData> GetOpDataList(long ticketId);
         BaseOpData GetLastOpData(long? ticketId, OpDataState? stateId = null);
 

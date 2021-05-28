@@ -1,11 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
-using Gravitas.DAL.Repository.Queue;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Queue.DAO;
+using Gravitas.Model.DomainValue;
 
-namespace Gravitas.DAL
+namespace Gravitas.DAL.Repository.Queue
 {
     public class QueueSettingsRepository : BaseRepository, IQueueSettingsRepository
     {
@@ -21,14 +23,30 @@ namespace Gravitas.DAL
             return GetQuery<QueuePatternItem, int>();
         }
 
-        public IQueryable<QueueItemPriority> GetPriorities()
+        public List<string> GetPriorities()
         {
-            return GetQuery<QueueItemPriority, int>();
+            var result = new List<string>();
+            var names = Enum.GetNames(typeof(QueueItemPriority));
+            foreach (var name in names)
+            {
+                var field = typeof(QueueItemPriority).GetField(name);
+                var fds = field.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                result.AddRange(from DescriptionAttribute fd in fds select fd.Description);
+            }
+            return result;
         }
 
-        public IQueryable<QueueItemCategory> GetCategories()
+        public List<string> GetCategories()
         {
-            return GetQuery<QueueItemCategory, int>();
+            var result = new List<string>();
+            var names = Enum.GetNames(typeof(QueueItemCategory));
+            foreach (var name in names)
+            {
+                var field = typeof(QueueItemCategory).GetField(name);
+                var fds = field.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                result.AddRange(from DescriptionAttribute fd in fds select fd.Description);
+            }
+            return result;
         }
     }
 }

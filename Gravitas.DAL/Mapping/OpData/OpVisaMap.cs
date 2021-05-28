@@ -16,9 +16,8 @@ namespace Gravitas.DAL.Mapping.OpData
                 .WithMany(e => e.OpVisaSet)
                 .HasForeignKey(e => e.EmployeeId);
 
-            HasRequired(e => e.OpRoutineState)
-                .WithMany(e => e.OpVisaSet)
-                .HasForeignKey(e => e.OpRoutineStateId);
+            Property(e => e.OpRoutineStateId)
+                .IsRequired();
         }
     }
 }

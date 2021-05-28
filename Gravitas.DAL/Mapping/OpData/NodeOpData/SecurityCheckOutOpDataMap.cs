@@ -8,9 +8,8 @@ namespace Gravitas.DAL.Mapping.OpData.NodeOpData
         {
             ToTable("opd.SecurityCheckOutOpData");
 
-            HasRequired(e => e.OpDataState)
-                .WithMany(e => e.SecurityCheckOutOpDataSet)
-                .HasForeignKey(e => e.StateId);
+            Property(e => e.StateId)
+                .IsRequired();
 
             HasOptional(e => e.Ticket)
                 .WithMany(e => e.SecurityCheckOutOpDataSet)

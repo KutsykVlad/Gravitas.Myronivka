@@ -20,9 +20,8 @@ namespace Gravitas.DAL.Mapping.Ticket
             Property(p => p.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            HasRequired(e => e.TicketStatus)
-                .WithMany(e => e.TicketSet)
-                .HasForeignKey(e => e.StatusId);
+            Property(e => e.StatusId)
+                .IsRequired();
         }
     }
 }

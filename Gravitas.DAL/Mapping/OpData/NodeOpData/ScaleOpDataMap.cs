@@ -32,9 +32,8 @@ namespace Gravitas.DAL.Mapping.OpData.NodeOpData
             Property(e => e.TrailerWeightIsAccepted)
                 .IsOptional();
 
-            HasRequired(e => e.OpDataState)
-                .WithMany(e => e.ScaleOpDataSet)
-                .HasForeignKey(e => e.StateId);
+            Property(e => e.StateId)
+                .IsRequired();
 
             HasOptional(e => e.Ticket)
                 .WithMany(e => e.ScaleOpDataSet)

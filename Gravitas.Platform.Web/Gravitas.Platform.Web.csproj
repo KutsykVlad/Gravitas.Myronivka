@@ -320,7 +320,7 @@
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\MixedFeedManageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="DepedencyInjection\WebTypeResolver.cs" />
+    <Compile Include="DependencyInjection\WebTypeResolver.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -369,8 +369,6 @@
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.cs" />
     <Compile Include="Manager\OrganizationUnit\IOrganizationUnitWebManager.cs" />
     <Compile Include="Manager\OrganizationUnit\OrganizationUnitWebManager.cs" />
-    <Compile Include="Manager\Node\INodeManager.cs" />
-    <Compile Include="Manager\Node\NodeManager.cs" />
     <Compile Include="Manager\Workstation\IWorkstationWebManager.cs" />
     <Compile Include="Manager\Workstation\WorkstationWebManager.cs" />
     <Compile Include="Manager\User\IUserWebManager.cs" />

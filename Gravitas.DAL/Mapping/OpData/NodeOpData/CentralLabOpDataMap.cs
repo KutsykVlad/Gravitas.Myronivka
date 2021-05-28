@@ -16,10 +16,9 @@ namespace Gravitas.DAL.Mapping.OpData.NodeOpData
                 .HasColumnType("datetime2")
                 .IsOptional();
 
-            HasRequired(e => e.OpDataState)
-                .WithMany(e => e.CentralLabOpDataSet)
-                .HasForeignKey(e => e.StateId);
-
+            Property(e => e.StateId)
+                .IsRequired();
+            
             HasOptional(e => e.Ticket)
                 .WithMany(e => e.CentralLabOpDataSet)
                 .HasForeignKey(e => e.TicketId);

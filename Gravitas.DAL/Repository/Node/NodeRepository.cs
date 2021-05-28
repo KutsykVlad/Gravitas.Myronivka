@@ -45,7 +45,6 @@ namespace Gravitas.DAL.Repository.Node
                 {
                     Id = node.Id,
                     OrganisationUnitId = node.OrganisationUnitId,
-                    OpRoutineId = node.OpRoutineId,
                     Code = node.Code,
                     Name = node.Name,
                     IsActive = node.IsActive,
@@ -114,9 +113,7 @@ namespace Gravitas.DAL.Repository.Node
             {
                 Id = dao.Id,
                 Code = dao.Code,
-                Name = dao.Name,
-                OpRoutineId = dao.OpRoutineId,
-                OpRoutineName = dao.OpRoutine.Name
+                Name = dao.Name
             };
         }
 

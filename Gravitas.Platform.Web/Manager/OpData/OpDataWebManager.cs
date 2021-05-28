@@ -5,6 +5,7 @@ using AutoMapper;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.Infrastructure.Common.Helper;
 using Gravitas.Infrastructure.Platform.Manager.Node;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO.Base;
@@ -28,43 +29,6 @@ namespace Gravitas.Platform.Web.Manager.OpData
         private readonly INodeManager _nodeManager;
         private readonly IOpDataRepository _opDataRepository;
         private readonly GravitasDbContext _context;
-
-        private Dictionary<OpDataState, string> States = new Dictionary<OpDataState, string>
-        {
-            {
-                OpDataState.Init, "Бланк"
-            },
-            {
-                OpDataState.Processing, "В обробці"
-            },
-            {
-                OpDataState.Collision, "На погодженні"
-            },
-            {
-                OpDataState.CollisionApproved, "Погодженно"
-            },
-            {
-                OpDataState.CollisionDisapproved, "Відмовлено у погодженні"
-            },
-            {
-                OpDataState.Rejected, "Відмовлено"
-            },
-            {
-                OpDataState.Canceled, "Скасовано"
-            },
-            {
-                OpDataState.Processed, "Виконано"
-            },
-            {
-                OpDataState.PartLoad, "Часткове завантаження"
-            },
-            {
-                OpDataState.PartUnload, "Часткове розвантаження"
-            },
-            {
-                OpDataState.Reload, "Перезавантаження"
-            }
-        };
 
         public OpDataWebManager(IOpDataRepository opDataRepository,
             INodeManager nodeManager,
@@ -108,7 +72,7 @@ namespace Gravitas.Platform.Web.Manager.OpData
                     CheckInDateTime = item.CheckInDateTime,
                     CheckOutDateTime = item.CheckOutDateTime,
                     StateId = item.StateId,
-                    StateName = States[item.StateId],
+                    StateName = item.StateId.GetDescription(),
                     NodeId = item.NodeId,
                     NodeName = item.Node.Name,
                     NodeCode = item.Node.Code,
@@ -119,7 +83,7 @@ namespace Gravitas.Platform.Web.Manager.OpData
                     Signatures = item.OpVisaSet.Select(t => new OpDataItemSignature
                     {
                         ExternalUserName = t.Employee?.FullName ?? t.Employee?.ShortName ?? string.Empty,
-                        State = t.OpRoutineState.Name,
+                        State = ((OpDataState)t.OpRoutineStateId).GetDescription(),
                         Time = t.DateTime
                     }).ToList()
                 })
@@ -267,7 +231,7 @@ namespace Gravitas.Platform.Web.Manager.OpData
                     Id = e.Id,
                     LabFacelessOpDataId = e.LabFacelessOpDataId,
                     StateId = e.StateId,
-                    StateName = States[e.StateId],
+                    StateName = e.StateId.GetDescription(),
                     AnalysisTrayRfid = e.AnalysisTrayRfid,
                     AnalysisValueDescriptor = Mapper.Map<LaboratoryInVms.AnalysisValueDescriptorVm>(e.AnalysisValueDescriptor),
                     ImpurityClassName = _context.LabImpurityСlassifiers.FirstOrDefault(x => x.Id == e.ImpurityClassId)?.Name,

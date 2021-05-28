@@ -74,10 +74,8 @@
     <Compile Include="Mapping\BlackList\TrailerBlackListMap.cs" />
     <Compile Include="Mapping\BlackList\TransportBlackListMap.cs" />
     <Compile Include="Mapping\Card\CardMap.cs" />
-    <Compile Include="Mapping\Card\CardTypeMap.cs" />
     <Compile Include="Mapping\Device\DeviceMap.cs" />
     <Compile Include="Mapping\Device\DeviceStateMap.cs" />
-    <Compile Include="Mapping\Device\DeviceTypeMap.cs" />
     <Compile Include="Mapping\Device\DeviceParamMap.cs" />
     <Compile Include="Mapping\EmployeeRoles\AssignmentMap.cs" />
     <Compile Include="Mapping\EmployeeRoles\EmployeeRolesMap.cs" />
@@ -125,10 +123,7 @@
     <Compile Include="Mapping\OpData\NodeOpData\_BaseOpDataMap.cs" />
     <Compile Include="Mapping\OpData\NodeOpData\NonRoutineOpDataMap.cs" />
     <Compile Include="Mapping\OpData\OpCameraImageMap.cs" />
-    <Compile Include="Mapping\OpData\OpDataStateMap.cs" />
     <Compile Include="Mapping\OpData\OpVisaMap.cs" />
-    <Compile Include="Mapping\OpRoutine\OpRoutineMap.cs" />
-    <Compile Include="Mapping\OpRoutine\OpRoutineStateMap.cs" />
     <Compile Include="Mapping\OpData\NodeOpData\LabFacelessOpDataMap.cs" />
     <Compile Include="Mapping\OpData\NodeOpData\ScaleOpDataMap.cs" />
     <Compile Include="Mapping\OpData\NodeOpData\SecurityCheckInOpDataMap.cs" />
@@ -144,17 +139,12 @@
     <Compile Include="Mapping\PreRegistration\PreRegisterProductMap.cs" />
     <Compile Include="Mapping\PreRegistration\PreRegisterQueueMap.cs" />
     <Compile Include="Mapping\Queue\QueueRegisterMap.cs" />
-    <Compile Include="Mapping\Queue\CategoryMap.cs" />
-    <Compile Include="Mapping\Queue\PriorityMap.cs" />
     <Compile Include="Mapping\Queue\QueuePatternItemMap.cs" />
     <Compile Include="Mapping\RouteTemplate\RouteTemplateMap.cs" />
     <Compile Include="Mapping\Settings\SettingsMap.cs" />
     <Compile Include="Mapping\SmsTemplates\SmsTemplateMap.cs" />
-    <Compile Include="Mapping\Ticket\TicketContainerStatusMap.cs" />
     <Compile Include="Mapping\Ticket\TicketContainerMap.cs" />
     <Compile Include="Mapping\Ticket\TicketFileMap.cs" />
-    <Compile Include="Mapping\Ticket\TicketFileTypeMap.cs" />
-    <Compile Include="Mapping\Ticket\TicketStatusMap.cs" />
     <Compile Include="Mapping\Ticket\TicketMap.cs" />
     <Compile Include="Mapping\Traffic\TrafficHistoryMap.cs" />
     <Compile Include="Mapping\_Base\BaseEntityMap.cs" />
@@ -202,6 +192,10 @@
     <Compile Include="Repository\Traffic\ITrafficRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Gravitas.Infrastrructure\Gravitas.Infrastructure.Common.csproj">
+      <Project>{d1a0c172-f6d1-4f6f-ae77-63d89e11ec63}</Project>
+      <Name>Gravitas.Infrastructure.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gravitas.Model\Gravitas.Model.csproj">
       <Project>{8a4ef9f5-fb46-4f7a-a659-4a6505174db0}</Project>
       <Name>Gravitas.Model</Name>

@@ -71,7 +71,6 @@
     <Compile Include="DomainModel\BlackList\DAO\TransportBlackListRecord.cs" />
     <Compile Include="DomainModel\BlackList\TDO\BlackListDto.cs" />
     <Compile Include="DomainModel\Device\DAO\Device.cs" />
-    <Compile Include="DomainModel\Device\DAO\DeviceType.cs" />
     <Compile Include="DomainModel\Device\TDO\DeviceParam\DisplayParam.cs" />
     <Compile Include="DomainModel\Device\TDO\DeviceParam\LabBrukerParam.cs" />
     <Compile Include="DomainModel\Device\TDO\DeviceParam\LabFossParam.cs" />
@@ -226,10 +225,8 @@
     <Compile Include="DomainModel\OpData\DAO\NonStandartOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\Base\_BaseOpData.cs" />
     <Compile Include="DomainModel\Card\DAO\Card.cs" />
-    <Compile Include="DomainModel\Card\DAO\CardType.cs" />
     <Compile Include="DomainModel\Device\DAO\DeviceParam.cs" />
     <Compile Include="DomainModel\Device\DAO\DeviceState.cs" />
-    <Compile Include="DomainModel\OpDataState\DAO\OpDataState.cs" />
     <Compile Include="DomainModel\OpData\DAO\SingleWindowOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\UnloadGuideOpData.cs" />
     <Compile Include="DomainModel\OpData\TDO\Detail\LabFacelessOpData.cs" />
@@ -246,8 +243,6 @@
     <Compile Include="DomainModel\OpVisa\DTO\List\OpVisaItems.cs" />
     <Compile Include="DomainModel\OpVisa\DTO\List\OpVisaItem.cs" />
     <Compile Include="DomainModel\OpVisa\DAO\OpVisa.cs" />
-    <Compile Include="DomainModel\OpRoutine\DAO\OpRoutine.cs" />
-    <Compile Include="DomainModel\OpRoutine\DAO\OpRoutineState.cs" />
     <Compile Include="DomainModel\OrganizationUnit\DAO\OrganizationUnitType.cs" />
     <Compile Include="DomainModel\OrganizationUnit\DAO\OrganizationUnit.cs" />
     <Compile Include="DomainModel\OpData\DAO\SecurityCheckOutOpData.cs" />
@@ -266,14 +261,9 @@
     <Compile Include="DomainModel\PreRegistration\DAO\PreRegisterProduct.cs" />
     <Compile Include="DomainModel\PreRegistration\DAO\PreRegisterQueue.cs" />
     <Compile Include="DomainModel\PreRegistration\DTO\PreRegistrationProductVm.cs" />
-    <Compile Include="DomainModel\Queue\DAO\QueueItemCategory.cs" />
-    <Compile Include="DomainModel\Queue\DAO\QueueItemPriority.cs" />
     <Compile Include="DomainModel\Settings\DAO\Settings.cs" />
     <Compile Include="DomainModel\Sms\DAO\SmsTemplate.cs" />
     <Compile Include="DomainModel\Sms\DTO\SmsTemplates.cs" />
-    <Compile Include="DomainModel\Ticket\DAO\TicketContainerStatus.cs" />
-    <Compile Include="DomainModel\Ticket\DAO\TicketFileType.cs" />
-    <Compile Include="DomainModel\Ticket\DAO\TicketStatus.cs" />
     <Compile Include="DomainModel\Ticket\DAO\TicketContainer.cs" />
     <Compile Include="DomainModel\Ticket\TDO\List\TicketItems.cs" />
     <Compile Include="DomainModel\Ticket\TDO\List\TicketItem.cs" />
@@ -299,6 +289,8 @@
     <Compile Include="DomainValue\Pdf.cs" />
     <Compile Include="DomainValue\Phone.cs" />
     <Compile Include="DomainValue\Queue.cs" />
+    <Compile Include="DomainValue\QueueItemCategory.cs" />
+    <Compile Include="DomainValue\QueueItemPriority.cs" />
     <Compile Include="DomainValue\SingleWindowReadonly.cs" />
     <Compile Include="DomainValue\TechRoute.cs" />
     <Compile Include="DomainValue\UserRole.cs" />

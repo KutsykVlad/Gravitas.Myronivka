@@ -12,6 +12,5 @@ namespace Gravitas.Model.DomainModel.Ticket.DAO
         public DomainValue.TicketFileType TypeId { get; set; }
 
         public virtual Ticket Ticket { get; set; }
-        public virtual TicketFileType TicketFileType { get; set; }
     }
 }

@@ -5,13 +5,10 @@ using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
-using Gravitas.Model.DomainModel.OpRoutine.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
 using Microsoft.Ajax.Utilities;
-using TicketFileType = Gravitas.Model.DomainValue.TicketFileType;
-using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {
@@ -210,8 +207,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (nodeDto?.Context.OpDataId == null) return;
             
             var opData = _context.CentralLabOpDatas.First(x => x.Id == nodeDto.Context.OpDataId.Value);
-            if (opData.StateId == Model.DomainValue.OpDataState.Canceled) opData.LaboratoryComment = null;
-            opData.StateId = Model.DomainValue.OpDataState.Processing;
+            if (opData.StateId == OpDataState.Canceled) opData.LaboratoryComment = null;
+            opData.StateId = OpDataState.Processing;
             _opDataRepository.Update<CentralLabOpData, Guid>(opData);
 
             nodeDto.Context.OpProcessData = null;
@@ -226,7 +223,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             
             var opData = _context.CentralLabOpDatas.First(x => x.Id == nodeDto.Context.OpDataId.Value);
             opData.LaboratoryComment = null;
-            opData.StateId = Model.DomainValue.OpDataState.Processing;
+            opData.StateId = OpDataState.Processing;
             _opDataRepository.Update<CentralLabOpData, Guid>(opData);
 
             nodeDto.Context.OpProcessData = null;
@@ -296,7 +293,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             var opData = _context.CentralLabOpDatas.First(x => x.Id ==nodeDto.Context.OpDataId.Value);
             
-            opData.StateId = Model.DomainValue.OpDataState.Canceled;
+            opData.StateId = OpDataState.Canceled;
             opData.LaboratoryComment = comment;
             _context.SaveChanges();
            
@@ -361,7 +358,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                                           DateTime = e.DateTime,
                                           Message = e.Message,
                                           UserName = _externalDataRepository.GetExternalEmployeeDetail(e.EmployeeId)?.ShortName,
-                                          Comment = GenerateLabOpVisaComment(e.OpRoutineState, item)
+                                          Comment = GenerateLabOpVisaComment(e.OpRoutineStateId, item)
                                       })
                                       .ToList();
                 vm.OpVisaItems.Items.AddRange(opDataItems);
@@ -379,7 +376,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                             DateTime = e.DateTime,
                             Message = e.Message,
                             UserName = _externalDataRepository.GetExternalEmployeeDetail(e.EmployeeId)?.ShortName,
-                            Comment = GenerateLabOpVisaComment(e.OpRoutineState, item)
+                            Comment = GenerateLabOpVisaComment(e.OpRoutineStateId, item)
                         })
                         .ToList();
                     vm.OpVisaItems.Items.AddRange(opDataItems);
@@ -390,10 +387,10 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return vm;
         }
         
-        private string GenerateLabOpVisaComment(OpRoutineState opRoutineState, CentralLabOpData centralLabOpData)
+        private string GenerateLabOpVisaComment(int opRoutineStateId, CentralLabOpData centralLabOpData)
         {
             var result = string.Empty;
-            switch (opRoutineState.Id)
+            switch (opRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.PrintAddOpVisa:
                     switch (centralLabOpData.StateId)
@@ -415,7 +412,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                         break; 
                         case OpDataState.Canceled:
                             if (centralLabOpData.OpVisaSet.Any(x =>
-                                x.OpRoutineState.Id == Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.PrintCollisionInit))
+                                x.OpRoutineStateId == Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.PrintCollisionInit))
                             {
                                 result += $"Стан: Відправлений на перемішення, Коментар: {centralLabOpData.CollisionComment}";  
                             }

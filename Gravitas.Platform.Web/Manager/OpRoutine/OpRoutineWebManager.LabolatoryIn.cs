@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Gravitas.Infrastructure.Common.Helper;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
@@ -9,15 +10,11 @@ using Gravitas.Model.DomainModel.ExternalData.ReasonForRefund.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpData.TDO.Json;
-using Gravitas.Model.DomainModel.OpRoutine.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using CardType = Gravitas.Model.DomainValue.CardType;
-using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
-using LabFacelessOpDataComponent = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpDataComponent;
 
 namespace Gravitas.Platform.Web.Manager.OpRoutine
 {
@@ -36,7 +33,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 OpDataId = nodeDto.Context.OpDataId.Value,
                 SamplePrintoutVm = LaboratoryIn_SamplePrintout_GetVm(nodeDto.Context.OpDataId.Value),
                 ReasonsForRefund = _externalDataRepository.GetQuery<ReasonForRefund, string>().ToList(),
-                OpDataState = opDataState.HasValue ? _context.OpDataStates.First(x => x.Id == opDataState.Value).Name : string.Empty,
+                OpDataState = opDataState.HasValue ? opDataState.GetDescription() : string.Empty,
                 IsLabFile = _ticketRepository.GetTicketFilesByType(TicketFileType.LabCertificate).Any(item => item.TicketId == nodeDto.Context.TicketId)
             };
 
@@ -518,7 +515,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                                 DataSourceName = e.DataSourceName,
                                 LabFacelessOpDataId = e.LabFacelessOpDataId,
                                 StateId = e.StateId,
-                                StateName = _opDataRepository.GetOpDataStateDetail(e.StateId)?.Name ?? @"Хибний стан",
+                                StateName = @"Хибний стан",
                                 AnalysisTrayRfid = e.AnalysisTrayRfid,
                                 AnalysisValueDescriptor = Mapper.Map<LaboratoryInVms.AnalysisValueDescriptorVm>(e.AnalysisValueDescriptor),
 
@@ -839,7 +836,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     DateTime = e.DateTime,
                     Message = e.Message,
                     UserName = _externalDataRepository.GetExternalEmployeeDetail(e.EmployeeId)?.ShortName,
-                    Comment = GenerateLabOpVisaComment(e.OpRoutineState, labFacelessOpData)
+                    Comment = GenerateLabOpVisaComment(e.OpRoutineStateId, labFacelessOpData)
                 }).ToList()
             };
 
@@ -863,10 +860,10 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return vm;
         }
 
-        private string GenerateLabOpVisaComment(OpRoutineState opRoutineState, LabFacelessOpData labFacelessOpData)
+        private string GenerateLabOpVisaComment(int opRoutineStateId, LabFacelessOpData labFacelessOpData)
         {
             var result = string.Empty;
-            switch (opRoutineState.Id)
+            switch (opRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintAddOpVisa:
                     var state = labFacelessOpData.StateId == OpDataState.Rejected ? "Відмовлено" : "Опрацьовано";
