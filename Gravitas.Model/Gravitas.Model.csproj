@@ -99,7 +99,6 @@
     <Compile Include="DomainModel\EmployeeRoles\DAO\Role.cs" />
     <Compile Include="DomainModel\EmployeeRoles\DTO\RolesDto.cs" />
     <Compile Include="DomainModel\EmployeeRoles\DTO\RoleDetail.cs" />
-    <Compile Include="DomainModel\EndPointNodes\DAO\EndPointNode.cs" />
     <Compile Include="DomainModel\ExternalData\AcceptancePoint\DTO\Detail\AcceptancePointDetail.cs" />
     <Compile Include="DomainModel\ExternalData\AcceptancePoint\DTO\List\AcceptancePointItems.cs" />
     <Compile Include="DomainModel\ExternalData\AcceptancePoint\DTO\List\AcceptancePointItem.cs" />

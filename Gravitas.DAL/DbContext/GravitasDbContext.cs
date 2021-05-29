@@ -3,7 +3,6 @@ using Gravitas.DAL.Mapping.BlackList;
 using Gravitas.DAL.Mapping.Card;
 using Gravitas.DAL.Mapping.Device;
 using Gravitas.DAL.Mapping.EmployeeRoles;
-using Gravitas.DAL.Mapping.EndPointNode;
 using Gravitas.DAL.Mapping.ExternalData;
 using Gravitas.DAL.Mapping.MixedFeed;
 using Gravitas.DAL.Mapping.OpData;
@@ -145,7 +144,6 @@ namespace Gravitas.DAL.DbContext
             modelBuilder.Configurations.Add(new PhoneDictionaryMap());
             modelBuilder.Configurations.Add(new PhoneInformTicketAssignmentMap());
             modelBuilder.Configurations.Add(new MixedFeedSiloMap());
-            modelBuilder.Configurations.Add(new EndPointNodeMap());
             modelBuilder.Configurations.Add(new RouteTemplateMap());
             modelBuilder.Configurations.Add(new DeviceMap());
             modelBuilder.Configurations.Add(new DeviceParamMap());

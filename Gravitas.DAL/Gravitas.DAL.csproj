@@ -60,7 +60,6 @@
     <Compile Include="Mapping\EmployeeRoles\AssignmentMap.cs" />
     <Compile Include="Mapping\EmployeeRoles\EmployeeRolesMap.cs" />
     <Compile Include="Mapping\EmployeeRoles\RoleMap.cs" />
-    <Compile Include="Mapping\EndPointNode\EndPointNode.cs" />
     <Compile Include="Mapping\ExternalData\AcceptancePointMap.cs" />
     <Compile Include="Mapping\ExternalData\BudgetMap.cs" />
     <Compile Include="Mapping\ExternalData\ContractMap.cs" />

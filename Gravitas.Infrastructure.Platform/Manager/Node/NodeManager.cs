@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
-using Gravitas.Model.DomainModel.EndPointNodes.DAO;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Node
 {
@@ -42,9 +41,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Node
 
         public List<int> GetEndPointNodes()
         {
-            return _nodeRepository.GetQuery<EndPointNode, int>()
-                .Select(x => x.NodeId)
-                .ToList();
+            return new List<int>();
         }
     }
 }
