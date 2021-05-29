@@ -13,7 +13,6 @@ using Gravitas.DAL.Repository.OwnTransport;
 using Gravitas.DAL.Repository.PackingTare;
 using Gravitas.DAL.Repository.PhoneInformTicketAssignment;
 using Gravitas.DAL.Repository.Phones;
-using Gravitas.DAL.Repository.PreRegistration;
 using Gravitas.DAL.Repository.Queue;
 using Gravitas.DAL.Repository.Sms;
 using Gravitas.DAL.Repository.Ticket;
@@ -113,7 +112,6 @@ namespace Gravitas.Platform.Web.DependencyInjection
             container.RegisterType<IQueueInfrastructure, QueueInfrastructure>();
             container.RegisterType<ICentralLaboratoryManager, CentralLaboratoryManager>();
             container.RegisterType<IScaleManager, ScaleManager>();
-            container.RegisterType<IPreRegistrationRepository, PreRegistrationRepository>();
             container.RegisterType<IOwnTransportRepository, OwnTransportRepository>();
             container.RegisterType<IPackingTareRepository, PackingTareRepository>();
         }

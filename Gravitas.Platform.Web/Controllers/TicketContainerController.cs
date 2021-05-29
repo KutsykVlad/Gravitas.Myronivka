@@ -8,7 +8,6 @@ using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model.DomainModel.OpData.DAO;
-using Gravitas.Model.DomainModel.PreRegistration.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager.Ticket;
@@ -108,32 +107,6 @@ namespace Gravitas.Platform.Web.Controllers
             SignalRInvoke.ReloadHubGroup(nodeId);
         }
         
-        [HttpPost]
-        public ActionResult PreRegisterTicketContainerList(ActionLinkVm detailActionLink)
-        {
-            if (!detailActionLink.NodeId.HasValue) return new HttpStatusCodeResult(400);
-
-            var items = _opDataRepository.GetQuery<PreRegisterQueue, int>()
-                .ToList()
-                .Where(x => x.RegisterDateTime.AddMinutes(30) > DateTime.Now)
-                .Select(x => new PreRegisterTicketContainerItemVm
-                {
-                    PredictionEntranceTime = x.RegisterDateTime, 
-                    PhoneNo = x.PhoneNo,
-                    Notice = x.Notice,
-                    TruckNumber = x.TruckNumber
-                })
-                .ToList();
-
-            var vm = new PreRegisterTicketContainerListVm
-            {
-                DetailActionLink = detailActionLink,
-                Items = items
-            };
-
-            return PartialView("_PreRegisterTicketContainerList", vm);
-        }
-
         #endregion
 
         #region Laboratory

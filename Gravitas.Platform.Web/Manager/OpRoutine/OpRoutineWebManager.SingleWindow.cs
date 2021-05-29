@@ -4,7 +4,6 @@ using Gravitas.Infrastructure.Platform.ApiClient.OneC;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainModel.PhoneInformTicketAssignment.DAO;
-using Gravitas.Model.DomainModel.PreRegistration.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Employee;
@@ -450,29 +449,6 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return false;
             }
 
-            var preRegisterPhone = data.ContactPhoneNo.Replace("+", string.Empty);
-            var preRegisterRecord = _opDataRepository.GetSingleOrDefault<PreRegisterQueue, int>(x => x.PhoneNo == preRegisterPhone);
-            if (preRegisterRecord != null)
-            {
-                Logger.Debug($"SingleWindow_EditTicketForm_Save: Pre register item found. preRegisterRecord.Id = {preRegisterRecord.Id}");
-
-                if (preRegisterRecord.RegisterDateTime.AddMinutes(-30) > DateTime.Now)
-                {
-                    _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning,
-                        $"Номер телефону знаходиться в списку попередньої реєстрації. Запланована година реєстрації: { preRegisterRecord.RegisterDateTime }"));
-
-                    return false;
-                }
-
-                if (preRegisterRecord.RegisterDateTime.AddMinutes(30) < DateTime.Now)
-                {
-                    _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
-                        $"Номер телефону знаходиться в списку попередньої реєстрації. Автомобіль протермінував час реєстрації: { preRegisterRecord.RegisterDateTime }"));
-
-                    return false;
-                }
-            }
-
             if (data.IsThirdPartyCarrier)
             {
                 var blackListRegistry = _blackListRepository.GetBlackListDto();
@@ -520,14 +496,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
 
             data.EditDate = DateTime.Now;
-            if (preRegisterRecord != null)
-            {
-                ticket.RouteTemplateId = preRegisterRecord.RouteTemplateId;
-                _opDataRepository.Update<Model.DomainModel.Ticket.DAO.Ticket, int>(ticket);
-
-                data.IsPreRegistered = true;
-                _opDataRepository.Delete<PreRegisterQueue, int>(preRegisterRecord);
-            }
+           
             _opDataRepository.SetSingleWindowDetail(Mapper.Map<SingleWindowOpDataDetail>(data));
             SaveOnTicketRegisterInformEmployee(data.OnRegisterInformEmployees, data.TicketId.Value);
 

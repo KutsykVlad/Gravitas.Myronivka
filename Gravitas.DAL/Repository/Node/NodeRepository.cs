@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
@@ -48,8 +49,6 @@ namespace Gravitas.DAL.Repository.Node
                     Code = node.Code,
                     Name = node.Name,
                     IsActive = node.IsActive,
-                    IsStart = node.IsStart,
-                    IsFinish = node.IsFinish,
                     IsEmergency = node.IsEmergency,
                     Quota = node.Quota,
                     MaximumProcessingTime = node.MaximumProcessingTime,

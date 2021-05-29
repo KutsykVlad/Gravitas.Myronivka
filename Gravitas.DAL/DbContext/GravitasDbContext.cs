@@ -14,7 +14,6 @@ using Gravitas.DAL.Mapping.OwnTransport;
 using Gravitas.DAL.Mapping.PackingTare;
 using Gravitas.DAL.Mapping.PhoneDictionary;
 using Gravitas.DAL.Mapping.PhoneInformTicketAssignment;
-using Gravitas.DAL.Mapping.PreRegistration;
 using Gravitas.DAL.Mapping.Queue;
 using Gravitas.DAL.Mapping.RouteTemplate;
 using Gravitas.DAL.Mapping.Settings;
@@ -55,7 +54,6 @@ using Gravitas.Model.DomainModel.PackingTare.DAO;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Model.DomainModel.PhoneInformTicketAssignment.DAO;
 using Gravitas.Model.DomainModel.PredefinedRoute.DAO;
-using Gravitas.Model.DomainModel.PreRegistration.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainModel.Settings.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
@@ -70,7 +68,6 @@ namespace Gravitas.DAL.DbContext
         }
 
         public DbSet<Settings> Settings { get; set; }
-        public DbSet<PreRegisterQueue> PreRegisterQueues { get; set; }
         public DbSet<ExternalUser> ExternalUsers { get; set; }
         public DbSet<DriversBlackListRecord> DriversBlackListRecords { get; set; }
         public DbSet<TransportBlackListRecord> TransportBlackListRecords { get; set; }
@@ -132,7 +129,6 @@ namespace Gravitas.DAL.DbContext
         public DbSet<PhoneDictionary> PhoneDictionaries { get; set; }
         public DbSet<TicketFile> TicketFiles { get; set; }
         public DbSet<UnloadPointOpData> UnloadPointOpDatas { get; set; }
-        public DbSet<PreRegisterProduct> PreRegisterProducts { get; set; }
         public DbSet<SupplyTransportType> SupplyTransportTypes { get; set; }
         public DbSet<SupplyType> SupplyTypes { get; set; }
         public DbSet<YearOfHarvest> YearOfHarvests { get; set; }
@@ -205,13 +201,10 @@ namespace Gravitas.DAL.DbContext
             modelBuilder.Configurations.Add(new TransportBlackListMap());
             modelBuilder.Configurations.Add(new QueueRegisterMap());
             modelBuilder.Configurations.Add(new OpDataEventMap());
-            modelBuilder.Configurations.Add(new PreRegisterProductMap());
-            modelBuilder.Configurations.Add(new PreRegisterCompanyMap());
             modelBuilder.Configurations.Add(new OwnTransportMap());
             modelBuilder.Configurations.Add(new PackingTareMap());
             modelBuilder.Configurations.Add(new TicketPackingTareMap());
             modelBuilder.Configurations.Add(new SettingsMap());
-            modelBuilder.Configurations.Add(new PreRegisterQueueMap());
         }
     }
 }

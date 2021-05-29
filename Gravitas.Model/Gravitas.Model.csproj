@@ -233,10 +233,6 @@
     <Compile Include="DomainModel\PackingTare\DTO\TicketPackingTareVm.cs" />
     <Compile Include="DomainModel\PhoneDictionary\DAO\PhoneDictionary.cs" />
     <Compile Include="DomainModel\PredefinedRoute\DAO\RouteTemplate.cs" />
-    <Compile Include="DomainModel\PreRegistration\DAO\PreRegisterCompany.cs" />
-    <Compile Include="DomainModel\PreRegistration\DAO\PreRegisterProduct.cs" />
-    <Compile Include="DomainModel\PreRegistration\DAO\PreRegisterQueue.cs" />
-    <Compile Include="DomainModel\PreRegistration\DTO\PreRegistrationProductVm.cs" />
     <Compile Include="DomainModel\Settings\DAO\Settings.cs" />
     <Compile Include="DomainModel\Ticket\DAO\TicketContainer.cs" />
     <Compile Include="DomainModel\Ticket\TDO\List\TicketItems.cs" />

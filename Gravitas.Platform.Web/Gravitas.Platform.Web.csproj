@@ -78,8 +78,6 @@
     <Compile Include="Controllers\NonStandardController.cs" />
     <Compile Include="Controllers\OwnTransportController.cs" />
     <Compile Include="Controllers\PackingTareController.cs" />
-    <Compile Include="Controllers\PreRegister\PreRegisterCompaniesController.cs" />
-    <Compile Include="Controllers\PreRegister\PreRegisterProductsController.cs" />
     <Compile Include="Controllers\Routine\CentralLaboratoryProcessController.cs" />
     <Compile Include="Controllers\Routine\CentralLaboratorySamplesController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
