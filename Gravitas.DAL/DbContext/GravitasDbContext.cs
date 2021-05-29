@@ -1,23 +1,4 @@
 using System.Data.Entity;
-using Gravitas.DAL.Mapping.BlackList;
-using Gravitas.DAL.Mapping.Card;
-using Gravitas.DAL.Mapping.Device;
-using Gravitas.DAL.Mapping.EmployeeRoles;
-using Gravitas.DAL.Mapping.ExternalData;
-using Gravitas.DAL.Mapping.MixedFeed;
-using Gravitas.DAL.Mapping.OpData;
-using Gravitas.DAL.Mapping.OpData.NodeOpData;
-using Gravitas.DAL.Mapping.OpDataEvent;
-using Gravitas.DAL.Mapping.OrganizationUnit;
-using Gravitas.DAL.Mapping.OwnTransport;
-using Gravitas.DAL.Mapping.PackingTare;
-using Gravitas.DAL.Mapping.PhoneDictionary;
-using Gravitas.DAL.Mapping.PhoneInformTicketAssignment;
-using Gravitas.DAL.Mapping.Queue;
-using Gravitas.DAL.Mapping.RouteTemplate;
-using Gravitas.DAL.Mapping.Settings;
-using Gravitas.DAL.Mapping.Ticket;
-using Gravitas.DAL.Mapping.Traffic;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.DAO;
@@ -132,77 +113,5 @@ namespace Gravitas.DAL.DbContext
         public DbSet<SupplyType> SupplyTypes { get; set; }
         public DbSet<YearOfHarvest> YearOfHarvests { get; set; }
         public DbSet<SecurityCheckInOpData> SecurityCheckInOpDatas { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Configurations.Add(new CardMap());
-            modelBuilder.Configurations.Add(new TicketMap());
-            modelBuilder.Configurations.Add(new TicketContainerMap());
-            modelBuilder.Configurations.Add(new TicketFileMap());
-            modelBuilder.Configurations.Add(new OpVisaMap());
-            modelBuilder.Configurations.Add(new OpCameraImageMap());
-            modelBuilder.Configurations.Add(new PhoneDictionaryMap());
-            modelBuilder.Configurations.Add(new PhoneInformTicketAssignmentMap());
-            modelBuilder.Configurations.Add(new MixedFeedSiloMap());
-            modelBuilder.Configurations.Add(new RouteTemplateMap());
-            modelBuilder.Configurations.Add(new DeviceMap());
-            modelBuilder.Configurations.Add(new DeviceParamMap());
-            modelBuilder.Configurations.Add(new DeviceStateMap());
-            modelBuilder.Configurations.Add(new OrganizationUnitMap());
-            modelBuilder.Configurations.Add(new OrganizationUnitTypeMap());
-            modelBuilder.Configurations.Add(new TrafficHistoryMap());
-            modelBuilder.Configurations.Add(new QueuePatternItemMap());
-            modelBuilder.Configurations.Add(new LabFacelessOpDataMap());
-            modelBuilder.Configurations.Add(new CentralLabOpDataMap());
-            modelBuilder.Configurations.Add(new LabFacelessOpDataComponentMap());
-            modelBuilder.Configurations.Add(new UnloadGuideOpDataMap());
-            modelBuilder.Configurations.Add(new UnloadPointOpDataMap());
-            modelBuilder.Configurations.Add(new LoadGuideOpDataMap());
-            modelBuilder.Configurations.Add(new LoadPointOpDataMap());
-            modelBuilder.Configurations.Add(new ScaleOpDataMap());
-            modelBuilder.Configurations.Add(new SecurityCheckInOpDataMap());
-            modelBuilder.Configurations.Add(new SecurityCheckOutOpDataMap());
-            modelBuilder.Configurations.Add(new SecurityCheckReviewOpDataMap());
-            modelBuilder.Configurations.Add(new SingleWindowOpDataMap());
-            modelBuilder.Configurations.Add(new NonStandartOpDataMap());
-            modelBuilder.Configurations.Add(new AcceptancePointMap());
-            modelBuilder.Configurations.Add(new BudgetMap());
-            modelBuilder.Configurations.Add(new CropMap());
-            modelBuilder.Configurations.Add(new ContractMap());
-            modelBuilder.Configurations.Add(new EmployeeMap());
-            modelBuilder.Configurations.Add(new FixedAssetMap());
-            modelBuilder.Configurations.Add(new OrganizationMap());
-            modelBuilder.Configurations.Add(new PartnerMap());
-            modelBuilder.Configurations.Add(new ProductMap());
-            modelBuilder.Configurations.Add(new ReasonForRefundMap());
-            modelBuilder.Configurations.Add(new RouteMap());
-            modelBuilder.Configurations.Add(new StockMap());
-            modelBuilder.Configurations.Add(new SubdivisionMap());
-            modelBuilder.Configurations.Add(new ExternalUserMap());
-            modelBuilder.Configurations.Add(new YearOfHarvestMap());
-            modelBuilder.Configurations.Add(new MeasureUnitMap());
-            modelBuilder.Configurations.Add(new RoleMap());
-            modelBuilder.Configurations.Add(new AssignmentMap());
-            modelBuilder.Configurations.Add(new EmployeeRolesMap());
-            modelBuilder.Configurations.Add(new DeliveryBillStatusMap());
-            modelBuilder.Configurations.Add(new DeliveryBillTypeMap());
-            modelBuilder.Configurations.Add(new LabDeviceResultTypeMap());
-            modelBuilder.Configurations.Add(new LabHumidityClassifierMap());
-            modelBuilder.Configurations.Add(new LabImpurityClassifierMap());
-            modelBuilder.Configurations.Add(new LabInfectionedClassifierMap());
-            modelBuilder.Configurations.Add(new OriginTypeMap());
-            modelBuilder.Configurations.Add(new SupplyTypeMap());
-            modelBuilder.Configurations.Add(new SupplyTransportTypeMap());
-            modelBuilder.Configurations.Add(new DriverBlackListMap());
-            modelBuilder.Configurations.Add(new PartnerBlackListMap());
-            modelBuilder.Configurations.Add(new TrailerBlackListMap());
-            modelBuilder.Configurations.Add(new TransportBlackListMap());
-            modelBuilder.Configurations.Add(new QueueRegisterMap());
-            modelBuilder.Configurations.Add(new OpDataEventMap());
-            modelBuilder.Configurations.Add(new OwnTransportMap());
-            modelBuilder.Configurations.Add(new PackingTareMap());
-            modelBuilder.Configurations.Add(new TicketPackingTareMap());
-            modelBuilder.Configurations.Add(new SettingsMap());
-        }
     }
 }
