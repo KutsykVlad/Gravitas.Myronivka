@@ -45,7 +45,7 @@ namespace Gravitas.Platform.Web.Controllers
             {
                 NodeId = id.Value,
                 NodeProcessingMsgVm = Mapper.Map<NodeProcessingMsgVm>(nodeDto.ProcessingMessage),
-                WorkstationId = _context.Nodes.First(x => x.Id == id.Value).OrganisationUnitId ?? 0
+                WorkstationId = _context.Nodes.First(x => x.Id == id.Value).OrganizationUnitId ?? 0
             };
 
             return PartialView("_RoutineSingle", vm);
@@ -70,7 +70,7 @@ namespace Gravitas.Platform.Web.Controllers
             var vm = new NodeRoutineVm
             {
                 NodeId = id.Value,
-                WorkstationId = _context.Nodes.First(x => x.Id == id.Value).OrganisationUnitId ?? 0
+                WorkstationId = _context.Nodes.First(x => x.Id == id.Value).OrganizationUnitId ?? 0
             };
             
             return View(vm);

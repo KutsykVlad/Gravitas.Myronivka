@@ -33,7 +33,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
             var node = _context.Nodes.First(x => x.Id == nodeId.Value);
 
-            var workstationData = _workstationWebManager.GetWorkstationNodes(node.OrganisationUnitId ?? 0);
+            var workstationData = _workstationWebManager.GetWorkstationNodes(node.OrganizationUnitId ?? 0);
             workstationData.CurrentNodeId = nodeId.Value;
             
             return PartialView("../OpRoutine/MixedFeedLoad/01_Workstation", workstationData);
@@ -46,7 +46,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             {
                 _opRoutineWebManager.MixedFeedLoad_Workstation_SetNodeActive(nodeId.Value);
                 var node = _context.Nodes.First(x => x.Id == nodeId.Value);
-                if (node.OrganisationUnitId.HasValue) SignalRInvoke.ReloadHubGroup(node.OrganisationUnitId.Value);
+                if (node.OrganizationUnitId.HasValue) SignalRInvoke.ReloadHubGroup(node.OrganizationUnitId.Value);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);

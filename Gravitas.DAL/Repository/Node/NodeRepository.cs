@@ -45,7 +45,7 @@ namespace Gravitas.DAL.Repository.Node
                 : new Model.DomainModel.Node.TDO.Detail.Node
                 {
                     Id = node.Id,
-                    OrganisationUnitId = node.OrganisationUnitId,
+                    OrganisationUnitId = node.OrganizationUnitId,
                     Code = node.Code,
                     Name = node.Name,
                     IsActive = node.IsActive,

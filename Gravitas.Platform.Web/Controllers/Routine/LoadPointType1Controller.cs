@@ -33,7 +33,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
             var node = _context.Nodes.First(x => x.Id == nodeId.Value);
             
-            var workstationData = _workstationWebManager.GetWorkstationNodes(node.OrganisationUnitId ?? 0);
+            var workstationData = _workstationWebManager.GetWorkstationNodes(node.OrganizationUnitId ?? 0);
             workstationData.CurrentNodeId = nodeId.Value;
             return PartialView("../OpRoutine/LoadPointType1/Workstation", workstationData);
         }
@@ -45,7 +45,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             {
                 _opRoutineWebManager.LoadPointType1_Workstation_SetNodeActive(nodeId.Value);
                 var node = _context.Nodes.First(x => x.Id == nodeId.Value);
-                if (node.OrganisationUnitId.HasValue) SignalRInvoke.ReloadHubGroup(node.OrganisationUnitId.Value);
+                if (node.OrganizationUnitId.HasValue) SignalRInvoke.ReloadHubGroup(node.OrganizationUnitId.Value);
             }
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }

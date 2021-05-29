@@ -141,7 +141,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 _cardManager.SetRfidValidationDO(false, nodeDto);
 
                 _opRoutineManager.UpdateProcessingMessage(
-                    _context.Nodes.Where(x => x.OrganisationUnitId == nodeDto.OrganisationUnitId)
+                    _context.Nodes.Where(x => x.OrganizationUnitId == nodeDto.OrganisationUnitId)
                         .Select(x => x.Id)
                         .ToList(), 
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Info,
@@ -279,7 +279,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     Program.SetDeviceOutData(oBarrierState.Id, false);
                     Logger.Info($"UnloadPoint barier timeout = {nodeDto.Id}, Device = {iBarrierConfig.DeviceId}");
                     _opRoutineManager.UpdateProcessingMessage(
-                        _context.Nodes.Where(x => x.OrganisationUnitId == nodeDto.OrganisationUnitId)
+                        _context.Nodes.Where(x => x.OrganizationUnitId == nodeDto.OrganisationUnitId)
                             .Select(x => x.Id)
                             .ToList(), 
                         new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, $"Помилка відкриття шлагбауму на {nodeDto.Name}"));
