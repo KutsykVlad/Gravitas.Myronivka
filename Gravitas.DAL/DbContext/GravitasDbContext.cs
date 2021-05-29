@@ -71,7 +71,6 @@ namespace Gravitas.DAL.DbContext
 
         public DbSet<Settings> Settings { get; set; }
         public DbSet<PreRegisterQueue> PreRegisterQueues { get; set; }
-        public DbSet<MixedFeedSiloDevice> MixedFeedSiloDevices { get; set; }
         public DbSet<ExternalUser> ExternalUsers { get; set; }
         public DbSet<DriversBlackListRecord> DriversBlackListRecords { get; set; }
         public DbSet<TransportBlackListRecord> TransportBlackListRecords { get; set; }
@@ -150,7 +149,6 @@ namespace Gravitas.DAL.DbContext
             modelBuilder.Configurations.Add(new PhoneDictionaryMap());
             modelBuilder.Configurations.Add(new PhoneInformTicketAssignmentMap());
             modelBuilder.Configurations.Add(new MixedFeedSiloMap());
-            modelBuilder.Configurations.Add(new MixedFeedSiloDeviceMap());
             modelBuilder.Configurations.Add(new EndPointNodeMap());
             modelBuilder.Configurations.Add(new RouteTemplateMap());
             modelBuilder.Configurations.Add(new DeviceMap());

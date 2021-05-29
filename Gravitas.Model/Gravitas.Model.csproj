@@ -181,7 +181,6 @@
     <Compile Include="DomainModel\ExternalData\Organization\DAO\Organization.cs" />
     <Compile Include="DomainModel\ExternalData\YearOfHarvest\DTO\YearOfHarvestDetail.cs" />
     <Compile Include="DomainModel\MixedFeed\DAO\MixedFeedSilo.cs" />
-    <Compile Include="DomainModel\MixedFeed\DAO\MixedFeedSiloDevice.cs" />
     <Compile Include="DomainModel\MixedFeed\DTO\MixedFeedSiloDto.cs" />
     <Compile Include="DomainModel\Node\DAO\Node.cs" />
     <Compile Include="DomainModel\Node\TDO\List\NodeItems.cs" />

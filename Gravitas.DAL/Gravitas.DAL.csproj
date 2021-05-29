@@ -86,7 +86,6 @@
     <Compile Include="Mapping\ExternalData\SupplyTypeMap.cs" />
     <Compile Include="Mapping\ExternalData\ExternalUserMap.cs" />
     <Compile Include="Mapping\ExternalData\YearOfHarvestMap.cs" />
-    <Compile Include="Mapping\MixedFeed\MixedFeedSiloDeviceMap.cs" />
     <Compile Include="Mapping\MixedFeed\MixedFeedSiloMap.cs" />
     <Compile Include="Mapping\Node\NodeMap.cs" />
     <Compile Include="Mapping\OpData\NodeOpData\SecurityCheckReviewOpDataMap.cs" />
