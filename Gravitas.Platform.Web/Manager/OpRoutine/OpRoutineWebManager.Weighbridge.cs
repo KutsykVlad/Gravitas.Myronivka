@@ -11,9 +11,9 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
     public partial class OpRoutineWebManager
     {
-        private WeightbridgeVms.WeightingPromptVm GetWeightingPromptVm(Model.DomainModel.Node.TDO.Detail.Node nodeDto, ScaleOpData scaleOpData, ScaleOpData previousScaleData)
+        private WeightbridgeVms.WeightingPromptVm GetWeightingPromptVm(Model.DomainModel.Node.TDO.Detail.NodeDetails nodeDetailsDto, ScaleOpData scaleOpData, ScaleOpData previousScaleData)
         {
-            var result = new WeightbridgeVms.WeightingPromptVm(GetBaseWeightPromptVm(nodeDto, scaleOpData));
+            var result = new WeightbridgeVms.WeightingPromptVm(GetBaseWeightPromptVm(nodeDetailsDto, scaleOpData));
             if (scaleOpData.TypeId == ScaleOpDataType.Tare)
             {
                 if (previousScaleData != null)
@@ -39,13 +39,13 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return result;
         }
 
-        private WeightbridgeVms.BaseWeightPromptVm GetBaseWeightPromptVm(Model.DomainModel.Node.TDO.Detail.Node nodeDto, ScaleOpData scaleOpData)
+        private WeightbridgeVms.BaseWeightPromptVm GetBaseWeightPromptVm(Model.DomainModel.Node.TDO.Detail.NodeDetails nodeDetailsDto, ScaleOpData scaleOpData)
         {
             var vm = new WeightbridgeVms.BaseWeightPromptVm();
-            var windowInOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(nodeDto.Context.TicketId);
+            var windowInOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(nodeDetailsDto.Context.TicketId);
             if (windowInOpData == null)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
                 return vm;
             }
@@ -53,12 +53,12 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             var windowOpDataDetail = _opDataManager.GetSingleWindowOpDataDetail(windowInOpData.Id);
             if (windowOpDataDetail == null)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
                 return vm;
             }
 
-            vm.NodeId = nodeDto.Id;
+            vm.NodeId = nodeDetailsDto.Id;
             vm.ScaleOpTypeName = scaleOpData.TypeId == ScaleOpDataType.Tare ? "Тара" : "Брутто";
 
             vm.ProductName = _context.Products.FirstOrDefault(x => x.Id == windowInOpData.ProductId)?.ShortName ??
@@ -441,14 +441,14 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
 
-        private bool IsValidNodeContext(Model.DomainModel.Node.TDO.Detail.Node nodeDto)
+        private bool IsValidNodeContext(Model.DomainModel.Node.TDO.Detail.NodeDetails nodeDetailsDto)
         {
-            if (nodeDto == null) return false;
-            if (nodeDto.Context?.TicketContainerId != null
-                && nodeDto.Context?.TicketId != null
-                && nodeDto.Context?.OpDataId != null) return true;
+            if (nodeDetailsDto == null) return false;
+            if (nodeDetailsDto.Context?.TicketContainerId != null
+                && nodeDetailsDto.Context?.TicketId != null
+                && nodeDetailsDto.Context?.OpDataId != null) return true;
 
-            _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+            _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                 new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Помилка. Хибний контекст"));
             return false;
         }

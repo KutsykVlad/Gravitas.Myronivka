@@ -111,9 +111,6 @@
     <Compile Include="AutoMapper\DefaultProfile.OpData.cs">
       <DependentUpon>DefaultProfile.cs</DependentUpon>
     </Compile>
-    <Compile Include="AutoMapper\DefaultProfile.OrganizationUnit.cs">
-      <DependentUpon>DefaultProfile.cs</DependentUpon>
-    </Compile>
     <Compile Include="AutoMapper\DefaultProfile.Ticket.cs">
       <DependentUpon>DefaultProfile.cs</DependentUpon>
     </Compile>
@@ -176,8 +173,6 @@
     <Compile Include="Manager\OpData\OpDataWebManager.cs" />
     <Compile Include="Manager\OpRoutine\IOpRoutineWebManager.cs" />
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.cs" />
-    <Compile Include="Manager\OrganizationUnit\IOrganizationUnitWebManager.cs" />
-    <Compile Include="Manager\OrganizationUnit\OrganizationUnitWebManager.cs" />
     <Compile Include="Manager\Workstation\IWorkstationWebManager.cs" />
     <Compile Include="Manager\Workstation\WorkstationWebManager.cs" />
     <Compile Include="Manager\User\IUserWebManager.cs" />
@@ -413,7 +408,6 @@
     <Compile Include="ViewModel\OrganizationUnit\Detail\OrganizationUnitDetailVm.cs" />
     <Compile Include="ViewModel\OrganizationUnit\List\OrganizationUnitItemVm.cs" />
     <Compile Include="ViewModel\OrganizationUnit\List\OrganizationUnitItemsVm.cs" />
-    <Compile Include="ViewModel\OrganizationUnit\OrganizationUnitType.cs" />
     <Compile Include="ViewModel\PreRegistration\AdminPanel\AddProductVm.cs" />
     <Compile Include="ViewModel\PreRegistration\Company\PreRegisterCompanyVm.cs" />
     <Compile Include="ViewModel\Queue\ExternalQueueItemVm.cs" />

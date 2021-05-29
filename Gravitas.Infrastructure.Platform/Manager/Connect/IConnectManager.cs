@@ -5,7 +5,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
 {
     public interface IConnectManager
     {
-        bool SendSms(SmsTemplate templateId, long? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null);
+        bool SendSms(SmsTemplate templateId, int? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null);
         bool SendEmail(EmailTemplate templateId, string emailAddress = null, object data = null, string attachmentPath = null);
     }
 }

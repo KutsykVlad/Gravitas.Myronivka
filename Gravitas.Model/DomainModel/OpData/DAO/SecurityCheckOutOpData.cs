@@ -5,8 +5,7 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
     public class SecurityCheckOutOpData : BaseOpData
     {
         public bool? IsCameraImagesConfirmed { get; set; }
-
-        public int? SealCount { get; set; }
+        
         public string SealList { get; set; }
     }
 }

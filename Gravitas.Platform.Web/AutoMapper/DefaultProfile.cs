@@ -9,7 +9,6 @@ namespace Gravitas.Platform.Web.AutoMapper
             ConfigureExternalData();
             ConfigureNode();
             ConfigureOpData();
-            ConfigureOrganisationUnit();
             ConfigureTicket();
         }
     }

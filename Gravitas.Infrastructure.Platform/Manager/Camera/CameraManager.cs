@@ -73,13 +73,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Camera
             {
                 var device = _context.Devices.First(x => x.Id ==cameraDeviceId);
 
-                if (device.ParamId == null)
-                {
-                    Logger.Warn($"Device {device.Id} has ParamId == null");
-                    continue;
-                }
-
-                var cameraParam = JsonConvert.DeserializeObject<CameraParam>(_context.DeviceParams.First(x => x.Id == device.ParamId.Value).ParamJson);
+                var cameraParam = JsonConvert.DeserializeObject<CameraParam>(_context.DeviceParams.First(x => x.Id == device.DeviceParamId).ParamJson);
 
                 var filename = GenerateCamImagePath(
                     GlobalConfigurationManager.CameraImageBasePath,
@@ -91,7 +85,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Camera
 
                 var opCameraImage = new OpCameraImage
                 {
-                    DateTime = DateTime.Now, SourceDeviceId = device.Id, ImagePath = filename
+                    DateTime = DateTime.Now, DeviceId = device.Id, ImagePath = filename
                 };
                 _nodeRepository.Add<OpCameraImage, int>(opCameraImage);
 

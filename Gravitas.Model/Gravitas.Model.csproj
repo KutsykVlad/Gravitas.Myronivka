@@ -191,9 +191,6 @@
     <Compile Include="DomainModel\PhoneInformTicketAssignment\DAO\PhoneInformTicketAssignment.cs" />
     <Compile Include="DomainModel\OpDataEvent\DAO\OpDataEvent.cs" />
     <Compile Include="DomainModel\OpDataEvent\DTO\OpDataEventDto.cs" />
-    <Compile Include="DomainModel\OpDataState\DTO\Detail\OpDataStateDetail.cs" />
-    <Compile Include="DomainModel\OpDataState\DTO\List\OpDataStateItems.cs" />
-    <Compile Include="DomainModel\OpDataState\DTO\List\OpDataStateItem.cs" />
     <Compile Include="DomainModel\OpData\DAO\CentralLabOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\LoadGuideOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\LoadPointOpData.cs" />
@@ -218,12 +215,7 @@
     <Compile Include="DomainModel\OpVisa\DTO\List\OpVisaItems.cs" />
     <Compile Include="DomainModel\OpVisa\DTO\List\OpVisaItem.cs" />
     <Compile Include="DomainModel\OpVisa\DAO\OpVisa.cs" />
-    <Compile Include="DomainModel\OrganizationUnit\DAO\OrganizationUnitType.cs" />
-    <Compile Include="DomainModel\OrganizationUnit\DAO\OrganizationUnit.cs" />
     <Compile Include="DomainModel\OpData\DAO\SecurityCheckOutOpData.cs" />
-    <Compile Include="DomainModel\OrganizationUnit\DTO\Detail\OrganizationUnitDetail.cs" />
-    <Compile Include="DomainModel\OrganizationUnit\DTO\List\OrganizationUnitItems.cs" />
-    <Compile Include="DomainModel\OrganizationUnit\DTO\List\OrganizationUnitItem.cs" />
     <Compile Include="DomainModel\OwnTransport\DAO\OwnTransport.cs" />
     <Compile Include="DomainModel\OwnTransport\DTO\OwnTransportVm.cs" />
     <Compile Include="DomainModel\PackingTare\DAO\PackingTare.cs" />

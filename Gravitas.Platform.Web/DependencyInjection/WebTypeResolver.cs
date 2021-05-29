@@ -8,7 +8,6 @@ using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.OpWorkflow.Routes;
-using Gravitas.DAL.Repository.OrganizationUnit;
 using Gravitas.DAL.Repository.OwnTransport;
 using Gravitas.DAL.Repository.PackingTare;
 using Gravitas.DAL.Repository.PhoneInformTicketAssignment;
@@ -43,7 +42,6 @@ using Gravitas.Platform.Web.Manager.ExternalData;
 using Gravitas.Platform.Web.Manager.MixedFeedManage;
 using Gravitas.Platform.Web.Manager.OpData;
 using Gravitas.Platform.Web.Manager.OpRoutine;
-using Gravitas.Platform.Web.Manager.OrganizationUnit;
 using Gravitas.Platform.Web.Manager.Report;
 using Gravitas.Platform.Web.Manager.Routes;
 using Gravitas.Platform.Web.Manager.Ticket;
@@ -61,9 +59,7 @@ namespace Gravitas.Platform.Web.DependencyInjection
         {
             container.RegisterType<GravitasDbContext, GravitasDbContext>();
             container.RegisterSingleton<ISettings, Settings>();
-
             container.RegisterType<ICardRepository, CardRepository>();
-            container.RegisterType<IOrganizationUnitRepository, OrganizationUnitRepository>();
             container.RegisterType<IOpDataRepository, OpDataRepository>();
             container.RegisterType<INodeRepository, NodeRepository>();
             container.RegisterType<IExternalDataRepository, ExternalDataRepository>();
@@ -87,9 +83,7 @@ namespace Gravitas.Platform.Web.DependencyInjection
             container.RegisterType<IQueueDisplay, QueueDisplay>();
             container.RegisterType<ICollisionWebManager, CollisionWebManager>();
             container.RegisterType<IPhonesRepository, PhonesRepository>();
-            container
-                .RegisterType<IPhoneInformTicketAssignmentRepository, PhoneInformTicketAssignmentRepository>();
-            container.RegisterType<IOrganizationUnitWebManager, OrganizationUnitWebManager>();
+            container.RegisterType<IPhoneInformTicketAssignmentRepository, PhoneInformTicketAssignmentRepository>();
             container.RegisterType<IOpRoutineManager, OpRoutineManager>();
             container.RegisterType<IOpRoutineWebManager, OpRoutineWebManager>();
             container.RegisterType<IOpDataWebManager, OpDataWebManager>();

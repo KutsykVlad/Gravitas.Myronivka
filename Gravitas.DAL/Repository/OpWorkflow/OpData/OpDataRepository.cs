@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
@@ -18,7 +19,7 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
             _context = context;
         }
         
-        public ICollection<BaseOpData> GetOpDataList(long ticketId)
+        public ICollection<BaseOpData> GetOpDataList(int ticketId)
         {
             var dao = _context.Tickets.AsNoTracking().FirstOrDefault(x => x.Id == ticketId);
             if (dao == null) return null;
@@ -39,7 +40,7 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
                 .ToList();
         }
 
-        public BaseOpData GetLastOpData(long? ticketId, OpDataState? stateId = null)
+        public BaseOpData GetLastOpData(int? ticketId, OpDataState? stateId = null)
         {
             if (ticketId == null)
                 return null;
@@ -48,7 +49,7 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
                 : GetOpDataList(ticketId.Value).LastOrDefault(e => e.StateId == stateId);
         }
 
-        public TEntity GetLastProcessed<TEntity>(long? ticketId) where TEntity : BaseOpData
+        public TEntity GetLastProcessed<TEntity>(int? ticketId) where TEntity : BaseOpData
         {
             if (ticketId == null)
                 return null;
@@ -66,16 +67,6 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
                     select item).FirstOrDefault();
         }
 
-        public TEntity GetFirstProcessed<TEntity>(long? ticketId) where TEntity : BaseOpData
-        {
-            if (ticketId == null)
-                return null;
-            return (from item in _context.Set<TEntity>().AsNoTracking()
-                    where item.TicketId == ticketId && item.StateId == OpDataState.Processed
-                    orderby item.CheckInDateTime
-                    select item).FirstOrDefault();
-        }
-
         public TEntity GetFirstProcessed<TEntity>(Func<TEntity, bool> predicate) where TEntity : BaseOpData
         {
             return (from item in _context.Set<TEntity>().AsNoTracking().Where(predicate)
@@ -84,7 +75,7 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
                     select item).FirstOrDefault();
         }
 
-        public TEntity GetLastOpData<TEntity>(long? ticketId, OpDataState? stateId) where TEntity : BaseOpData
+        public TEntity GetLastOpData<TEntity>(int? ticketId, OpDataState? stateId) where TEntity : BaseOpData
         {
             if (ticketId == null)
                 return null;

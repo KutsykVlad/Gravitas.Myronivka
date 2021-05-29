@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model.DomainModel.OpData.DAO;
@@ -41,10 +42,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
         private List<int> TicketsRoutes =>
             _context.QueueRegisters
                 .AsNoTracking()
-                .Where(x => x.TicketContainerId.HasValue 
-                    && x.RouteTemplateId.HasValue 
-                    && !x.IsAllowedToEnterTerritory)
-                .Select(x => x.RouteTemplateId.Value)
+                .Where(x => !x.IsAllowedToEnterTerritory)
+                .Select(x => x.RouteTemplateId)
                 .Distinct()
                 .ToList();
 

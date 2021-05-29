@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gravitas.Model.DomainModel.Base;
 using Gravitas.Model.DomainModel.Traffic.DAO;
+using Gravitas.Model.DomainValue;
 
 namespace Gravitas.Model.DomainModel.Ticket.DAO
 {
@@ -15,9 +16,7 @@ namespace Gravitas.Model.DomainModel.Ticket.DAO
             TrafficHistory = new List<TrafficHistory>();
         }
 
-        public DomainValue.TicketContainerStatus StatusId { get; set; }
-        public int QueueStatusId { get; set; }
-        public string ProcessingMessage { get; set; }
+        public TicketContainerStatus StatusId { get; set; }
 
         public virtual ICollection<Card.DAO.Card> CardSet { get; set; }
         public virtual ICollection<Ticket> TicketSet { get; set; }

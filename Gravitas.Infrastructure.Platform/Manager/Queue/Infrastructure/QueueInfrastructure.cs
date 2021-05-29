@@ -69,9 +69,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure
 
         public int GetTruckCountInQueue(int routeId)
         {
-            var queueCount = _context.QueueRegisters.Count(x => x.RouteTemplateId == routeId
-                                                                && x.TicketContainerId.HasValue
-                                                                && !x.IsAllowedToEnterTerritory);
+            var queueCount = _context.QueueRegisters.Count(x => x.RouteTemplateId == routeId && !x.IsAllowedToEnterTerritory);
 
             return queueCount;
         }
@@ -84,7 +82,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure
 
             _queueRegisterRepository.Register(new QueueRegister
             {
-                TicketContainerId = ticketContainer, RouteTemplateId = activeTicket.RouteTemplateId, IsAllowedToEnterTerritory = true
+                TicketContainerId = ticketContainer, RouteTemplateId = activeTicket.RouteTemplateId.Value, IsAllowedToEnterTerritory = true
             });
         }
     }

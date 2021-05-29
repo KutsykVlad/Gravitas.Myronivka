@@ -675,8 +675,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
         public SingleWindowVms.ProtocolPrintoutVm SingleWindow_ProtocolPrintout_GetVm(int nodeId, int? ticketIdExt = null)
         {
-            long? ticketContainerId;
-            long? ticketId;
+            int ticketContainerId;
+            int? ticketId;
             var vm = new SingleWindowVms.ProtocolPrintoutVm();
 
             if (ticketIdExt is null)
@@ -697,7 +697,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
 
             vm.CardNumber = _cardRepository.GetFirstOrDefault<Card, string>(item =>
-                item.TicketContainerId == ticketContainerId.Value && item.TypeId == CardType.TicketCard)?.No.ToString().Remove(0, 2);
+                item.TicketContainerId == ticketContainerId && item.TypeId == CardType.TicketCard)?.No.ToString().Remove(0, 2);
 
             vm.TicketId = ticketId;
 

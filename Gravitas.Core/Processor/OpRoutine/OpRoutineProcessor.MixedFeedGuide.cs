@@ -11,11 +11,11 @@ using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.Queue;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.DomainValue;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -60,37 +60,37 @@ namespace Gravitas.Core.Processor.OpRoutine
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(_nodeDto)) return;
+            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (_nodeDto.Context.OpRoutineStateId)
+            switch (NodeDetailsDto.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.MixedFeedGuide.State.Idle:
                     break;
                 case Model.DomainValue.OpRoutine.MixedFeedGuide.State.BindLoadPoint:
                     break;
                 case Model.DomainValue.OpRoutine.MixedFeedGuide.State.AddOpVisa:
-                    AddOperationVisa(_nodeDto);
+                    AddOperationVisa(NodeDetailsDto);
                     break;
             }
         }
 
-        private void AddOperationVisa(Node nodeDto)
+        private void AddOperationVisa(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto?.Context?.TicketContainerId == null
-                || nodeDto.Context?.TicketId == null
-                || nodeDto.Context?.OpDataId == null)
+            if (nodeDetailsDto?.Context?.TicketContainerId == null
+                || nodeDetailsDto.Context?.TicketId == null
+                || nodeDetailsDto.Context?.OpDataId == null)
                 return;
 
-            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
+            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDetailsDto);
             if (card == null) return;
            
-            var mixedFeedGuideOpData = _context.LoadGuideOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
+            var mixedFeedGuideOpData = _context.LoadGuideOpDatas.FirstOrDefault(x => x.Id == nodeDetailsDto.Context.OpDataId.Value);
             if (mixedFeedGuideOpData == null) return;
 
-            var ticket = _context.Tickets.First(x => x.Id == nodeDto.Context.TicketId.Value);
+            var ticket = _context.Tickets.First(x => x.Id == nodeDetailsDto.Context.TicketId.Value);
             
             var isNotFirstTicket = _context.Tickets.AsNoTracking().Any(x => 
-                    x.TicketContainerId == nodeDto.Context.TicketContainerId
+                    x.TicketContainerId == nodeDetailsDto.Context.TicketContainerId
                     && (x.StatusId == TicketStatus.Completed || x.StatusId == TicketStatus.Closed)
                     && x.OrderNo < ticket.OrderNo);
 
@@ -104,28 +104,28 @@ namespace Gravitas.Core.Processor.OpRoutine
             };
             _nodeRepository.Add<OpVisa, int>(visa);
             
-            if (!isNotFirstTicket && _opDataRepository.GetFirstOrDefault<SecurityCheckInOpData, Guid>(x => x.TicketId == nodeDto.Context.TicketId.Value) == null)
+            if (!isNotFirstTicket && _opDataRepository.GetFirstOrDefault<SecurityCheckInOpData, Guid>(x => x.TicketId == nodeDetailsDto.Context.TicketId.Value) == null)
             {
-                _queueManager.OnImmediateEntranceAccept(nodeDto.Context.TicketContainerId.Value);
+                _queueManager.OnImmediateEntranceAccept(nodeDetailsDto.Context.TicketContainerId.Value);
             }
             
             mixedFeedGuideOpData.StateId = OpDataState.Processed;
             _ticketRepository.Update<LoadGuideOpData, Guid>(mixedFeedGuideOpData);
             
-            _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDto.Context.TicketId);
+            _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId);
 
             var nextNodes = _routesInfrastructure.GetNextNodes(ticket.Id);
             if (!isNotFirstTicket && nextNodes.Contains((int) NodeIdValue.MixedFeedGuide))
             {
-                _routesInfrastructure.MoveForward(nodeDto.Context.TicketId.Value, nodeDto.Id);
+                _routesInfrastructure.MoveForward(nodeDetailsDto.Context.TicketId.Value, nodeDetailsDto.Id);
             }
             
-            nodeDto.Context.TicketId = null;
-            nodeDto.Context.TicketContainerId = null;
-            nodeDto.Context.OpDataId = null;
-            nodeDto.Context.OpProcessData = null;
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.MixedFeedGuide.State.Idle;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            nodeDetailsDto.Context.TicketId = null;
+            nodeDetailsDto.Context.TicketContainerId = null;
+            nodeDetailsDto.Context.OpDataId = null;
+            nodeDetailsDto.Context.OpProcessData = null;
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.MixedFeedGuide.State.Idle;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
     }
 }

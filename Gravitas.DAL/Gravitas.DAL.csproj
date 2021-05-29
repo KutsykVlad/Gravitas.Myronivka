@@ -79,8 +79,6 @@
     <Compile Include="Repository\Ticket\TicketRepository.cs" />
     <Compile Include="Repository\Node\NodeRepository.cs" />
     <Compile Include="Repository\Node\INodeRepository.cs" />
-    <Compile Include="Repository\OrganizationUnit\IOrganizationUnitRepository.cs" />
-    <Compile Include="Repository\OrganizationUnit\OrganizationUnitRepository.cs" />
     <Compile Include="Repository\OpWorkflow\OpData\IOpDataRepository.cs" />
     <Compile Include="Repository\OpWorkflow\OpData\OpDataRepository.cs" />
     <Compile Include="Repository\_Base\IBaseRepository.cs" />

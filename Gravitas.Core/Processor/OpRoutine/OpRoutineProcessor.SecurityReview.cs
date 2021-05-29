@@ -10,13 +10,13 @@ using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.Queue;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Core.Processor.OpRoutine
@@ -68,29 +68,29 @@ namespace Gravitas.Core.Processor.OpRoutine
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(_nodeDto)) return;
+            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (_nodeDto.Context.OpRoutineStateId)
+            switch (NodeDetailsDto.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.SecurityReview.State.Idle:
-                    Idle(_nodeDto);
+                    Idle(NodeDetailsDto);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityReview.State.AddOperationVisa:
-                    AddOperationVisa(_nodeDto);
+                    AddOperationVisa(NodeDetailsDto);
                     break;
             }
         }
 
-        private void Idle(Node nodeDto)
+        private void Idle(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto.Context == null)
+            if (nodeDetailsDto.Context == null)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Хибний контекст вузла"));
                 return;
             }
 
-            var card = _cardManager.GetTruckCardByOnGateReader(nodeDto);
+            var card = _cardManager.GetTruckCardByOnGateReader(nodeDetailsDto);
             if (card == null) return;
 
             var supplyCode = _context.SingleWindowOpDatas.Where(x => x.TicketId == card.Ticket.Id)
@@ -102,19 +102,19 @@ namespace Gravitas.Core.Processor.OpRoutine
 
                 if (!_queue.IsAllowedEnterTerritory(card.Ticket.Id))
                 {
-                    _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                    _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                         new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Не маєте права заходити без виклику по черзі."));
 
-                    _cardManager.SetRfidValidationDO(false, nodeDto);
+                    _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
                     return;
                 }
             }
-            if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDto.Id, out var errorMessage))
+            if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDetailsDto.Id, out var errorMessage))
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
                 
-                _cardManager.SetRfidValidationDO(false, nodeDto);
+                _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
                 return;
             }
 
@@ -130,30 +130,30 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             card.Ticket.StatusId = TicketStatus.Processing;
             _ticketRepository.Update<Ticket, int>(card.Ticket);
-            _routesInfrastructure.MoveForward(card.Ticket.Id, nodeDto.Id);
+            _routesInfrastructure.MoveForward(card.Ticket.Id, nodeDetailsDto.Id);
             
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityReview.State.AddOperationVisa;
-            nodeDto.Context.TicketContainerId = card.Ticket.TicketContainerId;
-            nodeDto.Context.TicketId = card.Ticket.Id;
-            nodeDto.Context.OpDataId = securityReviewOpData.Id;
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityReview.State.AddOperationVisa;
+            nodeDetailsDto.Context.TicketContainerId = card.Ticket.TicketContainerId;
+            nodeDetailsDto.Context.TicketId = card.Ticket.Id;
+            nodeDetailsDto.Context.OpDataId = securityReviewOpData.Id;
             
-            _cardManager.SetRfidValidationDO(true, nodeDto);
+            _cardManager.SetRfidValidationDO(true, nodeDetailsDto);
 
-            _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
-        private void AddOperationVisa(Node nodeDto)
+        private void AddOperationVisa(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto.Context?.OpDataId == null)
+            if (nodeDetailsDto.Context?.OpDataId == null)
             {
                 return;
             }
-            var card = _userManager.GetValidatedUsersCardByOnGateReader(nodeDto);
+            var card = _userManager.GetValidatedUsersCardByOnGateReader(nodeDetailsDto);
             if (card == null) return;
 
             var securityReviewOpData = _context.SecurityCheckReviewOpDatas
-                .FirstOrDefault(d=> d.Id == nodeDto.Context.OpDataId.Value); 
+                .FirstOrDefault(d=> d.Id == nodeDetailsDto.Context.OpDataId.Value); 
             if (securityReviewOpData == null) return;
 
             var visa = new OpVisa
@@ -166,19 +166,19 @@ namespace Gravitas.Core.Processor.OpRoutine
             };
 
             _nodeRepository.Add<OpVisa, int>(visa);
-            _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
+            _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
             securityReviewOpData.StateId = OpDataState.Processed;
             securityReviewOpData.CheckOutDateTime = DateTime.Now;
             _context.SaveChanges();
             
-            _cardManager.SetRfidValidationDO(true, nodeDto);
+            _cardManager.SetRfidValidationDO(true, nodeDetailsDto);
             
-            nodeDto.Context.OpProcessData = null;
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityReview.State.Idle;
-            nodeDto.Context.TicketContainerId = null;
-            nodeDto.Context.TicketId = null;
-            nodeDto.Context.OpDataId = null;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            nodeDetailsDto.Context.OpProcessData = null;
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityReview.State.Idle;
+            nodeDetailsDto.Context.TicketContainerId = null;
+            nodeDetailsDto.Context.TicketId = null;
+            nodeDetailsDto.Context.OpDataId = null;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
     }
 }

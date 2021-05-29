@@ -8,7 +8,7 @@ namespace Gravitas.DAL.Repository.Node
     {
         NodeItems GetNodeItems();
         NodeItem GetNodeItem(int id);
-        Model.DomainModel.Node.TDO.Detail.Node GetNodeDto(int? nodeId);
+        Model.DomainModel.Node.TDO.Detail.NodeDetails GetNodeDto(int? nodeId);
         NodeContext GetNodeContext(int nodeId);
         bool UpdateNodeContext(int nodeId, NodeContext newContext);
         void UpdateNodeProcessingMessage(int nodeId, NodeProcessingMsgItem msgItem);

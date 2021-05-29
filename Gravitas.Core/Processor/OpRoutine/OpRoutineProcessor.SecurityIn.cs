@@ -17,6 +17,7 @@ using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState.Json;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
@@ -25,7 +26,6 @@ using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
 using CardType = Gravitas.Model.DomainValue.CardType;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Core.Processor.OpRoutine
@@ -84,53 +84,53 @@ namespace Gravitas.Core.Processor.OpRoutine
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(_nodeDto)) return;
+            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (_nodeDto.Context.OpRoutineStateId)
+            switch (NodeDetailsDto.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.SecurityIn.State.Idle:
-                    WatchBarrier(_nodeDto);
-                    Idle(_nodeDto);
+                    WatchBarrier(NodeDetailsDto);
+                    Idle(NodeDetailsDto);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityIn.State.CheckOwnTransport:
-                    WatchBarrier(_nodeDto);
+                    WatchBarrier(NodeDetailsDto);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityIn.State.BindLongRangeRfid:
-                    WatchBarrier(_nodeDto);
-                    BindLongRangeRfid(_nodeDto);
+                    WatchBarrier(NodeDetailsDto);
+                    BindLongRangeRfid(NodeDetailsDto);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa:
-                    WatchBarrier(_nodeDto);
-                    AddOperationVisa(_nodeDto);
+                    WatchBarrier(NodeDetailsDto);
+                    AddOperationVisa(NodeDetailsDto);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityIn.State.OpenBarrier:
-                    OpenBarrier(_nodeDto);
+                    OpenBarrier(NodeDetailsDto);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityIn.State.GetCamSnapshot:
-                    WatchBarrier(_nodeDto);
-                    GetCamSnapshot(_nodeDto);
+                    WatchBarrier(NodeDetailsDto);
+                    GetCamSnapshot(NodeDetailsDto);
                     break;
             }
         }
 
-        private void Idle(Node nodeDto)
+        private void Idle(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto.Context == null)
+            if (nodeDetailsDto.Context == null)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Хибний контекст вузла"));
                 return;
             }
 
-            var card = _cardManager.GetTruckCardByOnGateReader(nodeDto);
+            var card = _cardManager.GetTruckCardByOnGateReader(nodeDetailsDto);
             if (card == null) return;
 
             if (card.IsOwn)
             {
-                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa;
-                nodeDto.Context.OpProcessData =
+                nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa;
+                nodeDetailsDto.Context.OpProcessData =
                     _cardRepository.GetFirstOrDefault<OwnTransport, int>(x => x.CardId == card.Id)?.Id;
-                UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+                UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
                 return;
             }
             var supplyCode =_context.SingleWindowOpDatas.Where(x => x.TicketId == card.Ticket.Id)
@@ -141,20 +141,20 @@ namespace Gravitas.Core.Processor.OpRoutine
             {
                 if (!_queue.IsAllowedEnterTerritory(card.Ticket.Id))
                 {
-                    _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                    _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                         new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Не маєте права заходити без виклику по черзі."));
 
-                    _cardManager.SetRfidValidationDO(false, nodeDto);
+                    _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
                     return;
                 }
             }
 
-            if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDto.Id, out var errorMessage))
+            if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDetailsDto.Id, out var errorMessage))
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
 
-                _cardManager.SetRfidValidationDO(false, nodeDto);
+                _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
             return;
             }
 
@@ -170,33 +170,33 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             card.Ticket.StatusId = TicketStatus.Processing;
             _ticketRepository.Update<Ticket, int>(card.Ticket);
-            _routesInfrastructure.MoveForward(card.Ticket.Id, nodeDto.Id);
+            _routesInfrastructure.MoveForward(card.Ticket.Id, nodeDetailsDto.Id);
             if (_routesInfrastructure.IsRouteWithoutGuide(card.Ticket.Id))
             {
-                _routesInfrastructure.AddDestinationOpData(card.Ticket.Id, nodeDto.Id);
+                _routesInfrastructure.AddDestinationOpData(card.Ticket.Id, nodeDetailsDto.Id);
             }
 
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.BindLongRangeRfid;
-            nodeDto.Context.TicketContainerId = card.Ticket.TicketContainerId;
-            nodeDto.Context.TicketId = card.Ticket.Id;
-            nodeDto.Context.OpDataId = securityCheckInOpData.Id;
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.BindLongRangeRfid;
+            nodeDetailsDto.Context.TicketContainerId = card.Ticket.TicketContainerId;
+            nodeDetailsDto.Context.TicketId = card.Ticket.Id;
+            nodeDetailsDto.Context.OpDataId = securityCheckInOpData.Id;
             
-            _cardManager.SetRfidValidationDO(true, nodeDto);
+            _cardManager.SetRfidValidationDO(true, nodeDetailsDto);
 
-            _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
-        private void WatchBarrier(Node nodeDto)
+        private void WatchBarrier(NodeDetails nodeDetailsDto)
         {
-            if (!nodeDto.Config.DI.ContainsKey(NodeData.Config.DI.Barrier)) return;
+            if (!nodeDetailsDto.Config.DI.ContainsKey(NodeData.Config.DI.Barrier)) return;
             
-            var iBarrierConfig = nodeDto.Config.DI[NodeData.Config.DI.Barrier];
+            var iBarrierConfig = nodeDetailsDto.Config.DI[NodeData.Config.DI.Barrier];
             var iBarrierState = (DigitalInState) Program.GetDeviceState(iBarrierConfig.DeviceId);
 
             if (!_deviceRepository.IsDeviceStateValid(out var errMsgItem, iBarrierState, TimeSpan.FromSeconds(3)))
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, errMsgItem);
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, errMsgItem);
                 return ;
             }
 
@@ -204,7 +204,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             var isNewEntryNeeded = !_context.NonStandartOpDatas
                 .AsNoTracking()
-                .Where(e => e.NodeId == nodeDto.Id && e.CheckInDateTime != null)
+                .Where(e => e.NodeId == nodeDetailsDto.Id && e.CheckInDateTime != null)
                 .AsEnumerable()
                 .Any(e =>
                     (DateTime.Now - e.CheckInDateTime.Value).TotalSeconds <
@@ -212,74 +212,74 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             if (!isNewEntryNeeded) return;
 
-            _opRoutineManager.LogNonStandardOp(nodeDto, new NonStandartOpData
+            _opRoutineManager.LogNonStandardOp(nodeDetailsDto, new NonStandartOpData
             {
-                NodeId = nodeDto.Id,
+                NodeId = nodeDetailsDto.Id,
                 CheckInDateTime = DateTime.Now,
                 StateId = OpDataState.Processed,
                 Message = "Несанкціонований проїзд"
             });
         }
 
-        private void BindLongRangeRfid(Node nodeDto)
+        private void BindLongRangeRfid(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto.IsEmergency) return;
+            if (nodeDetailsDto.IsEmergency) return;
 
-            if (!nodeDto.Config.Rfid.ContainsKey(NodeData.Config.Rfid.LongRangeReader))
+            if (!nodeDetailsDto.Config.Rfid.ContainsKey(NodeData.Config.Rfid.LongRangeReader))
             {
-                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa;
-                UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+                nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa;
+                UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
                 return;
             }
 
-            var validCardId = GetValidZebraCard(nodeDto);
+            var validCardId = GetValidZebraCard(nodeDetailsDto);
             if (validCardId == null) return;
 
             var card = _context.Cards.FirstOrDefault(x => x.Id == validCardId);
             if (card == null)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Картку не знайдено."));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Картку не знайдено."));
                 return;
             }
 
             if (card.TicketContainerId.HasValue)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "Використано існуючу мітку"));
                 return;
             }
             
-            _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+            _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                 new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Success, "Мітка знаходиться в радіусі дії. Виконується перевірка."));
             
             for (var i = 1; i <= 10; i++)
             {
                 Thread.Sleep(1000);
-                var tempCard = GetValidZebraCard(nodeDto);
+                var tempCard = GetValidZebraCard(nodeDetailsDto);
                 if (tempCard == null || card.Id != tempCard) { return; }
             }
 
-            card.TicketContainerId = nodeDto.Context.TicketContainerId;
+            card.TicketContainerId = nodeDetailsDto.Context.TicketContainerId;
             _cardRepository.Update<Card, string>(card);
 
-            _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+            _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                 new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Success, "Нову мітку прив'язано"));
 
-            _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
-        public void AddOperationVisa(Node nodeDto)
+        public void AddOperationVisa(NodeDetails nodeDetailsDto)
         {
 //            if (nodeDto.Context?.OpDataId == null) return;
 
-            var card = _userManager.GetValidatedUsersCardByOnGateReader(nodeDto);
+            var card = _userManager.GetValidatedUsersCardByOnGateReader(nodeDetailsDto);
             if (card == null) return;
 
-            if (!nodeDto.Context.OpProcessData.HasValue)
+            if (!nodeDetailsDto.Context.OpProcessData.HasValue)
             {
-                var securityCheckInOpData = _context.SecurityCheckInOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
+                var securityCheckInOpData = _context.SecurityCheckInOpDatas.FirstOrDefault(x => x.Id == nodeDetailsDto.Context.OpDataId.Value);
                 if (securityCheckInOpData == null) return;
 
                 var visa = new OpVisa
@@ -292,41 +292,41 @@ namespace Gravitas.Core.Processor.OpRoutine
                 };
 
                 _nodeRepository.Add<OpVisa, int>(visa);
-                _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
+                _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
                 securityCheckInOpData.StateId = OpDataState.Processed;
                 securityCheckInOpData.CheckOutDateTime = DateTime.Now;
                 _ticketRepository.Update<SecurityCheckInOpData, Guid>(securityCheckInOpData);
             }
             
-            _cardManager.SetRfidValidationDO(true, nodeDto);
+            _cardManager.SetRfidValidationDO(true, nodeDetailsDto);
 
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.OpenBarrier;
-            nodeDto.Context.OpProcessData = null;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.OpenBarrier;
+            nodeDetailsDto.Context.OpProcessData = null;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
-        private void OpenBarrier(Node nodeDto)
+        private void OpenBarrier(NodeDetails nodeDetailsDto)
         {
-            if (!nodeDto.Config.DO.ContainsKey(NodeData.Config.DO.Barrier) )
+            if (!nodeDetailsDto.Config.DO.ContainsKey(NodeData.Config.DO.Barrier) )
             {
-                if (nodeDto.Id == (long)NodeIdValue.SecurityIn2)
+                if (nodeDetailsDto.Id == (long)NodeIdValue.SecurityIn2)
                 {
-                    var cameraImagesList = _cameraManager.GetSnapshots(nodeDto.Config);
+                    var cameraImagesList = _cameraManager.GetSnapshots(nodeDetailsDto.Config);
                     foreach (var camImageId in cameraImagesList)
                     {
                         var camImage = _context.OpCameraImages.First(x => x.Id == camImageId);
-                        camImage.SecurityCheckInOpDataId = nodeDto.Context.OpDataId;
+                        camImage.SecurityCheckInOpDataId = nodeDetailsDto.Context.OpDataId;
                         _context.SaveChanges();
                     }
                 }
 
-                nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.GetCamSnapshot;
-                UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+                nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.GetCamSnapshot;
+                UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
                 return;
             }
 
-            var iBarrierConfig = nodeDto.Config.DI[NodeData.Config.DI.Barrier];
-            var oBarrierConfig = nodeDto.Config.DO[NodeData.Config.DO.Barrier];
+            var iBarrierConfig = nodeDetailsDto.Config.DI[NodeData.Config.DI.Barrier];
+            var oBarrierConfig = nodeDetailsDto.Config.DO[NodeData.Config.DO.Barrier];
 
             var oBarrierState = (DigitalOutState) Program.GetDeviceState(oBarrierConfig.DeviceId);
 
@@ -340,11 +340,11 @@ namespace Gravitas.Core.Processor.OpRoutine
 
                 if (iBarrierState?.InData?.Value == true)
                 {
-                    var cameraImagesList = _cameraManager.GetSnapshots(nodeDto.Config);
+                    var cameraImagesList = _cameraManager.GetSnapshots(nodeDetailsDto.Config);
                     foreach (var camImageId in cameraImagesList)
                     {
                         var camImage = _context.OpCameraImages.First(x => x.Id == camImageId);
-                        camImage.SecurityCheckInOpDataId = nodeDto.Context.OpDataId;
+                        camImage.SecurityCheckInOpDataId = nodeDetailsDto.Context.OpDataId;
                         _context.SaveChanges();
                     }
                     break;
@@ -365,32 +365,32 @@ namespace Gravitas.Core.Processor.OpRoutine
                 Thread.Sleep(1000);
             }
 
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.GetCamSnapshot;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.GetCamSnapshot;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
-        private void GetCamSnapshot(Node nodeDto)
+        private void GetCamSnapshot(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto?.Context == null) return;
-            _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
+            if (nodeDetailsDto?.Context == null) return;
+            _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
 
             Thread.Sleep(2000);
 
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.Idle;
-            nodeDto.Context.TicketContainerId = null;
-            nodeDto.Context.TicketId = null;
-            nodeDto.Context.OpDataId = null;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.Idle;
+            nodeDetailsDto.Context.TicketContainerId = null;
+            nodeDetailsDto.Context.TicketId = null;
+            nodeDetailsDto.Context.OpDataId = null;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
         
-        private string GetValidZebraCard(Node nodeDto)
+        private string GetValidZebraCard(NodeDetails nodeDetailsDto)
         {
-            var rfidConfig = nodeDto.Config.Rfid[NodeData.Config.Rfid.LongRangeReader];
+            var rfidConfig = nodeDetailsDto.Config.Rfid[NodeData.Config.Rfid.LongRangeReader];
 
             var rfidObidRwState = (RfidZebraFx9500AntennaState) Program.GetDeviceState(rfidConfig.DeviceId);
             if (!_deviceRepository.IsDeviceStateValid(out var errMsgItem, rfidObidRwState))
             {
-                if (!string.IsNullOrEmpty(errMsgItem?.Text)) _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, errMsgItem);
+                if (!string.IsNullOrEmpty(errMsgItem?.Text)) _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, errMsgItem);
                 return null;
             }
 
@@ -405,19 +405,19 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             if (!readerCardIds.Any())
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "В радіусі дії зчитувача міток не виявлено"));
                 return null;
             }
             
             if (readerCardIds.Count > 1)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "В радіусі дії зчитувача більше 1 мітки"));
                 return null;
             }
 
-            var containerCardIds = _context.Cards.AsNoTracking().Where(e => e.TicketContainerId == nodeDto.Context.TicketContainerId
+            var containerCardIds = _context.Cards.AsNoTracking().Where(e => e.TicketContainerId == nodeDetailsDto.Context.TicketContainerId
                                                                 && e.IsActive
                                                                 && e.TypeId == CardType.TransportCard)
                                    .Select(e => e.Id)
@@ -429,7 +429,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             if (validCardIds.Count < 1)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning,
                         $@"В радіусі дії зчитувача міток, що підходять для опрацювання не виявлено. Всього виявлено міток {readerCardIds.Count}"));
                 return null;

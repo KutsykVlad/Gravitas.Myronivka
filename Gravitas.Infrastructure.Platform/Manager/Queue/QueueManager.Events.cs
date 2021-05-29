@@ -1,4 +1,5 @@
 using System;
+using System.Data.Entity;
 using System.Linq;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
@@ -96,7 +97,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 _queueRegisterRepository.Register(new QueueRegister
                 {
                     TicketContainerId = result.TicketContainerId, 
-                    RouteTemplateId = ticket.RouteTemplateId,
+                    RouteTemplateId = ticket.RouteTemplateId.Value,
                     PhoneNumber = singleWindow.ContactPhoneNo
                 });
             }
@@ -138,7 +139,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             if (!ticket.RouteTemplateId.HasValue) throw new Exception("Can't add QueueRegister without RouteTemplateId to queue");
             _queueRegisterRepository.Register(new QueueRegister
             {
-                TicketContainerId = ticketContainerId, RouteTemplateId = ticket.RouteTemplateId
+                TicketContainerId = ticketContainerId, RouteTemplateId = ticket.RouteTemplateId.Value
             });
 
             var item = CreateRoute(ticket);

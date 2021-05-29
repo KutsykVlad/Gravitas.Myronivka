@@ -6,9 +6,9 @@ using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -42,42 +42,42 @@ namespace Gravitas.Core.Processor.OpRoutine
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(_nodeDto)) return;
+            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (_nodeDto.Context.OpRoutineStateId)
+            switch (NodeDetailsDto.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.MixedFeedManage.State.Workstation:
                     break;
                 case Model.DomainValue.OpRoutine.MixedFeedManage.State.Edit:
                     break;
                 case Model.DomainValue.OpRoutine.MixedFeedManage.State.AddOperationVisa:
-                    AddOperationVisa(_nodeDto);
+                    AddOperationVisa(NodeDetailsDto);
                     break;
             }
         }
 
-        private void AddOperationVisa(Node nodeDto)
+        private void AddOperationVisa(NodeDetails nodeDetailsDto)
         {
-            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
+            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDetailsDto);
             if (card == null) return;
 
             var visa = new OpVisa
             {
                 DateTime = DateTime.Now,
                 Message = "Зміна показників силоса",
-                MixedFeedSiloId = nodeDto.Context.OpProcessData,
+                MixedFeedSiloId = nodeDetailsDto.Context.OpProcessData,
                 EmployeeId = card.EmployeeId,
                 OpRoutineStateId = Model.DomainValue.OpRoutine.MixedFeedManage.State.AddOperationVisa
             };
             _nodeRepository.Add<OpVisa, int>(visa);
             
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.MixedFeedManage.State.Workstation;
-            nodeDto.Context.TicketContainerId = null;
-            nodeDto.Context.TicketId = null;
-            nodeDto.Context.OpDataId = null;
-            nodeDto.Context.OpProcessData = null;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
-            _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.MixedFeedManage.State.Workstation;
+            nodeDetailsDto.Context.TicketContainerId = null;
+            nodeDetailsDto.Context.TicketId = null;
+            nodeDetailsDto.Context.OpDataId = null;
+            nodeDetailsDto.Context.OpProcessData = null;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
+            _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
         }
     }
 }

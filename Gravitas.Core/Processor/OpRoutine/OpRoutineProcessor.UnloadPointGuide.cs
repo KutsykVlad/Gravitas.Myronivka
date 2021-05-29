@@ -65,54 +65,54 @@ namespace Gravitas.Core.Processor.OpRoutine
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(_nodeDto))
+            if (!ValidateNode(NodeDetailsDto))
             {
                 return;
             }
 
-            switch (_nodeDto.Context.OpRoutineStateId)
+            switch (NodeDetailsDto.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.UnloadPointGuide.State.Idle:
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointGuide.State.BindUnloadPoint:
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointGuide.State.AddOpVisa:
-                    AddOperationVisa(_nodeDto);
+                    AddOperationVisa(NodeDetailsDto);
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointGuide.State.EntryAddOpVisa:
-                    EntryAddOpVisa(_nodeDto);
+                    EntryAddOpVisa(NodeDetailsDto);
                     break;
             }
         }
 
-        private void AddOperationVisa(Node nodeDto)
+        private void AddOperationVisa(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto?.Context?.TicketId == null) return;
+            if (nodeDetailsDto?.Context?.TicketId == null) return;
 
-            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
+            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDetailsDto);
             if (card == null) return;
 
-            var unloadResult = _unloadPointManager.ConfirmUnloadGuide(nodeDto.Context.TicketId.Value, card.EmployeeId);
+            var unloadResult = _unloadPointManager.ConfirmUnloadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId);
             if (!unloadResult) return;
 
-            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDto.Context.TicketId))
+            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId))
             {
                 Logger.Error("Sms hasn`t been sent");
             }
 
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointGuide.State.Idle;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointGuide.State.Idle;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
-        private void EntryAddOpVisa(Node nodeDto)
+        private void EntryAddOpVisa(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto?.Context?.TicketContainerId == null) return;
+            if (nodeDetailsDto?.Context?.TicketContainerId == null) return;
 
-            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
+            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDetailsDto);
             if (card == null) return;
 
-            _queueInfrastructure.ImmediateEntrance(nodeDto.Context.TicketContainerId.Value);
-            var ticketId = _ticketRepository.GetTicketInContainer(nodeDto.Context.TicketContainerId.Value, TicketStatus.ToBeProcessed)?.Id;
+            _queueInfrastructure.ImmediateEntrance(nodeDetailsDto.Context.TicketContainerId.Value);
+            var ticketId = _ticketRepository.GetTicketInContainer(nodeDetailsDto.Context.TicketContainerId.Value, TicketStatus.ToBeProcessed)?.Id;
             _connectManager.SendSms(SmsTemplate.EntranceApprovalSms, ticketId);
 
             var singleWindowOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(ticketId);
@@ -127,8 +127,8 @@ namespace Gravitas.Core.Processor.OpRoutine
             };
             _ticketRepository.Add<OpVisa, int>(unloadVisa);
 
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointGuide.State.Idle;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointGuide.State.Idle;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
     }
 }

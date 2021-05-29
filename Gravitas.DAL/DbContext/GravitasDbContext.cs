@@ -28,7 +28,6 @@ using Gravitas.Model.DomainModel.OpCameraImage;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
-using Gravitas.Model.DomainModel.OrganizationUnit.DAO;
 using Gravitas.Model.DomainModel.OwnTransport.DAO;
 using Gravitas.Model.DomainModel.PackingTare.DAO;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
@@ -95,7 +94,6 @@ namespace Gravitas.DAL.DbContext
         public DbSet<Device> Devices { get; set; }
         public DbSet<DeviceState> DeviceStates { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
         public DbSet<OwnTransport> OwnTransports { get; set; }
         public DbSet<PackingTare> PackingTares { get; set; }
         public DbSet<PhoneInformTicketAssignment> PhoneInformTicketAssignments { get; set; }

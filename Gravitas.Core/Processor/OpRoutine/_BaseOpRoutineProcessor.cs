@@ -9,11 +9,11 @@ using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using NLog;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -22,7 +22,7 @@ namespace Gravitas.Core.Processor.OpRoutine
         protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         protected IDeviceManager _deviceManager;
         protected IDeviceRepository _deviceRepository;
-        protected Node _nodeDto;
+        protected NodeDetails NodeDetailsDto;
 
         protected int _nodeId;
         protected INodeRepository _nodeRepository;
@@ -86,7 +86,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
         public virtual void ReadDbData()
         {
-            _nodeDto = _nodeRepository.GetNodeDto(_nodeId);
+            NodeDetailsDto = _nodeRepository.GetNodeDto(_nodeId);
         }
 
         protected bool UpdateNodeContext(int nodeId, NodeContext newContext, bool reload = true)
@@ -141,41 +141,41 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
         }
 
-        public virtual bool ValidateNode(Node nodeDto)
+        public virtual bool ValidateNode(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto == null)
+            if (nodeDetailsDto == null)
             {
                 Logger.Warn("Core. Node detail is null.");
                 return false;
             }
 
-            if (nodeDto.OpRoutineId == null)
+            if (nodeDetailsDto.OpRoutineId == null)
             {
-                Logger.Warn($"Core. Node routine id is null.\nNode: {nodeDto.Id}");
+                Logger.Warn($"Core. Node routine id is null.\nNode: {nodeDetailsDto.Id}");
                 return false;
             }
 
-            if (nodeDto.Context == null)
+            if (nodeDetailsDto.Context == null)
             {
-                Logger.Warn($"Core. Node context is null.\nNode: {nodeDto.Id}");
+                Logger.Warn($"Core. Node context is null.\nNode: {nodeDetailsDto.Id}");
                 return false;
             }
 
-            if (nodeDto.Context.OpRoutineStateId == null)
+            if (nodeDetailsDto.Context.OpRoutineStateId == null)
             {
-                Logger.Warn($"Core. Node routine state id is null.\nNode: {nodeDto.Id}");
+                Logger.Warn($"Core. Node routine state id is null.\nNode: {nodeDetailsDto.Id}");
                 return false;
             }
 
-            if (nodeDto.Config == null)
+            if (nodeDetailsDto.Config == null)
             {
-                Logger.Warn($"Core. Node config is null.\nNode: {nodeDto.Id}");
+                Logger.Warn($"Core. Node config is null.\nNode: {nodeDetailsDto.Id}");
                 return false;
             }
 
-            if (!ValidateNodeConfig(nodeDto.Config))
+            if (!ValidateNodeConfig(nodeDetailsDto.Config))
             {
-                Logger.Warn($"Core. Node device config is not valid.\nNode: {nodeDto.Id}");
+                Logger.Warn($"Core. Node device config is not valid.\nNode: {nodeDetailsDto.Id}");
                 return false;
             }
 

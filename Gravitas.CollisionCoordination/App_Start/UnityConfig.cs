@@ -8,7 +8,6 @@ using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.OpWorkflow.Routes;
-using Gravitas.DAL.Repository.OrganizationUnit;
 using Gravitas.DAL.Repository.Phones;
 using Gravitas.DAL.Repository.Queue;
 using Gravitas.DAL.Repository.Sms;
@@ -38,7 +37,6 @@ namespace Gravitas.CollisionCoordination
             container.RegisterType<GravitasDbContext, GravitasDbContext>();
 
 			container.RegisterType<ICardRepository, CardRepository>();
-			container.RegisterType<IOrganizationUnitRepository, OrganizationUnitRepository>();
 			container.RegisterType<IOpDataRepository, OpDataRepository>();
 			container.RegisterType<INodeRepository, NodeRepository>();
 			container.RegisterType<IExternalDataRepository, ExternalDataRepository>();

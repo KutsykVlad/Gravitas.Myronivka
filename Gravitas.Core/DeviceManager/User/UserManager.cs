@@ -6,8 +6,8 @@ using Gravitas.DAL.Repository.Device;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.DeviceManager.User
 {
@@ -29,19 +29,19 @@ namespace Gravitas.Core.DeviceManager.User
             _context = context;
         }
 
-        public Model.DomainModel.Card.DAO.Card GetValidatedUsersCardByTableReader(Node nodeDto)
+        public Model.DomainModel.Card.DAO.Card GetValidatedUsersCardByTableReader(NodeDetails nodeDetailsDto)
         {
-            return GetValidatedUsersCard(nodeDto, NodeData.Config.Rfid.TableReader);
+            return GetValidatedUsersCard(nodeDetailsDto, NodeData.Config.Rfid.TableReader);
         }
 
-        public Model.DomainModel.Card.DAO.Card GetValidatedUsersCardByOnGateReader(Node nodeDto)
+        public Model.DomainModel.Card.DAO.Card GetValidatedUsersCardByOnGateReader(NodeDetails nodeDetailsDto)
         {
-            return GetValidatedUsersCard(nodeDto, NodeData.Config.Rfid.OnGateReader);
+            return GetValidatedUsersCard(nodeDetailsDto, NodeData.Config.Rfid.OnGateReader);
         }
 
-        private Model.DomainModel.Card.DAO.Card GetValidatedUsersCard(Node nodeDto, string readerType)
+        private Model.DomainModel.Card.DAO.Card GetValidatedUsersCard(NodeDetails nodeDetailsDto, string readerType)
         {
-            var rfidConfigs = nodeDto.Config.Rfid.Where(x => x.Key.Contains(readerType)).ToList();
+            var rfidConfigs = nodeDetailsDto.Config.Rfid.Where(x => x.Key.Contains(readerType)).ToList();
             if (rfidConfigs.Count == 0) return null;
             foreach (var rfidConfig in rfidConfigs)
             {
@@ -50,8 +50,8 @@ namespace Gravitas.Core.DeviceManager.User
                 {
                     if (!string.IsNullOrEmpty(errMsgItem?.Text))
                     {
-                        _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, errMsgItem);
-                        _cardManager.SetRfidValidationDO(false, nodeDto);
+                        _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, errMsgItem);
+                        _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
                     }
                     continue;
                 }
@@ -59,13 +59,13 @@ namespace Gravitas.Core.DeviceManager.User
                 var card = _context.Cards.AsNoTracking().FirstOrDefault(e =>
                     e.Id.Equals(rfidObidRwState.InData.Rifd, StringComparison.CurrentCultureIgnoreCase));
 
-                var isCardValid = IsCardValid(out errMsgItem, card, nodeDto.Id);
+                var isCardValid = IsCardValid(out errMsgItem, card, nodeDetailsDto.Id);
                 if (!isCardValid)
                 {
                     if (!string.IsNullOrEmpty(errMsgItem?.Text))
                     {
-                        _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, errMsgItem);
-                        _cardManager.SetRfidValidationDO(false, nodeDto);
+                        _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, errMsgItem);
+                        _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
                     }
                     continue;
                 }

@@ -7,9 +7,9 @@ using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.LoadPoint;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainValue;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -48,42 +48,42 @@ namespace Gravitas.Core.Processor.OpRoutine
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(_nodeDto)) return;
+            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (_nodeDto.Context.OpRoutineStateId)
+            switch (NodeDetailsDto.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.LoadPointGuide2.State.Idle:
                     break;
                 case Model.DomainValue.OpRoutine.LoadPointGuide2.State.BindLoadPoint:
                     break;
                 case Model.DomainValue.OpRoutine.LoadPointGuide2.State.AddOpVisa:
-                    AddOperationVisa(_nodeDto);
+                    AddOperationVisa(NodeDetailsDto);
                     break;
             }
         }
 
-        private void AddOperationVisa(Node nodeDto)
+        private void AddOperationVisa(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto?.Context?.TicketContainerId == null || nodeDto.Context.TicketId == null) return;
+            if (nodeDetailsDto?.Context?.TicketContainerId == null || nodeDetailsDto.Context.TicketId == null) return;
 
-            var ticket = _context.Tickets.FirstOrDefault(x => x.Id == nodeDto.Context.TicketId.Value);
+            var ticket = _context.Tickets.FirstOrDefault(x => x.Id == nodeDetailsDto.Context.TicketId.Value);
             if (ticket == null) return;
 
-            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
+            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDetailsDto);
             if (card == null) return;
                
-            var loadResultConfirm = _loadPointManager.ConfirmLoadGuide(nodeDto.Context.TicketId.Value, card.EmployeeId);
+            var loadResultConfirm = _loadPointManager.ConfirmLoadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId);
             if (!loadResultConfirm) return;
 
-            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDto.Context.TicketId))
+            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId))
             {
                 Logger.Error("Sms hasn`t been sent");
             }
 
-            nodeDto.Context.OpDataId = null;
-            nodeDto.Context.OpProcessData = null;
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointGuide2.State.Idle;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            nodeDetailsDto.Context.OpDataId = null;
+            nodeDetailsDto.Context.OpProcessData = null;
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LoadPointGuide2.State.Idle;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
     }
 }

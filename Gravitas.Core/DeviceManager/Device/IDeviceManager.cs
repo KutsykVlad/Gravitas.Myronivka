@@ -9,8 +9,8 @@ namespace Gravitas.Core.DeviceManager.Device
     public interface IDeviceManager
     {
         BaseDeviceState GetDeviceState(int nodeId, string deviceName);
-        void GetLoopState(Node nodeDto, out bool? incomingLoopState, out bool? outgoingLoopState, int timeout);
-        ScaleState GetScaleState(Node nodeDto);
+        void GetLoopState(NodeDetails nodeDetailsDto, out bool? incomingLoopState, out bool? outgoingLoopState, int timeout);
+        ScaleState GetScaleState(NodeDetails nodeDetailsDto);
         void SetOutput(NodeConfig.DoConfig doConfig, bool value);
     }
 }

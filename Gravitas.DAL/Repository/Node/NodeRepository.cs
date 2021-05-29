@@ -36,13 +36,13 @@ namespace Gravitas.DAL.Repository.Node
             return dto;
         }
 
-        public Model.DomainModel.Node.TDO.Detail.Node GetNodeDto(int? nodeId)
+        public Model.DomainModel.Node.TDO.Detail.NodeDetails GetNodeDto(int? nodeId)
         {
             if (nodeId == null) return null;
             var node = _context.Nodes.AsNoTracking().First(x => x.Id == nodeId.Value);
             return node is null
                 ? null
-                : new Model.DomainModel.Node.TDO.Detail.Node
+                : new Model.DomainModel.Node.TDO.Detail.NodeDetails
                 {
                     Id = node.Id,
                     OrganisationUnitId = node.OrganizationUnitId,

@@ -57,12 +57,12 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
             return limitsValidator.GetLoadWeightValidationData(ticketId);
         }
 
-        public bool IsTareMoreGross(Model.DomainModel.Node.TDO.Detail.Node nodeDto, bool isTruckWeighting, ScaleOpData scaleOpData)
+        public bool IsTareMoreGross(Model.DomainModel.Node.TDO.Detail.NodeDetails nodeDetailsDto, bool isTruckWeighting, ScaleOpData scaleOpData)
         {
             if (scaleOpData.TypeId != ScaleOpDataType.Tare) return false;
             var previousScaleData = _context.ScaleOpDatas
                 .Where(x =>
-                    x.TicketId == nodeDto.Context.TicketId 
+                    x.TicketId == nodeDetailsDto.Context.TicketId 
                     && x.StateId == OpDataState.Processed
                     && x.TypeId == ScaleOpDataType.Gross)
                 .OrderByDescending(t => t.CheckOutDateTime)
@@ -71,7 +71,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
             if (previousScaleData != null && (previousScaleData.TrailerIsAvailable == false && isTruckWeighting || !isTruckWeighting))
             {
                 _logger.Debug($"IsTareMoreGross: isTruckWeighting = {isTruckWeighting}");
-                var scaleConfig = nodeDto.Config.Scale[Model.NodeData.Config.Scale.Scale1];
+                var scaleConfig = nodeDetailsDto.Config.Scale[Model.NodeData.Config.Scale.Scale1];
                 var scaleState = DeviceSyncManager.GetDeviceState(scaleConfig.DeviceId) as ScaleState;
                 if (scaleState == null) throw new Exception("IsTareMoreGross: Scale scale is invalid");
 

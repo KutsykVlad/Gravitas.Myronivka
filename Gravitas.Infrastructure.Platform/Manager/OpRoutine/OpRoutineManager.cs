@@ -100,9 +100,9 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
             return true;
         }
 
-        public void LogNonStandardOp(Model.DomainModel.Node.TDO.Detail.Node nodeDto, NonStandartOpData opData)
+        public void LogNonStandardOp(Model.DomainModel.Node.TDO.Detail.NodeDetails nodeDetailsDto, NonStandartOpData opData)
         {
-            var cameraImagesList = _cameraManager.GetSnapshots(nodeDto.Config);
+            var cameraImagesList = _cameraManager.GetSnapshots(nodeDetailsDto.Config);
 
             _nodeRepository.Add<NonStandartOpData, Guid>(opData);
 

@@ -9,6 +9,5 @@ namespace Gravitas.Model.DomainModel.EmployeeRoles.DAO
 
         public virtual Role Role { get; set; }
         public virtual Node.DAO.Node Node { get; set; }
-
     }
 }

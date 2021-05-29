@@ -9,8 +9,8 @@ namespace Gravitas.Model.DomainModel.Queue.DAO
 		public int Count { get; set; }
         public QueueCategory CategoryId { get; set; }
 		public QueuePriority PriorityId { get; set; }
+		
 		public string PartnerId { get; set; }
-        
-        public Partner Partner { get; set; }
+		public Partner Partner { get; set; }
     }
 }

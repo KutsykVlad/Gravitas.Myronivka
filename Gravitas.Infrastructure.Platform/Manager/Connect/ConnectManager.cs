@@ -59,7 +59,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
         }
 
 
-        public bool SendSms(SmsTemplate smsId, long? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null)
+        public bool SendSms(SmsTemplate smsId, int? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null)
         {
             return _messageClient.SendSms(GenerateSmsMessage(smsId, ticketId, phoneNumber, parameters));
         }
@@ -122,13 +122,13 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
         }
 
 
-        private SmsMessage GenerateSmsMessage(SmsTemplate smsId, long? ticketId, string phoneNumber, Dictionary<string, object> parameters)
+        private SmsMessage GenerateSmsMessage(SmsTemplate smsId, int? ticketId, string phoneNumber, Dictionary<string, object> parameters)
         {
             var data = new SmsMessageData();
             var sms = new SmsMessage();
             if (!ticketId.HasValue) return sms;
 
-            var singleWindowOpData = _opDataRepository.GetLastProcessed<Model.DomainModel.OpData.DAO.SingleWindowOpData>(ticketId);
+            var singleWindowOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(ticketId);
             if (singleWindowOpData == null) return null;
 
             data.NodeNumber = _opDataRepository.GetLastOpData(ticketId).Node.Name?.Last().ToString();

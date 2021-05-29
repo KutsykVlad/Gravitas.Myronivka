@@ -117,13 +117,13 @@ namespace Gravitas.Core.Manager.LabFoss2
                     return;
                 }
 
-                var deviceState = _context.DeviceStates.AsNoTracking().FirstOrDefault(t => t.Id == device.StateId);
+                var deviceState = _context.DeviceStates.AsNoTracking().FirstOrDefault(t => t.Id == device.DeviceStateId);
                 if (deviceState == null)
                 {
                     deviceState = new DeviceState();
                     _deviceRepository.Add<DeviceState, int>(deviceState);
 
-                    device.StateId = deviceState.Id;
+                    device.DeviceStateId = deviceState.Id;
                     _deviceRepository.Update<Device, int>(device);
                 }
 

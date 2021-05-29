@@ -10,12 +10,12 @@ using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.DomainValue;
 using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
-using Node = Gravitas.Model.DomainModel.Node.TDO.Detail.Node;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -56,36 +56,36 @@ namespace Gravitas.Core.Processor.OpRoutine
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(_nodeDto)) return;
+            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (_nodeDto.Context.OpRoutineStateId)
+            switch (NodeDetailsDto.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.CentralLaboratorySamples.State.Idle:
-                    GetTicketCard(_nodeDto);
+                    GetTicketCard(NodeDetailsDto);
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratorySamples.State.CentralLabSampleBindTray:
-                    SampleBindTray(_nodeDto);
+                    SampleBindTray(NodeDetailsDto);
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratorySamples.State.CentralLabSampleAddOpVisa:
-                    SampleAddOpVisa(_nodeDto);
+                    SampleAddOpVisa(NodeDetailsDto);
                     break;
             }
         }
 
         #region 01_Idle
         
-        private void GetTicketCard(Node nodeDto)
+        private void GetTicketCard(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto.Config == null) return;
+            if (nodeDetailsDto.Config == null) return;
 
-            var card = _cardManager.GetTruckCardByOnGateReader(nodeDto);
+            var card = _cardManager.GetTruckCardByOnGateReader(nodeDetailsDto);
             if (card == null) return;
 
-            if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDto.Id, out var errorMessage))
+            if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDetailsDto.Id, out var errorMessage))
             {
-                _cardManager.SetRfidValidationDO(false, nodeDto);
+                _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
 
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
                 return;
             }
@@ -93,18 +93,18 @@ namespace Gravitas.Core.Processor.OpRoutine
             var opData = _opDataRepository.GetLastOpData<CentralLabOpData>(card.Ticket.Id, null);
             if (opData != null && opData.StateId != OpDataState.Canceled && opData.StateId != OpDataState.Rejected)
             {
-                _cardManager.SetRfidValidationDO(false, nodeDto);
+                _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
 
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, "Картка оброблена, або знаходиться в обробці."));
                 return;
             }
             
-            _cardManager.SetRfidValidationDO(true, nodeDto);
+            _cardManager.SetRfidValidationDO(true, nodeDetailsDto);
 
             opData = new CentralLabOpData
             {
-                NodeId = nodeDto.Id,
+                NodeId = nodeDetailsDto.Id,
                 TicketId = card.Ticket.Id,
                 TicketContainerId = card.Ticket.TicketContainerId,
                 StateId = OpDataState.Init,
@@ -112,51 +112,51 @@ namespace Gravitas.Core.Processor.OpRoutine
             };
             _cardRepository.Add<CentralLabOpData, Guid>(opData);
 
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.CentralLaboratorySamples.State.CentralLabSampleBindTray;
-            nodeDto.Context.TicketContainerId = card.Ticket.TicketContainerId;
-            nodeDto.Context.TicketId = card.Ticket.Id;
-            nodeDto.Context.OpDataId = opData.Id;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.CentralLaboratorySamples.State.CentralLabSampleBindTray;
+            nodeDetailsDto.Context.TicketContainerId = card.Ticket.TicketContainerId;
+            nodeDetailsDto.Context.TicketId = card.Ticket.Id;
+            nodeDetailsDto.Context.OpDataId = opData.Id;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
         #endregion
 
         #region 02_CentralLabSampleBindTray
 
-        private void SampleBindTray(Node nodeDto)
+        private void SampleBindTray(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto?.Context?.TicketContainerId == null) return;
+            if (nodeDetailsDto?.Context?.TicketContainerId == null) return;
 
-            var card = _cardManager.GetLaboratoryTrayOnTableReader(nodeDto);
+            var card = _cardManager.GetLaboratoryTrayOnTableReader(nodeDetailsDto);
             if (card == null) return;
 
             if (card.TicketContainerId.HasValue)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "Лоток закріплений за іншим автомобілем."));
                 return;
             }
             
-            card.TicketContainerId = nodeDto.Context.TicketContainerId;
+            card.TicketContainerId = nodeDetailsDto.Context.TicketContainerId;
             _cardRepository.Update<Card, string>(card);
 
-            _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.CentralLaboratorySamples.State.CentralLabSampleAddOpVisa;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.CentralLaboratorySamples.State.CentralLabSampleAddOpVisa;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
         #endregion
 
         #region 03_CentralLabSampleAddOpVisa
 
-        private void SampleAddOpVisa(Node nodeDto)
+        private void SampleAddOpVisa(NodeDetails nodeDetailsDto)
         {
-            if (nodeDto?.Context?.OpDataId == null) return;
+            if (nodeDetailsDto?.Context?.OpDataId == null) return;
 
-            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
+            var card = _userManager.GetValidatedUsersCardByTableReader(nodeDetailsDto);
             if (card == null) return;
 
-            var centralLabOpData = _context.CentralLabOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
+            var centralLabOpData = _context.CentralLabOpDatas.FirstOrDefault(x => x.Id == nodeDetailsDto.Context.OpDataId.Value);
             if (centralLabOpData == null)
             {
                 return;
@@ -175,12 +175,12 @@ namespace Gravitas.Core.Processor.OpRoutine
             centralLabOpData.StateId = OpDataState.Processing;
             _nodeRepository.Update<CentralLabOpData, Guid>(centralLabOpData);
 
-            _nodeRepository.ClearNodeProcessingMessage(nodeDto.Id);
-            nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.CentralLaboratorySamples.State.Idle;
-            nodeDto.Context.TicketId = null;
-            nodeDto.Context.OpDataId = null;
-            nodeDto.Context.TicketContainerId = null;
-            UpdateNodeContext(nodeDto.Id, nodeDto.Context);
+            _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.CentralLaboratorySamples.State.Idle;
+            nodeDetailsDto.Context.TicketId = null;
+            nodeDetailsDto.Context.OpDataId = null;
+            nodeDetailsDto.Context.TicketContainerId = null;
+            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
         #endregion

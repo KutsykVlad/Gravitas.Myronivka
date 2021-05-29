@@ -10,7 +10,7 @@ namespace Gravitas.Core.DeviceManager
     {
         public static BaseDeviceState GetState(this Model.DomainModel.Device.DAO.Device device)
         {
-            if (device?.StateId == null)
+            if (device?.DeviceStateId == null)
                 return null;
 
             var daoDeviceState = Program.DeviceStates[device.Id];

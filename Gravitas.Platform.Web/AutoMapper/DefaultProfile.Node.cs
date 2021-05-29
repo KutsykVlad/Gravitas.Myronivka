@@ -8,7 +8,7 @@ namespace Gravitas.Platform.Web.AutoMapper
     {
         public void ConfigureNode()
         {
-            CreateMap<Node, NodeDetailVm>().ReverseMap();
+            CreateMap<NodeDetails, NodeDetailVm>().ReverseMap();
 
             CreateMap<NodeContext, NodeContextVm>().ReverseMap();
             CreateMap<NodeProcessingMsg, NodeProcessingMsgVm>().ReverseMap();

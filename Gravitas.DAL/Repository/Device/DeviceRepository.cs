@@ -27,10 +27,10 @@ namespace Gravitas.DAL
         public BaseDeviceState GetDeviceState(long devId)
         {
             var daoDevice = _context.Devices.FirstOrDefault(x => x.Id == devId);
-            if (daoDevice?.StateId == null)
+            if (daoDevice?.DeviceStateId == null)
                 return null;
 
-            var daoDeviceState = _context.DeviceStates.FirstOrDefault(x => x.Id == daoDevice.StateId.Value);
+            var daoDeviceState = _context.DeviceStates.FirstOrDefault(x => x.Id == daoDevice.DeviceStateId);
             if (daoDeviceState == null)
                 return null;
 

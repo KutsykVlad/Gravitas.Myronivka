@@ -13,7 +13,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
         bool IsEmployeeBindedRfidCardValid(out NodeProcessingMsgItem errMsgItem, Card card, bool isEmployeeBinded = true);
         bool IsEmployeeSignValid(out NodeProcessingMsgItem errMsgItem, Card card, int nodeId);
 
-        void LogNonStandardOp(Model.DomainModel.Node.TDO.Detail.Node nodeDto, NonStandartOpData opData);
+        void LogNonStandardOp(Model.DomainModel.Node.TDO.Detail.NodeDetails nodeDetailsDto, NonStandartOpData opData);
 
         void UpdateProcessingMessage(int nodeId, NodeProcessingMsgItem msgItem);
 
