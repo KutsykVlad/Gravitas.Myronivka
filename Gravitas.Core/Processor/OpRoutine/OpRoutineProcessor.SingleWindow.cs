@@ -453,28 +453,6 @@ namespace Gravitas.Core.Processor.OpRoutine
                         }
                         
                         break;
-                    case nameof(MixedFeedLoadOpData):
-                        var mlOpData = (MixedFeedLoadOpData)data;
-                        opVisas = _context.OpVisas.AsNoTracking().Where(x => x.MixedFeedLoadOpDataId == mlOpData.Id).ToList();
-                        pictures = _context.OpCameraImages.AsNoTracking().Where(x => x.MixedFeedLoadOpDataId == mlOpData.Id).ToList();
-                        
-                        mlOpData.Id = new Guid();
-                        mlOpData.TicketId = newTicket.Id;
-                        _opDataRepository.Add<MixedFeedLoadOpData, Guid>(mlOpData);
-                        
-                        foreach (var opVisa in opVisas)
-                        {
-                            opVisa.MixedFeedLoadOpDataId = mlOpData.Id;
-                            _opDataRepository.Add<OpVisa, int>(opVisa);
-                        }
-                        
-                        foreach (var picture in pictures)
-                        {
-                            picture.MixedFeedLoadOpDataId = mlOpData.Id;
-                            _opDataRepository.Add<OpCameraImage, int>(picture);
-                        }
-                        
-                        break;
                     case nameof(NonStandartOpData):
                         var nOpData = (NonStandartOpData)data;
 

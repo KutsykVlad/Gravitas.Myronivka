@@ -25,7 +25,6 @@ namespace Gravitas.Model.DomainModel.OpVisa.DAO
         public Guid? LoadGuideOpDataId { get; set; }
         public Guid? CentralLaboratoryOpData { get; set; }
         public int? MixedFeedSiloId { get; set; }
-        public Guid? MixedFeedLoadOpDataId { get; set; }
         public int OpRoutineStateId { get; set; }
         public int? LabFacelessOpDataComponentId { get; set; }
 
@@ -42,7 +41,6 @@ namespace Gravitas.Model.DomainModel.OpVisa.DAO
         public virtual LoadGuideOpData LoadGuideOpData { get; set; }
         public virtual CentralLabOpData CentralLabOpData { get; set; }
         public virtual MixedFeedSilo MixedFeedSilo { get; set; }
-        public virtual MixedFeedLoadOpData MixedFeedLoadOpData { get; set; }
         public virtual LabFacelessOpDataComponent LabFacelessOpDataComponent { get; set; }
     }
 }

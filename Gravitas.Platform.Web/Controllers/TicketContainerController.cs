@@ -367,7 +367,7 @@ namespace Gravitas.Platform.Web.Controllers
                 if (scaleOpData != null)
                 {
                     var data = scaleOpData.CheckOutDateTime;
-                    var loadOpData = _opDataRepository.GetLastOpData<MixedFeedLoadOpData>(ticket.Id, OpDataState.Processed);
+                    var loadOpData = _opDataRepository.GetLastOpData<LoadPointOpData>(ticket.Id, OpDataState.Processed);
                     if (data > loadOpData?.CheckOutDateTime) sortedTicketContainers.Add(activeTicketContainer);
                 }
             }
@@ -401,7 +401,7 @@ namespace Gravitas.Platform.Web.Controllers
                 if (scaleOpData != null)
                 {
                     var data = scaleOpData.CheckOutDateTime;
-                    var loadOpData = _opDataRepository.GetLastOpData<MixedFeedLoadOpData>(ticket.Id, OpDataState.Processed);
+                    var loadOpData = _opDataRepository.GetLastOpData<LoadPointOpData>(ticket.Id, OpDataState.Processed);
                     if (data > loadOpData?.CheckOutDateTime) sortedTicketContainers.Add(activeTicketContainer);
                 }
             }

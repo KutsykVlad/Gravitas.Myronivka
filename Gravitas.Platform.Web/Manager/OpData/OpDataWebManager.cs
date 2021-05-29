@@ -56,7 +56,6 @@ namespace Gravitas.Platform.Web.Manager.OpData
                 .Union(dao.LoadGuideOpDataSet)
                 .Union(dao.UnloadGuideOpDataSet)
                 .Union(dao.CentralLabOpDataSet)
-                .Union(dao.MixedFeedLoadOpDataSet)
                 .Union(dao.NonStandartOpDataSet)
                 .ToList();
 

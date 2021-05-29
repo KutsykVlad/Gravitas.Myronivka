@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 using Gravitas.DAL.DbContext;
@@ -231,11 +232,10 @@ namespace Gravitas.Platform.Web.Controllers.Api
                     {
                         if (x.ticket.StatusId == TicketStatus.Closed || x.ticket.StatusId == TicketStatus.Completed)
                         {
-                            var mixedFeedLoad = _opDataRepository.GetLastProcessed<MixedFeedLoadOpData>(x.ticket.Id);
                             var load = _opDataRepository.GetLastProcessed<LoadPointOpData>(x.ticket.Id);
                             var unload = _opDataRepository.GetLastProcessed<UnloadPointOpData>(x.ticket.Id);
 
-                            return mixedFeedLoad?.NodeId == nodeId || load?.NodeId == nodeId || unload?.NodeId == nodeId;
+                            return load?.NodeId == nodeId || unload?.NodeId == nodeId;
                         }
 
                         return false;

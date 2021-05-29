@@ -59,11 +59,11 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 var nodeId = GetFreeSiloDrive(productId, ticketId);
                 if (nodeId.HasValue)
                 {
-                    var mixedFeedLoadOpData = _opDataRepository.GetLastProcessed<MixedFeedLoadOpData>(ticketId);
-                    var mixedFeedGuideOpData = _opDataRepository.GetLastProcessed<LoadPointOpData>(ticketId);
+                    var mixedFeedLoadOpData = _opDataRepository.GetLastProcessed<LoadPointOpData>(ticketId);
+                    var mixedFeedGuideOpData = _opDataRepository.GetLastProcessed<LoadGuideOpData>(ticketId);
                     if (mixedFeedGuideOpData == null || mixedFeedGuideOpData.CheckOutDateTime > mixedFeedLoadOpData?.CheckOutDateTime)
                     {
-                        mixedFeedGuideOpData = new LoadPointOpData
+                        mixedFeedGuideOpData = new LoadGuideOpData
                         {
                             StateId = OpDataState.Processed,
                             NodeId = (int?) NodeIdValue.MixedFeedGuide,
@@ -73,7 +73,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                             CheckOutDateTime = DateTime.Now
                         };
                     }
-                    _opDataRepository.AddOrUpdate<LoadPointOpData, Guid>(mixedFeedGuideOpData);
+                    _opDataRepository.AddOrUpdate<LoadGuideOpData, Guid>(mixedFeedGuideOpData);
                     
                     _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, ticketId);
                     

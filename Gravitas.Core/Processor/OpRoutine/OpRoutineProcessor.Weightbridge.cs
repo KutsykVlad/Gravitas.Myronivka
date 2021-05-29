@@ -553,8 +553,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 .OrderByDescending(x => x.CheckOutDateTime)
                 .FirstOrDefault();
             
-            var endpointState = _opDataRepository.GetLastProcessed<MixedFeedLoadOpData>(ticket.Id)?.StateId
-                               ?? _opDataRepository.GetLastProcessed<UnloadPointOpData>(ticket.Id)?.StateId
+            var endpointState = _opDataRepository.GetLastProcessed<UnloadPointOpData>(ticket.Id)?.StateId
                                ?? _opDataRepository.GetLastProcessed<LoadPointOpData>(ticket.Id)?.StateId;
 
             if (singleWindowOpData.LoadTarget > 0
@@ -753,7 +752,7 @@ namespace Gravitas.Core.Processor.OpRoutine
         
         private void RemoveMixedFeedFromSilo(long ticketId, double scale, double previousScaleValue)
         {
-            var loadOpData = _opDataRepository.GetLastProcessed<MixedFeedLoadOpData>(ticketId);
+            var loadOpData = _opDataRepository.GetLastProcessed<LoadPointOpData>(ticketId);
             if (loadOpData?.MixedFeedSiloId == null) return;
 
             var silo = _context.MixedFeedSilos.FirstOrDefault(x => x.Id == loadOpData.MixedFeedSiloId.Value);

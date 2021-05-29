@@ -45,8 +45,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure
             {
                 var checkInDateTime = _opDataRepository.GetLastProcessed<SecurityCheckInOpData>(ticketId)?.CheckInDateTime;
                 var endPointDateTime = _opDataRepository.GetLastProcessed<LoadPointOpData>(ticketId)?.CheckOutDateTime 
-                               ?? _opDataRepository.GetLastProcessed<UnloadPointOpData>(ticketId)?.CheckOutDateTime
-                               ?? _opDataRepository.GetLastProcessed<MixedFeedLoadOpData>(ticketId)?.CheckOutDateTime;
+                               ?? _opDataRepository.GetLastProcessed<UnloadPointOpData>(ticketId)?.CheckOutDateTime;
 
                 if (!endPointDateTime.HasValue || !checkInDateTime.HasValue)
                 {

@@ -165,7 +165,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return;
             }
 
-            var opData = _context.MixedFeedLoadOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
+            var opData = _context.LoadPointOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
             if (opData == null) return;
 
             opData.StateId = OpDataState.Canceled;
@@ -184,7 +184,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return;
             }
             
-            var opData = _context.MixedFeedLoadOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
+            var opData = _context.LoadPointOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
             if (opData == null) return;
 
             opData.StateId = OpDataState.Rejected;

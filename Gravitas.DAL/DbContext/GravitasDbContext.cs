@@ -126,7 +126,6 @@ namespace Gravitas.DAL.DbContext
         public DbSet<CentralLabOpData> CentralLabOpDatas { get; set; }
         public DbSet<LabFacelessOpDataComponent> LabFacelessOpDataComponents { get; set; }
         public DbSet<LoadPointOpData> LoadPointOpDatas { get; set; }
-        public DbSet<MixedFeedLoadOpData> MixedFeedLoadOpDatas { get; set; }
         public DbSet<NonStandartOpData> NonStandartOpDatas { get; set; }
         public DbSet<SecurityCheckOutOpData> SecurityCheckOutOpDatas { get; set; }
         public DbSet<QueuePatternItem> QueuePatternItems { get; set; }
@@ -207,7 +206,6 @@ namespace Gravitas.DAL.DbContext
             modelBuilder.Configurations.Add(new TrailerBlackListMap());
             modelBuilder.Configurations.Add(new TransportBlackListMap());
             modelBuilder.Configurations.Add(new QueueRegisterMap());
-            modelBuilder.Configurations.Add(new MixedFeedLoadOpDataMap());
             modelBuilder.Configurations.Add(new OpDataEventMap());
             modelBuilder.Configurations.Add(new PreRegisterProductMap());
             modelBuilder.Configurations.Add(new PreRegisterCompanyMap());
