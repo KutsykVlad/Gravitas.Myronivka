@@ -1,4 +1,5 @@
 using System;
+using System.Data.Entity;
 using System.Linq;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
@@ -59,10 +60,10 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 if (nodeId.HasValue)
                 {
                     var mixedFeedLoadOpData = _opDataRepository.GetLastProcessed<MixedFeedLoadOpData>(ticketId);
-                    var mixedFeedGuideOpData = _opDataRepository.GetLastProcessed<MixedFeedGuideOpData>(ticketId);
+                    var mixedFeedGuideOpData = _opDataRepository.GetLastProcessed<LoadPointOpData>(ticketId);
                     if (mixedFeedGuideOpData == null || mixedFeedGuideOpData.CheckOutDateTime > mixedFeedLoadOpData?.CheckOutDateTime)
                     {
-                        mixedFeedGuideOpData = new MixedFeedGuideOpData
+                        mixedFeedGuideOpData = new LoadPointOpData
                         {
                             StateId = OpDataState.Processed,
                             NodeId = (int?) NodeIdValue.MixedFeedGuide,
@@ -72,8 +73,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                             CheckOutDateTime = DateTime.Now
                         };
                     }
-                    mixedFeedGuideOpData.LoadPointNodeId = nodeId.Value;
-                    _opDataRepository.AddOrUpdate<MixedFeedGuideOpData, Guid>(mixedFeedGuideOpData);
+                    _opDataRepository.AddOrUpdate<LoadPointOpData, Guid>(mixedFeedGuideOpData);
                     
                     _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, ticketId);
                     

@@ -199,7 +199,6 @@
     <Compile Include="DomainModel\OpData\DAO\CentralLabOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\LoadGuideOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\LoadPointOpData.cs" />
-    <Compile Include="DomainModel\OpData\DAO\MixedFeedGuideOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\MixedFeedLoadOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\NonStandartOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\Base\_BaseOpData.cs" />

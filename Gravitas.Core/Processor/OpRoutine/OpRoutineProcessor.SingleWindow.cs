@@ -386,28 +386,6 @@ namespace Gravitas.Core.Processor.OpRoutine
                         }
                         
                         break;
-                    case nameof(MixedFeedGuideOpData):
-                        var mOpData = (MixedFeedGuideOpData)data;
-                        opVisas = _context.OpVisas.AsNoTracking().Where(x => x.MixedFeedGuideOpDataId == mOpData.Id).ToList();
-                        pictures = _context.OpCameraImages.AsNoTracking().Where(x => x.MixedFeedGuideOpDataId == mOpData.Id).ToList();
-                        
-                        mOpData.Id = new Guid();
-                        mOpData.TicketId = newTicket.Id;
-                        _opDataRepository.Add<MixedFeedGuideOpData, Guid>(mOpData);
-                        
-                        foreach (var opVisa in opVisas)
-                        {
-                            opVisa.MixedFeedGuideOpDataId = mOpData.Id;
-                            _opDataRepository.Add<OpVisa, int>(opVisa);
-                        }
-                        
-                        foreach (var picture in pictures)
-                        {
-                            picture.MixedFeedGuideOpDataId = mOpData.Id;
-                            _opDataRepository.Add<OpCameraImage, int>(picture);
-                        }
-                        
-                        break;
                     case nameof(SecurityCheckInOpData):
                         var sqOpData = (SecurityCheckInOpData)data;
                         opVisas = _context.OpVisas.AsNoTracking().Where(x => x.SecurityCheckInOpDataId == sqOpData.Id).ToList();

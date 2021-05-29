@@ -89,7 +89,6 @@ namespace Gravitas.DAL.DbContext
         public DbSet<TicketContainer> TicketContainers { get; set; }
         public DbSet<DeviceParam> DeviceParams { get; set; }
         public DbSet<RouteTemplate> RouteTemplates { get; set; }
-        public DbSet<MixedFeedGuideOpData> MixedFeedGuideOpDatas { get; set; }
         public DbSet<UnloadGuideOpData> UnloadGuideOpDatas { get; set; }
         public DbSet<LoadGuideOpData> LoadGuideOpDatas { get; set; }
         public DbSet<LabFacelessOpData> LabFacelessOpDatas { get; set; }
@@ -208,7 +207,6 @@ namespace Gravitas.DAL.DbContext
             modelBuilder.Configurations.Add(new TrailerBlackListMap());
             modelBuilder.Configurations.Add(new TransportBlackListMap());
             modelBuilder.Configurations.Add(new QueueRegisterMap());
-            modelBuilder.Configurations.Add(new MixedFeedGuideOpDataMap());
             modelBuilder.Configurations.Add(new MixedFeedLoadOpDataMap());
             modelBuilder.Configurations.Add(new OpDataEventMap());
             modelBuilder.Configurations.Add(new PreRegisterProductMap());

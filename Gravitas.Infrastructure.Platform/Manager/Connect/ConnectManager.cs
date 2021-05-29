@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -154,14 +155,12 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
                         case (int) NodeIdValue.LoadPointGuideEl45:
                         case (int) NodeIdValue.LoadPointGuideTareWarehouse:
                         case (int) NodeIdValue.LoadPointGuideShrotHuskOil:
+                        case (int) NodeIdValue.MixedFeedGuide:
                             destPoint = _opDataRepository.GetLastProcessed<LoadGuideOpData>(ticketId)?.LoadPointNodeId;
                             break;
                         case (int) NodeIdValue.UnloadPointGuideEl23:
                         case (int) NodeIdValue.UnloadPointGuideEl45:
                             destPoint = _opDataRepository.GetLastProcessed<UnloadGuideOpData>(ticketId)?.UnloadPointNodeId;
-                            break;
-                        case (int) NodeIdValue.MixedFeedGuide:
-                            destPoint = _opDataRepository.GetLastProcessed<MixedFeedGuideOpData>(ticketId)?.LoadPointNodeId;
                             break;
                         case (int) NodeIdValue.UnloadPointGuideLowerArea:
                             data.DestinationPoint = $"Авторозвантажувач #{_nodeRepository.GetNodeContext((int) NodeIdValue.UnloadPointGuideLowerArea)?.OpProcessData}";

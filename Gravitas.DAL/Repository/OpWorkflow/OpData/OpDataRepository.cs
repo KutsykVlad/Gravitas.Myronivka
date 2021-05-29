@@ -34,7 +34,6 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
                 .Union(dao.LoadGuideOpDataSet)
                 .Union(dao.UnloadGuideOpDataSet)
                 .Union(dao.CentralLabOpDataSet)
-                .Union(dao.MixedFeedGuideOpDataSet)
                 .Union(dao.MixedFeedLoadOpDataSet)
                 .Union(dao.NonStandartOpDataSet)
                 .OrderBy(e => e.CheckInDateTime)

@@ -169,8 +169,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                              x.TicketContainerId == ticketContainerId && x.StatusId == TicketStatus.ToBeProcessed);
             if (ticket != null)
             {
-                var endpointNode = _opDataRepository.GetLastProcessed<MixedFeedGuideOpData>(ticket.Id)?.LoadPointNodeId
-                                   ?? _opDataRepository.GetLastProcessed<UnloadGuideOpData>(ticket.Id)?.UnloadPointNodeId
+                var endpointNode = _opDataRepository.GetLastProcessed<UnloadGuideOpData>(ticket.Id)?.UnloadPointNodeId
                                    ?? _opDataRepository.GetLastProcessed<LoadGuideOpData>(ticket.Id)?.LoadPointNodeId;
                 if (endpointNode != null) return new List<int> { endpointNode.Value };
             }

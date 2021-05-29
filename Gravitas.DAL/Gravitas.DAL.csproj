@@ -96,7 +96,6 @@
     <Compile Include="Mapping\OpData\NodeOpData\LabFacelessOpDataComponentMap.cs" />
     <Compile Include="Mapping\OpData\NodeOpData\LoadGuideOpDataMap.cs" />
     <Compile Include="Mapping\OpData\NodeOpData\LoadPointOpDataMap.cs" />
-    <Compile Include="Mapping\OpData\NodeOpData\MixedFeedGuideOpDataMap.cs" />
     <Compile Include="Mapping\OpData\NodeOpData\MixedFeedLoadOpDataMap.cs" />
     <Compile Include="Mapping\OpData\NodeOpData\SingleWindowOpDataMap.cs" />
     <Compile Include="Mapping\OpData\NodeOpData\UnloadGuideOpDataMap.cs" />

@@ -84,7 +84,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             var card = _userManager.GetValidatedUsersCardByTableReader(nodeDto);
             if (card == null) return;
            
-            var mixedFeedGuideOpData = _context.MixedFeedGuideOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
+            var mixedFeedGuideOpData = _context.LoadGuideOpDatas.FirstOrDefault(x => x.Id == nodeDto.Context.OpDataId.Value);
             if (mixedFeedGuideOpData == null) return;
 
             var ticket = _context.Tickets.First(x => x.Id == nodeDto.Context.TicketId.Value);
@@ -98,7 +98,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             {
                 DateTime = DateTime.Now,
                 Message = "Призначена точка завантаження",
-                MixedFeedGuideOpDataId = mixedFeedGuideOpData.Id,
+                LoadGuideOpDataId = mixedFeedGuideOpData.Id,
                 EmployeeId = card.EmployeeId,
                 OpRoutineStateId = Model.DomainValue.OpRoutine.MixedFeedGuide.State.AddOpVisa
             };
@@ -110,7 +110,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             
             mixedFeedGuideOpData.StateId = OpDataState.Processed;
-            _ticketRepository.Update<MixedFeedGuideOpData, Guid>(mixedFeedGuideOpData);
+            _ticketRepository.Update<LoadGuideOpData, Guid>(mixedFeedGuideOpData);
             
             _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDto.Context.TicketId);
 

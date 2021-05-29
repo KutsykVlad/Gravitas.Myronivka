@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
 using Gravitas.DAL.DbContext;
@@ -55,7 +56,6 @@ namespace Gravitas.Platform.Web.Manager.OpData
                 .Union(dao.LoadGuideOpDataSet)
                 .Union(dao.UnloadGuideOpDataSet)
                 .Union(dao.CentralLabOpDataSet)
-                .Union(dao.MixedFeedGuideOpDataSet)
                 .Union(dao.MixedFeedLoadOpDataSet)
                 .Union(dao.NonStandartOpDataSet)
                 .ToList();
@@ -301,8 +301,6 @@ namespace Gravitas.Platform.Web.Manager.OpData
                     return _nodeManager.GetNodeName(loadGuideOpData.LoadPointNodeId);
                 case UnloadGuideOpData unloadGuideOpData:
                     return _nodeManager.GetNodeName(unloadGuideOpData.UnloadPointNodeId);
-                case MixedFeedGuideOpData mixedFeedGuideOpData:
-                    return _nodeManager.GetNodeName(mixedFeedGuideOpData.LoadPointNodeId);
                 case CentralLabOpData centralLabOpData:
                     var labComment = string.IsNullOrWhiteSpace(centralLabOpData.LaboratoryComment)
                         ? null
