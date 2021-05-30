@@ -42,10 +42,10 @@ namespace Gravitas.Platform.Web.Controllers
             var singleWindowOpData = _opDataRepository.GetLastOpData<SingleWindowOpData>(ticketId, null);
             if (singleWindowOpData != null)
             {
-                vm.ProductName = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId)?.ShortName ??
+                vm.ProductName = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId.Value)?.ShortName ??
                                  string.Empty;
-                vm.PartnerName = !string.IsNullOrWhiteSpace(singleWindowOpData.CarrierId)
-                    ? _externalDataRepository.GetPartnerDetail(singleWindowOpData.CarrierId)?.ShortName
+                vm.PartnerName = singleWindowOpData.CarrierId.HasValue
+                    ? _externalDataRepository.GetPartnerDetail(singleWindowOpData.CarrierId.Value)?.ShortName
                     : singleWindowOpData.CustomPartnerName ?? string.Empty;
 
                 if (singleWindowOpData.IsThirdPartyCarrier)
@@ -55,8 +55,8 @@ namespace Gravitas.Platform.Web.Controllers
                 }
                 else
                 {
-                    vm.TransportNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId)?.RegistrationNo ?? string.Empty;
-                    vm.TrailerNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId)?.RegistrationNo ?? string.Empty;
+                    vm.TransportNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId.Value)?.RegistrationNo ?? string.Empty;
+                    vm.TrailerNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId.Value)?.RegistrationNo ?? string.Empty;
                 }
             }
 

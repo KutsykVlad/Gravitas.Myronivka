@@ -1,3 +1,4 @@
+using System;
 using Gravitas.Model.DomainModel.Base;
 using Gravitas.Model.DomainModel.ExternalData.Employee.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
@@ -11,7 +12,7 @@ namespace Gravitas.Model.DomainModel.Card.DAO
         public int No { get; set; }
         public bool IsActive { get; set; }
         public bool IsOwn { get; set; }
-        public string EmployeeId { get; set; }
+        public Guid? EmployeeId { get; set; }
         public int? TicketContainerId { get; set; }
         public string ParentCardId { get; set; }
 

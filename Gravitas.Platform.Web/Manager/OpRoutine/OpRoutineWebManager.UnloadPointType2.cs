@@ -99,7 +99,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 vm.BindedTruck.DelliveryBillCode = singleWindowOpData.DeliveryBillCode;
                 vm.BindedTruck.IsThirdPartyCarrier = singleWindowOpData.IsThirdPartyCarrier;
                 vm.BindedTruck.SenderName = _externalDataRepository
-                                            .GetOrganisationDetail(singleWindowOpData.OrganizationId)
+                                            .GetOrganisationDetail(singleWindowOpData.OrganizationId.Value)
                                             ?.ShortName ?? singleWindowOpData.CustomPartnerName;
 
                 if (singleWindowOpData.IsThirdPartyCarrier)
@@ -110,10 +110,10 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 else
                 {
                     vm.BindedTruck.TransportNo =
-                        _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId)?.RegistrationNo ??
+                        _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId.Value)?.RegistrationNo ??
                         string.Empty;
                     vm.BindedTruck.TrailerNo =
-                        _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId)?.RegistrationNo ??
+                        _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId.Value)?.RegistrationNo ??
                         string.Empty;
                 }
 
@@ -132,7 +132,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 {
                     vm.BindedTruck.WeightValue = (currentBrutto.TruckWeightValue + currentBrutto.TrailerWeightValue) ?? 0;
                 }
-                vm.BindedTruck.Product = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId)?.ShortName ?? string.Empty;
+                vm.BindedTruck.Product = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId.Value)?.ShortName ?? string.Empty;
 
                 vm.BindedTruck.Comment = singleWindowOpData.Comments;
             }

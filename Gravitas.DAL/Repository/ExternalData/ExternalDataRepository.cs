@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail;
@@ -45,12 +46,8 @@ namespace Gravitas.DAL.Repository.ExternalData
         }
 
         //Get Detail
-        public AcceptancePointDetail GetAcceptancePointDetail(string id)
+        public AcceptancePointDetail GetAcceptancePointDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.AcceptancePoints.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new AcceptancePointDetail
@@ -60,12 +57,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public BudgetDetail GetBudgetDetail(string id)
+        public BudgetDetail GetBudgetDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Budgets.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new BudgetDetail
@@ -75,12 +68,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public ContractDetail GetContractDetail(string id)
+        public ContractDetail GetContractDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Contracts.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new ContractDetail
@@ -95,12 +84,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public CropDetail GetCropDetail(string id)
+        public CropDetail GetCropDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Crops.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new CropDetail
@@ -110,12 +95,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public DeliveryBillStatusDetail GetDeliveryBillStatusDetail(string id)
+        public DeliveryBillStatusDetail GetDeliveryBillStatusDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.DeliveryBillStatuses.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new DeliveryBillStatusDetail
@@ -127,10 +108,6 @@ namespace Gravitas.DAL.Repository.ExternalData
 
         public DeliveryBillTypeDetail GetDeliveryBillTypeDetail(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.DeliveryBillTypes.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new DeliveryBillTypeDetail
@@ -140,12 +117,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public EmployeeDetail GetEmployeeDetail(string id)
+        public EmployeeDetail GetEmployeeDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Employees.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new EmployeeDetail
@@ -161,12 +134,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public ExternalEmployeeDetail GetExternalEmployeeDetail(string id)
+        public ExternalEmployeeDetail GetExternalEmployeeDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Employees.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new ExternalEmployeeDetail
@@ -176,12 +145,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public FixedAssetDetail GetFixedAssetDetail(string id)
+        public FixedAssetDetail GetFixedAssetDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.FixedAssets.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new FixedAssetDetail
@@ -198,10 +163,6 @@ namespace Gravitas.DAL.Repository.ExternalData
 
         public LabImpurityСlassifierDetail GetLabImpurityСlassifierDetail(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.LabImpurityСlassifiers.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new LabImpurityСlassifierDetail
@@ -213,10 +174,6 @@ namespace Gravitas.DAL.Repository.ExternalData
 
         public LabHumidityСlassifierDetail GetLabHumidityСlassifierDetail(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.LabHumidityСlassifiers.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new LabHumidityСlassifierDetail
@@ -228,10 +185,6 @@ namespace Gravitas.DAL.Repository.ExternalData
 
         public LabInfectionedСlassifierDetail GetLabInfectionedСlassifierDetail(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.LabInfectionedСlassifiers.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new LabInfectionedСlassifierDetail
@@ -241,12 +194,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public MeasureUnitDetail GetMeasureUnitDetail(string id)
+        public MeasureUnitDetail GetMeasureUnitDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.MeasureUnits.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new MeasureUnitDetail
@@ -256,12 +205,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public OriginTypeDetail GetOriginTypeDetail(string id)
+        public OriginTypeDetail GetOriginTypeDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.OriginTypes.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new OriginTypeDetail
@@ -271,12 +216,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public OrganisationDetail GetOrganisationDetail(string id)
+        public OrganisationDetail GetOrganisationDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Organisations.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new OrganisationDetail
@@ -290,12 +231,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public PartnerDetail GetPartnerDetail(string id)
+        public PartnerDetail GetPartnerDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Partners.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new PartnerDetail
@@ -309,12 +246,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public ProductDetail GetProductDetail(string id)
+        public ProductDetail GetProductDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Products.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new ProductDetail
@@ -324,12 +257,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public ReasonForRefundDetail GetReasonForRefundDetail(string id)
+        public ReasonForRefundDetail GetReasonForRefundDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.ReasonForRefunds.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new ReasonForRefundDetail
@@ -339,12 +268,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public RouteDetail GetRouteDetail(string id)
+        public RouteDetail GetRouteDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Routes.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new RouteDetail
@@ -354,12 +279,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public StockDetail GetStockDetail(string id)
+        public StockDetail GetStockDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Stocks.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new StockDetail
@@ -373,12 +294,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public SubdivisionDetail GetSubdivisionDetail(string id)
+        public SubdivisionDetail GetSubdivisionDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.Subdivisions.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new SubdivisionDetail
@@ -392,12 +309,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public SupplyTransportTypeDetail GetSupplyTransportTypeDetail(string id)
+        public SupplyTransportTypeDetail GetSupplyTransportTypeDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.SupplyTransportTypes.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new SupplyTransportTypeDetail
@@ -407,12 +320,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public SupplyTypeDetail GetSupplyTypeDetail(string id)
+        public SupplyTypeDetail GetSupplyTypeDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.SupplyTypes.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new SupplyTypeDetail
@@ -422,12 +331,8 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public YearOfHarvestDetail GetYearOfHarvestDetail(string id)
+        public YearOfHarvestDetail GetYearOfHarvestDetail(Guid id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return null;
-            }
             var dao = _context.YearOfHarvests.FirstOrDefault(x=> x.Id == id);
             if (dao == null) return null;
             var dto = new YearOfHarvestDetail
@@ -437,7 +342,7 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public ProductItems GetProductChildItems(string parentId)
+        public ProductItems GetProductChildItems(Guid parentId)
         {
             var result = new ProductItems
             {
@@ -706,7 +611,7 @@ namespace Gravitas.DAL.Repository.ExternalData
 
         public SupplyTransportTypeItems GetSupplyTransportTypeItems()
         {
-            var dao = GetQuery<SupplyTransportType, string>();
+            var dao = GetQuery<SupplyTransportType, Guid>();
             var dto = new SupplyTransportTypeItems
             {
                 Items = dao.Select(e => new SupplyTransportTypeItem
@@ -758,7 +663,7 @@ namespace Gravitas.DAL.Repository.ExternalData
 
         public LabDeviceResultTypeItems GetLabDevResultTypeItems()
         {
-            var dao = GetQuery<LabDeviceResultType, string>();
+            var dao = GetQuery<LabDeviceResultType, Guid>();
             var dto = new LabDeviceResultTypeItems
             {
                 Items = dao.Select(e => new LabDeviceResultTypeItem
@@ -769,7 +674,7 @@ namespace Gravitas.DAL.Repository.ExternalData
             return dto;
         }
 
-        public BudgetItems GetBudgetChildItem(string parentId)
+        public BudgetItems GetBudgetChildItem(Guid parentId)
         {
             var result = new BudgetItems
             {
@@ -785,7 +690,7 @@ namespace Gravitas.DAL.Repository.ExternalData
             return result;
         }
 
-        public PartnerItems GetPartnerChildItems(string parentId)
+        public PartnerItems GetPartnerChildItems(Guid parentId)
         {
             var result = new PartnerItems
             {
@@ -804,7 +709,7 @@ namespace Gravitas.DAL.Repository.ExternalData
             return result;
         }
 
-        public EmployeeItems GetEmployeeChildItems(string parentId)
+        public EmployeeItems GetEmployeeChildItems(Guid parentId)
         {
             var result = new EmployeeItems
             {

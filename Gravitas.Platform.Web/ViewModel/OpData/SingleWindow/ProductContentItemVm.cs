@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace Gravitas.Platform.Web.ViewModel {
 
@@ -10,10 +11,10 @@ namespace Gravitas.Platform.Web.ViewModel {
 			public int No { get; set; }
 			[DisplayName("Заявка")]
 			public string OrderNumber { get; set; }
-			public string ProductId { get; set; }
+			public Guid? ProductId { get; set; }
 			[DisplayName("Продукт")]
 			public string ProductName { get; set; }
-			public string UnitId { get; set; }
+			public Guid? UnitId { get; set; }
 			[DisplayName("Од. виміру")]
 			public string UnitName { get; set; }
 			[DisplayName("Кількість")]

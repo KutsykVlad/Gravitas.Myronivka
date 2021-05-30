@@ -99,18 +99,18 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpData
                 CheckOutDateTime = dao.CheckOutDateTime,
                 ContactPhoneNo = dao.ContactPhoneNo,
                 LoadTarget = dao.LoadTarget,
-                ContractCarrier = !string.IsNullOrWhiteSpace(dao.ContractCarrierId)
-                    ? _externalDataRepository.GetContractDetail(dao.ContractCarrierId)?.Name ?? "- Хибний ключ -"
+                ContractCarrier = dao.ContractCarrierId.HasValue
+                    ? _externalDataRepository.GetContractDetail(dao.ContractCarrierId.Value)?.Name ?? "- Хибний ключ -"
                     : string.Empty,
                 OrganizationId = dao.OrganizationId,
                 CreateOperatorId = dao.CreateOperatorId,
-                CreateOperatorName = !string.IsNullOrWhiteSpace(dao.CreateOperatorId)
-                    ? _externalDataRepository.GetExternalEmployeeDetail(dao.CreateOperatorId)?.ShortName ?? "- Хибний ключ -"
+                CreateOperatorName = dao.CreateOperatorId.HasValue
+                    ? _externalDataRepository.GetExternalEmployeeDetail(dao.CreateOperatorId.Value)?.ShortName ?? "- Хибний ключ -"
                     : string.Empty,
                 CreateDate = dao.CreateDate,
                 EditOperatorId = dao.EditOperatorId,
-                EditOperatorName = !string.IsNullOrWhiteSpace(dao.EditOperatorId)
-                    ? _externalDataRepository.GetExternalEmployeeDetail(dao.EditOperatorId)?.ShortName ?? "- Хибний ключ -"
+                EditOperatorName = dao.EditOperatorId.HasValue
+                    ? _externalDataRepository.GetExternalEmployeeDetail(dao.EditOperatorId.Value)?.ShortName ?? "- Хибний ключ -"
                     : string.Empty,
                 EditDate = dao.EditDate,
                 DocumentTypeId = dao.DocumentTypeId,
@@ -166,57 +166,57 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpData
                 ProductContentList = productContents ?? new ProductContentList(),
                 CarrierId = dao.CarrierId,
                 CustomPartnerName = dao.CustomPartnerName,
-                SupplyTypeName = !string.IsNullOrWhiteSpace(dao.SupplyTypeId)
-                    ? _externalDataRepository.GetSupplyTypeDetail(dao.SupplyTypeId)?.Name ?? "- Хибний ключ -"
+                SupplyTypeName = dao.SupplyTypeId.HasValue
+                    ? _externalDataRepository.GetSupplyTypeDetail(dao.SupplyTypeId.Value)?.Name ?? "- Хибний ключ -"
                     : string.Empty,
                 DocumentTypeName = !string.IsNullOrWhiteSpace(dao.DocumentTypeId)
                     ? _externalDataRepository.GetDeliveryBillTypeDetail(dao.DocumentTypeId)?.Name ?? "- Хибний ключ -"
                     : string.Empty,
-                OrganizationName = !string.IsNullOrEmpty(dao.OrganizationTitle) ? dao.OrganizationTitle : !string.IsNullOrWhiteSpace(dao.OrganizationId)
-                    ? _externalDataRepository.GetOrganisationDetail(dao.OrganizationId)?.ShortName ?? "- Хибний ключ -"
+                OrganizationName = !string.IsNullOrEmpty(dao.OrganizationTitle) ? dao.OrganizationTitle : dao.OrganizationId.HasValue
+                    ? _externalDataRepository.GetOrganisationDetail(dao.OrganizationId.Value)?.ShortName ?? "- Хибний ключ -"
                     : string.Empty,
-                KeeperOrganizationName = !string.IsNullOrWhiteSpace(dao.KeeperOrganizationId)
-                    ? _externalDataRepository.GetOrganisationDetail(dao.KeeperOrganizationId)?.ShortName ?? "- Хибний ключ -"
+                KeeperOrganizationName = dao.KeeperOrganizationId.HasValue
+                    ? _externalDataRepository.GetOrganisationDetail(dao.KeeperOrganizationId.Value)?.ShortName ?? "- Хибний ключ -"
                     : string.Empty,
-                StockName = !string.IsNullOrWhiteSpace(dao.StockId)
-                    ? _externalDataRepository.GetStockDetail(dao.StockId)?.ShortName ?? "- Хибний ключ -"
+                StockName = dao.StockId.HasValue
+                    ? _externalDataRepository.GetStockDetail(dao.StockId.Value)?.ShortName ?? "- Хибний ключ -"
                     : string.Empty,
-                ReceiverTypeName = !string.IsNullOrWhiteSpace(dao.ReceiverTypeId)
-                    ? _externalDataRepository.GetOriginTypeDetail(dao.ReceiverTypeId)?.Name ?? "- Хибний ключ -"
+                ReceiverTypeName = dao.ReceiverTypeId.HasValue
+                    ? _externalDataRepository.GetOriginTypeDetail(dao.ReceiverTypeId.Value)?.Name ?? "- Хибний ключ -"
                     : string.Empty,
-                ReceiverName = !string.IsNullOrEmpty(dao.ReceiverTitle) ? dao.ReceiverTitle : !string.IsNullOrWhiteSpace(dao.ReceiverId)
-                    ? _externalDataRepository.GetStockDetail(dao.ReceiverId)?.ShortName
-                      ?? _externalDataRepository.GetSubdivisionDetail(dao.ReceiverId)?.ShortName
-                      ?? _externalDataRepository.GetPartnerDetail(dao.ReceiverId)?.ShortName
+                ReceiverName = !string.IsNullOrEmpty(dao.ReceiverTitle) ? dao.ReceiverTitle : dao.ReceiverId.HasValue
+                    ? _externalDataRepository.GetStockDetail(dao.ReceiverId.Value)?.ShortName
+                      ?? _externalDataRepository.GetSubdivisionDetail(dao.ReceiverId.Value)?.ShortName
+                      ?? _externalDataRepository.GetPartnerDetail(dao.ReceiverId.Value)?.ShortName
                       ?? "- Хибний ключ -"
                     : string.Empty,
-                ReceiverAnaliticsName = !string.IsNullOrWhiteSpace(dao.ReceiverAnaliticsId)
-                    ? _externalDataRepository.GetCropDetail(dao.ReceiverAnaliticsId)?.Name
-                      ?? _externalDataRepository.GetContractDetail(dao.ReceiverAnaliticsId)?.Name
+                ReceiverAnaliticsName = dao.ReceiverAnaliticsId.HasValue
+                    ? _externalDataRepository.GetCropDetail(dao.ReceiverAnaliticsId.Value)?.Name
+                      ?? _externalDataRepository.GetContractDetail(dao.ReceiverAnaliticsId.Value)?.Name
                       ?? "- Хибний ключ -"
                     : string.Empty,
-                ProductName = !string.IsNullOrEmpty(dao.ProductTitle) ? dao.ProductTitle : !string.IsNullOrWhiteSpace(dao.ProductId)
-                    ? _externalDataRepository.GetProductDetail(dao.ProductId)?.ShortName ?? "- Хибний ключ -"
+                ProductName = !string.IsNullOrEmpty(dao.ProductTitle) ? dao.ProductTitle : dao.ProductId.HasValue
+                    ? _externalDataRepository.GetProductDetail(dao.ProductId.Value)?.ShortName ?? "- Хибний ключ -"
                     : string.Empty,
-                HarvestName = !string.IsNullOrWhiteSpace(dao.HarvestId)
-                    ? _externalDataRepository.GetYearOfHarvestDetail(dao.HarvestId)?.Name ?? "- Хибний ключ -"
+                HarvestName = dao.HarvestId.HasValue
+                    ? _externalDataRepository.GetYearOfHarvestDetail(dao.HarvestId.Value)?.Name ?? "- Хибний ключ -"
                     : string.Empty,
-                BuyBudgetName = !string.IsNullOrWhiteSpace(dao.BuyBudgetId)
-                    ? _externalDataRepository.GetBudgetDetail(dao.BuyBudgetId)?.Name ?? "- Хибний ключ -"
+                BuyBudgetName = dao.BuyBudgetId.HasValue
+                    ? _externalDataRepository.GetBudgetDetail(dao.BuyBudgetId.Value)?.Name ?? "- Хибний ключ -"
                     : string.Empty,
-                SellBudgetName = !string.IsNullOrWhiteSpace(dao.SellBudgetId)
-                    ? _externalDataRepository.GetBudgetDetail(dao.SellBudgetId)?.Name ?? "- Хибний ключ -"
+                SellBudgetName = dao.SellBudgetId.HasValue
+                    ? _externalDataRepository.GetBudgetDetail(dao.SellBudgetId.Value)?.Name ?? "- Хибний ключ -"
                     : string.Empty,
                 FirstTareTime = dao.FirstTareTime,
                 LastTareTime = dao.LastTareTime,
                 TareOperatorId = dao.TareOperatorId,
-                TareOperatorName = _externalDataRepository.GetExternalEmployeeDetail(dao.TareOperatorId)?.ShortName,
+                TareOperatorName = dao.TareOperatorId.HasValue ? _externalDataRepository.GetExternalEmployeeDetail(dao.TareOperatorId.Value)?.ShortName : string.Empty,
                 TareValue = dao.TareValue,
                 TrailerTareValue = dao.TrailerTareValue,
                 FirstGrossTime = dao.FirstGrossTime,
                 LastGrossTime = dao.LastGrossTime,
                 GrossOperatorId = dao.GrossOperatorId,
-                GrossOperatorName = _externalDataRepository.GetExternalEmployeeDetail(dao.GrossOperatorId)?.ShortName,
+                GrossOperatorName = dao.GrossOperatorId.HasValue ? _externalDataRepository.GetExternalEmployeeDetail(dao.GrossOperatorId.Value)?.ShortName : string.Empty,
                 GrossValue = dao.GrossValue,
                 TrailerGrossValue = dao.TrailerGrossValue,
                 ScaleInNumber = _opDataRepository.GetFirstProcessed<ScaleOpData>(e => e.TicketId == dao.TicketId)?.NodeId ?? 0,
@@ -235,13 +235,13 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpData
                 LabImpurityValue = dao.LabImpurityValue,
                 LabOilContentValue = dao.LabOilContentValue,
                 LaboratoryOperatorId = dao.LabolatoryOperatorId,
-                LaboratoryOperatorName = _externalDataRepository.GetExternalEmployeeDetail(dao.LabolatoryOperatorId)?.ShortName,
+                LaboratoryOperatorName = dao.LabolatoryOperatorId.HasValue ? _externalDataRepository.GetExternalEmployeeDetail(dao.LabolatoryOperatorId.Value)?.ShortName : string.Empty,
                 LabFileId = _ticketRepository.GetFirstOrDefault<TicketFile, int>(item => item.TicketId == dao.TicketId)?.Id,
                 CollectionPointId = dao.CollectionPointId,
                 ReturnCauseId = dao.ReturnCauseId,
                 LoadOutDateTime = dao.LoadOutDateTime,
                 LoadingOperatorId = dao.LoadingOperatorId,
-                LoadingOperatorName = _externalDataRepository.GetExternalEmployeeDetail(dao.LoadingOperatorId)?.ShortName,
+                LoadingOperatorName = dao.LoadingOperatorId.HasValue ? _externalDataRepository.GetExternalEmployeeDetail(dao.LoadingOperatorId.Value)?.ShortName : string.Empty,
                 StatusType = dao.StatusType
             };
             return dto;
@@ -382,14 +382,15 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpData
                     ? _context.Stocks.FirstOrDefault(e => e.Id == singleWindowOpData.ReceiverDepotId)?.ShortName ?? string.Empty
                     : string.Empty;
                 data.LoadTarget = singleWindowOpData.LoadTarget;
-                data.ProductName = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId)?.ShortName ??
+                data.ProductName = singleWindowOpData.ProductId.HasValue 
+                    ? _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId.Value)?.ShortName ??
                                    singleWindowOpData.ProductTitle ??
-                                   string.Empty;
+                                   string.Empty : string.Empty;
 
-                data.SenderName = !string.IsNullOrWhiteSpace(singleWindowOpData.ReceiverId)
-                    ? _externalDataRepository.GetStockDetail(singleWindowOpData.ReceiverId)?.ShortName
-                      ?? _externalDataRepository.GetSubdivisionDetail(singleWindowOpData.ReceiverId)?.ShortName
-                      ?? _externalDataRepository.GetPartnerDetail(singleWindowOpData.ReceiverId)?.ShortName
+                data.SenderName = singleWindowOpData.ReceiverId.HasValue
+                    ? _externalDataRepository.GetStockDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
+                      ?? _externalDataRepository.GetSubdivisionDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
+                      ?? _externalDataRepository.GetPartnerDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
                       ?? singleWindowOpData.CustomPartnerName
                       ?? "- Хибний ключ -"
                     : string.Empty;
@@ -406,11 +407,13 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpData
                 else
                 {
                     data.TransportNo =
-                        _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId)?.RegistrationNo ??
-                        string.Empty;
+                        singleWindowOpData.TransportId.HasValue 
+                            ? _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId.Value)?.RegistrationNo
+                            : string.Empty;
                     data.TrailerNo =
-                        _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId)?.RegistrationNo ??
-                        string.Empty;
+                        singleWindowOpData.TrailerId.HasValue
+                            ? _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId.Value)?.RegistrationNo
+                            : string.Empty;
                 }
             }
 

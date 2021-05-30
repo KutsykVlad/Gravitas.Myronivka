@@ -91,7 +91,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
 
         public bool IsEmployeeSignValid(out NodeProcessingMsgItem errMsgItem, Card card, int nodeId)
         {
-            if (!_visaValidationManager.ValidateEmployeeAccess(nodeId, card.EmployeeId))
+            if (!_visaValidationManager.ValidateEmployeeAccess(nodeId, card.EmployeeId.Value))
             {
                 errMsgItem =
                     new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"У робітника нема прав підписувати даний вузол");

@@ -28,7 +28,8 @@ namespace Gravitas.Platform.Web.ViewModel {
 			public float SiloFull { get; set; }
 			
 			[DisplayName("Продукція")]
-			public string ProductId { get; set; }
+			public string ProductName { get; set; }
+			public Guid? ProductId { get; set; }
 			
 			[DisplayName("Специфікація")]
 			public string Specification { get; set; }

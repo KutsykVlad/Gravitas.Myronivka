@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Gravitas.DAL.DbContext;
@@ -50,7 +51,7 @@ namespace Gravitas.Platform.Web.Manager.ExternalData
             return vm;
         }
 
-        public EmployeeItemVm GetEmployeeItemVm(string id)
+        public EmployeeItemVm GetEmployeeItemVm(Guid id)
         {
             var employee = _context.Employees.Where(e => e.Id == id)
                 .Select(e => new EmployeeItemVm
@@ -73,7 +74,7 @@ namespace Gravitas.Platform.Web.Manager.ExternalData
             return vm;
         }
 
-        public FixedTrailerItemVm GetFixedTrailerItemVm(string id)
+        public FixedTrailerItemVm GetFixedTrailerItemVm(Guid id)
         {
             var trailer = _context.FixedAssets.Where(e => e.Id == id)
                 .Select(e => new FixedTrailerItemVm
@@ -102,7 +103,7 @@ namespace Gravitas.Platform.Web.Manager.ExternalData
             return vm;
         }
 
-        public StockItemVm GetStockItemVm(string id)
+        public StockItemVm GetStockItemVm(Guid id)
         {
             var stockItem = _context.Stocks.Where(e => e.Id == id)
                 .Select(e => new StockItemVm
@@ -117,7 +118,7 @@ namespace Gravitas.Platform.Web.Manager.ExternalData
             return stockItem;
         }
 
-        public FixedAssetItemVm GetFixedAssetItem(string id)
+        public FixedAssetItemVm GetFixedAssetItem(Guid id)
         {
             var item =
                 _context.FixedAssets.Where(t => t.Id == id)
@@ -211,30 +212,30 @@ namespace Gravitas.Platform.Web.Manager.ExternalData
             };
         }
 
-        public BudgetItemsVm GetBudgetChildren(string parentId = "00000000-0000-0000-0000-000000000000")
+        public BudgetItemsVm GetBudgetChildren(Guid? parentId)
         {
-            var dto = _externalDataRepository.GetBudgetChildItem(parentId);
+            var dto = _externalDataRepository.GetBudgetChildItem(parentId ?? Guid.Parse("00000000-0000-0000-0000-000000000000"));
             var vm = Mapper.Map<BudgetItemsVm>(dto);
             return vm;
         }
 
-        public ProductItemsVm GetProductChildren(string parentId = "00000000-0000-0000-0000-000000000000")
+        public ProductItemsVm GetProductChildren(Guid? parentId)
         {
-            var dto = _externalDataRepository.GetProductChildItems(parentId);
+            var dto = _externalDataRepository.GetProductChildItems(parentId ?? Guid.Parse("00000000-0000-0000-0000-000000000000"));
             var vm = Mapper.Map<ProductItemsVm>(dto);
             return vm;
         }
 
-        public EmployeeItemsVm GetEmployeeChildren(string parentId = "00000000-0000-0000-0000-000000000000")
+        public EmployeeItemsVm GetEmployeeChildren(Guid? parentId)
         {
-            var dto = _externalDataRepository.GetEmployeeChildItems(parentId);
+            var dto = _externalDataRepository.GetEmployeeChildItems(parentId ?? Guid.Parse("00000000-0000-0000-0000-000000000000"));
             var vm = Mapper.Map<EmployeeItemsVm>(dto);
             return vm;
         }
 
-        public PartnerItemsVm GetPartnerChildren(string parentId = "00000000-0000-0000-0000-000000000000")
+        public PartnerItemsVm GetPartnerChildren(Guid? parentId)
         {
-            var dto = _externalDataRepository.GetPartnerChildItems(parentId);
+            var dto = _externalDataRepository.GetPartnerChildItems(parentId ?? Guid.Parse("00000000-0000-0000-0000-000000000000"));
             var vm = Mapper.Map<PartnerItemsVm>(dto);
             return vm;
         }

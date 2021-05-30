@@ -1,8 +1,9 @@
-﻿using Gravitas.Model.DomainModel.Base;
+﻿using System;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.DomainModel.ExternalData.Organization.DTO.Detail
 {
-    public class OrganisationDetail : BaseEntity<string>
+    public class OrganisationDetail : BaseEntity<Guid>
     {
         public string Code { get; set; }
         public string ShortName { get; set; }

@@ -9,7 +9,7 @@ namespace Gravitas.Model.DomainModel.OpVisa.DAO
     public class OpVisa : BaseEntity<int>
     {
         public DateTime? DateTime { get; set; }
-        public string EmployeeId { get; set; }
+        public Guid? EmployeeId { get; set; }
         public string Message { get; set; }
 
         public Guid? LabFacelessOpDataId { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
@@ -15,7 +16,7 @@ namespace Gravitas.DAL.Repository.EmployeeRoles
             _context = context;
         }
 
-        public RolesDto GetEmployeeRoles(string employeeId)
+        public RolesDto GetEmployeeRoles(Guid employeeId)
         {
             var items = _context.EmployeeRoles
                 .AsNoTracking()
@@ -135,7 +136,7 @@ namespace Gravitas.DAL.Repository.EmployeeRoles
             Delete<Role, int>(role);
         }
 
-        public void ApplyEmployeeRoles(RolesDto employeeRoles, string employeeId)
+        public void ApplyEmployeeRoles(RolesDto employeeRoles, Guid employeeId)
         {
             var roles = _context.EmployeeRoles.Where(t => t.EmployeeId == employeeId).ToList();
             foreach (var role in roles)

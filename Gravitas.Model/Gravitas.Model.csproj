@@ -163,7 +163,6 @@
     <Compile Include="DomainModel\ExternalData\DeliveryBill\DAO\DeliveryBillType.cs" />
     <Compile Include="DomainModel\ExternalData\FixedAsset\DAO\FixedAsset.cs" />
     <Compile Include="DomainModel\ExternalData\Product\DAO\Product.cs" />
-    <Compile Include="DomainModel\ExternalData\DeliveryBill\DAO\DeliveryBill.cs" />
     <Compile Include="DomainModel\ExternalData\MeasureUnit\DAO\MeasureUnit.cs" />
     <Compile Include="DomainModel\ExternalData\SupplyType\DTO\SupplyTypeDetail.cs" />
     <Compile Include="DomainModel\ExternalData\YearOfHarvest\DAO\YearOfHarvest.cs" />

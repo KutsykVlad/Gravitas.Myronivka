@@ -32,7 +32,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 NodeId = nodeId,
                 OpDataId = nodeDto.Context.OpDataId.Value,
                 SamplePrintoutVm = LaboratoryIn_SamplePrintout_GetVm(nodeDto.Context.OpDataId.Value),
-                ReasonsForRefund = _externalDataRepository.GetQuery<ReasonForRefund, string>().ToList(),
+                ReasonsForRefund = _externalDataRepository.GetQuery<ReasonForRefund, Guid>().ToList(),
                 OpDataState = opDataState.HasValue ? opDataState.GetDescription() : string.Empty,
                 IsLabFile = _ticketRepository.GetTicketFilesByType(TicketFileType.LabCertificate).Any(item => item.TicketId == nodeDto.Context.TicketId)
             };
@@ -175,7 +175,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 NodeId = nodeId,
                 OpDataId = nodeDto.Context.OpDataId.Value,
                 AnalysisValueDescriptor = analysisValueDescriptor,
-                Product = _externalDataRepository.GetProductDetail(opData.ProductId)?.ShortName ?? string.Empty,
+                Product = _externalDataRepository.GetProductDetail(opData.ProductId.Value)?.ShortName ?? string.Empty,
                 Card = card != null ? card.No.ToString() : string.Empty
             };
 
@@ -573,7 +573,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 OpDataId = nodeDto.Context.OpDataId.Value,
                 SamplePrintoutVm = LaboratoryIn_SamplePrintout_GetVm(nodeDto.Context.OpDataId.Value),
                 IsLabFile = _ticketRepository.GetTicketFilesByType(TicketFileType.LabCertificate).Any(item => item.TicketId == nodeDto.Context.TicketId),
-                ReasonsForRefund = _externalDataRepository.GetQuery<ReasonForRefund, string>().ToList(),
+                ReasonsForRefund = _externalDataRepository.GetQuery<ReasonForRefund, Guid>().ToList(),
                 DocumentTypeId = _context.SingleWindowOpDatas.First(x => x.TicketId == nodeDto.Context.TicketId).DocumentTypeId
             };
 
@@ -657,7 +657,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (receiverAnalyticsId == null) return null;
 
             var contract = _context.Contracts.FirstOrDefault (x => x.Id == receiverAnalyticsId);
-            var manager = _externalDataRepository.GetEmployeeDetail(contract?.ManagerId);
+            var manager = _externalDataRepository.GetEmployeeDetail(contract.ManagerId.Value);
             
             return new LaboratoryInVms.PrintCollisionInitVm
                           {
@@ -796,13 +796,13 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             var singleWindowOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(labFacelessOpData.TicketId);
             if (singleWindowOpData != null)
             {
-                vm.ProductName = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId)?.ShortName ??
+                vm.ProductName = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId.Value)?.ShortName ??
                                  string.Empty;
 
-                vm.SenderName = !string.IsNullOrWhiteSpace(singleWindowOpData.ReceiverId)
-                    ? _externalDataRepository.GetStockDetail(singleWindowOpData.ReceiverId)?.ShortName
-                      ?? _externalDataRepository.GetSubdivisionDetail(singleWindowOpData.ReceiverId)?.ShortName
-                      ?? _externalDataRepository.GetPartnerDetail(singleWindowOpData.ReceiverId)?.ShortName
+                vm.SenderName = singleWindowOpData.ReceiverId.HasValue
+                    ? _externalDataRepository.GetStockDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
+                      ?? _externalDataRepository.GetSubdivisionDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
+                      ?? _externalDataRepository.GetPartnerDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
                       ?? singleWindowOpData.CustomPartnerName
                       ?? "- Хибний ключ -"
                     : string.Empty;
@@ -815,10 +815,10 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 else
                 {
                     vm.TransportNo =
-                        _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId)?.RegistrationNo ??
+                        _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId.Value)?.RegistrationNo ??
                         string.Empty;
                     vm.TrailerNo =
-                        _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId)?.RegistrationNo ??
+                        _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId.Value)?.RegistrationNo ??
                         string.Empty;
                 }
             }
@@ -835,7 +835,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     Id = e.Id,
                     DateTime = e.DateTime,
                     Message = e.Message,
-                    UserName = _externalDataRepository.GetExternalEmployeeDetail(e.EmployeeId)?.ShortName,
+                    UserName = _externalDataRepository.GetExternalEmployeeDetail(e.EmployeeId.Value)?.ShortName,
                     Comment = GenerateLabOpVisaComment(e.OpRoutineStateId, labFacelessOpData)
                 }).ToList()
             };
@@ -850,7 +850,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                         Id = opVisa.Id,
                         DateTime = opVisa.DateTime,
                         Message = opVisa.Message,
-                        UserName = _externalDataRepository.GetEmployeeDetail(opVisa.EmployeeId)?.ShortName,
+                        UserName = _externalDataRepository.GetEmployeeDetail(opVisa.EmployeeId.Value)?.ShortName,
                         Comment = GenerateComponentComment(component)
                     });
             }

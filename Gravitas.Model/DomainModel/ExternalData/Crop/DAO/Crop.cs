@@ -1,12 +1,13 @@
-﻿using Gravitas.Model.DomainModel.Base;
+﻿using System;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.DomainModel.ExternalData.Crop.DAO
 {
-    public class Crop : BaseEntity<string>
+    public class Crop : BaseEntity<Guid>
     {
         public string Code { get; set; }
         public string Name { get; set; }
         public bool IsFolder { get; set; }
-        public string ParentId { get; set; }
+        public Guid? ParentId { get; set; }
     }
 }

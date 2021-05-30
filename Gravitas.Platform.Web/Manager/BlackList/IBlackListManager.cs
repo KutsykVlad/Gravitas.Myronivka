@@ -1,4 +1,5 @@
-﻿using Gravitas.Platform.Web.ViewModel;
+﻿using System;
+using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.BlackList;
 using Gravitas.Platform.Web.ViewModel.BlackList.Record;
 
@@ -16,6 +17,6 @@ namespace Gravitas.Platform.Web.Manager.BlackList
         void DeleteBlackListDriverRecord(int driverId);
         void DeleteBlackListTrailerRecord(int trailerId);
         void DeleteBlackListTransportRecord(int transportId);
-        void DeleteBlackListPartnerRecord(string partnerId);
+        void DeleteBlackListPartnerRecord(Guid partnerId);
     }
 }

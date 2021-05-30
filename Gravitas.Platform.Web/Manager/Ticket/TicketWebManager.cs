@@ -185,9 +185,9 @@ namespace Gravitas.Platform.Web.Manager.Ticket
                         join t in _context.Set<FixedAsset>() on i.TransportId equals t.Id into transportJoin
                         join tr in _context.Set<FixedAsset>() on i.TrailerId equals tr.Id into trailerJoin
                         join p in _context.Set<Product>() on i.ProductId equals p.Id into productJoin
-                        join s in _context.Stocks on i.ReceiverId ?? string.Empty equals s.Id into stockJoin
-                        join p in _context.Partners on i.ReceiverId ?? string.Empty equals p.Id into partnerJoin
-                        join sub in _context.Subdivisions on i.ReceiverId ?? string.Empty equals sub.Id into subDivisionJoin
+                        join s in _context.Stocks on i.ReceiverId equals s.Id into stockJoin
+                        join p in _context.Partners on i.ReceiverId equals p.Id into partnerJoin
+                        join sub in _context.Subdivisions on i.ReceiverId equals sub.Id into subDivisionJoin
                         join tic in _context.Tickets on i.TicketId equals tic.Id into ticketJoin
                         from ticket in ticketJoin.DefaultIfEmpty()
                         from transport in transportJoin.DefaultIfEmpty()
@@ -209,7 +209,7 @@ namespace Gravitas.Platform.Web.Manager.Ticket
                             IsThirdPartyCarrier = i.IsThirdPartyCarrier,
                             ProductName = product != null ? product.ShortName : string.Empty,
                             EditDateTime = i.EditDate.ToString(),
-                            PartnerName = i.ReceiverId != null && i.ReceiverId != "" ?
+                            PartnerName = i.ReceiverId != null && i.ReceiverId.HasValue ?
                                            stock.ShortName
                                                ?? stock.ShortName
                                                ?? partner.ShortName
@@ -294,9 +294,9 @@ namespace Gravitas.Platform.Web.Manager.Ticket
                 {
                     return (from i in _context.SingleWindowOpDatas.AsNoTracking()
                             join p in _context.Products.AsNoTracking() on i.ProductId equals p.Id into productJoin
-                            join s in _context.Stocks.AsNoTracking() on i.ReceiverId ?? string.Empty equals s.Id into stockJoin
-                            join p in _context.Partners.AsNoTracking() on i.ReceiverId ?? string.Empty equals p.Id into partnerJoin
-                            join sub in _context.Subdivisions.AsNoTracking() on i.ReceiverId ?? string.Empty equals sub.Id into subDivisionJoin
+                            join s in _context.Stocks.AsNoTracking() on i.ReceiverId equals s.Id into stockJoin
+                            join p in _context.Partners.AsNoTracking() on i.ReceiverId equals p.Id into partnerJoin
+                            join sub in _context.Subdivisions.AsNoTracking() on i.ReceiverId equals sub.Id into subDivisionJoin
                             from product in productJoin.DefaultIfEmpty()
                             from stock in stockJoin.DefaultIfEmpty()
                             from partner in partnerJoin.DefaultIfEmpty()
@@ -304,7 +304,7 @@ namespace Gravitas.Platform.Web.Manager.Ticket
                             where i.TicketId == item.TicketId
                             select new
                             {
-                                ParnterName = i.ReceiverId != null && i.ReceiverId != "" ?
+                                ParnterName = i.ReceiverId != null && i.ReceiverId.HasValue ?
                                               stock.ShortName
                                                   ?? stock.ShortName
                                                   ?? partner.ShortName

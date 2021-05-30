@@ -458,7 +458,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 };
                 _opDataRepository.Add<LoadGuideOpData, Guid>(loadGuide);
                 
-                var unloadResult = _unloadPointManager.ConfirmUnloadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId);
+                var unloadResult = _unloadPointManager.ConfirmUnloadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId.Value);
                 if (!unloadResult) return;
                 _routesInfrastructure.SetSecondaryRoute(nodeDetailsDto.Context.TicketId.Value, nodeDetailsDto.Id, RouteType.Reload);
                 _connectManager.SendSms(SmsTemplate.RouteChangeSms, nodeDetailsDto.Context.TicketId);

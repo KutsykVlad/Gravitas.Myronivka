@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web.Mvc;
@@ -19,7 +20,6 @@ using Gravitas.Model.DomainModel.ExternalData.Stock.DAO;
 using Gravitas.Model.DomainModel.PhoneDictionary.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.Manager.Admin;
-using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Admin;
 using Gravitas.Platform.Web.ViewModel.Admin.NodeDetails;
 using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
@@ -283,7 +283,7 @@ namespace Gravitas.Platform.Web.Controllers
         #region Dictionary update
 
         // http://localhost:3142/Admin/UpdateRecord?dictName=Employee&id=8c0fb04e-6345-44aa-ba4d-b192c819ffa3
-        public string UpdateRecord(string dictName, string id)
+        public string UpdateRecord(string dictName, Guid id)
         {
             var oneCApiClient = new OneCApiClient(GlobalConfigurationManager.OneCApiHost);
             string response = "None";
@@ -293,37 +293,37 @@ namespace Gravitas.Platform.Web.Controllers
                 case "Employee":
                     var employee = oneCApiClient.GetEmployee(id);
                     obj = employee;
-                    _externalDataRepository.AddOrUpdate<Employee, string>(employee);
+                    _externalDataRepository.AddOrUpdate<Employee, Guid>(employee);
                     break;
                 case "Contract":
                     var contract = oneCApiClient.GetContract(id);
                     obj = contract;
-                    _externalDataRepository.AddOrUpdate<Contract, string>(contract);
+                    _externalDataRepository.AddOrUpdate<Contract, Guid>(contract);
                     break;
                 case "Organisation":
                     var organisation = oneCApiClient.GetOrganisation(id);
                     obj = organisation;
-                    _externalDataRepository.AddOrUpdate<Organisation, string>(organisation);
+                    _externalDataRepository.AddOrUpdate<Organisation, Guid>(organisation);
                     break;
                 case "Partner":
                     var partner = oneCApiClient.GetPartner(id);
                     obj = partner;
-                    _externalDataRepository.AddOrUpdate<Partner, string>(partner);
+                    _externalDataRepository.AddOrUpdate<Partner, Guid>(partner);
                     break;
                 case "Product":
                     var product = oneCApiClient.GetProduct(id);
                     obj = product;
-                    _externalDataRepository.AddOrUpdate<Product, string>(product);
+                    _externalDataRepository.AddOrUpdate<Product, Guid>(product);
                     break;
                 case "Stock":
                     var stock = oneCApiClient.GetStock(id);
                     obj = stock;
-                    _externalDataRepository.AddOrUpdate<Stock, string>(stock);
+                    _externalDataRepository.AddOrUpdate<Stock, Guid>(stock);
                     break;
                 case "FixedAssets":
                     var fixedAssets = oneCApiClient.GetFixedAsset(id);
                     obj = fixedAssets;
-                    _externalDataRepository.AddOrUpdate<FixedAsset, string>(fixedAssets);
+                    _externalDataRepository.AddOrUpdate<FixedAsset, Guid>(fixedAssets);
                     break;
             }
 

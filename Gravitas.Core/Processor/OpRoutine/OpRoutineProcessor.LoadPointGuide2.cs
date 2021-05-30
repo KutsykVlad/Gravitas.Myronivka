@@ -72,7 +72,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             var card = _userManager.GetValidatedUsersCardByTableReader(nodeDetailsDto);
             if (card == null) return;
                
-            var loadResultConfirm = _loadPointManager.ConfirmLoadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId);
+            var loadResultConfirm = _loadPointManager.ConfirmLoadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId.Value);
             if (!loadResultConfirm) return;
 
             if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId))

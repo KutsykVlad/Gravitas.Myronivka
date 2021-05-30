@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,7 +28,7 @@ namespace Gravitas.Platform.Web.ViewModel
             [DisplayName("Доступні менеджери")] public string Manager1 { get; set; }
             public string Manager2 { get; set; }
             public string Manager3 { get; set; }
-            public Dictionary<string, Model.DomainModel.ExternalData.Employee.DAO.Employee> ManagerList = new Dictionary<string, Model.DomainModel.ExternalData.Employee.DAO.Employee>();
+            public Dictionary<Guid, Model.DomainModel.ExternalData.Employee.DAO.Employee> ManagerList = new Dictionary<Guid, Model.DomainModel.ExternalData.Employee.DAO.Employee>();
 
             public string Comment { get; set; }
         }

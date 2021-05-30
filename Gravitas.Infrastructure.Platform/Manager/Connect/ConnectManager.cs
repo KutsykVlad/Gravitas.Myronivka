@@ -136,7 +136,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
             data.TransportNo = singleWindowOpData.HiredTransportNumber;
             data.TrailerNo = singleWindowOpData.HiredTrailerNumber;
             data.ReceiverName = _externalDataRepository
-                                    .GetOrganisationDetail(singleWindowOpData.OrganizationId)
+                                    .GetOrganisationDetail(singleWindowOpData.OrganizationId.Value)
                                     ?.ShortName ?? singleWindowOpData.CustomPartnerName;
             PutAdditionalProperties(ref data, parameters);
 
@@ -208,14 +208,16 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
             if (!singleWindowOpData.IsThirdPartyCarrier)
             {
                 data.TransportNo =
-                    _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId)?.RegistrationNo ??
-                    string.Empty;
+                    singleWindowOpData.TransportId.HasValue 
+                        ? _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId.Value)?.RegistrationNo
+                        : string.Empty;
                 data.TrailerNo =
-                    _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId)?.RegistrationNo ??
-                    string.Empty;
+                    singleWindowOpData.TrailerId.HasValue
+                        ? _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId.Value)?.RegistrationNo
+                        : string.Empty;
             }
 
-            data.ProductName = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId)?.ShortName ??
+            data.ProductName = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId.Value)?.ShortName ??
                                string.Empty;
 
             sms = new SmsMessage

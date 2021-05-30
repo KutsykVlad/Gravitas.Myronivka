@@ -1,4 +1,5 @@
-﻿using Gravitas.DAL.DbContext;
+﻿using System;
+using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 using Gravitas.Model.DomainModel.BlackList.TDO;
@@ -33,7 +34,7 @@ namespace Gravitas.DAL.Repository.BlackList
                 });
         }
 
-        public void DeletePartner(string partnerId)
+        public void DeletePartner(Guid partnerId)
         {
             var record = GetSingleOrDefault<PartnersBlackListRecord, int>(t => t.Partner.Id == partnerId);
             if (record != null)

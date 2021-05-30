@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Gravitas.Model;
 using Gravitas.Platform.Web.Manager.BlackList;
 using Gravitas.Platform.Web.ViewModel.BlackList.Record;
@@ -88,7 +89,7 @@ namespace Gravitas.Platform.Web.Controllers
             return RedirectToAction("Records");
         }
 
-        public ActionResult DeletePartnerRecord(string id)
+        public ActionResult DeletePartnerRecord(Guid id)
         {
             _blackListManager.DeleteBlackListPartnerRecord(id);
             return RedirectToAction("Records");

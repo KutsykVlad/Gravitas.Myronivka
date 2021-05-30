@@ -51,10 +51,10 @@ namespace Gravitas.Platform.Web.Manager.Employee
             var items = new List<EmployeeDetailsVm>();
             int listCount;
 
-            var isGuidPassed = Guid.TryParse(name, out _);
+            var isGuidPassed = Guid.TryParse(name, out var guid);
             if (isGuidPassed)
             {
-                var e = _context.Employees.First(x => x.Id == name);
+                var e = _context.Employees.First(x => x.Id == guid);
                 listCount = 1;
                 items.Add(new EmployeeDetailsVm
                 {
@@ -65,7 +65,7 @@ namespace Gravitas.Platform.Web.Manager.Employee
             }
             else
             {
-                Dictionary<string, EmployeeRole> filteredEmployee = null;
+                Dictionary<Guid, EmployeeRole> filteredEmployee = null;
                 if (roleId != null)
                     filteredEmployee = _context.EmployeeRoles.Where(x => x.RoleId == roleId).ToDictionary(x => x.EmployeeId);
 
@@ -99,7 +99,7 @@ namespace Gravitas.Platform.Web.Manager.Employee
             };
         }
 
-        public EmployeeDetailsVm GetEmployeeDetails(string id)
+        public EmployeeDetailsVm GetEmployeeDetails(Guid id)
         {
             var employee = _externalDataRepository.GetEmployeeDetail(id);
             var employeeCards = _context.Cards
@@ -152,7 +152,7 @@ namespace Gravitas.Platform.Web.Manager.Employee
         }
 
 
-        public (bool, string) AssignCardToEmployee(string employeeId)
+        public (bool, string) AssignCardToEmployee(Guid employeeId)
         {
             if (_employeeRolesRepository.GetEmployeeRoles(employeeId).Items.Count < 1)
                 return (false, @"Ви не можете прив'язати картку робітнику без ролей");

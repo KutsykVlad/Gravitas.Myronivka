@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Gravitas.Model.DomainValue;
 
@@ -10,7 +11,7 @@ namespace Gravitas.Platform.Web.ViewModel.Admin.QueuePriority
         [DisplayName("Ім`я власника")]
         public string ReceiverName { get; set; }
 
-        public string ReceiverId { get; set; }
+        public Guid? ReceiverId { get; set; }
         [DisplayName("Пріоритет")]
         public Model.DomainValue.QueuePriority Priority { get; set; }
         public string PriorityDescription { get; set; }

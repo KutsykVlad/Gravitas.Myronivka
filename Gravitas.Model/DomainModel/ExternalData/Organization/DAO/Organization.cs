@@ -1,8 +1,9 @@
-﻿using Gravitas.Model.DomainModel.Base;
+﻿using System;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.DomainModel.ExternalData.Organization.DAO
 {
-    public class Organisation : BaseEntity<string>
+    public class Organisation : BaseEntity<Guid>
     {
         public string Code { get; set; }
         public string ShortName { get; set; }
@@ -10,6 +11,6 @@ namespace Gravitas.Model.DomainModel.ExternalData.Organization.DAO
         public string Address { get; set; }
 
         public bool IsFolder { get; set; }
-        public string ParentId { get; set; }
+        public Guid? ParentId { get; set; }
     }
 }

@@ -66,7 +66,7 @@ namespace Gravitas.Platform.Web.Manager.Admin
                         Category = t.CategoryId,
                         CategoryDescription = t.CategoryId.GetDescription(),
                         PriorityDescription = t.PriorityId.GetDescription(),
-                        ReceiverName = t.PartnerId == null? null :_externalDataRepository.GetPartnerDetail(t.PartnerId).ShortName,
+                        ReceiverName = t.PartnerId == null ? null :_externalDataRepository.GetPartnerDetail(t.PartnerId.Value).ShortName,
                         IsFixed = t.CategoryId != QueueCategory.Partners
                     })
                     .OrderBy(vm => vm.Category)

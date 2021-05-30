@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Gravitas.Platform.Web.ViewModel.User;
 
@@ -6,7 +7,7 @@ namespace Gravitas.Platform.Web.ViewModel.Employee
 {
     public class EmployeeDetailsVm
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [DisplayName("Ім'я")]
         public string ShortName { get; set; }

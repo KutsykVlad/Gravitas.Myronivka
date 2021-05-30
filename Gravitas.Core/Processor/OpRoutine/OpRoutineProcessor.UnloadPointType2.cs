@@ -141,7 +141,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             var card = _userManager.GetValidatedUsersCardByOnGateReader(nodeDetailsDto);
             if (card == null) return;
             
-            var unloadResult = _unloadPointManager.ConfirmUnloadPoint(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId);
+            var unloadResult = _unloadPointManager.ConfirmUnloadPoint(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId.Value);
             if (!unloadResult) return;
             
             _routesInfrastructure.MoveForward(nodeDetailsDto.Context.TicketId.Value, nodeDetailsDto.Id);

@@ -25,8 +25,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
             else
             {
-                truckNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId).RegistrationNo;
-                trailerNo = string.IsNullOrEmpty(singleWindowOpData.TrailerId) ? " " : _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId).RegistrationNo;
+                truckNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId.Value).RegistrationNo;
+                trailerNo = !singleWindowOpData.TrailerId.HasValue ? " " : _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId.Value).RegistrationNo;
             }
 
             var ticket = _context.Tickets.First(x => x.Id == nodeDto.Context.TicketId.Value);

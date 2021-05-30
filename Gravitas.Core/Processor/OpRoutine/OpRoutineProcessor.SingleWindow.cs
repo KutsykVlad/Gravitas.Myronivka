@@ -573,8 +573,8 @@ namespace Gravitas.Core.Processor.OpRoutine
                 windowOpData.IncomeDocGrossValue = deliveryBill.IncomeDocGrossValue;
                 windowOpData.IncomeDocTareValue = deliveryBill.IncomeDocTareValue;
                 windowOpData.CarrierId = deliveryBill.CarrierCodeId;
-                windowOpData.CarrierCode = !string.IsNullOrEmpty(deliveryBill.CarrierCodeId) 
-                    ? _externalDataRepository.GetPartnerDetail(deliveryBill.CarrierCodeId)?.Code ?? "Хибний ключ"
+                windowOpData.CarrierCode = deliveryBill.CarrierCodeId.HasValue
+                    ? _externalDataRepository.GetPartnerDetail(deliveryBill.CarrierCodeId.Value)?.Code ?? "Хибний ключ"
                     : string.Empty;
                 windowOpData.TransportId = deliveryBill.TransportId;
                 windowOpData.TrailerId = deliveryBill.TrailerId;
@@ -587,16 +587,16 @@ namespace Gravitas.Core.Processor.OpRoutine
                 windowOpData.CarrierRouteId = deliveryBill.CarrierRouteId;
                 windowOpData.ReceiverDepotId = deliveryBill.ReceiverDepotId;
                 windowOpData.SupplyCode = deliveryBill.SupplyCode;
-                windowOpData.ReceiverTitle = !string.IsNullOrWhiteSpace(deliveryBill.ReceiverId)
-                    ? _externalDataRepository.GetStockDetail(deliveryBill.ReceiverId)?.ShortName
-                    ?? _externalDataRepository.GetSubdivisionDetail(deliveryBill.ReceiverId)?.ShortName
-                    ?? _externalDataRepository.GetPartnerDetail(deliveryBill.ReceiverId)?.ShortName
+                windowOpData.ReceiverTitle = deliveryBill.ReceiverId.HasValue
+                    ? _externalDataRepository.GetStockDetail(deliveryBill.ReceiverId.Value)?.ShortName
+                    ?? _externalDataRepository.GetSubdivisionDetail(deliveryBill.ReceiverId.Value)?.ShortName
+                    ?? _externalDataRepository.GetPartnerDetail(deliveryBill.ReceiverId.Value)?.ShortName
                     : null;
-                windowOpData.OrganizationTitle = !string.IsNullOrWhiteSpace(deliveryBill.OrganizationId)
-                    ? _externalDataRepository.GetOrganisationDetail(deliveryBill.OrganizationId)?.ShortName
+                windowOpData.OrganizationTitle = deliveryBill.OrganizationId.HasValue
+                    ? _externalDataRepository.GetOrganisationDetail(deliveryBill.OrganizationId.Value)?.ShortName
                     : null;
-                windowOpData.ProductTitle = !string.IsNullOrWhiteSpace(deliveryBill.ProductId)
-                    ? _externalDataRepository.GetProductDetail(deliveryBill.ProductId)?.ShortName 
+                windowOpData.ProductTitle = deliveryBill.ProductId.HasValue
+                    ? _externalDataRepository.GetProductDetail(deliveryBill.ProductId.Value)?.ShortName 
                     : null;
             _opDataRepository.AddOrUpdate<SingleWindowOpData, Guid>(windowOpData);
     
@@ -611,11 +611,11 @@ namespace Gravitas.Core.Processor.OpRoutine
         {
             try
             {
-                if (!string.IsNullOrEmpty(windowOpData.ReceiverId))
+                if (windowOpData.ReceiverId.HasValue)
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Partner: Id = {windowOpData.ReceiverId}");
-                    var partner = oneCApiClient.GetPartner(windowOpData.ReceiverId);
-                    if (partner != null) _externalDataRepository.AddOrUpdate<Partner, string>(partner);
+                    var partner = oneCApiClient.GetPartner(windowOpData.ReceiverId.Value);
+                    if (partner != null) _externalDataRepository.AddOrUpdate<Partner, Guid>(partner);
                 }
             }
             catch (Exception e)
@@ -624,11 +624,11 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             try
             {
-                if (!string.IsNullOrEmpty(windowOpData.CarrierId))
+                if (windowOpData.CarrierId.HasValue)
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Partner: Id = {windowOpData.CarrierId}");
-                    var partner = oneCApiClient.GetPartner(windowOpData.CarrierId);
-                    if (partner != null) _externalDataRepository.AddOrUpdate<Partner, string>(partner); 
+                    var partner = oneCApiClient.GetPartner(windowOpData.CarrierId.Value);
+                    if (partner != null) _externalDataRepository.AddOrUpdate<Partner, Guid>(partner); 
                 }
             }
             catch (Exception e)
@@ -637,11 +637,11 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             try
             {
-                if (!string.IsNullOrEmpty(windowOpData.ReceiverId))
+                if (windowOpData.ReceiverId.HasValue)
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Stock: Id = {windowOpData.ReceiverId}");
-                    var stock = oneCApiClient.GetStock(windowOpData.ReceiverId);
-                    if (stock != null) _externalDataRepository.AddOrUpdate<Stock, string>(stock);
+                    var stock = oneCApiClient.GetStock(windowOpData.ReceiverId.Value);
+                    if (stock != null) _externalDataRepository.AddOrUpdate<Stock, Guid>(stock);
                 }
             }
             catch (Exception e)
@@ -650,11 +650,11 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             try
             {
-                if (!string.IsNullOrEmpty(windowOpData.OrganizationId))
+                if (windowOpData.OrganizationId.HasValue)
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Organisation: Id = {windowOpData.OrganizationId}");
-                    var organisation = oneCApiClient.GetOrganisation(windowOpData.OrganizationId);
-                    if (organisation != null) _externalDataRepository.AddOrUpdate<Organisation, string>(organisation);  
+                    var organisation = oneCApiClient.GetOrganisation(windowOpData.OrganizationId.Value);
+                    if (organisation != null) _externalDataRepository.AddOrUpdate<Organisation, Guid>(organisation);  
                 }
             }
             catch (Exception e)
@@ -663,11 +663,11 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             try
             {
-                if (!string.IsNullOrEmpty(windowOpData.ProductId))
+                if (windowOpData.ProductId.HasValue)
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Product: Id = {windowOpData.ProductId}");
-                    var product = oneCApiClient.GetProduct(windowOpData.ProductId);
-                    if (product != null) _externalDataRepository.AddOrUpdate<Product, string>(product);  
+                    var product = oneCApiClient.GetProduct(windowOpData.ProductId.Value);
+                    if (product != null) _externalDataRepository.AddOrUpdate<Product, Guid>(product);  
                 }
             }
             catch (Exception e)
@@ -676,11 +676,11 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             try
             {
-                if (!string.IsNullOrEmpty(windowOpData.StockId))
+                if (windowOpData.StockId.HasValue)
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Stock: Id = {windowOpData.StockId}");
-                    var stock = oneCApiClient.GetStock(windowOpData.StockId);
-                    if (stock != null) _externalDataRepository.AddOrUpdate<Stock, string>(stock); 
+                    var stock = oneCApiClient.GetStock(windowOpData.StockId.Value);
+                    if (stock != null) _externalDataRepository.AddOrUpdate<Stock, Guid>(stock); 
                 }
             }
             catch (Exception e)
@@ -689,11 +689,11 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             try
             {
-                if (!string.IsNullOrEmpty(windowOpData.ContractCarrierId))
+                if (windowOpData.ContractCarrierId.HasValue)
                 {
                     Logger.Info($"SingleWindow. EditGetApi: Update Contract: Id = {windowOpData.ContractCarrierId}");
-                    var contract = oneCApiClient.GetContract(windowOpData.ContractCarrierId);
-                    if (contract != null) _externalDataRepository.AddOrUpdate<Contract, string>(contract);
+                    var contract = oneCApiClient.GetContract(windowOpData.ContractCarrierId.Value);
+                    if (contract != null) _externalDataRepository.AddOrUpdate<Contract, Guid>(contract);
                 }
             }
             catch (Exception e)
@@ -737,11 +737,11 @@ namespace Gravitas.Core.Processor.OpRoutine
             _nodeRepository.ClearNodeProcessingMessage(_nodeId);
         }
 
-        private OneCApiClient.UpdateDeliveryBillDto.Request GetUpdateDeliveryBillDtoRequest(SingleWindowOpData singleWindowOpData)
+        private Infrastructure.Platform.ApiClient.OneC.OneCApiClient.UpdateDeliveryBillDto.Request GetUpdateDeliveryBillDtoRequest(SingleWindowOpData singleWindowOpData)
         {
             var createData = _opDataRepository.GetLastProcessed<ScaleOpData>(x => x.TicketId == singleWindowOpData.TicketId && x.TypeId == ScaleOpDataType.Gross)?
                 .CheckOutDateTime;
-            return new OneCApiClient.UpdateDeliveryBillDto.Request
+            return new Infrastructure.Platform.ApiClient.OneC.OneCApiClient.UpdateDeliveryBillDto.Request
             {
                 Activity = 0,
 
@@ -771,7 +771,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 IsThirdPartyCarrier = singleWindowOpData.IsThirdPartyCarrier ? "1" : "0",
                 CarrierCode = string.IsNullOrWhiteSpace(singleWindowOpData.CarrierCode) 
                     ? singleWindowOpData.CustomPartnerName 
-                    : singleWindowOpData.CarrierId,
+                    : singleWindowOpData.CarrierId.ToString(),
                 BuyBudgetsId = singleWindowOpData.BuyBudgetId,
                 SellBudgetsId = singleWindowOpData.SellBudgetId,
                 PackingWeightValue = singleWindowOpData.PackingWeightValue ?? 0,
@@ -833,7 +833,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             var useOneC = singleWindowOpData.SupplyCode != TechRoute.SupplyCode;
 
-            OneCApiClient.UpdateDeliveryBillDto.Response response = null;
+            Infrastructure.Platform.ApiClient.OneC.OneCApiClient.UpdateDeliveryBillDto.Response response = null;
             if (useOneC)
             {
                 var request = GetUpdateDeliveryBillDtoRequest(singleWindowOpData);
@@ -1090,7 +1090,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 {
                     if (isMixedFeedRoute && !isSecondaryTicket)
                     {
-                        var freeMixedFeedSilo = _queueManager.GetFreeSiloDrive(windowOpData.ProductId, ticket.Id);
+                        var freeMixedFeedSilo = _queueManager.GetFreeSiloDrive(windowOpData.ProductId.Value, ticket.Id);
                         if (freeMixedFeedSilo == null)
                         {
                             _connectManager.SendSms(SmsTemplate.NoMixedFeedProduct, nodeDetailsDto.Context.TicketId, _phonesRepository.GetPhone(Phone.MixedFeedManager));

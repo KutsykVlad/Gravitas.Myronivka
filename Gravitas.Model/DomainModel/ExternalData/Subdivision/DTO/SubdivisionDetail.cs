@@ -1,8 +1,9 @@
-﻿using Gravitas.Model.DomainModel.Base;
+﻿using System;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.DomainModel.ExternalData.Subdivision.DTO
 {
-    public class SubdivisionDetail : BaseEntity<string>
+    public class SubdivisionDetail : BaseEntity<Guid>
     {
         public string Code { get; set; }
         public string ShortName { get; set; }

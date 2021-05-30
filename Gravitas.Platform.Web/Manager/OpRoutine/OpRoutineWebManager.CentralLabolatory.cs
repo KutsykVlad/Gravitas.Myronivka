@@ -357,7 +357,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                                           Id = e.Id,
                                           DateTime = e.DateTime,
                                           Message = e.Message,
-                                          UserName = _externalDataRepository.GetExternalEmployeeDetail(e.EmployeeId)?.ShortName,
+                                          UserName = _externalDataRepository.GetExternalEmployeeDetail(e.EmployeeId.Value)?.ShortName,
                                           Comment = GenerateLabOpVisaComment(e.OpRoutineStateId, item)
                                       })
                                       .ToList();
@@ -375,7 +375,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                             Id = e.Id,
                             DateTime = e.DateTime,
                             Message = e.Message,
-                            UserName = _externalDataRepository.GetExternalEmployeeDetail(e.EmployeeId)?.ShortName,
+                            UserName = _externalDataRepository.GetExternalEmployeeDetail(e.EmployeeId.Value)?.ShortName,
                             Comment = GenerateLabOpVisaComment(e.OpRoutineStateId, item)
                         })
                         .ToList();

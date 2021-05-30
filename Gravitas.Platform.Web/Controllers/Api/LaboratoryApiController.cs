@@ -14,7 +14,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetEmployeeData(string id)
+        public async Task<IHttpActionResult> GetEmployeeData(Guid id)
         {
             try
             {

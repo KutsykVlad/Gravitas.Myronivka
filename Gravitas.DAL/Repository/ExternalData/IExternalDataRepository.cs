@@ -1,4 +1,5 @@
-﻿using Gravitas.DAL.Repository._Base;
+﻿using System;
+using Gravitas.DAL.Repository._Base;
 using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DTO.Detail;
 using Gravitas.Model.DomainModel.ExternalData.Budget.DTO.Detail;
 using Gravitas.Model.DomainModel.ExternalData.Budget.DTO.List;
@@ -33,31 +34,31 @@ namespace Gravitas.DAL.Repository.ExternalData
 {
     public interface IExternalDataRepository : IBaseRepository
     {
-        AcceptancePointDetail GetAcceptancePointDetail(string id);
-        BudgetDetail GetBudgetDetail(string id);
-        ContractDetail GetContractDetail(string id);
-        CropDetail GetCropDetail(string id);
-        DeliveryBillStatusDetail GetDeliveryBillStatusDetail(string id);
+        AcceptancePointDetail GetAcceptancePointDetail(Guid id);
+        BudgetDetail GetBudgetDetail(Guid id);
+        ContractDetail GetContractDetail(Guid id);
+        CropDetail GetCropDetail(Guid id);
+        DeliveryBillStatusDetail GetDeliveryBillStatusDetail(Guid id);
         DeliveryBillTypeDetail GetDeliveryBillTypeDetail(string id);
-        EmployeeDetail GetEmployeeDetail(string id);
-        ExternalEmployeeDetail GetExternalEmployeeDetail(string id);
-        FixedAssetDetail GetFixedAssetDetail(string id);
+        EmployeeDetail GetEmployeeDetail(Guid id);
+        ExternalEmployeeDetail GetExternalEmployeeDetail(Guid id);
+        FixedAssetDetail GetFixedAssetDetail(Guid id);
         LabImpurityСlassifierDetail GetLabImpurityСlassifierDetail(string id);
         LabHumidityСlassifierDetail GetLabHumidityСlassifierDetail(string id);
         LabInfectionedСlassifierDetail GetLabInfectionedСlassifierDetail(string id);
-        MeasureUnitDetail GetMeasureUnitDetail(string id);
-        OriginTypeDetail GetOriginTypeDetail(string id);
-        OrganisationDetail GetOrganisationDetail(string id);
-        PartnerDetail GetPartnerDetail(string id);
-        ProductDetail GetProductDetail(string id);
-        ReasonForRefundDetail GetReasonForRefundDetail(string id);
-        RouteDetail GetRouteDetail(string id);
-        StockDetail GetStockDetail(string id);
-        SubdivisionDetail GetSubdivisionDetail(string id);
-        SupplyTransportTypeDetail GetSupplyTransportTypeDetail(string id);
-        SupplyTypeDetail GetSupplyTypeDetail(string id);
-        YearOfHarvestDetail GetYearOfHarvestDetail(string id);
-        ProductItems GetProductChildItems(string id);
+        MeasureUnitDetail GetMeasureUnitDetail(Guid id);
+        OriginTypeDetail GetOriginTypeDetail(Guid id);
+        OrganisationDetail GetOrganisationDetail(Guid id);
+        PartnerDetail GetPartnerDetail(Guid id);
+        ProductDetail GetProductDetail(Guid id);
+        ReasonForRefundDetail GetReasonForRefundDetail(Guid id);
+        RouteDetail GetRouteDetail(Guid id);
+        StockDetail GetStockDetail(Guid id);
+        SubdivisionDetail GetSubdivisionDetail(Guid id);
+        SupplyTransportTypeDetail GetSupplyTransportTypeDetail(Guid id);
+        SupplyTypeDetail GetSupplyTypeDetail(Guid id);
+        YearOfHarvestDetail GetYearOfHarvestDetail(Guid id);
+        ProductItems GetProductChildItems(Guid id);
         ProductItems GetProductItems();
         BudgetItems GetBudgetItems();
         EmployeeItems GetEmployeeItems();
@@ -76,8 +77,8 @@ namespace Gravitas.DAL.Repository.ExternalData
         LabImpurityСlassifierItems GetLabImpurityСlassifierItems();
         LabInfectionedСlassifierItems GetLabInfectionedСlassifierItems();
         LabDeviceResultTypeItems GetLabDevResultTypeItems();
-        BudgetItems GetBudgetChildItem(string parentId);
-        PartnerItems GetPartnerChildItems(string parentId);
-        EmployeeItems GetEmployeeChildItems(string parentId);
+        BudgetItems GetBudgetChildItem(Guid parentId);
+        PartnerItems GetPartnerChildItems(Guid parentId);
+        EmployeeItems GetEmployeeChildItems(Guid parentId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.OpData.DAO.Json;
 using Gravitas.Model.DomainModel.OpDataEvent.DTO;
@@ -37,7 +38,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 41
                 [JsonProperty("SupplyType")]
-                public string SupplyTypeId { get; set; }
+                public Guid? SupplyTypeId { get; set; }
 
                 // 39
                 [JsonProperty("OrderNumber")]
@@ -49,43 +50,43 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 1
                 [JsonProperty("OrganizationId")]
-                public string OrganizationId { get; set; }
+                public Guid? OrganizationId { get; set; }
 
                 // 38
                 [JsonProperty("KeeperOrganizationId")]
-                public string KeeperOrganizationId { get; set; }
+                public Guid? KeeperOrganizationId { get; set; }
 
                 // 9
                 [JsonProperty("StockID")]
-                public string StockId { get; set; }
+                public Guid? StockId { get; set; }
 
                 // 10
                 [JsonProperty("ReceiverType")]
-                public string ReceiverTypeId { get; set; }
+                public Guid? ReceiverTypeId { get; set; }
 
                 // 11
                 [JsonProperty("ReceiverId")]
-                public string ReceiverId { get; set; }
+                public Guid? ReceiverId { get; set; }
 
                 // 12
                 [JsonProperty("ReceiverAnaliticsId")]
-                public string ReceiverAnaliticsId { get; set; }
+                public Guid? ReceiverAnaliticsId { get; set; }
 
                 // 13
                 [JsonProperty("ProductId")]
-                public string ProductId { get; set; }
+                public Guid? ProductId { get; set; }
 
                 // 14
                 [JsonProperty("HarvestId")]
-                public string HarvestId { get; set; }
+                public Guid? HarvestId { get; set; }
 
                 // 31
                 [JsonProperty("BuyBudgetId")]
-                public string BuyBudgetId { get; set; }
+                public Guid? BuyBudgetId { get; set; }
 
                 // 32
                 [JsonProperty("SellBudgetsId")]
-                public string SellBudgetsId { get; set; }
+                public Guid? SellBudgetsId { get; set; }
 
                 [JsonProperty("ProductContents")]
                 public List<ProductContent> ProductContents { get; set; }

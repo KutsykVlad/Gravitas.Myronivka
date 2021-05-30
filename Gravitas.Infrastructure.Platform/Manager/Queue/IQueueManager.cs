@@ -1,4 +1,5 @@
-﻿using Gravitas.Model.DomainModel.Ticket.DAO;
+﻿using System;
+using Gravitas.Model.DomainModel.Ticket.DAO;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {
@@ -10,7 +11,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
         void OnRouteUpdated(Ticket ticket);
         void OnImmediateEntranceAccept(int ticketContainerId);
         void RemoveFromQueue(int ticketContainerId);
-        int? GetFreeSiloDrive(string productId, int ticketId);
+        int? GetFreeSiloDrive(Guid productId, int ticketId);
         void RestoreState();
     }
 }

@@ -70,7 +70,7 @@ namespace Gravitas.Platform.Web.Manager.User
             };
         }
 
-        public UserDetailsVm GetUserDetails(string id)
+        public UserDetailsVm GetUserDetails(Guid id)
         {
             var user = _externalDataRepository.GetExternalEmployeeDetail(id);
             var userCards = _context.Cards.Where(item => item.EmployeeId == user.Id)
@@ -86,7 +86,7 @@ namespace Gravitas.Platform.Web.Manager.User
             };
         }
 
-        public (bool, string) AssignCardToUser(string userId)
+        public (bool, string) AssignCardToUser(Guid userId)
         {
             var rfidState = (RfidObidRwState) DeviceSyncManager.GetDeviceState(10000300);
 

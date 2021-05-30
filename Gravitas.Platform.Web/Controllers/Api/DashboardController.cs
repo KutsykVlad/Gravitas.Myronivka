@@ -260,13 +260,14 @@ namespace Gravitas.Platform.Web.Controllers.Api
         {
             try
             {
-                var opDatas = _context.SingleWindowOpDatas.Where(x => !string.IsNullOrEmpty(x.ProductId))
+                var opDatas = _context.SingleWindowOpDatas
+                    .Where(x => x.ProductId.HasValue)
                     .Select(x => x.ProductId)
                     .Distinct()
                     .ToList()
                     .Select(x =>
                     {
-                        var product = _externalDataRepository.GetProductDetail(x)?.ShortName;
+                        var product = _externalDataRepository.GetProductDetail(x.Value)?.ShortName;
                         return new ProductViewModel
                         {
                             Id = x,
@@ -342,7 +343,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
         
         [HttpGet]
-        public IHttpActionResult GetProductData([FromUri]string[] productIds = null, DateTime? from = null, DateTime? to = null)
+        public IHttpActionResult GetProductData([FromUri]Guid[] productIds = null, DateTime? from = null, DateTime? to = null)
         {
             try
             {

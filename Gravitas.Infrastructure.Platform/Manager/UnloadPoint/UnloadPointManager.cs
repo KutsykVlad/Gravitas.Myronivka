@@ -20,7 +20,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.UnloadPoint
             _ticketRepository = ticketRepository;
         }
 
-        public bool ConfirmUnloadGuide(int ticketId, string employeeId)
+        public bool ConfirmUnloadGuide(int ticketId, Guid employeeId)
         {
             var unloadGuideOpData = _context.UnloadGuideOpDatas.AsNoTracking()
                 .Where(x => x.TicketId == ticketId)
@@ -50,7 +50,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.UnloadPoint
             return true;
         }
 
-        public bool ConfirmUnloadPoint(int ticketId, string employeeId)
+        public bool ConfirmUnloadPoint(int ticketId, Guid employeeId)
         {
             var unloadPointOpData = _context.UnloadPointOpDatas
                 .AsNoTracking()

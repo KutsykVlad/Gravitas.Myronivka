@@ -74,7 +74,7 @@ namespace Gravitas.Platform.Web.ViewModel {
 			public double? NetValue { get; set; }
 			// 19
 			[DisplayName("Водій №1")]
-			public string DriverOneId { get; set; }
+			public Guid DriverOneId { get; set; }
 			public string DriverOneName { get; set; }
 			// 20
 			[DisplayName("Водій №2")]
@@ -156,8 +156,9 @@ namespace Gravitas.Platform.Web.ViewModel {
 			[DisplayName("Останнє зважування тари, дата/час")]
 			public DateTime? LastTareTime { get; set; }
 			// 49
+			public Guid? CollectionPointId { get; set; }
 			[DisplayName("Пункт прийомки")]
-			public string CollectionPointId { get; set; }
+			public string CollectionPointName { get; set; }
 			// 51
 			[DisplayName("Вологість, клас")]
 			public string LabHumidityTypeId { get; set; }
@@ -188,8 +189,9 @@ namespace Gravitas.Platform.Web.ViewModel {
 			[DisplayName("Дата за документами")]
 			public DateTime? DocNetDateTime { get; set; }
 			// 61
+			public Guid? ReturnCauseId { get; set; }
 			[DisplayName("Причина повернення")]
-			public string ReturnCauseId { get; set; }
+			public string ReturnCauseName { get; set; }
 			// 62
 			[DisplayName("Номер причепа")]
 			public string TrailerId { get; set; }
@@ -276,7 +278,8 @@ namespace Gravitas.Platform.Web.ViewModel {
 			public DateTime? LoadOutDateTime { get; set; }
 			// 103
 			[DisplayName("Маршрут перевізника")]
-			public string CarrierRouteId { get; set; }
+			public string CarrierRouteName { get; set; }
+			public Guid? CarrierRouteId { get; set; }
 			// 104
 			[DisplayName("Масличність/Протеїн")]
 			public float? LabOilContentValue { get; set; }
@@ -307,7 +310,7 @@ namespace Gravitas.Platform.Web.ViewModel {
 		    [DisplayName("Ім'я стороннього перевізника")]
             public string CustomPartnerName { get; set; }
 
-            public string CarrierId { get; set; }
+            public Guid? CarrierId { get; set; }
 
 			[DisplayName("Технологічний Маршрут")]
 			public bool IsTechnologicalRoute { get; set; }

@@ -20,7 +20,7 @@ namespace Gravitas.Platform.Web.Controllers
             return PartialView("UserList", _userWebManager.GetUserList(name, page ?? 1));
         }
 
-        public ActionResult Details(string userid, int errorType = 0, string errorMessage = "", int returnPage = 1)
+        public ActionResult Details(Guid userid, int errorType = 0, string errorMessage = "", int returnPage = 1)
         {
             var userDetailVm = _userWebManager.GetUserDetails(userid);
             userDetailVm.ReturnPage = returnPage;
@@ -36,7 +36,7 @@ namespace Gravitas.Platform.Web.Controllers
             return PartialView("UserDetails", userDetailVm);
         }
 
-        public ActionResult AssignCardToUser(string userId, int returnPage)
+        public ActionResult AssignCardToUser(Guid userId, int returnPage)
         {
             (bool isSucess, string msg) assignResult = _userWebManager.AssignCardToUser(userId);
 

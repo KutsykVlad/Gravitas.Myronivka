@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Gravitas.DAL;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.OneC;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Connect.Manager
@@ -24,12 +22,12 @@ namespace Gravitas.Connect.Manager
 			_externalDataRepository = externalDataRepository;
 		}
 
-		private void UpdateItems<T>(List<T> list) where T : BaseEntity<string>
+		private void UpdateItems<T>(List<T> list) where T : BaseEntity<Guid>
 		{
 			if (_addFilter && list.Count > 500) return;
 			foreach (T item in list) {
 				try {
-					_externalDataRepository.AddOrUpdateWithoutSaveChanges<T, string>(item);
+					_externalDataRepository.AddOrUpdateWithoutSaveChanges<T, Guid>(item);
 				}
 				catch (Exception e)
 				{

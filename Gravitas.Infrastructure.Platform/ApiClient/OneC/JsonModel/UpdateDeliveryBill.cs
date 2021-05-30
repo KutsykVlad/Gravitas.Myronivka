@@ -19,7 +19,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 3
                 [JsonProperty("CreateOperatorID")]
-                public string CreateOperatorId { get; set; }
+                public Guid? CreateOperatorId { get; set; }
 
                 // 4
                 [JsonProperty("CreateDate")]
@@ -59,7 +59,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 5
                 [JsonProperty("EditOperatorID")]
-                public string EditOperatorId { get; set; }
+                public Guid? EditOperatorId { get; set; }
 
                 // 15
                 [JsonProperty("GrossValue")]
@@ -75,15 +75,15 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 19
                 [JsonProperty("DriverOneID")]
-                public string DriverOneId { get; set; }
+                public Guid? DriverOneId { get; set; }
 
                 // 20
                 [JsonProperty("DriverTwoID")]
-                public string DriverTwoId { get; set; }
+                public Guid? DriverTwoId { get; set; }
 
                 // 21
                 [JsonProperty("TransportID")]
-                public string TransportId { get; set; }
+                public Guid? TransportId { get; set; }
 
                 // 22
                 [JsonProperty("HiredDriverCode")]
@@ -103,7 +103,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 27
                 [JsonProperty("ReceiverStockID")]
-                public string ReceiverStockId { get; set; }
+                public Guid? ReceiverStockId { get; set; }
 
                 // 28
                 [JsonProperty("IsThirdPartyCarrier")]
@@ -115,11 +115,11 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 31
                 [JsonProperty("BuyBudgetsID")]
-                public string BuyBudgetsId { get; set; }
+                public Guid? BuyBudgetsId { get; set; }
 
                 // 32
                 [JsonProperty("SellBudgetsID")]
-                public string SellBudgetsId { get; set; }
+                public Guid? SellBudgetsId { get; set; }
 
                 // 37
                 [JsonProperty("PackingWeightValue")]
@@ -131,7 +131,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 49
                 [JsonProperty("CollectionPointID")]
-                public string CollectionPointId { get; set; }
+                public Guid? CollectionPointId { get; set; }
 
                 // 51
                 [JsonProperty("LabHumidityType")]
@@ -175,7 +175,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 62
                 [JsonProperty("TrailerID")]
-                public string TrailerId { get; set; }
+                public Guid? TrailerId { get; set; }
 
                 // 63
                 [JsonProperty("TrailerNumber")]
@@ -247,7 +247,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 82
                 [JsonProperty("LabolatoryOperatorID")]
-                public string LabolatoryOperatorId { get; set; }
+                public Guid? LabolatoryOperatorId { get; set; }
 
                 // 83
                 [JsonProperty("GrossOperatorID")]
@@ -271,7 +271,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 101
                 [JsonProperty("LoadingOperatorID")]
-                public string LoadingOperatorId { get; set; }
+                public Guid? LoadingOperatorId { get; set; }
 
                 // 102
                 [JsonProperty("LoadOutDate")]

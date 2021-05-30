@@ -138,9 +138,9 @@ namespace Gravitas.DAL.Repository.Queue
                 else
                 {
                     newRegistration.TruckPlate =
-                        _externalDataRepository.GetFixedAssetDetail(singleWindow?.TransportId)?.RegistrationNo ?? string.Empty;
+                        singleWindow.TransportId.HasValue ? _externalDataRepository.GetFixedAssetDetail(singleWindow.TransportId.Value)?.RegistrationNo : string.Empty;
                     newRegistration.TrailerPlate =
-                        _externalDataRepository.GetFixedAssetDetail(singleWindow?.TrailerId)?.RegistrationNo ?? string.Empty;
+                        singleWindow.TrailerId.HasValue ? _externalDataRepository.GetFixedAssetDetail(singleWindow.TrailerId.Value)?.RegistrationNo : string.Empty;
                 }
             }
         }

@@ -98,12 +98,12 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             if (nodeDetailsDto.Context.OpProcessData.HasValue && nodeDetailsDto.Context.OpProcessData == (long) NodeIdValue.UnloadPointGuideEl23)
             {
-                var unloadResultConfirm = _unloadPointManager.ConfirmUnloadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId);
+                var unloadResultConfirm = _unloadPointManager.ConfirmUnloadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId.Value);
                 if (!unloadResultConfirm) return;
             }
             else
             {
-                var loadResultConfirm = _loadPointManager.ConfirmLoadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId);
+                var loadResultConfirm = _loadPointManager.ConfirmLoadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId.Value);
                 if (!loadResultConfirm) return;
                 var wasOnSecurity = _opDataRepository.GetFirstOrDefault<SecurityCheckInOpData, Guid>(x => x.TicketId == ticket.Id) != null;
                 

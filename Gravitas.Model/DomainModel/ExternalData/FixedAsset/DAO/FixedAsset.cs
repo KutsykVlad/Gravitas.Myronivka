@@ -1,8 +1,9 @@
-﻿using Gravitas.Model.DomainModel.Base;
+﻿using System;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.DomainModel.ExternalData.FixedAsset.DAO
 {
-    public class FixedAsset : BaseEntity<string>
+    public class FixedAsset : BaseEntity<Guid>
     {
         public string Code { get; set; }
         public string Brand { get; set; }
@@ -10,6 +11,6 @@ namespace Gravitas.Model.DomainModel.ExternalData.FixedAsset.DAO
         public string TypeCode { get; set; }
         public string RegistrationNo { get; set; }
         public bool IsFolder { get; set; }
-        public string ParentId { get; set; }
+        public Guid? ParentId { get; set; }
     }
 }

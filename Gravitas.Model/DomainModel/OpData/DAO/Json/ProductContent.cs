@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 
 namespace Gravitas.Model.DomainModel.OpData.DAO.Json
@@ -11,10 +12,10 @@ namespace Gravitas.Model.DomainModel.OpData.DAO.Json
         public string OrderNumber { get; set; }
         
         [JsonProperty("ProductID")] 
-        public string ProductId { get; set; }
+        public Guid ProductId { get; set; }
         
         [JsonProperty("UnitID")] 
-        public string UnitId { get; set; }
+        public Guid UnitId { get; set; }
         
         [JsonProperty("Quantity")]
         public double Quantity { get; set; }

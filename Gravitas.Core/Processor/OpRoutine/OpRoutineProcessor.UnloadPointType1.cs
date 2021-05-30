@@ -303,11 +303,11 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             var singleWindowOpData = _opDataRepository.GetFirstOrDefault<SingleWindowOpData, Guid>(item => item.TicketId == nodeDetailsDto.Context.TicketId);
 
-            singleWindowOpData.CollectionPointId = _externalRepository.GetFirstOrDefault<AcceptancePoint, string>(item =>
-                item.Code == nodeDetailsDto.Code)?.Id;
+            singleWindowOpData.CollectionPointId = _externalRepository.GetFirstOrDefault<AcceptancePoint, Guid>(item =>
+                item.Code == nodeDetailsDto.Code).Id;
             _opDataRepository.Update<SingleWindowOpData, Guid>(singleWindowOpData);
 
-            var unloadResult = _unloadPointManager.ConfirmUnloadPoint(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId);
+            var unloadResult = _unloadPointManager.ConfirmUnloadPoint(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId.Value);
             if (!unloadResult) return;
             
             var ticket = _context.Tickets.FirstOrDefault(x => x.Id == nodeDetailsDto.Context.TicketId.Value);

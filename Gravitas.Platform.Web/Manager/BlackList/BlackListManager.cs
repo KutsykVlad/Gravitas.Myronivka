@@ -184,7 +184,7 @@ namespace Gravitas.Platform.Web.Manager.BlackList
             _blackListRepository.Delete<TrailersBlackListRecord, int>(trailer);
         }
 
-        public void DeleteBlackListPartnerRecord(string partnerId)
+        public void DeleteBlackListPartnerRecord(Guid partnerId)
         {
             _blackListRepository.DeletePartner(partnerId);
         }

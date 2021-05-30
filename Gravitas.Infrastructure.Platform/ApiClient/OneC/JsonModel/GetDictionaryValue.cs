@@ -7,44 +7,25 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
     {
         public static class GetDictionaryValueDto
         {
-            public static class DictionaryType
-            {
-                public static string Organization = @"Organizations";
-                public static string Stock = @"Stocks";
-                public static string Subdivision = @"Subdivisions";
-                public static string Partner = @"Partners";
-                public static string User = @"Users";
-                public static string Employee = @"Employees";
-                public static string AcceptancePoint = @"AcceptancePoints";
-                public static string Crop = @"Crops";
-                public static string Route = @"Routes";
-                public static string Budget = @"Budgets";
-                public static string ReasonForRefund = @"ReasonsForRefunds";
-                public static string YearOfHarvest = @"YearsOfHarvest";
-                public static string Product = @"Products";
-                public static string FixedAsset = @"FixedAssets";
-                public static string Contract = @"Contracts";
-            }
-
             public class Request
             {
                 [JsonProperty("Dictionary")]
                 public virtual string Dictionary { get; set; }
 
                 [JsonProperty("ItemId")]
-                public string ItemId { get; set; }
+                public Guid ItemId { get; set; }
             }
 
             public static class Response
             {
-                public class Dictionary : BaseResponseDto
+                public class Dictionary : OneC.OneCApiClient.BaseResponseDto
                 {
                 }
 
                 public class DictionaryType1 : Dictionary
                 {
                     [JsonProperty("Id")]
-                    public string Id { get; set; }
+                    public Guid Id { get; set; }
 
                     [JsonProperty("Code")]
                     public string Code { get; set; }
@@ -62,20 +43,20 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                     public int IsFolder { get; set; }
 
                     [JsonProperty("ParentId")]
-                    public string ParentId { get; set; }
+                    public Guid? ParentId { get; set; }
 
                     [JsonProperty("CarrierDriverId")]
-                    public string CarrierDriverId { get; set; }
+                    public Guid? CarrierDriverId { get; set; }
 
                     [JsonProperty("CustomerId")]
-                    public string CustomerId { get; set; }
+                    public Guid? CustomerId { get; set; }
                 }
 
                 // 2.1
                 public class DictionaryType2 : Dictionary
                 {
                     [JsonProperty("Id")]
-                    public string Id { get; set; }
+                    public Guid Id { get; set; }
 
                     [JsonProperty("Code")]
                     public string Code { get; set; }
@@ -93,14 +74,14 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                     public int IsFolder { get; set; }
 
                     [JsonProperty("ParentId")]
-                    public string ParentId { get; set; }
+                    public Guid? ParentId { get; set; }
                 }
 
                 // 2.2
                 public class DictionaryType3 : Dictionary
                 {
                     [JsonProperty("Id")]
-                    public string Id { get; set; }
+                    public Guid Id { get; set; }
 
                     [JsonProperty("Code")]
                     public string Code { get; set; }
@@ -124,13 +105,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                     public int IsFolder { get; set; }
 
                     [JsonProperty("ParentId")]
-                    public string ParentId { get; set; }
+                    public Guid? ParentId { get; set; }
                 }
 
                 public class DictionaryType4 : Dictionary
                 {
                     [JsonProperty("Id")]
-                    public string Id { get; set; }
+                    public Guid Id { get; set; }
 
                     [JsonProperty("Code")]
                     public string Code { get; set; }
@@ -142,13 +123,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                     public int IsFolder { get; set; }
 
                     [JsonProperty("ParentId")]
-                    public string ParentId { get; set; }
+                    public Guid? ParentId { get; set; }
                 }
 
                 public class DictionaryType5 : Dictionary
                 {
                     [JsonProperty("Id")]
-                    public string Id { get; set; }
+                    public Guid Id { get; set; }
 
                     [JsonProperty("Code")]
                     public string Code { get; set; }
@@ -163,13 +144,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                     public int IsFolder { get; set; }
 
                     [JsonProperty("ParentId")]
-                    public string ParentId { get; set; }
+                    public Guid? ParentId { get; set; }
                 }
 
                 public class DictionaryType6 : Dictionary
                 {
                     [JsonProperty("Id")]
-                    public string Id { get; set; }
+                    public Guid Id { get; set; }
 
                     [JsonProperty("Code")]
                     public string Code { get; set; }
@@ -190,13 +171,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                     public int IsFolder { get; set; }
 
                     [JsonProperty("ParentId")]
-                    public string ParentId { get; set; }
+                    public Guid? ParentId { get; set; }
                 }
 
                 public class DictionaryType7 : Dictionary
                 {
                     [JsonProperty("Id")]
-                    public string Id { get; set; }
+                    public Guid Id { get; set; }
 
                     [JsonProperty("Code")]
                     public string Code { get; set; }
@@ -211,7 +192,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                     public DateTime? StopDateTime { get; set; }
 
                     [JsonProperty("ManagerId")]
-                    public string ManagerId { get; set; }
+                    public Guid? ManagerId { get; set; }
                 }
             }
         }

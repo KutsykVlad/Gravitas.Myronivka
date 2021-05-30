@@ -257,11 +257,11 @@ namespace Gravitas.Platform.Web.Manager.OpData
             if (singleWindowOpData != null)
             {
                 result.IncomeInvoiceNumber = singleWindowOpData.IncomeInvoiceNumber;
-                result.Product = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId)?.ShortName ??
+                result.Product = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId.Value)?.ShortName ??
                                  string.Empty;
 
-                result.Carrier = !string.IsNullOrWhiteSpace(singleWindowOpData.CarrierId)
-                    ? _externalDataRepository.GetPartnerDetail(singleWindowOpData.CarrierId)?.ShortName
+                result.Carrier = singleWindowOpData.CarrierId.HasValue
+                    ? _externalDataRepository.GetPartnerDetail(singleWindowOpData.CarrierId.Value)?.ShortName
                     : singleWindowOpData.CustomPartnerName ?? string.Empty;
 
                 if (singleWindowOpData.IsThirdPartyCarrier)

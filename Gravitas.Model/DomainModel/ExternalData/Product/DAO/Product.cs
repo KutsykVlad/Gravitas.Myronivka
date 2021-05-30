@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gravitas.Model.DomainModel.Base;
 using Gravitas.Model.DomainModel.MixedFeed.DAO;
 
 namespace Gravitas.Model.DomainModel.ExternalData.Product.DAO
 {
-    public class Product : BaseEntity<string>
+    public class Product : BaseEntity<Guid>
     {
         public Product()
         {
@@ -15,7 +16,7 @@ namespace Gravitas.Model.DomainModel.ExternalData.Product.DAO
         public string ShortName { get; set; }
         public string FullName { get; set; }
         public bool IsFolder { get; set; }
-        public string ParentId { get; set; }
+        public Guid? ParentId { get; set; }
 
         public virtual ICollection<MixedFeedSilo> MixedFeedSiloSet { get; set; }
     }

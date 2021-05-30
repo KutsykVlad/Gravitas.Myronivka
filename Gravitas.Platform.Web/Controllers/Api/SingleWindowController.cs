@@ -43,10 +43,8 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public IHttpActionResult GetBudgetName(string budgetId)
+        public IHttpActionResult GetBudgetName(Guid budgetId)
         {
-            if (string.IsNullOrEmpty(budgetId)) return BadRequest("There is no budget provided");
-
             var routineData = _context.Budgets.First(x => x.Id == budgetId).Name;
 
             return Ok(routineData);
@@ -86,18 +84,11 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetBudgetData(string parentId = null)
+        public async Task<IHttpActionResult> GetBudgetData(Guid? parentId = null)
         {
             try
             {
-                BudgetItemsVm data;
-                if (parentId == null)
-                {
-                    data = await Task.Run(() => _externalDataManager.GetBudgetChildren());
-                    return Ok(data);
-                }
-
-                data = await Task.Run(() => _externalDataManager.GetBudgetChildren(parentId));
+                var data = await Task.Run(() => _externalDataManager.GetBudgetChildren(parentId));
                 return Ok(data);
             }
             catch (Exception e)
@@ -107,7 +98,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
         
         [HttpGet]
-        public async Task<IHttpActionResult> GetProductData(string parentId)
+        public async Task<IHttpActionResult> GetProductData(Guid? parentId)
         {
             try
             {
@@ -121,7 +112,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
         
         [HttpGet]
-        public async Task<IHttpActionResult> GetProductName(string id)
+        public async Task<IHttpActionResult> GetProductName(Guid id)
         {
             try
             {
@@ -135,18 +126,11 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetPartnerData(string parentId)
+        public async Task<IHttpActionResult> GetPartnerData(Guid? parentId)
         {
             try
             {
-                PartnerItemsVm data;
-                if (parentId == null)
-                {
-                    data = await Task.Run(() => _externalDataManager.GetPartnerChildren());
-                    return Ok(data);
-                }
-
-                data = await Task.Run(() => _externalDataManager.GetPartnerChildren(parentId));
+                var data = await Task.Run(() => _externalDataManager.GetPartnerChildren(parentId));
                 return Ok(data);
             }
             catch (Exception e)
@@ -156,18 +140,11 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetEmployeeData(string parentId)
+        public async Task<IHttpActionResult> GetEmployeeData(Guid? parentId)
         {
             try
             {
-                EmployeeItemsVm data;
-                if (parentId == null)
-                {
-                    data = await Task.Run(() => _externalDataManager.GetEmployeeChildren());
-                    return Ok(data);
-                }
-
-                data = await Task.Run(() => _externalDataManager.GetEmployeeChildren(parentId));
+                var data = await Task.Run(() => _externalDataManager.GetEmployeeChildren(parentId));
                 return Ok(data);
             }
             catch (Exception e)
@@ -181,7 +158,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         #region Stock
 
         [HttpGet]
-        public IHttpActionResult GetStockItems(string id)
+        public IHttpActionResult GetStockItems(Guid id)
         {
             try
             {
@@ -196,11 +173,10 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetStockItem(string id)
+        public async Task<IHttpActionResult> GetStockItem(Guid id)
         {
             try
             {
-                if (string.IsNullOrEmpty(id)) return BadRequest("There is no stock provided");
                 var stockItem = await Task.Run(() => _externalDataManager.GetStockItemVm(id));
 
                 return Ok(stockItem);
@@ -281,11 +257,10 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> AssetItem(string id)
+        public async Task<IHttpActionResult> AssetItem(Guid id)
         {
             try
             {
-                if (string.IsNullOrEmpty(id)) return BadRequest("There is no asset provided");
                 var assetItem = await Task.Run(() => _externalDataManager.GetFixedAssetItem(id));
                 return Ok(assetItem);
             }
@@ -316,7 +291,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> TrailerItem(string id)
+        public async Task<IHttpActionResult> TrailerItem(Guid id)
         {
             try
             {
@@ -351,7 +326,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
 
 
         [HttpGet]
-        public async Task<IHttpActionResult> EmployeeItem(string id)
+        public async Task<IHttpActionResult> EmployeeItem(Guid id)
         {
             try
             {

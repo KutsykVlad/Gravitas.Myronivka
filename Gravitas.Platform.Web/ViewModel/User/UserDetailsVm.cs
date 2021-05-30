@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Gravitas.Platform.Web.ViewModel.User {
     public class UserDetailsVm {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         
         [DisplayName("Ім'я")]
         public string ShortName { get; set; }

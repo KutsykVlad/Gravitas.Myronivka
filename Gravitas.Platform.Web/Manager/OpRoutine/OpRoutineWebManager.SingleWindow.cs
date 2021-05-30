@@ -146,16 +146,16 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     opData.BuyBudgetId = response.BuyBudgetId;
                     opData.SellBudgetId = response.SellBudgetsId;
                     opData.ProductContents = JsonConvert.SerializeObject(response.ProductContents);
-                    opData.ReceiverTitle = !string.IsNullOrWhiteSpace(response.ReceiverId)
-                        ? _externalDataRepository.GetStockDetail(response.ReceiverId)?.ShortName
-                          ?? _externalDataRepository.GetSubdivisionDetail(response.ReceiverId)?.ShortName
-                          ?? _externalDataRepository.GetPartnerDetail(response.ReceiverId)?.ShortName
+                    opData.ReceiverTitle = response.ReceiverId.HasValue
+                        ? _externalDataRepository.GetStockDetail(response.ReceiverId.Value)?.ShortName
+                          ?? _externalDataRepository.GetSubdivisionDetail(response.ReceiverId.Value)?.ShortName
+                          ?? _externalDataRepository.GetPartnerDetail(response.ReceiverId.Value)?.ShortName
                         : null;
-                    opData.OrganizationTitle = !string.IsNullOrWhiteSpace(response.OrganizationId)
-                        ? _externalDataRepository.GetOrganisationDetail(response.OrganizationId)?.ShortName
+                    opData.OrganizationTitle = response.OrganizationId.HasValue
+                        ? _externalDataRepository.GetOrganisationDetail(response.OrganizationId.Value)?.ShortName
                         : null;
-                    opData.ProductTitle = !string.IsNullOrWhiteSpace(response.ProductId)
-                        ? _externalDataRepository.GetProductDetail(response.ProductId)?.ShortName 
+                    opData.ProductTitle = response.ProductId.HasValue
+                        ? _externalDataRepository.GetProductDetail(response.ProductId.Value)?.ShortName 
                         : null;
 
                     _opDataRepository.Update<SingleWindowOpData, Guid>(opData);
@@ -380,19 +380,19 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             var vm = Mapper.Map<SingleWindowVms.SingleWindowOpDataDetailVm>(dtoSingleWindowOpData);
             SetEmployeePhones(vm);
 
-            if (!string.IsNullOrWhiteSpace(vm.CollectionPointId))
+            if (vm.CollectionPointId.HasValue)
             {
-                vm.CollectionPointId = _externalDataRepository.GetAcceptancePointDetail(vm.CollectionPointId)?.Name;
+                vm.CollectionPointName = _externalDataRepository.GetAcceptancePointDetail(vm.CollectionPointId.Value)?.Name;
             }
 
-            if (!string.IsNullOrWhiteSpace(vm.ReturnCauseId))
+            if (vm.ReturnCauseId.HasValue)
             {
-                vm.ReturnCauseId = _externalDataRepository.GetReasonForRefundDetail(vm.ReturnCauseId)?.Name;
+                vm.ReturnCauseName = _externalDataRepository.GetReasonForRefundDetail(vm.ReturnCauseId.Value)?.Name;
             }
 
-            if (!string.IsNullOrWhiteSpace(vm.CarrierRouteId))
+            if (vm.CarrierRouteId.HasValue)
             {
-                vm.CarrierRouteId = _externalDataRepository.GetRouteDetail(vm.CarrierRouteId)?.Name;
+                vm.CarrierRouteName = _externalDataRepository.GetRouteDetail(vm.CarrierRouteId.Value)?.Name;
             }
 
             if (string.IsNullOrWhiteSpace(vm.InformationCarrier))
@@ -491,7 +491,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (data.CarrierId != null)
                 {
                     var partner = _context.Partners.First(x => x.Id == data.CarrierId);
-                    if (partner?.CarrierDriverId != null) data.DriverOneId = partner.CarrierDriverId;
+                    if (partner?.CarrierDriverId != null) data.DriverOneId = partner.CarrierDriverId.Value;
                 }
             }
 
@@ -709,15 +709,15 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             vm.IsThirdPartyCarrier = singleWindowOpData.IsThirdPartyCarrier ? "Сторонній" : "Власний";
 
             vm.DeliveryBillCode = singleWindowOpData.DeliveryBillCode;
-            vm.ReceiverName = !string.IsNullOrWhiteSpace(singleWindowOpData.ReceiverId)
-                ? _externalDataRepository.GetStockDetail(singleWindowOpData.ReceiverId)?.ShortName
-                  ?? _externalDataRepository.GetSubdivisionDetail(singleWindowOpData.ReceiverId)?.ShortName
-                  ?? _externalDataRepository.GetPartnerDetail(singleWindowOpData.ReceiverId)?.ShortName
+            vm.ReceiverName = singleWindowOpData.ReceiverId.HasValue
+                ? _externalDataRepository.GetStockDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
+                  ?? _externalDataRepository.GetSubdivisionDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
+                  ?? _externalDataRepository.GetPartnerDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
                   ?? "- Хибний ключ -"
                 : string.Empty;
 
-            vm.PartnerName = !string.IsNullOrWhiteSpace(singleWindowOpData.CarrierId)
-                ? _externalDataRepository.GetPartnerDetail(singleWindowOpData.CarrierId)?.ShortName
+            vm.PartnerName = singleWindowOpData.CarrierId.HasValue
+                ? _externalDataRepository.GetPartnerDetail(singleWindowOpData.CarrierId.Value)?.ShortName
                 : singleWindowOpData.CustomPartnerName ?? string.Empty;
 
             vm.Comments = singleWindowOpData.Comments;
@@ -729,12 +729,12 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
             else
             {
-                vm.TransportNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId)?.RegistrationNo ?? string.Empty;
-                vm.TrailerNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId)?.RegistrationNo ?? string.Empty;
+                vm.TransportNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId.Value)?.RegistrationNo ?? string.Empty;
+                vm.TrailerNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId.Value)?.RegistrationNo ?? string.Empty;
             }
 
             vm.Nomenclature = _externalDataRepository.GetProductDetail(_opDataRepository
-                    .GetLastOpData<SingleWindowOpData>(ticketId, null)?.ProductId)?.ShortName ?? string.Empty;
+                    .GetLastOpData<SingleWindowOpData>(ticketId, null).ProductId.Value)?.ShortName ?? string.Empty;
 
             var tickets = _context.Tickets.Where(x => x.TicketContainerId == ticketContainerId
                                                       && x.StatusId != TicketStatus.Canceled).ToList();
@@ -779,8 +779,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
             else
             {
-                vm.TruckNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId)?.RegistrationNo ?? string.Empty;
-                vm.TrailerNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId)?.RegistrationNo ?? string.Empty;
+                vm.TruckNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId.Value)?.RegistrationNo ?? string.Empty;
+                vm.TrailerNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId.Value)?.RegistrationNo ?? string.Empty;
             }
 
             vm.SenderName = singleWindowOpData.OrganizationTitle;
@@ -822,8 +822,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
             else
             {
-                vm.TransportNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId)?.RegistrationNo ?? string.Empty;
-                vm.TrailerNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId)?.RegistrationNo ?? string.Empty;
+                vm.TransportNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId.Value)?.RegistrationNo ?? string.Empty;
+                vm.TrailerNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TrailerId.Value)?.RegistrationNo ?? string.Empty;
             }
 
             vm.Route = _routesInfrastructure.GetRouteForPrintout(nodeDto.Context.TicketId.Value);

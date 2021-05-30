@@ -25,7 +25,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.LoadPoint
             _ticketRepository = ticketRepository;
         }
 
-        public bool ConfirmLoadGuide(int ticketId, string employeeId)
+        public bool ConfirmLoadGuide(int ticketId, Guid employeeId)
         {
             var loadGuideOpData = _context.LoadGuideOpDatas
                 .AsNoTracking()
@@ -56,7 +56,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.LoadPoint
             return true;
         }
 
-        public bool ConfirmLoadPoint(int ticketId, string employeeId)
+        public bool ConfirmLoadPoint(int ticketId, Guid employeeId)
         {
             var loadPointOpData = _context.LoadPointOpDatas
                 .AsNoTracking()

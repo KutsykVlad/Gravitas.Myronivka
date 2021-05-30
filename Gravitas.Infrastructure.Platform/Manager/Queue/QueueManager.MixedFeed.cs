@@ -10,7 +10,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {
     public partial class QueueManager
     {
-        public int? GetFreeSiloDrive(string productId, int ticketId)
+        public int? GetFreeSiloDrive(Guid productId, int ticketId)
         {
             var load = _context.MixedFeedSilos
                 .AsNoTracking()
@@ -56,7 +56,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 var productId = _opDataRepository.GetLastProcessed<SingleWindowOpData>(ticketId)?.ProductId;
                 var ticket = _context.Tickets.AsNoTracking().First(x => x.Id == ticketId);
 
-                var nodeId = GetFreeSiloDrive(productId, ticketId);
+                var nodeId = GetFreeSiloDrive(productId.Value, ticketId);
                 if (nodeId.HasValue)
                 {
                     var mixedFeedLoadOpData = _opDataRepository.GetLastProcessed<LoadPointOpData>(ticketId);

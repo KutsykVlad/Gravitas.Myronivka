@@ -1,8 +1,9 @@
-﻿using Gravitas.Model.DomainModel.Base;
+﻿using System;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.DomainModel.ExternalData.Employee.DTO.List
 {
-    public class EmployeeItem : BaseEntity<string>
+    public class EmployeeItem : BaseEntity<Guid>
     {
         public string Code { get; set; }
         public string ShortName { get; set; }

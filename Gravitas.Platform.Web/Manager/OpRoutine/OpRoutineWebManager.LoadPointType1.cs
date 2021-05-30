@@ -70,17 +70,17 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                                      ?? _opDataRepository.GetLastOpData<SingleWindowOpData>(nodeDto.Context.TicketId, null);
             if (singleWindowOpData != null)
             {
-                vm.BindedTruck.ProductName = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId)?.ShortName ?? string.Empty;
+                vm.BindedTruck.ProductName = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId.Value)?.ShortName ?? string.Empty;
                 vm.BindedTruck.ReceiverDepotName = singleWindowOpData.ReceiverDepotId != null
-                    ? _externalDataManager.GetStockItemVm(singleWindowOpData.ReceiverDepotId)?.ShortName ?? string.Empty
+                    ? _externalDataManager.GetStockItemVm(singleWindowOpData.ReceiverDepotId.Value)?.ShortName ?? string.Empty
                     : string.Empty;
                 vm.BindedTruck.LoadTarget = singleWindowOpData.LoadTarget;
                 vm.BindedTruck.LoadTargetDeviationMinus = singleWindowOpData.LoadTargetDeviationMinus;
                 vm.BindedTruck.LoadTargetDeviationPlus = singleWindowOpData.LoadTargetDeviationPlus;
-                vm.BindedTruck.ReceiverName = !string.IsNullOrWhiteSpace(singleWindowOpData.ReceiverId)
-                    ? _externalDataRepository.GetStockDetail(singleWindowOpData.ReceiverId)?.ShortName
-                      ?? _externalDataRepository.GetSubdivisionDetail(singleWindowOpData.ReceiverId)?.ShortName
-                      ?? _externalDataRepository.GetPartnerDetail(singleWindowOpData.ReceiverId)?.ShortName
+                vm.BindedTruck.ReceiverName = singleWindowOpData.ReceiverId.HasValue
+                    ? _externalDataRepository.GetStockDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
+                      ?? _externalDataRepository.GetSubdivisionDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
+                      ?? _externalDataRepository.GetPartnerDetail(singleWindowOpData.ReceiverId.Value)?.ShortName
                       ?? "- Хибний ключ -"
                     : string.Empty;
 
@@ -90,7 +90,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 }
                 else
                 {
-                    vm.BindedTruck.TransportNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId)?.RegistrationNo ?? string.Empty;
+                    vm.BindedTruck.TransportNo = _externalDataRepository.GetFixedAssetDetail(singleWindowOpData.TransportId.Value)?.RegistrationNo ?? string.Empty;
                 }
 
                 var partLoadValue = _scaleManager.GetPartLoadUnloadValue(nodeDto.Context.TicketId.Value);

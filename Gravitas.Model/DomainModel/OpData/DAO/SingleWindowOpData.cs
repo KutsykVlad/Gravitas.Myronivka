@@ -9,41 +9,41 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public double LoadTarget { get; set; }
         public int LoadTargetDeviationPlus { get; set; }
         public int LoadTargetDeviationMinus { get; set; }
-        public string OrganizationId { get; set; }
+        public Guid? OrganizationId { get; set; }
         public string OrganizationTitle { get; set; }
         public string ProductTitle { get; set; }
-        public string CreateOperatorId { get; set; }
+        public Guid? CreateOperatorId { get; set; }
         public DateTime? CreateDate { get; set; }
-        public string EditOperatorId { get; set; }
+        public Guid? EditOperatorId { get; set; }
         public DateTime? EditDate { get; set; }
         public string DocumentTypeId { get; set; }
-        public string StockId { get; set; }
-        public string ReceiverTypeId { get; set; }
-        public string ReceiverId { get; set; }
+        public Guid? StockId { get; set; }
+        public Guid? ReceiverTypeId { get; set; }
+        public Guid? ReceiverId { get; set; }
         public string ReceiverTitle { get; set; }   
-        public string ReceiverAnaliticsId { get; set; }
-        public string ProductId { get; set; }
-        public string HarvestId { get; set; }
+        public Guid? ReceiverAnaliticsId { get; set; }
+        public Guid? ProductId { get; set; }
+        public Guid? HarvestId { get; set; }
         public double? GrossValue { get; set; }
         public double? TareValue { get; set; }
         public double? NetValue { get; set; }
-        public string DriverOneId { get; set; }
-        public string DriverTwoId { get; set; }
-        public string TransportId { get; set; }
+        public Guid? DriverOneId { get; set; }
+        public Guid? DriverTwoId { get; set; }
+        public Guid? TransportId { get; set; }
         public string HiredDriverCode { get; set; }
         public string HiredTransportNumber { get; set; }
         public string IncomeInvoiceSeries { get; set; }
         public string IncomeInvoiceNumber { get; set; }
-        public string ReceiverDepotId { get; set; }
+        public Guid? ReceiverDepotId { get; set; }
         public bool IsThirdPartyCarrier { get; set; }
         public string CarrierCode { get; set; }
-        public string BuyBudgetId { get; set; }
-        public string SellBudgetId { get; set; }
+        public Guid? BuyBudgetId { get; set; }
+        public Guid? SellBudgetId { get; set; }
         public double? PackingWeightValue { get; set; }
-        public string KeeperOrganizationId { get; set; }
+        public Guid? KeeperOrganizationId { get; set; }
         public string OrderCode { get; set; }
         public string SupplyCode { get; set; }
-        public string SupplyTypeId { get; set; }
+        public Guid? SupplyTypeId { get; set; }
         public DateTime? RegistrationDateTime { get; set; }
         public DateTime? InTime { get; set; }
         public DateTime? OutTime { get; set; }
@@ -51,7 +51,7 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public DateTime? FirstTareTime { get; set; }
         public DateTime? LastGrossTime { get; set; }
         public DateTime? LastTareTime { get; set; }
-        public string CollectionPointId { get; set; }
+        public Guid? CollectionPointId { get; set; }
         public string LabHumidityName { get; set; }
         public string LabImpurityName { get; set; }
         public bool LabIsInfectioned { get; set; }
@@ -62,7 +62,7 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public double? DocNetValue { get; set; }
         public DateTime? DocNetDateTime { get; set; }
         public string ReturnCauseId { get; set; }
-        public string TrailerId { get; set; }
+        public Guid? TrailerId { get; set; }
         public string TrailerNumber { get; set; }
         public string TripTicketNumber { get; set; }
         public DateTime? TripTicketDateTime { get; set; }
@@ -81,13 +81,13 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public string Comments { get; set; }
         public double? WeightDeltaValue { get; set; }
         public string SupplyTransportTypeId { get; set; }
-        public string LabolatoryOperatorId { get; set; }
-        public string GrossOperatorId { get; set; }
+        public Guid? LabolatoryOperatorId { get; set; }
+        public Guid? GrossOperatorId { get; set; }
         public int ScaleInNumber { get; set; }
         public int ScaleOutNumber { get; set; }
         public string BatchNumber { get; set; }
-        public string TareOperatorId { get; set; }
-        public string LoadingOperatorId { get; set; }
+        public Guid? TareOperatorId { get; set; }
+        public Guid? LoadingOperatorId { get; set; }
         public DateTime? LoadOutDateTime { get; set; }
         public string CarrierRouteId { get; set; }
         public double? LabOilContentValue { get; set; }
@@ -95,12 +95,12 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public string DeliveryBillCode { get; set; }
         public string InformationCarrier { get; set; }
         public string CustomPartnerName { get; set; }
-        public string CarrierId { get; set; }
+        public Guid? CarrierId { get; set; }
         public string ProductContents { get; set; }
         public string BarCode { get; set; }
         public string OriginalТТN { get; set; }
         public string HiredTrailerNumber { get; set; }
-        public string ContractCarrierId { get; set; }
+        public Guid? ContractCarrierId { get; set; }
         public double? SenderWeight { get; set; }
         public bool IsPreRegistered { get; set; }
         public DateTime? PredictionEntranceTime { get; set; }

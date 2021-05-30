@@ -1,8 +1,9 @@
-﻿using Gravitas.Model.DomainModel.Base;
+﻿using System;
+using Gravitas.Model.DomainModel.Base;
 
 namespace Gravitas.Model.DomainModel.ExternalData.FixedAsset.DTO.List
 {
-    public class FixedTrailerItem : BaseEntity<string>
+    public class FixedTrailerItem : BaseEntity<Guid>
     {
         public string Code { get; set; }
         public string Brand { get; set; }

@@ -14,6 +14,7 @@ using Gravitas.Infrastructure.Platform.Manager.Queue.Infrastructure;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainValue;
 using Gravitas.Platform.Web.ViewModel.Queue;
+using Gravitas.Platform.Web.ViewModel.Queue.FilteredExternalQueueItem;
 
 namespace Gravitas.Platform.Web.Controllers.Api
 {
@@ -45,7 +46,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetExternalQueueList(string productId)
+        public async Task<IHttpActionResult> GetExternalQueueList(Guid productId)
         {
             try
             {
@@ -64,7 +65,7 @@ namespace Gravitas.Platform.Web.Controllers.Api
                             {
                                 TicketContainerId = item.TicketContainerId,
                                 Nomenclature =
-                                    _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId)?.ShortName,
+                                    _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId.Value)?.ShortName,
                                 DocImpurityValue = singleWindowOpData.DocImpurityValue == null ? singleWindowOpData.DocImpurityValue : Math.Round(singleWindowOpData.DocImpurityValue.Value, 2),
                                 DocHumidityValue = singleWindowOpData.DocHumidityValue == null ? singleWindowOpData.DocHumidityValue : Math.Round(singleWindowOpData.DocHumidityValue.Value, 2),
                                 IsAllowedToEnterTerritory = item.IsAllowedToEnterTerritory

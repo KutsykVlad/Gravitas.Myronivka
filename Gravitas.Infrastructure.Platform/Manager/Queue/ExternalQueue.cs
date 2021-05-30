@@ -60,7 +60,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 category = QueueCategory.MixedFeedLoad;
             } else if (singleWindowOpData != null && singleWindowOpData.IsThirdPartyCarrier)
             {
-                if (!string.IsNullOrEmpty(singleWindowOpData.CarrierId))
+                if (singleWindowOpData.CarrierId.HasValue)
                 {
                     var partner = _externalRepo.GetPartnerItems().Items.FirstOrDefault(x => x.Id == singleWindowOpData.CarrierId);
 

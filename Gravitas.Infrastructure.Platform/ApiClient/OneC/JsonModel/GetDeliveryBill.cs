@@ -52,25 +52,25 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 public double? IncomeDocTareValue { get; set; }
 
                 [JsonProperty("CarrierCodeId")]
-                public string CarrierCodeId { get; set; }
+                public Guid? CarrierCodeId { get; set; }
 
                 [JsonProperty("CarrierRouteId")]
                 public string CarrierRouteId { get; set; }
 
                 [JsonProperty("ContractCarrierId")]
-                public string ContractCarrierId { get; set; }
+                public Guid? ContractCarrierId { get; set; }
 
                 [JsonProperty("TransportId")]
-                public string TransportId { get; set; }
+                public Guid? TransportId { get; set; }
 
                 [JsonProperty("TrailerId")]
-                public string TrailerId { get; set; }
+                public Guid? TrailerId { get; set; }
 
                 [JsonProperty("DriverOneId")]
-                public string DriverOneId { get; set; }
+                public Guid? DriverOneId { get; set; }
 
                 [JsonProperty("DriverTwoId")]
-                public string DriverTwoId { get; set; }
+                public Guid? DriverTwoId { get; set; }
 
                 [JsonProperty("HiredTansportNumberId")]
                 public string HiredTransportNumberId { get; set; }
@@ -85,7 +85,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 public string Code { get; set; }
 
                 [JsonProperty("SupplyType")]
-                public string SupplyTypeId { get; set; }
+                public Guid? SupplyTypeId { get; set; }
 
                 [JsonProperty("SupplyCode")]
                 public string SupplyCode { get; set; }
@@ -97,37 +97,37 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
                 public string DocumentTypeId { get; set; }
 
                 [JsonProperty("OrganizationId")]
-                public string OrganizationId { get; set; }
+                public Guid? OrganizationId { get; set; }
 
                 [JsonProperty("KeeperOrganizationId")]
-                public string KeeperOrganizationId { get; set; }
+                public Guid? KeeperOrganizationId { get; set; }
 
                 [JsonProperty("StockID")]
-                public string StockId { get; set; }
+                public Guid? StockId { get; set; }
 
                 [JsonProperty("ReceiverType")]
-                public string ReceiverTypeId { get; set; }
+                public Guid? ReceiverTypeId { get; set; }
 
                 [JsonProperty("ReceiverId")]
-                public string ReceiverId { get; set; }
+                public Guid? ReceiverId { get; set; }
 
                 [JsonProperty("ReceiverStockId")]
-                public string ReceiverDepotId { get; set; }
+                public Guid? ReceiverDepotId { get; set; }
 
                 [JsonProperty("ReceiverAnaliticsId")]
-                public string ReceiverAnaliticsId { get; set; }
+                public Guid? ReceiverAnaliticsId { get; set; }
 
                 [JsonProperty("ProductId")]
-                public string ProductId { get; set; }
+                public Guid? ProductId { get; set; }
 
                 [JsonProperty("HarvestId")]
-                public string HarvestId { get; set; }
+                public Guid? HarvestId { get; set; }
 
                 [JsonProperty("BuyBudgetId")]
-                public string BuyBudgetId { get; set; }
+                public Guid? BuyBudgetId { get; set; }
 
                 [JsonProperty("SellBudgetId")]
-                public string SellBudgetId { get; set; }
+                public Guid? SellBudgetId { get; set; }
 
                 [JsonProperty("StatusType")]
                 public string StatusType { get; set; }

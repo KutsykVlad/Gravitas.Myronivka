@@ -180,7 +180,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 TransportNo = ticketVm.TransportNo,
                 TrailerNo = ticketVm.TrailerNo,
                 IsPhoneNumberAvailable = !string.IsNullOrEmpty(singleWindowOpData?.ContactPhoneNo),
-                Nomenclature = _externalDataRepository.GetProductDetail(singleWindowOpData?.ProductId)?.ShortName ?? singleWindowOpData?.ProductTitle ?? string.Empty,
+                Nomenclature = _externalDataRepository.GetProductDetail(singleWindowOpData.ProductId.Value)?.ShortName ?? singleWindowOpData?.ProductTitle ?? string.Empty,
                 IsEditable = !SingleWindowReadonly.All.Contains((NodeIdValue)ticketVm.NodeId)
             };
 
