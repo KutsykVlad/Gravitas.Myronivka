@@ -118,7 +118,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (nodeDetailsDto.Context == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Хибний контекст вузла"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Хибний контекст вузла"));
                 return;
             }
 
@@ -142,7 +142,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 if (!_queue.IsAllowedEnterTerritory(card.Ticket.Id))
                 {
                     _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                        new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Не маєте права заходити без виклику по черзі."));
+                        new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Не маєте права заходити без виклику по черзі."));
 
                     _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
                     return;
@@ -152,7 +152,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDetailsDto.Id, out var errorMessage))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, errorMessage));
 
                 _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
             return;
@@ -238,19 +238,19 @@ namespace Gravitas.Core.Processor.OpRoutine
             var card = _context.Cards.FirstOrDefault(x => x.Id == validCardId);
             if (card == null)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Картку не знайдено."));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Картку не знайдено."));
                 return;
             }
 
             if (card.TicketContainerId.HasValue)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "Використано існуючу мітку"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning, "Використано існуючу мітку"));
                 return;
             }
             
             _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Success, "Мітка знаходиться в радіусі дії. Виконується перевірка."));
+                new NodeProcessingMsgItem(ProcessingMsgType.Success, "Мітка знаходиться в радіусі дії. Виконується перевірка."));
             
             for (var i = 1; i <= 10; i++)
             {
@@ -263,7 +263,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             _cardRepository.Update<Card, string>(card);
 
             _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Success, "Нову мітку прив'язано"));
+                new NodeProcessingMsgItem(ProcessingMsgType.Success, "Нову мітку прив'язано"));
 
             _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
             nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa;
@@ -406,14 +406,14 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!readerCardIds.Any())
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "В радіусі дії зчитувача міток не виявлено"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning, "В радіусі дії зчитувача міток не виявлено"));
                 return null;
             }
             
             if (readerCardIds.Count > 1)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "В радіусі дії зчитувача більше 1 мітки"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning, "В радіусі дії зчитувача більше 1 мітки"));
                 return null;
             }
 
@@ -430,7 +430,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (validCardIds.Count < 1)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning,
                         $@"В радіусі дії зчитувача міток, що підходять для опрацювання не виявлено. Всього виявлено міток {readerCardIds.Count}"));
                 return null;
             }

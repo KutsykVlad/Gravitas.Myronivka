@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
+using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.Node.TDO.List;
 using Newtonsoft.Json;
@@ -54,7 +53,6 @@ namespace Gravitas.DAL.Repository.Node
                     MaximumProcessingTime = node.MaximumProcessingTime,
                     Config = JsonConvert.DeserializeObject<NodeConfig>(node.Config),
                     Context = JsonConvert.DeserializeObject<NodeContext>(node.Context),
-                    ProcessingMessage = JsonConvert.DeserializeObject<NodeProcessingMsg>(node.ProcessingMessage), 
                     Group = node.NodeGroup
                 };
         }
@@ -79,29 +77,13 @@ namespace Gravitas.DAL.Repository.Node
             return UpdateNodeContextJson(nodeId, JsonConvert.SerializeObject(newContext));
         }
 
-        public void UpdateNodeProcessingMessage(int nodeId, NodeProcessingMsgItem msgItem)
-        {
-            var node = _context.Nodes.FirstOrDefault(x => x.Id == nodeId);
-            if (node == null) return;
-            node.ProcessingMessage = msgItem == null
-                ? string.Empty
-                : JsonConvert.SerializeObject(new NodeProcessingMsg
-                {
-                    Items = new List<NodeProcessingMsgItem>
-                    {
-                        msgItem
-                    }
-                });
-
-            Update<Model.DomainModel.Node.DAO.Node, int>(node);
-        }
-
         public void ClearNodeProcessingMessage(int nodeId)
         {
-            var node = _context.Nodes.FirstOrDefault(x => x.Id == nodeId);
-            if (node == null) return;
-            node.ProcessingMessage = JsonConvert.SerializeObject(new NodeProcessingMsg());
-            Update<Model.DomainModel.Node.DAO.Node, int>(node);
+            var messages = _context.NodeProcessingMessages
+                .Where(x => x.NodeId == nodeId)
+                .ToList();
+            _context.NodeProcessingMessages.RemoveRange(messages);
+            _context.SaveChanges();
         }
 
         private NodeItem GetNodeItem(Model.DomainModel.Node.DAO.Node dao)

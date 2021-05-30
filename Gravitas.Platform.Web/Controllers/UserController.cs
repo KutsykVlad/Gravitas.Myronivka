@@ -44,8 +44,8 @@ namespace Gravitas.Platform.Web.Controllers
             {
                 userId,
                 errorType = assignResult.isSucess
-                    ? NodeData.ProcessingMsg.Type.Success
-                    : NodeData.ProcessingMsg.Type.Error,
+                    ? ProcessingMsgType.Success
+                    : ProcessingMsgType.Error,
                 errorMessage = assignResult.msg,
                 returnPage
             });

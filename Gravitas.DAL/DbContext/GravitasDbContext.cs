@@ -24,6 +24,7 @@ using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DAO;
 using Gravitas.Model.DomainModel.ExternalData.SupplyType.DAO;
 using Gravitas.Model.DomainModel.ExternalData.YearOfHarvest.DAO;
 using Gravitas.Model.DomainModel.MixedFeed.DAO;
+using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Model.DomainModel.OpCameraImage;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.OpDataEvent.DAO;
@@ -58,7 +59,7 @@ namespace Gravitas.DAL.DbContext
         public DbSet<TicketPackingTare> TicketPackingTares { get; set; }
         public DbSet<OpDataEvent> OpDataEvents { get; set; }
         public DbSet<Card> Cards { get; set; }
-        public DbSet<Model.DomainModel.Node.DAO.Node> Nodes { get; set; }
+        public DbSet<Node> Nodes { get; set; }
         public DbSet<SingleWindowOpData> SingleWindowOpDatas { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketContainer> TicketContainers { get; set; }
@@ -85,6 +86,7 @@ namespace Gravitas.DAL.DbContext
         public DbSet<OriginType> OriginTypes { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ReasonForRefund> ReasonForRefunds { get; set; }
+        public DbSet<NodeProcessingMessage> NodeProcessingMessages { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Organisation> Organisations { get; set; }

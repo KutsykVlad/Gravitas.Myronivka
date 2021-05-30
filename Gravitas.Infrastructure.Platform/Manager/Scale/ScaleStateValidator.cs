@@ -1,5 +1,6 @@
 using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
+using Gravitas.Model;
 using Gravitas.Model.DomainModel.Device.TDO.DeviceState;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using NLog;
@@ -21,13 +22,13 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
         {
             if (!scaleState.InData.IsImmobile)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning,@"Вага не стабільна."));
+                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(ProcessingMsgType.Warning,@"Вага не стабільна."));
                 return false;
             }
 
             if (scaleState.InData.Value < GlobalConfigurationManager.ScaleMinLoad)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Info,@"Вага надто мала."));
+                _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(ProcessingMsgType.Info,@"Вага надто мала."));
                 return false;
             }
 

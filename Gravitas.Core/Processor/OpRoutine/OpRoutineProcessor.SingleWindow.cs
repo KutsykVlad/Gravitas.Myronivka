@@ -226,8 +226,8 @@ namespace Gravitas.Core.Processor.OpRoutine
             container.StatusId = TicketContainerStatus.Inactive;
             _nodeRepository.Update<TicketContainer, int>(container);
             
-            _nodeRepository.UpdateNodeProcessingMessage(nodeDetailsDto.Id,
-                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Success, "Мітки та картки роз'єднано"));
+            _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
+                new NodeProcessingMsgItem(ProcessingMsgType.Success, "Мітки та картки роз'єднано"));
 
             var ticket = _ticketRepository.GetTicketInContainer(nodeDetailsDto.Context.TicketContainerId.Value, TicketStatus.ToBeProcessed);
             if (ticket == null) _connectManager.SendSms(SmsTemplate.RemovedFromQueue, nodeDetailsDto.Context.TicketId);
@@ -338,8 +338,8 @@ namespace Gravitas.Core.Processor.OpRoutine
     
             if (deliveryBill == null || deliveryBill.ErrorCode != 0 || deliveryBill.Id == null || deliveryBill.Id == string.Empty) 
             {
-                _nodeRepository.UpdateNodeProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Warning, $"Помилка WebAPI. {deliveryBill?.ErrorMsg}"));
+                _opRoutineManager.UpdateProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
+                    ProcessingMsgType.Warning, $"Помилка WebAPI. {deliveryBill?.ErrorMsg}"));
     
                 return;
             }
@@ -538,8 +538,8 @@ namespace Gravitas.Core.Processor.OpRoutine
     
                 if (deliveryBill == null || deliveryBill.ErrorCode != 0 || deliveryBill.Id == null || deliveryBill.Id == string.Empty) 
                 {
-                    _nodeRepository.UpdateNodeProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Warning, $"Помилка WebAPI. {deliveryBill?.ErrorMsg}"));
+                    _opRoutineManager.UpdateProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
+                        ProcessingMsgType.Warning, $"Помилка WebAPI. {deliveryBill?.ErrorMsg}"));
     
                     return false;
                     
@@ -602,8 +602,8 @@ namespace Gravitas.Core.Processor.OpRoutine
     
                 UpdateDeliveryBillDictionaryItems(windowOpData, oneCApiClient);
 
-                _nodeRepository.UpdateNodeProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Success, "WebAPI. Дані отримано успішно"));
+                _opRoutineManager.UpdateProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
+                    ProcessingMsgType.Success, "WebAPI. Дані отримано успішно"));
                 return true;
         }
 
@@ -854,8 +854,8 @@ namespace Gravitas.Core.Processor.OpRoutine
            
 
             if (useOneC && (response == null || response.ErrorCode != 0)) {
-                _nodeRepository.UpdateNodeProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, $"Помилка WebAPI. {response?.ErrorMsg}"));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
+                    ProcessingMsgType.Error, $"Помилка WebAPI. {response?.ErrorMsg}"));
 
                 nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.EditTicketForm;
             }
@@ -863,14 +863,14 @@ namespace Gravitas.Core.Processor.OpRoutine
             {
                 if (useOneC)
                 {
-                    _nodeRepository.UpdateNodeProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Success,
+                    _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
+                        ProcessingMsgType.Success,
                         "WebAPI. Дані передано успішно")); 
                 }
                 else
                 {
-                    _nodeRepository.UpdateNodeProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Warning,
+                    _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
+                        ProcessingMsgType.Warning,
                         "Дані в 1С не були відправлені."));
                 }
                 
@@ -933,8 +933,8 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             if (cameraPostRequests.Count == 0)
             {
-                _nodeRepository.UpdateNodeProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, $"Немає фотографій. Проводка документу відмінена."));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
+                    ProcessingMsgType.Error, $"Немає фотографій. Проводка документу відмінена."));
 
                 nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
                 UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
@@ -961,8 +961,8 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             if (updateResponse == null || updateResponse.ErrorCode != 0) 
             {
-                _nodeRepository.UpdateNodeProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error,$"Помилка WebAPI. {updateResponse?.ErrorMsg}"));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
+                    ProcessingMsgType.Error,$"Помилка WebAPI. {updateResponse?.ErrorMsg}"));
 
                 nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
                 UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
@@ -976,8 +976,8 @@ namespace Gravitas.Core.Processor.OpRoutine
             singleWindowOpData.CheckOutDateTime = DateTime.Now;
             _opDataRepository.Update<SingleWindowOpData, Guid>(singleWindowOpData);
 
-            _nodeRepository.UpdateNodeProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                NodeData.ProcessingMsg.Type.Success, "WebAPI. Дані передано успішно"));
+            _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
+                ProcessingMsgType.Success, "WebAPI. Дані передано успішно"));
 
             nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
             UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);

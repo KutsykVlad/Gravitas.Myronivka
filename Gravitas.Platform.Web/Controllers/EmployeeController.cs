@@ -41,8 +41,8 @@ namespace Gravitas.Platform.Web.Controllers
             {
                 employeeId,
                 errorType = isSuccess
-                    ? NodeData.ProcessingMsg.Type.Success
-                    : NodeData.ProcessingMsg.Type.Error,
+                    ? ProcessingMsgType.Success
+                    : ProcessingMsgType.Error,
                 errorMessage = msg,
                 returnPage
             });
@@ -58,8 +58,8 @@ namespace Gravitas.Platform.Web.Controllers
             {
                 employeeId,
                 errorType = isSuccess
-                    ? NodeData.ProcessingMsg.Type.Success
-                    : NodeData.ProcessingMsg.Type.Error,
+                    ? ProcessingMsgType.Success
+                    : ProcessingMsgType.Error,
                 errorMessage = msg,
                 returnPage
             });

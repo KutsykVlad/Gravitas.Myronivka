@@ -7,11 +7,9 @@ namespace Gravitas.DAL.Repository.Node
     public interface INodeRepository : IBaseRepository
     {
         NodeItems GetNodeItems();
-        NodeItem GetNodeItem(int id);
         Model.DomainModel.Node.TDO.Detail.NodeDetails GetNodeDto(int? nodeId);
         NodeContext GetNodeContext(int nodeId);
         bool UpdateNodeContext(int nodeId, NodeContext newContext);
-        void UpdateNodeProcessingMessage(int nodeId, NodeProcessingMsgItem msgItem);
         void ClearNodeProcessingMessage(int nodeId);
     }
 }

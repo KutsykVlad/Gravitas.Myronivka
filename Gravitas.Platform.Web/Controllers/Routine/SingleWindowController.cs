@@ -237,8 +237,8 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 return File(fileBytes, MediaTypeNames.Application.Octet, fileName);
             }
 
-            _nodeRepository.UpdateNodeProcessingMessage(nodeId.Value,
-                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Немає такого файлу."));
+            _opRoutineManager.UpdateProcessingMessage(nodeId.Value,
+                new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Немає такого файлу."));
             SignalRInvoke.StopSpinner(nodeId.Value);
             SignalRInvoke.ReloadHubGroup(nodeId.Value);
             return View();
@@ -265,8 +265,8 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 return File(fileBytes, MediaTypeNames.Application.Octet, fileName);
             }
 
-            _nodeRepository.UpdateNodeProcessingMessage(nodeId.Value,
-                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Немає такого файлу."));
+            _opRoutineManager.UpdateProcessingMessage(nodeId.Value,
+                new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Немає такого файлу."));
             SignalRInvoke.StopSpinner(nodeId.Value);
             SignalRInvoke.ReloadHubGroup(nodeId.Value);
             return View();
@@ -401,7 +401,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 var errors = ModelState.Where(x => x.Value.Errors.Any()).ToList();
                 var err = errors.SelectMany(x => x.Value.Errors.Select(z => z.ErrorMessage)).ToList();
                 _opRoutineManager.UpdateProcessingMessage(vmData.NodeId.Value,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, $"{string.Join(@", ", err)}"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, $"{string.Join(@", ", err)}"));
 
             }
 
@@ -582,7 +582,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             else
             {
                 _opRoutineManager.UpdateProcessingMessage(vmData.NodeId,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "Виберіть маршрут"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning, "Виберіть маршрут"));
                 
             }
             return new HttpStatusCodeResult(HttpStatusCode.OK);

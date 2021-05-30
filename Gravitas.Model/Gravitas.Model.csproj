@@ -182,6 +182,7 @@
     <Compile Include="DomainModel\MixedFeed\DAO\MixedFeedSilo.cs" />
     <Compile Include="DomainModel\MixedFeed\DTO\MixedFeedSiloDto.cs" />
     <Compile Include="DomainModel\Node\DAO\Node.cs" />
+    <Compile Include="DomainModel\Node\DAO\NodeProcessingMessage.cs" />
     <Compile Include="DomainModel\Node\TDO\List\NodeItems.cs" />
     <Compile Include="DomainModel\Node\TDO\List\NodeItem.cs" />
     <Compile Include="DomainModel\Node\TDO\Json\NodeProcessingMsgItem.cs" />
@@ -266,7 +267,6 @@
     <Compile Include="DomainValue\TicketRegisterType.cs" />
     <Compile Include="DomainValue\TruckState.cs" />
     <Compile Include="DomainValue\TypeOfTransaction.cs" />
-    <Compile Include="DomainValue\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainModel\OpData\DAO\ScaleOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\SecurityCheckInOpData.cs" />

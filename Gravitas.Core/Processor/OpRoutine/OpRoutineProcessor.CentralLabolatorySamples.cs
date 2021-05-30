@@ -86,7 +86,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
 
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, errorMessage));
                 return;
             }
 
@@ -96,7 +96,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
 
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, "Картка оброблена, або знаходиться в обробці."));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, "Картка оброблена, або знаходиться в обробці."));
                 return;
             }
             
@@ -133,7 +133,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (card.TicketContainerId.HasValue)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "Лоток закріплений за іншим автомобілем."));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning, "Лоток закріплений за іншим автомобілем."));
                 return;
             }
             

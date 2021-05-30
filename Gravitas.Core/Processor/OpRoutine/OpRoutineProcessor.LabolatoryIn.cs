@@ -135,7 +135,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 x.TicketContainerId == card.Ticket.TicketContainerId && x.TypeId == CardType.LaboratoryTray);
             if (hasBindedLabCards)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "Авто знаходиться в обробці"));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Warning, "Авто знаходиться в обробці"));
                 return;
             }
             
@@ -143,7 +143,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             var isCanceledOpData = lastOpData != null;
             if (!isCanceledOpData && !_routesManager.IsNodeNext(card.Ticket.Id, nodeDetailsDto.Id, out var errorMessage))
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Error, errorMessage));
                 return;
             }
 
@@ -158,7 +158,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             _ticketRepository.Add<LabFacelessOpData, Guid>(labFacelessOpData);
             
             _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Info, @"Автомобіль прив'язано."));
+                new NodeProcessingMsgItem(ProcessingMsgType.Info, @"Автомобіль прив'язано."));
 
             nodeDetailsDto.Context.TicketId = card.Ticket.Id;
             nodeDetailsDto.Context.OpDataId = labFacelessOpData.Id;
@@ -176,13 +176,13 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (card.ParentCardId != card.Id)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Info, "Використайте головну картку"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Info, "Використайте головну картку"));
                 return;
             }
             if (card.TicketContainerId != null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "Хибний маршрутний лист"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning, "Хибний маршрутний лист"));
                 return;
             }
 
@@ -217,7 +217,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             var trayCardExist = _context.Cards.Any(x => x.TicketContainerId == nodeDetailsDto.Context.TicketContainerId && x.TypeId == CardType.LaboratoryTray);
             if (!trayCardExist)
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, "Лоток не прив'язаний"));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Error, "Лоток не прив'язаний"));
                 return;
             }
 
@@ -249,7 +249,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (ticket == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error,
                         $@"Маршрут не знадено. Маршрутний лист Id:{card.TicketContainerId.Value}"));
                 return;
             }
@@ -258,7 +258,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (labFacelessOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error,
                         $@"Операцію відбору проб не знайдено в реєстрі. Маршрут Id:{ticket.Id}"));
                 return;
             }
@@ -306,7 +306,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Error,
+                        ProcessingMsgType.Error,
                         $@"Операцію вводу результатів аналізу не знайдено в реєстрі. Операція відбору проб Id:{labFacelessOpData.Id}. Лоток для аналізу: {card.Id}"));
                 return;
             }
@@ -364,7 +364,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (ticket == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error,
                         $@"Маршрут не знадено. Маршрутний лист Id:{card.TicketContainerId.Value}"));
                 return;
             }
@@ -482,7 +482,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 .Select(e => e.Id)
                 .ToList();
             
-            _nodeRepository.UpdateNodeProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Info,
+            _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Info,
                 $@"{unbindRfidList.Count} лотків відв'язано."));
 
             foreach (var rfid in unbindRfidList)

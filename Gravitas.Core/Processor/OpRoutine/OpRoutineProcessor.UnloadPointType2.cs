@@ -96,7 +96,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (nodeDetailsDto.Context.TicketContainerId.HasValue || !nodeDetailsDto.IsActive)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Info,
+                    ProcessingMsgType.Info,
                     $"Вузол {nodeDetailsDto.Id} не активний або зайнятий."));
                 return;
             }
@@ -108,7 +108,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             {
                 _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
 
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Error, errorMessage));
                 return;
             }
             

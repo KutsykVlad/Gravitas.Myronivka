@@ -254,12 +254,12 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 || !vm.Phone3.IsNullOrWhiteSpace() && (!vm.Phone3.All(char.IsDigit) || vm.Phone1.Length != 12))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, @"Не вірний формат телефонного номеру."));
+                    ProcessingMsgType.Error, @"Не вірний формат телефонного номеру."));
                 return false;
             }
 
             var opData = _context.CentralLabOpDatas.First(x => x.Id == nodeDto.Context.OpDataId.Value);
-            opData.StateId = Model.DomainValue.OpDataState.Collision;
+            opData.StateId = OpDataState.Collision;
             opData.CollisionComment = vm.Comment;
             _opDataRepository.Update<CentralLabOpData, Guid>(opData);
 

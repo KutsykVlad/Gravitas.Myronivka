@@ -97,7 +97,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             if (!result)
                 _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, "Не валідна спроба зміни стану вузла."));
+                    ProcessingMsgType.Error, "Не валідна спроба зміни стану вузла."));
 
             if (result && reload)
             {

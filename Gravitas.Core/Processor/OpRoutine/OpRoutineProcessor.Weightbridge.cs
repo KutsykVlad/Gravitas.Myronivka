@@ -291,7 +291,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDetailsDto.Id, out var errorMessage))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, errorMessage));
                 return;
             }
 
@@ -301,7 +301,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (scaleOpData != null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, $"Автомобіль в обробці на {scaleOpData.Node.Name}"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, $"Автомобіль в обробці на {scaleOpData.Node.Name}"));
                 return;
             }
 
@@ -337,7 +337,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.GuardianCardPrompt;
 
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Info, $"{validationResult.ValidationMessage} Очікуйте охоронця"));
+                    ProcessingMsgType.Info, $"{validationResult.ValidationMessage} Очікуйте охоронця"));
 
                 var securityPhoneNo = _phonesRepository.GetPhone(Phone.Security);
                 if (!_connectManager.SendSms(SmsTemplate.InvalidPerimeterGuardianSms, card.Ticket.Id, securityPhoneNo, new Dictionary<string, object>
@@ -422,13 +422,13 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (scaleOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено."));
+                    ProcessingMsgType.Error, @"Помилка. Дані операції не знайдено."));
                 return;
             }
             
             if (!scaleOpData.TrailerIsAvailable && (scaleState.InData.Value > nodeDetailsDto.Context.OpProcessData + 60 || scaleState.InData.Value < nodeDetailsDto.Context.OpProcessData - 60))
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Зміна ваги."));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Зміна ваги."));
                 
                 _opDataManager.AddEvent(new OpDataEvent
                 {
@@ -588,7 +588,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!string.IsNullOrWhiteSpace(result))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, @"Ліміти не виконані"));
+                    ProcessingMsgType.Error, @"Ліміти не виконані"));
             }
             else
             {
@@ -596,13 +596,13 @@ namespace Gravitas.Core.Processor.OpRoutine
                     && scaleOpData.TruckWeightDateTime.HasValue)
                 {
                     _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Success, @"Перевірка пройшла успішно"));
+                        ProcessingMsgType.Success, @"Перевірка пройшла успішно"));
                 }
                 else
                 {
                     Logger.Error($"Scale weight validation error: TruckWeight is NULL in the database. ScaleOpData.Id={scaleOpData.Id}");
                     _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Error, @"Увага, не коректне зважування. Повторіть процедуру зважуванняя з початку."));
+                        ProcessingMsgType.Error, @"Увага, не коректне зважування. Повторіть процедуру зважуванняя з початку."));
                     scaleOpData.StateId = OpDataState.Canceled;
                     _opDataRepository.Update<ScaleOpData, Guid>(scaleOpData);
                 }
@@ -621,7 +621,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (scaleOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
+                    ProcessingMsgType.Error, @"Помилка. Дані операції не знайдено"));
                 return;
             }
             if (scaleOpData.StateId == OpDataState.Rejected)
@@ -651,7 +651,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (scaleOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
+                    ProcessingMsgType.Error, @"Помилка. Дані операції не знайдено"));
                 return;
             }
 

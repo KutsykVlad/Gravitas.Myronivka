@@ -86,7 +86,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (nodeDetailsDto.Context == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Хибний контекст вузла"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Хибний контекст вузла"));
                 return;
             }
 
@@ -103,7 +103,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 if (!_queue.IsAllowedEnterTerritory(card.Ticket.Id))
                 {
                     _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                        new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Не маєте права заходити без виклику по черзі."));
+                        new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Не маєте права заходити без виклику по черзі."));
 
                     _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
                     return;
@@ -112,7 +112,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDetailsDto.Id, out var errorMessage))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, errorMessage));
                 
                 _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
                 return;

@@ -44,7 +44,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
                     new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Error,
+                        ProcessingMsgType.Error,
                         $@"Маршрут не знадено. Маршрутний лист Id:{ticketContainerId}"));
                 return false;
             }
@@ -103,7 +103,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (nodeDto.Context.TicketId == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error,
                         $@"Маршрут не знадено. Маршрутний лист Id:{nodeDto.Context.TicketContainerId.Value}"));
                 return;
             }
@@ -161,7 +161,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     _opDataRepository.Update<SingleWindowOpData, Guid>(opData);
 
                     _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Success, "WebAPI. Дані змінено успішно"));
+                        ProcessingMsgType.Success, "WebAPI. Дані змінено успішно"));
 
                     _opDataManager.AddEvent(new OpDataEvent
                     {
@@ -177,8 +177,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 }
                 else
                 {
-                    _nodeRepository.UpdateNodeProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Error, $"Помилка WebAPI. {response?.ErrorMsg}"));
+                    _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
+                        ProcessingMsgType.Error, $"Помилка WebAPI. {response?.ErrorMsg}"));
 
                     Logger.Error($"SingleWindow. ChangeSypplyCode: SupplyCode wasn't changed: {JsonConvert.SerializeObject(response)}");
 
@@ -190,7 +190,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             {
                 Logger.Error($"SingleWindow. ChangeSypplyCode: Error while processing OneC api request: {e}");
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, "WebAPI. Помилка при зміні коду поставки."));
+                    ProcessingMsgType.Error, "WebAPI. Помилка при зміні коду поставки."));
             }
         }
 
@@ -361,8 +361,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             if (billFile != null && billFile.ErrorCode == 0 && string.IsNullOrEmpty(billFile.ErrorMsg)) return Convert.FromBase64String(billFile.Base64Content);
 
-            _nodeRepository.UpdateNodeProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                NodeData.ProcessingMsg.Type.Warning, $@"Помилка. {billFile?.ErrorMsg}"));
+            _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
+                ProcessingMsgType.Warning, $@"Помилка. {billFile?.ErrorMsg}"));
 
             return null;
         }
@@ -444,7 +444,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (!isSecondaryTicket && queueData != null && queueData.TicketContainerId != ticket.TicketContainerId)
             {
                 _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error,
                         @"Номер телефону вже зареєстровний в системі."));
                 return false;
             }
@@ -456,7 +456,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (blackListRegistry.Partners.Select(t => t.Partner.Code).Contains(data.CarrierCode))
                 {
                     _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value,
-                        new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                        new NodeProcessingMsgItem(ProcessingMsgType.Error,
                             @"Даний партнер перебуває у чорному списку та не може в'їхати"));
                     return false;
                 }
@@ -464,7 +464,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (blackListRegistry.Transport.Select(t => t.TransportNo).Contains(data.HiredTansportNumber))
                 {
                     _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value,
-                        new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                        new NodeProcessingMsgItem(ProcessingMsgType.Error,
                             @"Даний транспорт перебуває у чорному списку та не може в'їхати"));
                     return false;
                 }
@@ -472,7 +472,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (blackListRegistry.Trailers.Select(t => t.TrailerNo).Contains(data.TrailerNumber))
                 {
                     _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value,
-                        new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                        new NodeProcessingMsgItem(ProcessingMsgType.Error,
                             @"Даний причеп перебуває у чорному списку та не може в'їхати"));
                     return false;
                 }
@@ -482,7 +482,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     if (blackListRegistry.Drivers.Select(x => x.Name).Any(x => data.HiredDriverCode.Contains(x)))
                     {
                         _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value,
-                            new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                            new NodeProcessingMsgItem(ProcessingMsgType.Error,
                                 @"Даний водій перебуває у чорному списку та не може в'їхати"));
                         return false;
                     }
@@ -509,7 +509,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (!double.TryParse(data.ContactPhoneNo, out _) || data.ContactPhoneNo.Contains('+'))
             {
                 _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error,
                         @"Не вірний формат номеру телефону."));
                 return false;
             }
@@ -517,7 +517,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (string.IsNullOrEmpty(data.TransportId) && string.IsNullOrEmpty(data.HiredTansportNumber))
             {
                 _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error,
                         @"Введіть номер автомобіля"));
                 return false;
             }
@@ -525,7 +525,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (string.IsNullOrEmpty(data.DriverOneName) && string.IsNullOrEmpty(data.HiredDriverCode))
             {
                 _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error,
                         @"Введіть ім'я водія"));
                 return false;
             }
@@ -582,7 +582,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (queueRecord.Any(x => x.TicketContainerId != ticket.TicketContainerId))
             {
                 _opRoutineManager.UpdateProcessingMessage(data.NodeId,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error,
                         $"Номер телефону {windowOpData.ContactPhoneNo} вже зареєстрований в черзі."));
                 return false;
             }
@@ -653,7 +653,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (singleWindowOpData.IsPreRegistered)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeId,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning,
                         @"Увага! Маршрут був вибраний при попередній реєстрації. Підтвердіть або змініть вибір"));
             }
 

@@ -146,7 +146,7 @@ namespace Gravitas.DAL
             if (baseDeviceState == null)
             {
                 errMsgItem = new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error,
+                    ProcessingMsgType.Error,
                     "Нулл-стан пристрою.");
                 return false;
             }
@@ -154,14 +154,14 @@ namespace Gravitas.DAL
             if (baseDeviceState.LastUpdate == null
                 || timeout != null && now - baseDeviceState.LastUpdate.Value > timeout)
             {
-                errMsgItem = new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Info,"");
+                errMsgItem = new NodeProcessingMsgItem(ProcessingMsgType.Info,"");
                 return false;
             }
 
             if (baseDeviceState.ErrorCode != 0)
             {
                 errMsgItem = new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Warning,
+                    ProcessingMsgType.Warning,
                     "Утримуйте картку на считувачі");
                 return false;
             }
@@ -172,7 +172,7 @@ namespace Gravitas.DAL
                     if (deviceState.InData == null)
                     {
                         errMsgItem = new NodeProcessingMsgItem(
-                            NodeData.ProcessingMsg.Type.Error,
+                            ProcessingMsgType.Error,
                             $"Пристрій {baseDeviceState.Id} в не валідному стані");
                         return false;
                     }
@@ -182,7 +182,7 @@ namespace Gravitas.DAL
                     if (deviceState.InData == null)
                     {
                         errMsgItem = new NodeProcessingMsgItem(
-                            NodeData.ProcessingMsg.Type.Error,
+                            ProcessingMsgType.Error,
                             $"Пристрій {baseDeviceState.Id} в не валідному стані");
                         return false;
                     }
@@ -192,7 +192,7 @@ namespace Gravitas.DAL
                     if (deviceState.InData == null)
                     {
                         errMsgItem = new NodeProcessingMsgItem(
-                            NodeData.ProcessingMsg.Type.Error,
+                            ProcessingMsgType.Error,
                             $"Пристрій {baseDeviceState.Id} в не валідному стані");
                         return false;
                     }
@@ -202,7 +202,7 @@ namespace Gravitas.DAL
                     if (deviceState.InData == null)
                     {
                         errMsgItem = new NodeProcessingMsgItem(
-                            NodeData.ProcessingMsg.Type.Error,
+                            ProcessingMsgType.Error,
                             $"Пристрій {baseDeviceState.Id} в не валідному стані");
                         return false;
                     }
@@ -212,7 +212,7 @@ namespace Gravitas.DAL
                     if (deviceState.InData == null)
                     {
                         errMsgItem = new NodeProcessingMsgItem(
-                            NodeData.ProcessingMsg.Type.Error,
+                            ProcessingMsgType.Error,
                             $"Пристрій {baseDeviceState.Id} в не валідному стані");
                         return false;
                     }
@@ -222,7 +222,7 @@ namespace Gravitas.DAL
                     if (deviceState.InData == null)
                     {
                         errMsgItem = new NodeProcessingMsgItem(
-                            NodeData.ProcessingMsg.Type.Error,
+                            ProcessingMsgType.Error,
                             $"Пристрій {baseDeviceState.Id} в не валідному стані");
                         return false;
                     }
@@ -232,7 +232,7 @@ namespace Gravitas.DAL
                     if (deviceState.InData == null)
                     {
                         errMsgItem = new NodeProcessingMsgItem(
-                            NodeData.ProcessingMsg.Type.Error,
+                            ProcessingMsgType.Error,
                             $"Пристрій {baseDeviceState.Id} в не валідному стані");
                         return false;
                     }
@@ -242,7 +242,7 @@ namespace Gravitas.DAL
                     if (deviceState.InData == null)
                     {
                         errMsgItem = new NodeProcessingMsgItem(
-                            NodeData.ProcessingMsg.Type.Error,
+                            ProcessingMsgType.Error,
                             $"Пристрій {baseDeviceState.Id} в не валідному стані");
                         return false;
                     }

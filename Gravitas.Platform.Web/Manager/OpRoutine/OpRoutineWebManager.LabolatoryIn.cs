@@ -197,7 +197,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 && !vmData.AnalysisValueDescriptor.EditIsInfectioned)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error,@"Виберіть значення"));
+                    ProcessingMsgType.Error,@"Виберіть значення"));
                 return false;
             }
 
@@ -209,7 +209,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (sampleCard == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, @"Немає прив'язаного лотка"));
+                    ProcessingMsgType.Error, @"Немає прив'язаного лотка"));
                 return false;
             }
 
@@ -235,7 +235,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 _opDataRepository.AddOrUpdate<LabFacelessOpDataComponent, int>(component);
             }
 
-            _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Success, @"Лотки прив'язано"));
+            _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Success, @"Лотки прив'язано"));
             SignalRInvoke.ReloadHubGroup(nodeDto.Id);
             
             return true;
@@ -256,7 +256,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return UpdateNodeContext(nodeDto.Id, nodeDto.Context); 
             }
             _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                NodeData.ProcessingMsg.Type.Warning, @"Немає прив'язаних лотків"));
+                ProcessingMsgType.Warning, @"Немає прив'язаних лотків"));
             return false;
         }
 
@@ -613,7 +613,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 || !vm.Phone3.IsNullOrWhiteSpace() && (!vm.Phone3.All(char.IsDigit) || vm.Phone3.Length != 12))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, @"Не вірний формат телефонного номеру."));
+                    ProcessingMsgType.Error, @"Не вірний формат телефонного номеру."));
                 return false;
             }
 

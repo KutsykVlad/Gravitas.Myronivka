@@ -26,7 +26,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
                     new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Error,
+                        ProcessingMsgType.Error,
                         $@"Маршрут не знадено. Маршрутний лист Id:{ticketContainerId}"));
                 return false;
             }
@@ -184,7 +184,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (!_routesInfrastructure.GetNextNodes(ticket.Id).Contains(nodeDto.Id))
                 {
                     _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
-                        new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, "Автомобіль не закінчив обробку на попередніх вузлах"));
+                        new NodeProcessingMsgItem(ProcessingMsgType.Warning, "Автомобіль не закінчив обробку на попередніх вузлах"));
                 
                     return false;
                 }

@@ -122,7 +122,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (nodeDto.Context.TicketId.HasValue || nodeDto.Context.OpDataId.HasValue || nodeDto.Context.TicketContainerId.HasValue)
             {
                 _opRoutineManager.UpdateProcessingMessage(vm.NodeId,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"На вузлі знаходяться автомобілі. Очистка неможлива."));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, @"На вузлі знаходяться автомобілі. Очистка неможлива."));
             }
 
             nodeDto.Context.OpProcessData = vm.CleanupTime;

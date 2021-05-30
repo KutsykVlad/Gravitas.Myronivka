@@ -98,7 +98,7 @@ namespace Gravitas.Core.DeviceManager.Device
             if (scaleState == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error,
+                    ProcessingMsgType.Error,
                     @"Помилка. Ваги не знайдено"));
                 return null;
             }
@@ -106,7 +106,7 @@ namespace Gravitas.Core.DeviceManager.Device
             if (scaleState.InData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error,
+                    ProcessingMsgType.Error,
                     @"Помилка. Стан ваг не визначено"));
                 return null;
             }
@@ -114,7 +114,7 @@ namespace Gravitas.Core.DeviceManager.Device
             if (scaleState.InData.IsScaleError)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Warning,
+                    ProcessingMsgType.Warning,
                     @"Зауваження. Помилка на вагах"));
                 return null;
             }

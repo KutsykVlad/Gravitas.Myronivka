@@ -1,6 +1,7 @@
 ﻿using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.Node;
 
 namespace Gravitas.Platform.Web.AutoMapper
 {

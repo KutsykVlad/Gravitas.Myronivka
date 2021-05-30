@@ -121,7 +121,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!card.IsFree())
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning,
                         @"До картки не прив'язано маршрутного листа"));
                 return;
             }
@@ -139,7 +139,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (centralLabOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning,
                         @"Помилка обробки картки"));
                 return;
             }
@@ -169,7 +169,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!_cardManager.IsLaboratoryEmployeeCard(card, nodeDetailsDto.Id))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Підпис може виконати тільки лаборант."));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Підпис може виконати тільки лаборант."));
                 return;
             }
             
@@ -209,7 +209,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!_cardManager.IsLaboratoryEmployeeCard(card, nodeDetailsDto.Id))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Підпис може виконати тільки лаборант."));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Підпис може виконати тільки лаборант."));
                 return;
             }
             
@@ -261,7 +261,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             if (!_cardManager.IsMasterEmployeeCard(card, nodeDetailsDto.Id))
             {
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning,
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Warning,
                         @"Підпис може виконати тільки майстер."));
                 return;
             }
@@ -302,7 +302,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     if (!_cardManager.IsLaboratoryEmployeeCard(card, nodeDetailsDto.Id))
                     {
                         _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                            new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Підпис може виконати тільки лаборант."));
+                            new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Підпис може виконати тільки лаборант."));
                         return;
                     }
                     try
@@ -319,7 +319,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     if (!_cardManager.IsMasterEmployeeCard(card, nodeDetailsDto.Id))
                     {
                         _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                            new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Підпис може виконати тільки майстер."));
+                            new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Підпис може виконати тільки майстер."));
                         return;
                     }
                     
@@ -348,7 +348,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     if (!isChanged)
                     {
                         _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                            NodeData.ProcessingMsg.Type.Error, @"Немає відповідного маршруту."));
+                            ProcessingMsgType.Error, @"Немає відповідного маршруту."));
                         return;
                     }
                     break;
@@ -356,7 +356,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     if (!_cardManager.IsLaboratoryEmployeeCard(card, nodeDetailsDto.Id))
                     {
                         _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                            new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Підпис може виконати тільки лаборант."));
+                            new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Підпис може виконати тільки лаборант."));
                         return;
                     }
                     _routesInfrastructure.MoveForward(nodeDetailsDto.Context.TicketId.Value, nodeDetailsDto.Id);

@@ -127,7 +127,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDetailsDto.Id, out var errorMessage))
             {
                 _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Error, errorMessage));
                 return;
             }
 
@@ -149,7 +149,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (!UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Не валідна спроба зміни стану вузла."));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Не валідна спроба зміни стану вузла."));
                 return;
             }
 

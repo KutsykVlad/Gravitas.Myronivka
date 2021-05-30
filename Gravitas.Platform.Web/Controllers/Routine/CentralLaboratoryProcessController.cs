@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
+using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
@@ -21,15 +22,18 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         private readonly IOpRoutineWebManager _opRoutineWebManager;
         private readonly INodeRepository _nodeRepository;
         private readonly GravitasDbContext _context;
+        private readonly IOpRoutineManager _opRoutineManager;
 
         public CentralLaboratoryProcessController(IOpRoutineWebManager opRoutineWebManager
             , ITicketWebManager ticketWebManager, 
             INodeRepository nodeRepository,
-            GravitasDbContext context)
+            GravitasDbContext context, 
+            IOpRoutineManager opRoutineManager)
         {
             _ticketWebManager = ticketWebManager;
             _nodeRepository = nodeRepository;
             _context = context;
+            _opRoutineManager = opRoutineManager;
             _opRoutineWebManager = opRoutineWebManager;
         }
 
@@ -165,7 +169,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
 			
-            _nodeRepository.UpdateNodeProcessingMessage(nodeId, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Немає такого файлу."));
+            _opRoutineManager.UpdateProcessingMessage(nodeId, new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Немає такого файлу."));
             SignalRInvoke.StopSpinner(nodeId);
             return View();
         }

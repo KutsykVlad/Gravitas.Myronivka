@@ -3,12 +3,11 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Web.Mvc;
-using AutoMapper;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Common.Attribute;
 using Gravitas.Model.DomainValue;
-using Gravitas.Platform.Web.ViewModel;
+using Gravitas.Platform.Web.ViewModel.Node.Detail;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -44,7 +43,6 @@ namespace Gravitas.Platform.Web.Controllers
             var vm = new NodeRoutineVm
             {
                 NodeId = id.Value,
-                NodeProcessingMsgVm = Mapper.Map<NodeProcessingMsgVm>(nodeDto.ProcessingMessage),
                 WorkstationId = _context.Nodes.First(x => x.Id == id.Value).OrganizationUnitId
             };
 
@@ -53,8 +51,10 @@ namespace Gravitas.Platform.Web.Controllers
         
         public ActionResult NodeProcessingMessage(int nodeId)
         {
-            var nodeDto = _nodeRepository.GetNodeDto(nodeId);
-            return PartialView("_NodeProcessigMessage", Mapper.Map<NodeProcessingMsgVm>(nodeDto.ProcessingMessage));
+            var messages = _context.NodeProcessingMessages
+                .Where(x => x.NodeId == nodeId)
+                .ToList();
+            return PartialView("_NodeProcessigMessage", messages);
         }
         
         public ActionResult Routine(int? id)

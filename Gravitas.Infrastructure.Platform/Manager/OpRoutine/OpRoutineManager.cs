@@ -6,7 +6,9 @@ using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Platform.Manager.Camera;
 using Gravitas.Infrastructure.Platform.Manager.OpVisa;
 using Gravitas.Infrastructure.Platform.SignalRClient;
+using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpCameraImage;
 using Gravitas.Model.DomainModel.OpData.DAO;
@@ -40,14 +42,14 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
 
             if (isEmployeeBinded && card.EmployeeId == null)
             {
-                errMsgItem = new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning,
+                errMsgItem = new NodeProcessingMsgItem(ProcessingMsgType.Warning,
                     @"Картка не містить інформації про користувача");
                 return false;
             }
 
             if (!isEmployeeBinded && card.EmployeeId != null)
             {
-                errMsgItem = new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning,
+                errMsgItem = new NodeProcessingMsgItem(ProcessingMsgType.Warning,
                     $@"Картку вже зарезрововано за користувачем. Id:{card.EmployeeId}");
                 return false;
             }
@@ -61,7 +63,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
 
             if (cardTypeId != card.TypeId)
             {
-                errMsgItem = new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning, @"Хибний тип картки");
+                errMsgItem = new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Хибний тип картки");
                 return false;
             }
 
@@ -73,13 +75,13 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
             if (card == null)
             {
                 errMsgItem =
-                    new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning, @"Картку не ідентифіковано");
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Картку не ідентифіковано");
                 return false;
             }
 
             if (!card.IsActive)
             {
-                errMsgItem = new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning, @"Картка не активна");
+                errMsgItem = new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Картка не активна");
                 return false;
             }
 
@@ -92,7 +94,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
             if (!_visaValidationManager.ValidateEmployeeAccess(nodeId, card.EmployeeId))
             {
                 errMsgItem =
-                    new NodeProcessingMsgItem(Model.NodeData.ProcessingMsg.Type.Warning, @"У робітника нема прав підписувати даний вузол");
+                    new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"У робітника нема прав підписувати даний вузол");
                 return false;
             }
 
@@ -117,9 +119,15 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
 
         public void UpdateProcessingMessage(int nodeId, NodeProcessingMsgItem msgItem)
         {
-            var isMessageChanged = _nodeRepository.GetNodeDto(nodeId).ProcessingMessage.Items?.FirstOrDefault()?.Text != msgItem.Text;
-            if (isMessageChanged) _nodeRepository.UpdateNodeProcessingMessage(nodeId, msgItem);
-            if (isMessageChanged) SignalRInvoke.UpdateProcessingMessage(nodeId);
+            _context.NodeProcessingMessages.Add(new NodeProcessingMessage
+            {
+                NodeId = nodeId,
+                Message = msgItem.Text,
+                TypeId = msgItem.TypeId,
+                ExpirationDateTime = DateTime.Now
+            });
+            _context.SaveChanges();
+            SignalRInvoke.UpdateProcessingMessage(nodeId);
         }
 
         public void UpdateProcessingMessage(IEnumerable<int> nodeIds, NodeProcessingMsgItem msgItem)

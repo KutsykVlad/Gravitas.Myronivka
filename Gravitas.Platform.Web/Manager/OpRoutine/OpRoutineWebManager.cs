@@ -1,6 +1,4 @@
-﻿using Gravitas.DAL;
-using Gravitas.DAL.DbContext;
-using Gravitas.DAL.Repository;
+﻿using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.BlackList;
 using Gravitas.DAL.Repository.Card;
 using Gravitas.DAL.Repository.ExternalData;
@@ -11,7 +9,6 @@ using Gravitas.DAL.Repository.PhoneInformTicketAssignment;
 using Gravitas.DAL.Repository.Phones;
 using Gravitas.DAL.Repository.Ticket;
 using Gravitas.DAL.Repository.Traffic;
-using Gravitas.Infrastructure.Platform.Manager;
 using Gravitas.Infrastructure.Platform.Manager.CentralLaboratory;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.Node;
@@ -22,7 +19,6 @@ using Gravitas.Infrastructure.Platform.Manager.Scale;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
-using Gravitas.Model.Dto;
 using Gravitas.Platform.Web.Manager.CollisionManager;
 using Gravitas.Platform.Web.Manager.OpData;
 using NLog;
@@ -111,7 +107,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (!result)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeId,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Не валідна спроба зміни стану вузла."));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Не валідна спроба зміни стану вузла."));
                 return false;
             }
 
@@ -122,7 +118,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
         private void SendWrongContextMessage(int nodeId)
         {
             _opRoutineManager.UpdateProcessingMessage(nodeId,
-                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Хибний контекст вузла"));
+                new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Хибний контекст вузла"));
         }
     }
 }

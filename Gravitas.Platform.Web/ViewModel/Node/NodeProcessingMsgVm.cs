@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Gravitas.Platform.Web.ViewModel {
-
-	public class NodeProcessingMsgVm {
-
-		public ICollection<NodeProcessingMsgItemVm> Items { get; set; }
-
-		public NodeProcessingMsgVm() {
-			Items = new List<NodeProcessingMsgItemVm>();
-		}
-	}
+namespace Gravitas.Platform.Web.ViewModel.Node
+{
+    public class NodeProcessingMsgVm
+    {
+        public ICollection<NodeProcessingMsgItemVm> Items { get; set; } = new List<NodeProcessingMsgItemVm>();
+    }
 }

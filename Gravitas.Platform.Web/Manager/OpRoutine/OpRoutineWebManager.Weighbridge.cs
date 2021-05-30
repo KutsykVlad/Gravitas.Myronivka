@@ -46,7 +46,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (windowInOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Помилка. Дані операції не знайдено"));
                 return vm;
             }
 
@@ -54,7 +54,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (windowOpDataDetail == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Помилка. Дані операції не знайдено"));
                 return vm;
             }
 
@@ -103,7 +103,6 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (scaleOpData == null) return result;
 
             result = GetBaseWeightPromptVm(nodeDto, scaleOpData);
-            result.ValidationMessage = nodeDto.ProcessingMessage.Items.FirstOrDefault()?.Text;
 
             return result;
         }
@@ -119,8 +118,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             if (scaleOpData.TrailerIsAvailable)
             {
-                _nodeRepository.UpdateNodeProcessingMessage(nodeId,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Info, @"Автомобіль має зважуватися з розчепленням"));
+                _opRoutineManager.UpdateProcessingMessage(nodeId,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Info, @"Автомобіль має зважуватися з розчепленням"));
                 return;
             }
 
@@ -135,8 +134,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     _phonesRepository.GetPhone(Phone.Security)))
                     Logger.Info($"Weightbridge.OproutineWebManager: Message to {_phonesRepository.GetPhone(Phone.Security)} hasn`t been sent");
 
-                _nodeRepository.UpdateNodeProcessingMessage(nodeId,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Info, @"Очікуйте прибуття охоронця для подальшого зважування"));
+                _opRoutineManager.UpdateProcessingMessage(nodeId,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Info, @"Очікуйте прибуття охоронця для подальшого зважування"));
             }
             else
             {
@@ -164,7 +163,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (previousScaleData != null)
                 {
                     _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                        NodeData.ProcessingMsg.Type.Error, @"Помилка. Охоронець не може заборонити зважування на даному етапі"));
+                        ProcessingMsgType.Error, @"Помилка. Охоронець не може заборонити зважування на даному етапі"));
                     return;
                 }
 
@@ -213,7 +212,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (scaleOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
+                    ProcessingMsgType.Error, @"Помилка. Дані операції не знайдено"));
 
                 return;
             }
@@ -342,7 +341,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (nodeDto?.Context?.OpDataId == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeId,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Помилка. Хибний номер вузла"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Помилка. Хибний номер вузла"));
                 return vm;
             }
 
@@ -361,7 +360,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (nodeDto == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeId,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Помилка. Хибний номер вузла"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Помилка. Хибний номер вузла"));
                 return;
             }
 
@@ -382,7 +381,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (scaleOpData == null)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeId,
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Помилка. Дані операції не знайдено"));
+                    new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Помилка. Дані операції не знайдено"));
                 return;
             }
 
@@ -406,7 +405,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (isTareMoreGross)
                 {
                     _opRoutineManager.UpdateProcessingMessage(nodeDto.Id,
-                        new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Warning, @"Тара більша за брутто. Проведіть повторне зважування"));
+                        new NodeProcessingMsgItem(ProcessingMsgType.Warning, @"Тара більша за брутто. Проведіть повторне зважування"));
                     scaleOpData.StateId = OpDataState.Canceled;
                     nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.OpenBarrierOut;
                 }
@@ -449,7 +448,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 && nodeDetailsDto.Context?.OpDataId != null) return true;
 
             _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
-                new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, @"Помилка. Хибний контекст"));
+                new NodeProcessingMsgItem(ProcessingMsgType.Error, @"Помилка. Хибний контекст"));
             return false;
         }
     }

@@ -115,7 +115,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             if (nodeDetailsDto.Context.TicketContainerId.HasValue || !nodeDetailsDto.IsActive)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Info,
+                    ProcessingMsgType.Info,
                     $"Вузол {nodeDetailsDto.Id} не активний або зайнятий."));
                 return;
             }
@@ -131,7 +131,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
 
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    NodeData.ProcessingMsg.Type.Info,
+                    ProcessingMsgType.Info,
                     $"Автомобілю не призначена точка вивантаження"));
                 return;
             }
@@ -144,7 +144,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     _context.Nodes.Where(x => x.OrganizationUnitId == nodeDetailsDto.OrganisationUnitId)
                         .Select(x => x.Id)
                         .ToList(), 
-                    new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Info,
+                    new NodeProcessingMsgItem(ProcessingMsgType.Info,
                         $"Автомобілю який на {_nodeManager.GetNodeName(nodeDetailsDto.Id)} призначена точка розвантаження " +
                         $"{_nodeManager.GetNodeName(unloadGuide.UnloadPointNodeId)}"));
                 return;
@@ -154,7 +154,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             {
                 _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
 
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, errorMessage));
+                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Error, errorMessage));
                 return;
             }
             
@@ -282,7 +282,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                         _context.Nodes.Where(x => x.OrganizationUnitId == nodeDetailsDto.OrganisationUnitId)
                             .Select(x => x.Id)
                             .ToList(), 
-                        new NodeProcessingMsgItem(NodeData.ProcessingMsg.Type.Error, $"Помилка відкриття шлагбауму на {nodeDetailsDto.Name}"));
+                        new NodeProcessingMsgItem(ProcessingMsgType.Error, $"Помилка відкриття шлагбауму на {nodeDetailsDto.Name}"));
                     
                     return false;
                 }
