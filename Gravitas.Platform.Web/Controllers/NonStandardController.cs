@@ -20,7 +20,7 @@ namespace Gravitas.Platform.Web.Controllers
         {
             var vm = _opDataWebManager.GetNonStandardRegistryItems(new NonStandartDataFilters
             {
-                NodeId = (long?) NodeIdValue.SecurityIn1,
+                NodeId = (int)NodeIdValue.SecurityIn1,
                 LeftScope = DateTime.Now,
                 RightScope = DateTime.Now
             });

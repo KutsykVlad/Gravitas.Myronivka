@@ -72,13 +72,11 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult AddOpVisa(long? nodeId)
+        public ActionResult AddOpVisa(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
             var routineData = new UnloadPointGuide2Vms.AddOpVisaVm
             {
-                NodeId = nodeId.Value
+                NodeId = nodeId
             };
             return PartialView("../OpRoutine/UnloadPointGuide2/03_AddOpVisa", routineData);
         }

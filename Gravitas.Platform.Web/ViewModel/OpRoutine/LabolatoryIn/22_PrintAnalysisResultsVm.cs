@@ -1,14 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Gravitas.Platform.Web.ViewModel {
-
-	public static partial class LaboratoryInVms {
-
-		public class PrintAnalysisResultsVm {
-			public long NodeId { get; set; }
+namespace Gravitas.Platform.Web.ViewModel 
+{
+	public static partial class LaboratoryInVms 
+	{
+		public class PrintAnalysisResultsVm 
+		{
+			public int NodeId { get; set; }
 			public Guid OpDataId { get; set; }
-			public long OpDataComponentId { get; set; }
+			public int OpDataComponentId { get; set; }
 
 			// 13
 			[DisplayName("Номенклатура")]

@@ -1,4 +1,3 @@
-using System.Net;
 using System.Web.Mvc;
 using Gravitas.Platform.Web.ViewModel;
 
@@ -9,11 +8,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 01_Idle
 
         [HttpGet]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var vm = new UnloadCheckPointVms.IdleVm { NodeId = nodeId.Value };
+            var vm = new UnloadCheckPointVms.IdleVm { NodeId = nodeId };
             return PartialView("../OpRoutine/UnloadCheckPoint/01_Idle", vm);
         }
 

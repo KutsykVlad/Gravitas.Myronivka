@@ -11,7 +11,7 @@ namespace Gravitas.Platform.Web.ViewModel.OpData.NonStandart
         public int PrevPage { get; set; }
         public int NextPage { get; set; }
 
-        public long? RelatedNodeId { get; set; }
+        public int? RelatedNodeId { get; set; }
 
         public DateTime? BeginDate { get; set; }
         public DateTime? EndDate { get; set; }

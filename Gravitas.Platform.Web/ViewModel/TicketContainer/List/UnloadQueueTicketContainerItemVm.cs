@@ -4,7 +4,7 @@ namespace Gravitas.Platform.Web.ViewModel.TicketContainer.List
 {
     public class UnloadQueueTicketContainerItemVm
     {
-        public long TicketContainerId { get; set; }
+        public int TicketContainerId { get; set; }
         
         [DisplayName("Номенклатура")]
         public string Nomenclature { get; set; }

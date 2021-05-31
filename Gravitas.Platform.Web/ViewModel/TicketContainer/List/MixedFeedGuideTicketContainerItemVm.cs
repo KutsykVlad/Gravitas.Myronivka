@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Gravitas.Platform.Web.Manager;
 using Gravitas.Platform.Web.Manager.TicketContainer;
 
 namespace Gravitas.Platform.Web.ViewModel.TicketContainer.List
@@ -9,7 +8,7 @@ namespace Gravitas.Platform.Web.ViewModel.TicketContainer.List
         public BaseRegistryData BaseData { get; set; }
 
         [DisplayName("Проїзд завантаження")]
-        public long LoadGateId { get; set; }
+        public int LoadGateId { get; set; }
 
         [DisplayName("Точка завант.")]
         public string LoadNodeName { get; set; }

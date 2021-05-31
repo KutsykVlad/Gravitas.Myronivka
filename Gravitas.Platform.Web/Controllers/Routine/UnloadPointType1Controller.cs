@@ -102,20 +102,19 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region GetTareValue
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GetTareValue(long? nodeId) => nodeId.HasValue
-            ? (ActionResult) PartialView("../OpRoutine/UnloadPointType1/GetTareValue",
-                new UnloadPointType1Vms.GetTareValue() {NodeId = nodeId.Value})
-            : new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        public ActionResult GetTareValue(int nodeId) => PartialView("../OpRoutine/UnloadPointType1/GetTareValue",
+            new UnloadPointType1Vms.GetTareValue()
+            {
+                NodeId = nodeId
+            });
 
         #endregion
         
         #region AddOperationVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult AddOperationVisa(long? nodeId) => nodeId.HasValue
-            ? (ActionResult) PartialView("../OpRoutine/UnloadPointType1/AddOperationVisa",
-                new UnloadPointType1Vms.AddOperationVisaVm {NodeId = nodeId.Value})
-            : new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        public ActionResult AddOperationVisa(int nodeId) => PartialView("../OpRoutine/UnloadPointType1/AddOperationVisa",
+                new UnloadPointType1Vms.AddOperationVisaVm {NodeId = nodeId});
 
         #endregion
         

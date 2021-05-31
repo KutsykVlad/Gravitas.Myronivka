@@ -6,6 +6,6 @@ namespace Gravitas.Platform.Web.Models
     {
         public DateTime? LeftScope { get; set; }
         public DateTime? RightScope { get; set; }
-        public long? NodeId { get; set; }
+        public int? NodeId { get; set; }
     }
 }

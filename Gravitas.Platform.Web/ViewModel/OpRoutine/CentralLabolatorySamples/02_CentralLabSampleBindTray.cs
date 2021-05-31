@@ -6,7 +6,7 @@ namespace Gravitas.Platform.Web.ViewModel
     {
         public class CentralLabSampleBindTrayVm
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
             [DisplayName("Картка")]
             public string CardNumber { get; set; }
             [DisplayName("Транспорт")]

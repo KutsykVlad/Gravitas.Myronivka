@@ -9,7 +9,7 @@ namespace Gravitas.Platform.Web.ViewModel
         {
             public string AcceptancePointCode { get; set; }
             public List<AcceptancePoint> AcceptancePointsList { get; set; }
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
 
-namespace Gravitas.Platform.Web.ViewModel {
-
-    public class UnloadPointTicketContainerItemVm {
-
+namespace Gravitas.Platform.Web.ViewModel 
+{
+	public class UnloadPointTicketContainerItemVm 
+    {
 	    [DisplayName("Id")]
-	    public long TicketContainerId { get; set; }
+	    public int TicketContainerId { get; set; }
 	    [DisplayName("Картка")]
 	    public string CardNumber { get; set; }
         [DisplayName("№ ТТН")]

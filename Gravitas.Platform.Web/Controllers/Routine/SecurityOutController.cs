@@ -25,11 +25,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 01_Idle
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SecurityOutVms.IdleVm {NodeId = nodeId.Value};
+            var routineData = new SecurityOutVms.IdleVm {NodeId = nodeId};
             return PartialView("../OpRoutine/SecurityOut/01_Idle", routineData);
         }
 
@@ -164,11 +162,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 07_OpenBarrier
 
         [HttpGet, ChildActionOnly]
-        public ActionResult OpenBarrier(long? nodeId)
+        public ActionResult OpenBarrier(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SecurityOutVms.OpenBarrierVm {NodeId = nodeId.Value};
+            var routineData = new SecurityOutVms.OpenBarrierVm {NodeId = nodeId};
             return PartialView("../OpRoutine/SecurityOut/07_OpenBarrier", routineData);
         }
 
@@ -177,11 +173,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 08_GetCamSnapshot
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GetCamSnapshot(long? nodeId)
+        public ActionResult GetCamSnapshot(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SecurityOutVms.GetCamSnapshotVm {NodeId = nodeId.Value};
+            var routineData = new SecurityOutVms.GetCamSnapshotVm {NodeId = nodeId};
             return PartialView("../OpRoutine/SecurityOut/08_GetCamSnapshot", routineData);
         }
 
@@ -190,11 +184,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 10_NonStandartPass
 
         [HttpGet, ChildActionOnly]
-        public ActionResult NonStandardPass(long? nodeId)
+        public ActionResult NonStandardPass(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SecurityOutVms.NonStandartPassVm {NodeId = nodeId.Value};
+            var routineData = new SecurityOutVms.NonStandartPassVm {NodeId = nodeId};
             return PartialView("../OpRoutine/SecurityOut/10_NonStandartPass", routineData);
         }
 

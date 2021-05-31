@@ -4,7 +4,7 @@
     {
         public class AddOperationVisaVm
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
         }
     }
 }

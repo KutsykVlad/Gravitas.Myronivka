@@ -4,7 +4,7 @@
     {
         public class GetTareValue
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
             public double? TareValue { get; set; }
         }
     }

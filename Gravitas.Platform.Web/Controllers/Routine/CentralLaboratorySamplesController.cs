@@ -27,11 +27,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 01_Idle
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new CentralLabolatorySamples.IdleVm { NodeId = nodeId.Value };
+            var routineData = new CentralLabolatorySamples.IdleVm { NodeId = nodeId };
             return PartialView("../OpRoutine/CentralLabolatorySamples/01_Idle", routineData);
         }
         #endregion
@@ -64,11 +62,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 03_CentralLabSampleAddOpVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult CentralLabSampleAddOpVisa(long? nodeId)
+        public ActionResult CentralLabSampleAddOpVisa(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new CentralLabolatorySamples.CentralLabSampleAddOpVisaVm { NodeId = nodeId.Value };
+            var routineData = new CentralLabolatorySamples.CentralLabSampleAddOpVisaVm { NodeId = nodeId };
             return PartialView("../OpRoutine/CentralLabolatorySamples/03_CentralLabAddOpVisa", routineData);
         }
 

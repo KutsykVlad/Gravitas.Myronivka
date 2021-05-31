@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Gravitas.Model;
+using Gravitas.Platform.Web.ViewModel.Node.List;
 
 namespace Gravitas.Platform.Web.ViewModel {
 

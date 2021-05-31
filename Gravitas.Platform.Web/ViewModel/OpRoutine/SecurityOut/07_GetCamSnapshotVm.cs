@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace Gravitas.Platform.Web.ViewModel {
+namespace Gravitas.Platform.Web.ViewModel
+{
+    public static partial class SecurityOutVms
+    {
+        public class GetCamSnapshotVm
+        {
+            public int NodeId { get; set; }
 
-	public static partial class SecurityOutVms {
-
-		public class GetCamSnapshotVm
-		{
-			public long NodeId { get; set; }
-
-			public string Rfid { get; set; }
-			public DateTime ReadTime { get; set; }
-		}
-	}
+            public string Rfid { get; set; }
+            public DateTime ReadTime { get; set; }
+        }
+    }
 }

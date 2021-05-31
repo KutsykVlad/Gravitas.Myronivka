@@ -8,7 +8,7 @@ namespace Gravitas.Model.DomainModel.MixedFeed.DTO
         public bool IsActive { get; set; }
         public int Drive { get; set; }
         public int LoadQueue { get; set; }
-        public long SiloWeight { get; set; }
+        public int SiloWeight { get; set; }
         public float SiloEmpty { get; set; }
         public float SiloFull { get; set; }
     

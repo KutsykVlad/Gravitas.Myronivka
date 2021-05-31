@@ -260,10 +260,10 @@ namespace Gravitas.Platform.Web.ViewModel {
 			public string GrossOperatorName { get; set; }
 			// 86
 			[DisplayName("В'їзд, платформа")]
-			public long ScaleInNumber { get; set; }
+			public int ScaleInNumber { get; set; }
 			// 87
 			[DisplayName("Виїзд, платформа")]
-			public long ScaleOutNumber { get; set; }
+			public int ScaleOutNumber { get; set; }
 			// 92
 			[DisplayName("Номер партії")]
 			public string BatchNumber { get; set; }
@@ -305,7 +305,7 @@ namespace Gravitas.Platform.Web.ViewModel {
 			[DisplayName("Мінус")]
 			public int PackingWeightDeviationMinus { get; set; }
 			// 112
-			public long? LabFileId { get; set; }
+			public int? LabFileId { get; set; }
             // 113
 		    [DisplayName("Ім'я стороннього перевізника")]
             public string CustomPartnerName { get; set; }

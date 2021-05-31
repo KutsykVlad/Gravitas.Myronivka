@@ -4,13 +4,11 @@ using System.ComponentModel;
 
 namespace Gravitas.Platform.Web.ViewModel
 {
-
     public static partial class SingleWindowVms
     {
-
         public class ProtocolPrintoutVm
         {
-            public long? TicketId { get; set; }
+            public int? TicketId { get; set; }
             [DisplayName("Транспорт No.")]
             public string TransportNo { get; set; }
             [DisplayName("Причеп No.")]

@@ -268,10 +268,8 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 23_PrintAnalysisAddOpVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult PrintAnalysisAddOpVisa(long? nodeId) => nodeId.HasValue
-            ? (ActionResult) PartialView("../OpRoutine/LabolatoryIn/23_PrintAnalysisAddOpVisa",
-                new LaboratoryInVms.ResultAddOpVisaVm {NodeId = nodeId.Value})
-            : new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        public ActionResult PrintAnalysisAddOpVisa(int nodeId) => PartialView("../OpRoutine/LabolatoryIn/23_PrintAnalysisAddOpVisa",
+                new LaboratoryInVms.ResultAddOpVisaVm {NodeId = nodeId});
 
         #endregion
 
@@ -369,10 +367,8 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 27_PrintAddOpVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult PrintAddOpVisa(long? nodeId) => nodeId.HasValue
-            ? (ActionResult) PartialView("../OpRoutine/LabolatoryIn/27_PrintAddOpVisa",
-                new LaboratoryInVms.PrintAddOpVisaVm {NodeId = nodeId.Value})
-            : new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        public ActionResult PrintAddOpVisa(int nodeId) => PartialView("../OpRoutine/LabolatoryIn/27_PrintAddOpVisa",
+                new LaboratoryInVms.PrintAddOpVisaVm {NodeId = nodeId});
 
         #endregion
         

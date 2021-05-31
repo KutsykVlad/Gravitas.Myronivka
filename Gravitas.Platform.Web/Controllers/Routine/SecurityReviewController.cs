@@ -22,11 +22,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SecurityReviewVms.IdleVm {NodeId = nodeId.Value};
+            var routineData = new SecurityReviewVms.IdleVm {NodeId = nodeId};
             return PartialView("../OpRoutine/SecurityReview/01_Idle", routineData);
         }
 

@@ -9,7 +9,6 @@ namespace Gravitas.Platform.Web.Controllers.Routine
     public class WeighbridgeController : Controller
     {
         private readonly IOpRoutineWebManager _opRoutineWebManager;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public WeighbridgeController(IOpRoutineWebManager opRoutineWebManager)
         {
@@ -19,11 +18,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 01_Idle
 
         [HttpGet, ChildActionOnly]
-        public ActionResult Idle(long? nodeId)
+        public ActionResult Idle(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            return PartialView("../OpRoutine/Weightbridge/01_Idle", new WeightbridgeVms.IdleVm {NodeId = nodeId.Value});
+            return PartialView("../OpRoutine/Weightbridge/01_Idle", new WeightbridgeVms.IdleVm {NodeId = nodeId});
         }
 
         #endregion
@@ -31,13 +28,11 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 02_GetScaleZero
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GetScaleZero(long? nodeId)
+        public ActionResult GetScaleZero(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
             return PartialView("../OpRoutine/Weightbridge/02_GetScaleZero", new WeightbridgeVms.GetScaleZeroVm
             {
-                NodeId = nodeId.Value
+                NodeId = nodeId
             });
         }
 
@@ -46,11 +41,12 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 03_OpenBarrierIn
 
         [HttpGet, ChildActionOnly]
-        public ActionResult OpenBarrierIn(long? nodeId)
+        public ActionResult OpenBarrierIn(int nodeId)
         {
-            return nodeId.HasValue
-                ? (ActionResult) PartialView("../OpRoutine/Weightbridge/03_OpenBarrierIn", new WeightbridgeVms.OpenBarrierInVm {NodeId = nodeId.Value})
-                : new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            return PartialView("../OpRoutine/Weightbridge/03_OpenBarrierIn", new WeightbridgeVms.OpenBarrierInVm
+            {
+                NodeId = nodeId
+            });
         }
 
         #endregion
@@ -58,11 +54,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 04_CheckScaleNotEmpty
 
         [HttpGet, ChildActionOnly]
-        public ActionResult CheckScaleNotEmpty(long? nodeId)
+        public ActionResult CheckScaleNotEmpty(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            return PartialView("../OpRoutine/Weightbridge/04_CheckScaleNotEmpty", new WeightbridgeVms.CheckScaleNotEmptyVm {NodeId = nodeId.Value});
+            return PartialView("../OpRoutine/Weightbridge/04_CheckScaleNotEmpty", new WeightbridgeVms.CheckScaleNotEmptyVm {NodeId = nodeId});
         }
 
         #endregion
@@ -70,11 +64,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 05_GetTicketCard
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GetTicketCard(long? nodeId)
+        public ActionResult GetTicketCard(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            return PartialView("../OpRoutine/Weightbridge/05_GetTicketCard", new WeightbridgeVms.GetTicketCardVm {NodeId = nodeId.Value});
+            return PartialView("../OpRoutine/Weightbridge/05_GetTicketCard", new WeightbridgeVms.GetTicketCardVm {NodeId = nodeId});
         }
 
         #endregion
@@ -101,11 +93,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 07_GuardianCardPrompt
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GuardianCardPrompt(long? nodeId)
+        public ActionResult GuardianCardPrompt(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            return PartialView("../OpRoutine/Weightbridge/07_GuardianCardPrompt", new WeightbridgeVms.GuardianCardPromptVm {NodeId = nodeId.Value});
+            return PartialView("../OpRoutine/Weightbridge/07_GuardianCardPrompt", new WeightbridgeVms.GuardianCardPromptVm {NodeId = nodeId});
         }
 
         #endregion
@@ -186,11 +176,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 12_GetTruckWeight
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GetTruckWeight(long? nodeId)
+        public ActionResult GetTruckWeight(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            return PartialView("../OpRoutine/Weightbridge/12_GetTruckWeight", new WeightbridgeVms.GetTruckWeightVm {NodeId = nodeId.Value});
+            return PartialView("../OpRoutine/Weightbridge/12_GetTruckWeight", new WeightbridgeVms.GetTruckWeightVm {NodeId = nodeId});
         }
 
         #endregion
@@ -232,11 +220,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 15_GetTrailerWeight
 
         [HttpGet, ChildActionOnly]
-        public ActionResult GetTrailerWeight(long? nodeId)
+        public ActionResult GetTrailerWeight(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            return PartialView("../OpRoutine/Weightbridge/15_GetTrailerWeight", new WeightbridgeVms.GetTrailerWeightVm {NodeId = nodeId.Value});
+            return PartialView("../OpRoutine/Weightbridge/15_GetTrailerWeight", new WeightbridgeVms.GetTrailerWeightVm {NodeId = nodeId});
         }
 
         #endregion
@@ -244,11 +230,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 16_WeightResultsValidation
 
         [HttpGet, ChildActionOnly]
-        public ActionResult WeightResultsValidation(long? nodeId)
+        public ActionResult WeightResultsValidation(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            return PartialView("../OpRoutine/Weightbridge/16_WeightResultsValidation", new WeightbridgeVms.WeightResultsValidationVm { NodeId = nodeId.Value });
+            return PartialView("../OpRoutine/Weightbridge/16_WeightResultsValidation", new WeightbridgeVms.WeightResultsValidationVm { NodeId = nodeId });
         }
 
         #endregion
@@ -268,11 +252,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 18_CheckScaleEmpty
 
         [HttpGet, ChildActionOnly]
-        public ActionResult CheckScaleEmpty(long? nodeId)
+        public ActionResult CheckScaleEmpty(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            return PartialView("../OpRoutine/Weightbridge/18_CheckScaleEmpty", new WeightbridgeVms.CheckScaleEmptyVm {NodeId = nodeId.Value});
+            return PartialView("../OpRoutine/Weightbridge/18_CheckScaleEmpty", new WeightbridgeVms.CheckScaleEmptyVm {NodeId = nodeId});
         }
 
         #endregion

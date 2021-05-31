@@ -8,7 +8,7 @@ namespace Gravitas.Platform.Web.ViewModel
     {
         public class PrintDataDiscloseVm
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
             public Guid OpDataId { get; set; }
             public bool IsLabFile { get; set; }
 

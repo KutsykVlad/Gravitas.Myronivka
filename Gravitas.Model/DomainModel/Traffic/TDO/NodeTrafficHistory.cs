@@ -10,7 +10,7 @@ namespace Gravitas.Model
             Items = new List<TrafficHistory>();
         }
 
-        public long NodeId { get; set; }
+        public int NodeId { get; set; }
 
         public ICollection<TrafficHistory> Items { get; set; }
 

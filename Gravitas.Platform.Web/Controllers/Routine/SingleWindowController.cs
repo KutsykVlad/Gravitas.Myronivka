@@ -414,11 +414,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult EditGetApiData(long? nodeId)
+        public ActionResult EditGetApiData(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SingleWindowVms.EditGetApiDataVm {NodeId = nodeId.Value};
+            var routineData = new SingleWindowVms.EditGetApiDataVm {NodeId = nodeId};
             return PartialView("../OpRoutine/SingleWindow/12_EditGetApiData", routineData);
         }
 
@@ -451,11 +449,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult EditPostApiData(long? nodeId)
+        public ActionResult EditPostApiData(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SingleWindowVms.EditPostApiDataVm {NodeId = nodeId.Value};
+            var routineData = new SingleWindowVms.EditPostApiDataVm {NodeId = nodeId};
             return PartialView("../OpRoutine/SingleWindow/14_EditPostApiData", routineData);
         }
 
@@ -465,11 +461,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult SupplyChangeAddOpVisa(long? nodeId)
+        public ActionResult SupplyChangeAddOpVisa(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SingleWindowVms.RouteAddOpVisaVm {NodeId = nodeId.Value};
+            var routineData = new SingleWindowVms.RouteAddOpVisaVm {NodeId = nodeId};
             return PartialView("../OpRoutine/SingleWindow/15_SupplyChangeAddOpVisa", routineData);
         }
 
@@ -479,11 +473,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult DivideTicketAddOpVisa(long? nodeId)
+        public ActionResult DivideTicketAddOpVisa(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SingleWindowVms.RouteAddOpVisaVm {NodeId = nodeId.Value};
+            var routineData = new SingleWindowVms.RouteAddOpVisaVm {NodeId = nodeId};
             return PartialView("../OpRoutine/SingleWindow/16_DivideTicketAddOpVisa", routineData);
         }
         
@@ -541,11 +533,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult ClosePostApiData(long? nodeId)
+        public ActionResult ClosePostApiData(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SingleWindowVms.ClosePostApiDataVm {NodeId = nodeId.Value};
+            var routineData = new SingleWindowVms.ClosePostApiDataVm {NodeId = nodeId};
             return PartialView("../OpRoutine/SingleWindow/22_ClosePostApiData", routineData);
         }
 

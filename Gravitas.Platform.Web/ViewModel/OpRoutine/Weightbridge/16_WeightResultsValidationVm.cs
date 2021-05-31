@@ -4,7 +4,7 @@
     {
         public class WeightResultsValidationVm 
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
             public string ValidationMessage { get; set; }
         }
     }

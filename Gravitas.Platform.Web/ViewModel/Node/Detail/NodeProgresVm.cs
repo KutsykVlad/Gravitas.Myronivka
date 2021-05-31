@@ -6,7 +6,7 @@
 		public string NodeCode { get; set; }
 		
 		public string CurrentStatusName { get; set; }
-		public long? CurrentStatusIndex { get; set; }
-		public long? StatusCount { get; set; }
+		public int? CurrentStatusIndex { get; set; }
+		public int? StatusCount { get; set; }
 	}
 }

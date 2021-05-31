@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel;
 
 namespace Gravitas.Platform.Web.ViewModel.Queue
 {
     public class FilteredExternalQueueItemVm
     {
         [DisplayName("ID контейнеру")]
-        public long? TicketContainerId { get; set; }
+        public int? TicketContainerId { get; set; }
 
         [DisplayName("Номенклатура")]
         public string Nomenclature { get; set; }

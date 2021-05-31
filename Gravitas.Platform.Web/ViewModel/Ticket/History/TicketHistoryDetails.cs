@@ -7,8 +7,8 @@ namespace Gravitas.Platform.Web.ViewModel.Ticket.History
     {
         public string DeliveryBillId { get; set; }
         public string ReturnUrl { get; set; }
-        public long TicketId { get; set; }
-        public long TicketContainerId { get; set; }
+        public int TicketId { get; set; }
+        public int TicketContainerId { get; set; }
         [DisplayName("Картка")]
         public string CardNumber { get; set; }
         [DisplayName("Транспорт")]

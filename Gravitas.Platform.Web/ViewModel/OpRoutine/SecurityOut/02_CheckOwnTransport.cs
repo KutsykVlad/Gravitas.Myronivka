@@ -4,7 +4,7 @@
     {
         public class CheckOwnTransport
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
         }
     }
 }

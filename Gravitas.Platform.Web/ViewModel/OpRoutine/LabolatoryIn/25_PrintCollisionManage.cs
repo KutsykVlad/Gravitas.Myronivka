@@ -9,7 +9,7 @@ namespace Gravitas.Platform.Web.ViewModel
     {
         public class PrintCollisionManageVm
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
             public Guid OpDataId { get; set; }
 
             [DisplayName("Стан")] public string OpDataState { get; set; }

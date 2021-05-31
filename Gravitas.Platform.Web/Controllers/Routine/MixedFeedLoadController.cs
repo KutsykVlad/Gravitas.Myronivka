@@ -122,12 +122,10 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 03_AddOperationVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult AddOperationVisa(long? nodeId) => nodeId.HasValue
-            ? (ActionResult) PartialView("../OpRoutine/MixedFeedLoad/03_AddOperationVisa", new MixedFeedLoadVms.AddOperationVisaVm
+        public ActionResult AddOperationVisa(int nodeId) => PartialView("../OpRoutine/MixedFeedLoad/03_AddOperationVisa", new MixedFeedLoadVms.AddOperationVisaVm
             {
-                NodeId = nodeId.Value
-            })
-            : new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                NodeId = nodeId
+            });
 
         #endregion
         

@@ -6,7 +6,7 @@ namespace Gravitas.Platform.Web.ViewModel
     {
         public class BaseWeightPromptVm
         {
-            public long NodeId { get; set; }
+            public int NodeId { get; set; }
 
             [DisplayName("Тип зважування")]
             public string ScaleOpTypeName { get; set; }

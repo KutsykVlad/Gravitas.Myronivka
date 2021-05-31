@@ -18,7 +18,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
     {
         public List<RouteInfo> Items = new List<RouteInfo>();
         public int SpaceLeft { get; set; }
-        public long IdPattern { get; set; }
+        public int IdPattern { get; set; }
     }
 
     public class ExternalQueue

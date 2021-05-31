@@ -255,11 +255,11 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 86
                 [JsonProperty("ScaleInNumber")]
-                public long ScaleInNumber { get; set; }
+                public int ScaleInNumber { get; set; }
 
                 // 87
                 [JsonProperty("ScaleOutNumber")]
-                public long ScaleOutNumber { get; set; }
+                public int ScaleOutNumber { get; set; }
 
                 // 92
                 [JsonProperty("BatchNumber")]

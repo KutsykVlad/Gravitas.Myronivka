@@ -92,11 +92,9 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         #region 03_AddSampleVisa
 
         [HttpGet, ChildActionOnly]
-        public ActionResult AddSampleVisa(long? nodeId)
+        public ActionResult AddSampleVisa(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new CentralLaboratoryProcess.AddSampleVisaVm() { NodeId = nodeId.Value };
+            var routineData = new CentralLaboratoryProcess.AddSampleVisaVm() { NodeId = nodeId };
             return PartialView("../OpRoutine/CentralLabolatoryProcess/03_AddSampleVisa", routineData);
         }
 

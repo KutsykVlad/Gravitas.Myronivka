@@ -9,7 +9,7 @@ namespace Gravitas.Platform.Web.ViewModel
         public ICollection<SingleWindowTicketContainerItemVm> Items { get; set; }
         public ActionLinkVm DetailActionLink { get; set; }
 
-        public long SelectedFilterId { get; set; }
+        public int SelectedFilterId { get; set; }
         public IEnumerable<SelectListItem> FilterItems { get; set; }
     }
 }

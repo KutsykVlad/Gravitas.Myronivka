@@ -2,8 +2,8 @@
 {
     public class NodeRoutineVm
     {
-        public long NodeId { get; set; }
-        public long WorkstationId { get; set; }
+        public int NodeId { get; set; }
+        public int WorkstationId { get; set; }
         public string NodeCode { get; set; }
         public string NodeName { get; set; }
 

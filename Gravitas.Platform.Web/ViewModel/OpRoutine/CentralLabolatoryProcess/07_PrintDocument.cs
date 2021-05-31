@@ -6,8 +6,8 @@ namespace Gravitas.Platform.Web.ViewModel
     {
         public class PrintDocumentVm
         {
-            public long NodeId { get; set; }
-            public long TicketId { get; set; }
+            public int NodeId { get; set; }
+            public int TicketId { get; set; }
             public Guid OpDataId { get; set; }
         }
     }

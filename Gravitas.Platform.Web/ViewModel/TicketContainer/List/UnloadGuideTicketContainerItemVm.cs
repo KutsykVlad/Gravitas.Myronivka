@@ -25,7 +25,7 @@ namespace Gravitas.Platform.Web.ViewModel {
 	    public int LoadTargetDeviationMinus { get; set; }
 
 		[DisplayName("Точка вивантаження")]
-        public long UnloadNodeId { get; set; }
+        public int UnloadNodeId { get; set; }
 		[DisplayName("Точка вивант.")]
 		public string UnloadNodeName { get; set; }
 

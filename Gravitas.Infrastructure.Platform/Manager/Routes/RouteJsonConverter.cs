@@ -33,7 +33,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Routes
         public class GroupDictionary
         {
             [JsonProperty("groupId")]
-            public long GroupId { get; set; }
+            public int GroupId { get; set; }
 
             [JsonProperty("nodeList")]
             public NodeList[] NodeList { get; set; }
