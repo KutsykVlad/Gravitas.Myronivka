@@ -101,8 +101,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 
         private void UpdateQuata()
         {
-            var nodes = _nodeRepository.GetQuery<Model.DomainModel.Node.DAO.Node, int>();
-            _queueLoadBalancer.UpdateQuatas(nodes);
+            _queueLoadBalancer.UpdateQuatas(_context.Nodes);
         }
 
         private void UpdateNodePriorityList()

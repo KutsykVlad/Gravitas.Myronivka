@@ -20,7 +20,7 @@ namespace Gravitas.DAL.Repository.Node
 
         public NodeItems GetNodeItems()
         {
-            var dao = GetQuery<Model.DomainModel.Node.DAO.Node, int>().ToList();
+            var dao = _context.Nodes.ToList();
             var dto = new NodeItems
             {
                 Items = dao.Select(GetNodeItem).ToList()

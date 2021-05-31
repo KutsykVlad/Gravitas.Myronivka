@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Gravitas.Core.Processor.OpRoutine;
 using Gravitas.Core.Processor.QueueDisplay;
+using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Model.DomainModel.Device.DAO;
@@ -21,16 +22,18 @@ namespace Gravitas.Core.Manager
         private readonly CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
 
         private readonly INodeRepository _nodeRepository;
+        private readonly GravitasDbContext _context;
         private IDictionary<int, Task> _taskDictionary;
 
-        public OpRoutineCoreManager(INodeRepository nodeRepository)
+        public OpRoutineCoreManager(INodeRepository nodeRepository, GravitasDbContext context)
         {
             _nodeRepository = nodeRepository;
+            _context = context;
         }
 
         public void StartOpRoutineTasks()
         {
-            IEnumerable<Node> nodeList = _nodeRepository.GetQuery<Node, int>();
+            IEnumerable<Node> nodeList = _context.Nodes.ToList();
 
             Logger.Info($"Node routine tasks to be started: {nodeList.Count()}");
 

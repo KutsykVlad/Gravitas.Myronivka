@@ -1,20 +1,21 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
 
 namespace Gravitas.Platform.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly INodeRepository _nodeRepository;
-        public HomeController(INodeRepository nodeRepository)
+        private readonly GravitasDbContext _context;
+        public HomeController(GravitasDbContext context)
         {
-            _nodeRepository = nodeRepository;
+            _context = context;
         }
 
         public ActionResult Index()
         {
-            var nodes = _nodeRepository.GetQuery<Gravitas.Model.DomainModel.Node.DAO.Node, int>().ToList();
+            var nodes = _context.Nodes.ToList();
             return View(nodes);
         }
 

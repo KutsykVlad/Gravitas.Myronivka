@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DeviceMonitor.Monitor;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
@@ -13,19 +14,19 @@ namespace Gravitas.DeviceMonitor.Manager
 {
     public class DeviceMonitorManager : IDeviceMonitorManager
     {
-        private readonly INodeRepository _nodeRepository;
+        private readonly GravitasDbContext _context;
         private readonly IDictionary<long, Task> _taskDictionary = new Dictionary<long, Task>();
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
 
-        public DeviceMonitorManager(INodeRepository nodeRepository)
+        public DeviceMonitorManager(GravitasDbContext context)
         {
-            _nodeRepository = nodeRepository;
+            _context = context;
         }
 
         public void StartTasks()
         {
-            var nodeList = _nodeRepository.GetQuery<Node, int>();
+            var nodeList = _context.Nodes.ToList();
 
             foreach (var node in nodeList)
             {

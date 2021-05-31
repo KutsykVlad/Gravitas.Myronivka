@@ -51,14 +51,15 @@ namespace Gravitas.DeviceMonitor.Monitor
             if (invalidIps.Count != 0 && !node.IsEmergency)
             {
                 node.IsEmergency = true;
-                _nodeRepository.Update<Node, int>(node);
+                _context.SaveChanges();
             }
             
             if (invalidIps.Count == 0 && node.IsEmergency)
             {
                 _emailSendAt = null;
                 node.IsEmergency = false;
-                _nodeRepository.Update<Node, int>(node);
+                _context.SaveChanges();
+
             }
         }
 

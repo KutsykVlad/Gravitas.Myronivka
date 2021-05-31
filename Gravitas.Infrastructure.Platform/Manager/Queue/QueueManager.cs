@@ -73,7 +73,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     NodeId = endPointNode
                 });
 
-            _queueLoadBalancer = new QueueLoadBalancer(nodeRepository.GetQuery<Model.DomainModel.Node.DAO.Node, int>().ToList(), endPointNodes);
+            _queueLoadBalancer = new QueueLoadBalancer(_context.Nodes.ToList(), endPointNodes);
             _externalQueue = new ExternalQueue(queueSettingsRepository, _opDataRepository, externalDataRepository, context);
         }
 

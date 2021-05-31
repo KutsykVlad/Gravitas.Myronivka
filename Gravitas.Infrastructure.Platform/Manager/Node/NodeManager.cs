@@ -30,7 +30,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Node
             if (node == null) return;
 
             node.IsActive = state;
-            _nodeRepository.Update<Model.DomainModel.Node.DAO.Node, int>(node);
+            _context.SaveChanges();
         }
 
         public string GetNodeName(int nodeId)
