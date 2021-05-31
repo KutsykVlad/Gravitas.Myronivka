@@ -88,7 +88,7 @@ namespace Gravitas.Platform.Web.ViewModel {
 			public string HiredDriverCode { get; set; }
 			// 23
 			[DisplayName("Номер найманого автомобіля")]
-			public string HiredTansportNumber { get; set; }
+			public string HiredTransportNumber { get; set; }
 			// 25
 			[DisplayName("Серія ТТН")]
 //			[Required(ErrorMessage = "Поле Серія ТТН повинне бути заповненим.")]
@@ -254,7 +254,7 @@ namespace Gravitas.Platform.Web.ViewModel {
 			public string SupplyTransportTypeId { get; set; }
 			// 82
 			[DisplayName("Лаборант")]
-			public string LabolatoryOperatorName { get; set; }
+			public string LaboratoryOperatorName { get; set; }
 			// 83
 			[DisplayName("Брутто, оператор")]
 			public string GrossOperatorName { get; set; }

@@ -1,6 +1,5 @@
 using System;
 using Gravitas.Model.DomainModel.OpData.TDO.Json;
-using Gravitas.Model.Dto;
 
 namespace Gravitas.Model.DomainModel.OpData.TDO.Detail
 {
@@ -40,6 +39,9 @@ namespace Gravitas.Model.DomainModel.OpData.TDO.Detail
         public string HiredTransportNumber { get; set; }
         public string IncomeInvoiceSeries { get; set; }
         public string IncomeInvoiceNumber { get; set; }
+        public string CollectionPointName { get; set; }
+        public string ReturnCauseName { get; set; }
+        public string CarrierRouteName { get; set; }
         public Guid? ReceiverDepotId { get; set; }
         public bool IsThirdPartyCarrier { get; set; }
         public string CarrierCode { get; set; }

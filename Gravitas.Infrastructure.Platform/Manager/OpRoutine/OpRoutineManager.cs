@@ -124,7 +124,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
                 NodeId = nodeId,
                 Message = msgItem.Text,
                 TypeId = msgItem.TypeId,
-                ExpirationDateTime = DateTime.Now
+                DateTime = DateTime.Now
             });
             _context.SaveChanges();
             SignalRInvoke.UpdateProcessingMessage(nodeId);

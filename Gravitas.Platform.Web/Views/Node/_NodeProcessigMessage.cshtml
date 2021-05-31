@@ -1,5 +1,5 @@
 @using Gravitas.Model
-@model Gravitas.Platform.Web.ViewModel.Node.NodeProcessingMsgVm
+@model List<Gravitas.Model.DomainModel.Node.DAO.NodeProcessingMessage>
 
 @{
     string alertClass = string.Empty;
@@ -7,7 +7,7 @@
 
 @if (Model != null)
 {
-    foreach (var item in Model.Items)
+    foreach (var item in Model)
     {
         switch (item.TypeId)
         {
@@ -26,7 +26,7 @@
         }
 
         <div class="alert @alertClass alert-dismissible fade show" role="alert">
-            <strong>@item.Time</strong> @item.Text
+            <strong>@item.DateTime</strong> @item.Message
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="clearNodeProcessingMessage(document.getElementById('nodeId').value);">
                 <span aria-hidden="true">&times;</span>
             </button>

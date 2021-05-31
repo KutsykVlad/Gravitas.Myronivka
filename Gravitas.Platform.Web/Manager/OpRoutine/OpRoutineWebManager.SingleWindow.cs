@@ -461,7 +461,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     return false;
                 }
 
-                if (blackListRegistry.Transport.Select(t => t.TransportNo).Contains(data.HiredTansportNumber))
+                if (blackListRegistry.Transport.Select(t => t.TransportNo).Contains(data.HiredTransportNumber))
                 {
                     _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value,
                         new NodeProcessingMsgItem(ProcessingMsgType.Error,
@@ -514,7 +514,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 return false;
             }
 
-            if (string.IsNullOrEmpty(data.TransportId) && string.IsNullOrEmpty(data.HiredTansportNumber))
+            if (string.IsNullOrEmpty(data.TransportId) && string.IsNullOrEmpty(data.HiredTransportNumber))
             {
                 _opRoutineManager.UpdateProcessingMessage(data.NodeId.Value,
                     new NodeProcessingMsgItem(ProcessingMsgType.Error,
