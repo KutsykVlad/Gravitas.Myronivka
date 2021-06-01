@@ -127,7 +127,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpRoutine
                 DateTime = DateTime.Now
             });
             _context.SaveChanges();
-            SignalRInvoke.UpdateProcessingMessage(nodeId);
         }
 
         public void UpdateProcessingMessage(IEnumerable<int> nodeIds, NodeProcessingMsgItem msgItem)

@@ -17,7 +17,6 @@ namespace Gravitas.Model.DomainValue
         LoadPointsType2,
         UnloadGuide,
         SelfServiceLaboratory,
-        PreRegisterTicketContainerList,
         UnloadQueue
     }
 }

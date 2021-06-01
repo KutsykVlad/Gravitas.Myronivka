@@ -41,12 +41,6 @@ using Gravitas.Model.DomainModel.OpVisa.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
 using Newtonsoft.Json;
-using CardType = Gravitas.Model.DomainValue.CardType;
-using DateTime = System.DateTime;
-using ICardManager = Gravitas.Core.DeviceManager.Card.ICardManager;
-using LabFacelessOpData = Gravitas.Model.DomainModel.OpData.DAO.LabFacelessOpData;
-using TicketContainerStatus = Gravitas.Model.DomainValue.TicketContainerStatus;
-using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Core.Processor.OpRoutine
 {
@@ -61,7 +55,6 @@ namespace Gravitas.Core.Processor.OpRoutine
         private readonly IPhonesRepository _phonesRepository;
         private readonly IPhoneInformTicketAssignmentRepository _phoneInformTicketAssignmentRepository;
         private readonly IUserManager _userManager;
-        private readonly ICardManager _cardManager;
         private readonly IRoutesInfrastructure _routesInfrastructure;
         private readonly IRoutesRepository _routesRepository;
 
@@ -79,7 +72,6 @@ namespace Gravitas.Core.Processor.OpRoutine
             IOpDataManager opDataManager,
             IPhonesRepository phonesRepository,
             IUserManager userManager, 
-            ICardManager cardManager,
             IRoutesInfrastructure routesInfrastructure,
             IRoutesRepository routesRepository,
             IPhoneInformTicketAssignmentRepository phoneInformTicketAssignmentRepository) :
@@ -95,69 +87,61 @@ namespace Gravitas.Core.Processor.OpRoutine
             _opDataManager = opDataManager;
             _phonesRepository = phonesRepository;
             _userManager = userManager;
-            _cardManager = cardManager;
             _routesInfrastructure = routesInfrastructure;
             _routesRepository = routesRepository;
             _phoneInformTicketAssignmentRepository = phoneInformTicketAssignmentRepository;
             _ticketRepository = ticketRepository;
             _cardRepository = cardRepository;
         }
-
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            if (config == null) return false;
-            return true;
-        }
-
+        
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId) {
+            switch (NodeDetails.Context.OpRoutineStateId) {
                 case Model.DomainValue.OpRoutine.SingleWindow.State.Idle:
-                    Idle(NodeDetailsDto);
+                    Idle(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SingleWindow.State.GetTicket:
                     break;
                 case Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu:
                     break;
                 case Model.DomainValue.OpRoutine.SingleWindow.State.ContainerCloseAddOpVisa:
-                    ContainerCloseAddOpVisa(NodeDetailsDto);
+                    ContainerCloseAddOpVisa(NodeDetails);
                     break;  
                 case Model.DomainValue.OpRoutine.SingleWindow.State.SupplyChangeAddOpVisa:
-                    SupplyChangeAddOpVisa(NodeDetailsDto);
+                    SupplyChangeAddOpVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SingleWindow.State.DivideTicketAddOpVisa:
-                    DivideTicketAddOpVisa(NodeDetailsDto);
+                    DivideTicketAddOpVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SingleWindow.State.DeleteTicketAddOpVisa:
-                    DeleteTicketAddOpVisa(NodeDetailsDto);
+                    DeleteTicketAddOpVisa(NodeDetails);
                     break;
 
                 case Model.DomainValue.OpRoutine.SingleWindow.State.EditTicketForm:
                     break;
                 case Model.DomainValue.OpRoutine.SingleWindow.State.EditGetApiData:
-                    EditGetApiData(NodeDetailsDto);
+                    EditGetApiData(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SingleWindow.State.EditAddOpVisa:
-                    EditAddOpVisa(NodeDetailsDto);
+                    EditAddOpVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SingleWindow.State.EditPostApiData:
-                    EditPostApiData(NodeDetailsDto);
+                    EditPostApiData(NodeDetails);
                     break;
 
                 case Model.DomainValue.OpRoutine.SingleWindow.State.CloseAddOpVisa:
-                    CloseAddOpVisa(NodeDetailsDto);
+                    CloseAddOpVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SingleWindow.State.ClosePostApiData:
-                    ClosePostApiData(NodeDetailsDto);
+                    ClosePostApiData(NodeDetails);
                     break;
 
                 case Model.DomainValue.OpRoutine.SingleWindow.State.RouteEditData:
                     break;
                 case Model.DomainValue.OpRoutine.SingleWindow.State.RouteAddOpVisa:
-                    RouteAddOpVisa(NodeDetailsDto);
+                    RouteAddOpVisa(NodeDetails);
                     break;
             }
         }

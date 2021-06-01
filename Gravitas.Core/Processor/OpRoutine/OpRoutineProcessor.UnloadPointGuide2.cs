@@ -6,9 +6,7 @@ using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.UnloadPoint;
-using Gravitas.Model;
 using Gravitas.Model.DomainModel.Node.TDO.Detail;
-using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainValue;
 
 namespace Gravitas.Core.Processor.OpRoutine
@@ -39,33 +37,18 @@ namespace Gravitas.Core.Processor.OpRoutine
             _unloadPointManager = unloadPointManager;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            if (config == null)
-            {
-                return false;
-            }
-
-            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader);
-            return rfidValid;
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto))
-            {
-                return;
-            }
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.UnloadPointGuide2.State.Idle:
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointGuide2.State.BindUnloadPoint:
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointGuide2.State.AddOpVisa:
-                    AddOperationVisa(NodeDetailsDto);
+                    AddOperationVisa(NodeDetails);
                     break;
             }
         }

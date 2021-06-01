@@ -59,46 +59,34 @@ namespace Gravitas.Core.Processor.OpRoutine
             _routesRepository = routesRepository;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            if (config == null)
-            {
-                return false;
-            }
-            bool rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader);
-
-            return rfidValid;
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.Idle:
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.AddSample:
-                    AddSample(NodeDetailsDto);
+                    AddSample(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.AddSampleVisa:
-                    AddSampleVisa(NodeDetailsDto);
+                    AddSampleVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.PrintLabel:
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.PrintDataDisclose:
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.PrintCollisionStartVisa:
-                    PrintCollisionStartVisa(NodeDetailsDto);
+                    PrintCollisionStartVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.PrintCollisionInit:
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.PrintCollisionInitVisa:
-                    PrintCollisionInitVisa(NodeDetailsDto);
+                    PrintCollisionInitVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.PrintAddOpVisa:
-                    PrintAddOpVisa(NodeDetailsDto);
+                    PrintAddOpVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.PrintDocument:
                     break;

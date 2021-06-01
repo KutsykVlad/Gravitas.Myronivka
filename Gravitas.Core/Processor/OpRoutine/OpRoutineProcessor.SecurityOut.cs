@@ -59,51 +59,39 @@ namespace Gravitas.Core.Processor.OpRoutine
             _userManager = userManager;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            if (config == null) return false;
-
-            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.OnGateReader)
-                            && config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader);
-            var cameraValid = config.Camera.ContainsKey(NodeData.Config.Camera.Camera1);
-
-            return rfidValid && cameraValid;
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.SecurityOut.State.Idle:
-                    WatchBarrier(NodeDetailsDto);
-                    Idle(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
+                    Idle(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityOut.State.CheckOwnTransport:
-                    WatchBarrier(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityOut.State.ShowOperationsList:
-                    WatchBarrier(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityOut.State.EditStampList:
-                    WatchBarrier(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityOut.State.AddRouteControlVisa:
-                    WatchBarrier(NodeDetailsDto);
-                    AddRouteControlVisa(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
+                    AddRouteControlVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityOut.State.AddTransportInspectionVisa:
-                    WatchBarrier(NodeDetailsDto);
-                    AddTransportInspectionVisa(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
+                    AddTransportInspectionVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityOut.State.OpenBarrier:
-                    OpenBarrier(NodeDetailsDto);
+                    OpenBarrier(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityOut.State.GetCamSnapshot:
-                    WatchBarrier(NodeDetailsDto);
-                    GetCamSnapshot(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
+                    GetCamSnapshot(NodeDetails);
                     break;
             }
         }

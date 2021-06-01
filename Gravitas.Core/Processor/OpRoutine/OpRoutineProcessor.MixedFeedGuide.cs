@@ -52,24 +52,18 @@ namespace Gravitas.Core.Processor.OpRoutine
             _userManager = userManager;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            return config != null && config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader);
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.MixedFeedGuide.State.Idle:
                     break;
                 case Model.DomainValue.OpRoutine.MixedFeedGuide.State.BindLoadPoint:
                     break;
                 case Model.DomainValue.OpRoutine.MixedFeedGuide.State.AddOpVisa:
-                    AddOperationVisa(NodeDetailsDto);
+                    AddOperationVisa(NodeDetails);
                     break;
             }
         }

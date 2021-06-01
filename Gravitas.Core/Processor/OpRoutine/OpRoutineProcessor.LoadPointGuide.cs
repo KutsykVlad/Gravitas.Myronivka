@@ -58,24 +58,18 @@ namespace Gravitas.Core.Processor.OpRoutine
             _cardManager = cardManager;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            return config != null;
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.LoadPointGuide.State.Idle:
                     break;
                 case Model.DomainValue.OpRoutine.LoadPointGuide.State.BindLoadPoint:
                     break;
                 case Model.DomainValue.OpRoutine.LoadPointGuide.State.AddOpVisa:
-                    AddOperationVisa(NodeDetailsDto);
+                    AddOperationVisa(NodeDetails);
                     break;
             }
         }

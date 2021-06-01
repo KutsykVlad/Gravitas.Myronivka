@@ -56,27 +56,17 @@ namespace Gravitas.Core.Processor.OpRoutine
             _userManager = userManager;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            if (config == null) return false;
-
-            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.OnGateReader);
-            
-            return rfidValid;
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.SecurityReview.State.Idle:
-                    Idle(NodeDetailsDto);
+                    Idle(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityReview.State.AddOperationVisa:
-                    AddOperationVisa(NodeDetailsDto);
+                    AddOperationVisa(NodeDetails);
                     break;
             }
         }

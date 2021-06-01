@@ -62,52 +62,42 @@ namespace Gravitas.Core.Processor.OpRoutine
             _connectManager = connectManager;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            if (config == null) return false;
-
-            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader);
-
-            return rfidValid;
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle:
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.SampleReadTruckRfid:
-                    SampleReadTruckRfid(NodeDetailsDto);
+                    SampleReadTruckRfid(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.SampleBindTray:
-                    SampleBindTray(NodeDetailsDto);
+                    SampleBindTray(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.SampleBindAnalysisTray:
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.SampleAddOpVisa:
-                    SampleAddOpVisa(NodeDetailsDto);
+                    SampleAddOpVisa(NodeDetails);
                     break;
 
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.ResultReadTrayRfid:
-                    ResultReadTrayRfid(NodeDetailsDto);
+                    ResultReadTrayRfid(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.ResultEditAnalysis:
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.ResultAddOpVisa:
-                    ResultAddOpVisa(NodeDetailsDto);
+                    ResultAddOpVisa(NodeDetails);
                     break;
 
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintReadTrayRfid:
-                    PrintReadTrayRfid(NodeDetailsDto);
+                    PrintReadTrayRfid(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintAnalysisResults:
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintAnalysisAddOpVisa:
-                    PrintAnalysisAddOpVisa(NodeDetailsDto);
+                    PrintAnalysisAddOpVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintDataDisclose:
                     break;
@@ -116,7 +106,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintCollisionManage:
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintAddOpVisa:
-                    PrintAddOpVisa(NodeDetailsDto);
+                    PrintAddOpVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintLaboratoryProtocol:
                     break;

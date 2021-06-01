@@ -40,24 +40,19 @@ namespace Gravitas.Core.Processor.OpRoutine
             _loadPointManager = loadPointManager;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            return config != null;
-        }
 
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.LoadPointGuide2.State.Idle:
                     break;
                 case Model.DomainValue.OpRoutine.LoadPointGuide2.State.BindLoadPoint:
                     break;
                 case Model.DomainValue.OpRoutine.LoadPointGuide2.State.AddOpVisa:
-                    AddOperationVisa(NodeDetailsDto);
+                    AddOperationVisa(NodeDetails);
                     break;
             }
         }

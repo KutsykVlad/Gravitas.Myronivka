@@ -90,86 +90,70 @@ namespace Gravitas.Core.Processor.OpRoutine
             _routesRepository = routesRepository;
         }
         
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            if (config == null) return false;
-
-            var diValid = config.DI.ContainsKey(NodeData.Config.DI.LoopIncoming)
-                          && config.DI.ContainsKey(NodeData.Config.DI.LoopOutgoing);
-            var doValid = config.DO.ContainsKey(NodeData.Config.DO.TrafficLightIncoming)
-                          && config.DO.ContainsKey(NodeData.Config.DO.TrafficLightOutgoing);
-            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.OnGateReader);
-            var scaleValid = config.Scale.ContainsKey(NodeData.Config.Scale.Scale1);
-            var cameraValid = config.Camera.ContainsKey(NodeData.Config.Camera.Camera1);
-
-            return diValid && doValid && rfidValid && scaleValid && cameraValid;
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
             
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.Weighbridge.State.Idle:
-                    Idle(NodeDetailsDto);
+                    Idle(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.GetScaleZero:
-                    GetScaleZero(NodeDetailsDto);
+                    GetScaleZero(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.OpenBarrierIn:
-                    OpenBarrierIn(NodeDetailsDto);
+                    OpenBarrierIn(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.CheckScaleNotEmpty:
-                    CheckScaleNotEmpty(NodeDetailsDto);
+                    CheckScaleNotEmpty(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.GetTicketCard:
-                    GetTicketCard(NodeDetailsDto);
+                    GetTicketCard(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.DriverTrailerEnableCheck:
-                    ValidateTruckPresence(NodeDetailsDto);
+                    ValidateTruckPresence(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.GuardianCardPrompt:
-                    GetGuardianCard(NodeDetailsDto);
-                    ValidateTruckPresence(NodeDetailsDto);
+                    GetGuardianCard(NodeDetails);
+                    ValidateTruckPresence(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.GuardianTruckVerification:
-                    ValidateTruckPresence(NodeDetailsDto);
+                    ValidateTruckPresence(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.GuardianTrailerEnableCheck:
-                    ValidateTruckPresence(NodeDetailsDto);
+                    ValidateTruckPresence(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.TruckWeightPrompt:
-                    ValidateTruckPresence(NodeDetailsDto);
+                    ValidateTruckPresence(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.GetGuardianTruckWeightPermission:
-                    GetGuardianCard(NodeDetailsDto);
-                    ValidateTruckPresence(NodeDetailsDto);
+                    GetGuardianCard(NodeDetails);
+                    ValidateTruckPresence(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.GetTruckWeight:
-                    GetWeight(NodeDetailsDto, true);
-                    ValidateTruckPresence(NodeDetailsDto);
+                    GetWeight(NodeDetails, true);
+                    ValidateTruckPresence(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.TrailerWeightPrompt:
-                    ValidateTruckPresence(NodeDetailsDto);
+                    ValidateTruckPresence(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.GetGuardianTrailerWeightPermission:
-                    GetGuardianCard(NodeDetailsDto);
-                    ValidateTruckPresence(NodeDetailsDto);
+                    GetGuardianCard(NodeDetails);
+                    ValidateTruckPresence(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.GetTrailerWeight:
-                    GetWeight(NodeDetailsDto, false);
-                    ValidateTruckPresence(NodeDetailsDto);
+                    GetWeight(NodeDetails, false);
+                    ValidateTruckPresence(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.WeightResultsValidation:
-                    ValidateWeightResults(NodeDetailsDto);
+                    ValidateWeightResults(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.OpenBarrierOut:
-                    OpenBarrierOut(NodeDetailsDto);
+                    OpenBarrierOut(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.Weighbridge.State.CheckScaleEmpty:
-                    CheckScaleEmpty(NodeDetailsDto);
+                    CheckScaleEmpty(NodeDetails);
                     break;
             }
         }
@@ -509,7 +493,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     scaleOpData.TruckWeightValue = scaleState.InData.Value;
                 }
                 
-                NodeDetailsDto.Context.OpRoutineStateId = scaleOpData.TrailerIsAvailable == false
+                NodeDetails.Context.OpRoutineStateId = scaleOpData.TrailerIsAvailable == false
                     ? Model.DomainValue.OpRoutine.Weighbridge.State.WeightResultsValidation
                     : Model.DomainValue.OpRoutine.Weighbridge.State.TrailerWeightPrompt;
             }
@@ -526,7 +510,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     scaleOpData.TrailerWeightValue = scaleState.InData.Value;
                 }
                 
-                NodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.WeightResultsValidation;
+                NodeDetails.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.Weighbridge.State.WeightResultsValidation;
             }
         }
 

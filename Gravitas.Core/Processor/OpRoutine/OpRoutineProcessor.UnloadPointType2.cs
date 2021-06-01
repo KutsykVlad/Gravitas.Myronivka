@@ -58,35 +58,25 @@ namespace Gravitas.Core.Processor.OpRoutine
             _unloadPointManager = unloadPointManager;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            if (config == null) return false;
-            
-            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.OnGateReader);
-
-            return rfidValid;
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.UnloadPointType2.State.Workstation:
-                    Idle(NodeDetailsDto);
+                    Idle(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointType2.State.Idle:
-                    Idle(NodeDetailsDto);
+                    Idle(NodeDetails);
                     break;      
                 case Model.DomainValue.OpRoutine.UnloadPointType2.State.SelectAcceptancePoint:
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointType2.State.AddOperationVisa:
-                    AddOperationVisa(NodeDetailsDto);
+                    AddOperationVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointType2.State.AddChangeStateVisa:
-                    AddChangeStateVisa(NodeDetailsDto);
+                    AddChangeStateVisa(NodeDetails);
                     break;
             }
         }

@@ -74,38 +74,27 @@ namespace Gravitas.Core.Processor.OpRoutine
             _valveService = valveService;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            if (config == null) return false;
-            
-            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.TableReader)
-                && (config.Rfid.ContainsKey(NodeData.Config.Rfid.OnGateReader) || config.Rfid.ContainsKey(NodeData.Config.Rfid.LongRangeReader));
-
-            return rfidValid;
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.UnloadPointType1.State.Workstation:
-                    WatchBarrier(NodeDetailsDto);
-                    Workstation(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
+                    Workstation(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointType1.State.Idle:
-                    WatchBarrier(NodeDetailsDto);
-                    Workstation(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
+                    Workstation(NodeDetails);
                     break;      
                 case Model.DomainValue.OpRoutine.UnloadPointType1.State.GetTareValue:
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointType1.State.AddOperationVisa:
-                    AddOperationVisa(NodeDetailsDto);
+                    AddOperationVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.UnloadPointType1.State.AddChangeStateVisa:
-                    AddChangeStateVisa(NodeDetailsDto);
+                    AddChangeStateVisa(NodeDetails);
                     break;
             }
         }
@@ -160,7 +149,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             _cardManager.SetRfidValidationDO(true, nodeDetailsDto);
 
-            var isOpened = OpenBarrier(NodeDetailsDto);
+            var isOpened = OpenBarrier(NodeDetails);
             if (!isOpened)
             {
                 return;

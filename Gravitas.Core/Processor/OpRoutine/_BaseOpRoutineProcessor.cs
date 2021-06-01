@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Gravitas.Core.DeviceManager.Device;
@@ -20,16 +21,16 @@ namespace Gravitas.Core.Processor.OpRoutine
     public abstract class BaseOpRoutineProcessor : IOpRoutineProcessor
     {
         protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        protected IDeviceManager _deviceManager;
-        protected IDeviceRepository _deviceRepository;
-        protected NodeDetails NodeDetailsDto;
+        protected readonly IDeviceManager _deviceManager;
+        protected readonly IDeviceRepository _deviceRepository;
+        protected NodeDetails NodeDetails;
 
         protected int _nodeId;
         protected INodeRepository _nodeRepository;
         protected IOpDataRepository _opDataRepository;
 
         protected IOpRoutineManager _opRoutineManager;
-        public GravitasDbContext _context;
+        protected GravitasDbContext _context;
         private DateTime? _processingStartedAt;
         private bool _processingTimeError;
         // private readonly Stopwatch sw = new Stopwatch();
@@ -47,8 +48,6 @@ namespace Gravitas.Core.Processor.OpRoutine
             _nodeRepository = nodeRepository;
             _opDataRepository = opDataRepository;
         }
-
-        public abstract bool ValidateNodeConfig(NodeConfig config);
 
         public async Task ProcessLoop(CancellationToken token)
         {
@@ -86,7 +85,23 @@ namespace Gravitas.Core.Processor.OpRoutine
 
         public virtual void ReadDbData()
         {
-            NodeDetailsDto = _nodeRepository.GetNodeDto(_nodeId);
+            NodeDetails = _nodeRepository.GetNodeDto(_nodeId);
+            UpdateProcessingMessages();
+        }
+        
+        private void UpdateProcessingMessages()
+        {
+            var validTill = DateTime.Now.AddMinutes(-1);
+            var toDelete = _context.NodeProcessingMessages
+                .Where(x => x.NodeId == _nodeId && x.DateTime < validTill)
+                .ToList();
+            if (toDelete.Any())
+            {
+                _context.NodeProcessingMessages.RemoveRange(toDelete);
+                _context.SaveChanges();
+            }
+            
+            SignalRInvoke.UpdateProcessingMessage(_nodeId);
         }
 
         protected bool UpdateNodeContext(int nodeId, NodeContext newContext, bool reload = true)
@@ -139,47 +154,6 @@ namespace Gravitas.Core.Processor.OpRoutine
 
                 _processingTimeError = true;
             }
-        }
-
-        public virtual bool ValidateNode(NodeDetails nodeDetailsDto)
-        {
-            if (nodeDetailsDto == null)
-            {
-                Logger.Warn("Core. Node detail is null.");
-                return false;
-            }
-
-            if (nodeDetailsDto.OpRoutineId == null)
-            {
-                Logger.Warn($"Core. Node routine id is null.\nNode: {nodeDetailsDto.Id}");
-                return false;
-            }
-
-            if (nodeDetailsDto.Context == null)
-            {
-                Logger.Warn($"Core. Node context is null.\nNode: {nodeDetailsDto.Id}");
-                return false;
-            }
-
-            if (nodeDetailsDto.Context.OpRoutineStateId == null)
-            {
-                Logger.Warn($"Core. Node routine state id is null.\nNode: {nodeDetailsDto.Id}");
-                return false;
-            }
-
-            if (nodeDetailsDto.Config == null)
-            {
-                Logger.Warn($"Core. Node config is null.\nNode: {nodeDetailsDto.Id}");
-                return false;
-            }
-
-            if (!ValidateNodeConfig(nodeDetailsDto.Config))
-            {
-                Logger.Warn($"Core. Node device config is not valid.\nNode: {nodeDetailsDto.Id}");
-                return false;
-            }
-
-            return true;
         }
     }
 }

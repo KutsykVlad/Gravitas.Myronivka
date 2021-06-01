@@ -71,44 +71,33 @@ namespace Gravitas.Core.Processor.OpRoutine
             _userManager = userManager;
         }
 
-        public override bool ValidateNodeConfig(NodeConfig config)
-        {
-            if (config == null) return false;
-
-            var rfidValid = config.Rfid.ContainsKey(NodeData.Config.Rfid.OnGateReader);
-            var cameraValid = config.Camera.ContainsKey(NodeData.Config.Camera.Camera1);
-
-            return rfidValid && cameraValid;
-        }
-
         public override void Process()
         {
             ReadDbData();
-            if (!ValidateNode(NodeDetailsDto)) return;
 
-            switch (NodeDetailsDto.Context.OpRoutineStateId)
+            switch (NodeDetails.Context.OpRoutineStateId)
             {
                 case Model.DomainValue.OpRoutine.SecurityIn.State.Idle:
-                    WatchBarrier(NodeDetailsDto);
-                    Idle(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
+                    Idle(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityIn.State.CheckOwnTransport:
-                    WatchBarrier(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityIn.State.BindLongRangeRfid:
-                    WatchBarrier(NodeDetailsDto);
-                    BindLongRangeRfid(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
+                    BindLongRangeRfid(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa:
-                    WatchBarrier(NodeDetailsDto);
-                    AddOperationVisa(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
+                    AddOperationVisa(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityIn.State.OpenBarrier:
-                    OpenBarrier(NodeDetailsDto);
+                    OpenBarrier(NodeDetails);
                     break;
                 case Model.DomainValue.OpRoutine.SecurityIn.State.GetCamSnapshot:
-                    WatchBarrier(NodeDetailsDto);
-                    GetCamSnapshot(NodeDetailsDto);
+                    WatchBarrier(NodeDetails);
+                    GetCamSnapshot(NodeDetails);
                     break;
             }
         }

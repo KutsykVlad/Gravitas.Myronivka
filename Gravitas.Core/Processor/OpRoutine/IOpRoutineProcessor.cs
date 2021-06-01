@@ -6,8 +6,6 @@ namespace Gravitas.Core.Processor.OpRoutine
 {
     public interface IOpRoutineProcessor
     {
-        bool ValidateNodeConfig(NodeConfig nodeConfig);
-
         void Config(int nodeId);
 
         void ReadDbData();

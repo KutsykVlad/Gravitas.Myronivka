@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Gravitas.Platform.Web</RootNamespace>
     <AssemblyName>Gravitas.Platform.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -27,6 +27,7 @@
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -436,8 +437,6 @@
     <Compile Include="ViewModel\TicketContainer\List\MixedFeedLoadTicketContainerListVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\MixedFeedUnloadTicketContainerItemVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\MixedFeedUnloadTicketContainerListVm.cs" />
-    <Compile Include="ViewModel\TicketContainer\List\PreRegisterTicketContainerItemVm.cs" />
-    <Compile Include="ViewModel\TicketContainer\List\PreRegisterTicketContainerListVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\SingleWindowTicketContainerItemVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\SingleWindowTicketContainerListVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\UnloadGuideTicketContainerListVm.cs" />
@@ -1630,12 +1629,9 @@
     <PackageReference Include="Microsoft.AspNet.WebApi.Owin" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.WebApi.WebHost" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.6" />
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="3.6.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.4.0" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.9" />
-    <PackageReference Include="Microsoft.Net.Compilers" Version="2.8.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Owin" Version="2.1.0" />
     <PackageReference Include="Microsoft.Owin.Host.HttpListener" Version="2.0.2" />
     <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="2.1.0" />
