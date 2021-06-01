@@ -13,7 +13,14 @@
     };
     
     chat.client.updateProcessingMessage = function (groupId) {
-        document.getElementById('updateProcessingMessage_' + groupId).click();
+        var modal = $('#exampleModal');
+        var m = modal.data('bs.modal');
+        var isShown = m && modal.data('bs.modal')._isShown;
+        if (!m || !isShown) {
+            modal.modal();
+        }
+        
+        // document.getElementById('updateProcessingMessage_' + groupId).click();
     };
 
     ConnectToHub();

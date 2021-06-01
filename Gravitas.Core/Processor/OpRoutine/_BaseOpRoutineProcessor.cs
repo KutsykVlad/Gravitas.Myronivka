@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Detail;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
@@ -21,6 +23,7 @@ namespace Gravitas.Core.Processor.OpRoutine
     public abstract class BaseOpRoutineProcessor : IOpRoutineProcessor
     {
         protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        protected List<NodeProcessingMessage> Messages = new List<NodeProcessingMessage>();
         protected readonly IDeviceManager _deviceManager;
         protected readonly IDeviceRepository _deviceRepository;
         protected NodeDetails NodeDetails;
@@ -33,7 +36,6 @@ namespace Gravitas.Core.Processor.OpRoutine
         protected GravitasDbContext _context;
         private DateTime? _processingStartedAt;
         private bool _processingTimeError;
-        // private readonly Stopwatch sw = new Stopwatch();
 
         protected BaseOpRoutineProcessor(
             IOpRoutineManager opRoutineManager,
@@ -55,16 +57,11 @@ namespace Gravitas.Core.Processor.OpRoutine
             {
                 try
                 {
-                    // sw.Reset();
-                    // sw.Start();
                     using (var context = new GravitasDbContext())
                     {
                         _context = context;
                         Process();
                     }
-                    // sw.Stop();
-                    // if (sw.ElapsedMilliseconds > 20000)
-                        // Logger.Info($"ProcessLoop processing time measure: NodeId = {_nodeId}, State = {_nodeDto.Context.OpRoutineStateId}, Time = {sw.Elapsed}");
                 }
                 catch (Exception e)
                 {
@@ -91,17 +88,26 @@ namespace Gravitas.Core.Processor.OpRoutine
         
         private void UpdateProcessingMessages()
         {
-            var validTill = DateTime.Now.AddMinutes(-1);
-            var toDelete = _context.NodeProcessingMessages
-                .Where(x => x.NodeId == _nodeId && x.DateTime < validTill)
+            var newMessages = _context.NodeProcessingMessages
+                .Where(x => x.NodeId == _nodeId)
                 .ToList();
-            if (toDelete.Any())
+
+            if (newMessages.Except(Messages).Any())
             {
-                _context.NodeProcessingMessages.RemoveRange(toDelete);
-                _context.SaveChanges();
-            }
+                Messages = newMessages;
+                var validTill = DateTime.Now.AddMinutes(-1);
+                var toDelete = Messages
+                    .Where(x => x.DateTime < validTill)
+                    .ToList();
+                Messages = Messages.Except(toDelete).ToList();
+                if (toDelete.Any())
+                {
+                    _context.NodeProcessingMessages.RemoveRange(toDelete);
+                    _context.SaveChanges();
+                }
             
-            SignalRInvoke.UpdateProcessingMessage(_nodeId);
+                SignalRInvoke.UpdateProcessingMessage(_nodeId);
+            }
         }
 
         protected bool UpdateNodeContext(int nodeId, NodeContext newContext, bool reload = true)
