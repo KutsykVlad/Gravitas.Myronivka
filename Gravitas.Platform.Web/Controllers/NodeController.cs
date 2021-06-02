@@ -48,13 +48,13 @@ namespace Gravitas.Platform.Web.Controllers
 
             return PartialView("_RoutineSingle", vm);
         }
-        
-        public ActionResult NodeProcessingMessage(int nodeId)
+
+        public ActionResult NodeProcessingMessageItems(int nodeId)
         {
             var messages = _context.NodeProcessingMessages
                 .Where(x => x.NodeId == nodeId)
                 .ToList();
-            return PartialView("_NodeProcessigMessage", messages);
+            return PartialView("_NodeProcessigMessageItems", messages);
         }
         
         public ActionResult Routine(int? id)

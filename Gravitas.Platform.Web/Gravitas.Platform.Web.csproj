@@ -585,7 +585,7 @@
     <Content Include="Views\MixedFeedManage\SiloWorkstationItem.cshtml" />
     <Content Include="Views\Node\Routine.cshtml" />
     <Content Include="Views\Node\_NodeInEmergencyMode.cshtml" />
-    <Content Include="Views\Node\_NodeProcessigMessage.cshtml" />
+    <Content Include="Views\Node\_NodeProcessigMessageItems.cshtml" />
     <Content Include="Views\Node\_RoutineSingle.cshtml" />
     <Content Include="Views\NonStandard\Registry.cshtml" />
     <Content Include="Views\NonStandard\_Registry.cshtml" />

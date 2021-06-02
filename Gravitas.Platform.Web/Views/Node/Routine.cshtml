@@ -10,6 +10,7 @@
 <div ng-app="nodeRoutineApp" ng-cloak>
     <div ng-controller="nodeReloadController">
         <button type="button" ng-click="reload()" hidden="hidden" id="reloadPage_@Model.NodeId">Render</button>
+        <button type="button" hidden="hidden" id="openProcessingMessage_@Model.NodeId" data-toggle="modal" data-target="#exampleModalCenter">Render</button>
         <button type="button" ng-click="updateProcessingMessage()" hidden="hidden" id="updateProcessingMessage_@Model.NodeId">Render</button>
         <button type="button" ng-click="reload()" hidden="hidden" id="reloadPage_@Model.WorkstationId">Render</button>
         <div id="body" >

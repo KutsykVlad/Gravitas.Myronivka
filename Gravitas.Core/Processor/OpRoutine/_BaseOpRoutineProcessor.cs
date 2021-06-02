@@ -92,7 +92,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 .Where(x => x.NodeId == _nodeId)
                 .ToList();
 
-            if (newMessages.Except(Messages).Any())
+            if (ShouldBeUpdated(newMessages, Messages))
             {
                 Messages = newMessages;
                 var validTill = DateTime.Now.AddMinutes(-1);
@@ -105,9 +105,31 @@ namespace Gravitas.Core.Processor.OpRoutine
                     _context.NodeProcessingMessages.RemoveRange(toDelete);
                     _context.SaveChanges();
                 }
-            
-                SignalRInvoke.UpdateProcessingMessage(_nodeId);
+
+                if (Messages.Any())
+                {
+                    SignalRInvoke.UpdateProcessingMessage(_nodeId);
+                }
             }
+        }
+
+        private bool ShouldBeUpdated(List<NodeProcessingMessage> newMessages, List<NodeProcessingMessage> messages)
+        {
+            if (newMessages.Count != messages.Count)
+            {
+                return true;
+            }
+            foreach (var newMessage in newMessages)
+            {
+                if (messages.All(x => x.Message != newMessage.Message
+                                      && x.NodeId != newMessage.NodeId 
+                                      && x.DateTime != newMessage.DateTime))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         protected bool UpdateNodeContext(int nodeId, NodeContext newContext, bool reload = true)

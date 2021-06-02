@@ -27,7 +27,7 @@ function nodeReloadController($scope, $http, $compile) {
         var arr = url.split("/");
         var host = arr[0] + "//" + arr[2];
 
-        $http.get(host + '/Node/NodeProcessingMessage?nodeId=' + document.getElementById('nodeId').value, { cache: false })
+        $http.get(host + '/Node/NodeProcessingMessageItems?nodeId=' + document.getElementById('nodeId').value, { cache: false })
             .then(function (response) {
                 $('#nodeProcessingMessage').html($compile(response.data)($scope));
             }).catch(function onReject(errorResponse) {
