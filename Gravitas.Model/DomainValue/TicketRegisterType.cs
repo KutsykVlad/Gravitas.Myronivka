@@ -4,7 +4,9 @@ namespace Gravitas.Model.DomainValue
     { 
         None = 0,
         CentralLaboratory,
-        SingleWindow,
+        SingleWindowQueue,
+        SingleWindowInProgress,
+        SingleWindowProcessed,
         LoadGuide,
         RejectedLoadGuide,
         RejectedUnloadGuide,

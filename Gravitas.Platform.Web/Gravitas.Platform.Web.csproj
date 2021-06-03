@@ -440,8 +440,10 @@
     <Compile Include="ViewModel\TicketContainer\List\MixedFeedLoadTicketContainerListVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\MixedFeedUnloadTicketContainerItemVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\MixedFeedUnloadTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\SingleWindowInProgressTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\SingleWindowProcessedTicketContainerListVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\SingleWindowTicketContainerItemVm.cs" />
-    <Compile Include="ViewModel\TicketContainer\List\SingleWindowTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\SingleWindowQueueTicketContainerListVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\UnloadGuideTicketContainerListVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\UnloadGuideTicketContainerItemVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\LabFacelessTicketContainerItemVm.cs" />
@@ -657,6 +659,8 @@
     <Content Include="Views\TicketContainer\_RejectedMixedFeedUnloadTicketContainerList.cshtml" />
     <Content Include="Views\TicketContainer\_RejectedUnloadGuideTicketContainerList.cshtml" />
     <Content Include="Views\TicketContainer\_SelfServiceLabTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_SingleWindowInProgressTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_SingleWindowProcessedTicketContainerList.cshtml" />
     <Content Include="Views\TicketContainer\_UnloadPointTicketContainerList.cshtml" />
     <Content Include="Views\TicketContainer\_UnloadQueueTicketContainerList.cshtml" />
     <Content Include="Views\Ticket\LabAverageRates.cshtml" />
@@ -667,7 +671,7 @@
     <Content Include="Views\MixedFeedManage\02_Edit.cshtml" />
     <Content Include="Views\MixedFeedManage\03_AddOperationVisa.cshtml" />
     <Content Include="Views\TicketContainer\_LabFacelessTicketContainerList.cshtml" />
-    <Content Include="Views\TicketContainer\_SingleWindowTicketContainerList.cshtml" />
+    <Content Include="Views\TicketContainer\_SingleWindowQueueTicketContainerList.cshtml" />
     <Content Include="wwwroot\lib\angular-datatables\dist\angular-datatables.js" />
     <Content Include="wwwroot\lib\angular-datatables\dist\angular-datatables.min.js" />
     <Content Include="wwwroot\lib\angular-datatables\dist\css\angular-datatables.css" />

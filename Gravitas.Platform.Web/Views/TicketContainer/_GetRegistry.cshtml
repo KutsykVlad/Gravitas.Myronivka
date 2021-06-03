@@ -11,8 +11,14 @@
         case TicketRegisterType.CentralLaboratory:
             actionName = nameof(TicketContainerController.CentralLabTicketContainerList);
             break;
-        case TicketRegisterType.SingleWindow:
-            actionName = nameof(TicketContainerController.SingleWindowTicketContainerList);
+        case TicketRegisterType.SingleWindowQueue:
+            actionName = nameof(TicketContainerController.SingleWindowQueueTicketContainerList);
+            break;
+        case TicketRegisterType.SingleWindowInProgress:
+            actionName = nameof(TicketContainerController.SingleWindowInProgressTicketContainerList);
+            break;
+        case TicketRegisterType.SingleWindowProcessed:
+            actionName = nameof(TicketContainerController.SingleWindowProcessedTicketContainerList);
             break;
         case TicketRegisterType.LoadGuide:
             actionName = nameof(TicketContainerController.LoadGuideTicketContainerList);
