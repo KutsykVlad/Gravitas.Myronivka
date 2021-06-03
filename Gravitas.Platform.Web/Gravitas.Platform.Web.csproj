@@ -640,6 +640,7 @@
     <Content Include="Views\Routes\_GetRouteView.cshtml" />
     <Content Include="Views\SelfServiceLaboratory\DetailByTicketContainer.cshtml" />
     <Content Include="Views\SelfServiceLaboratory\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutFullWidth.cshtml" />
     <Content Include="Views\SingleWindow\ShowTicketMenu_GetLabCertificate.cshtml" />
     <Content Include="Views\SingleWindow\ShowTicketMenu_PrintDoc.cshtml" />
     <Content Include="Views\TicketContainer\_GetRegistry.cshtml" />

@@ -71,6 +71,12 @@ namespace Gravitas.Infrastructure.Platform.Manager.Routes
             [JsonProperty("rejectRoute")] 
             public SecondaryRoute RejectRoute { get; set; }
             
+            [JsonProperty("waitingInRoute")] 
+            public SecondaryRoute WaitingInRoute { get; set; }
+            
+            [JsonProperty("waitingOutRoute")] 
+            public SecondaryRoute WaitingOutRoute { get; set; }
+            
             [JsonProperty("processId")]
             public int ProcessId { get; set; }
         }
