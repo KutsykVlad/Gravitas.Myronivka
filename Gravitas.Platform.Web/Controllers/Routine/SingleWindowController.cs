@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
@@ -34,6 +35,18 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         private readonly IPackingTareRepository _packingTareRepository;
         private readonly GravitasDbContext _context;
         private readonly IOpDataRepository _opDataRepository;
+        
+        private static readonly Dictionary<int, SingleWindowRegisterFilter> NodeFilters = new()
+        {
+            {(int)NodeIdValue.SingleWindowFirstType1, SingleWindowRegisterFilter.All},
+            {(int)NodeIdValue.SingleWindowFirstType2, SingleWindowRegisterFilter.All}
+        };
+
+        private readonly List<SelectListItem> _filterItems = new()
+        {
+            new SelectListItem {Text = @"Всі", Value = ((int) SingleWindowRegisterFilter.All).ToString()},
+            new SelectListItem {Text = @"Тільки власні", Value = ((int) SingleWindowRegisterFilter.OwnOnly).ToString()}
+        };
 
         public SingleWindowController(
             IOpRoutineWebManager opRoutineWebManager,
@@ -61,12 +74,22 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
         [HttpGet]
         [ChildActionOnly]
-        public ActionResult Idle(int? nodeId)
+        public ActionResult Idle(int nodeId)
         {
-            if (nodeId == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var routineData = new SingleWindowVms.IdleVm {NodeId = nodeId.Value};
+            var routineData = new SingleWindowVms.IdleVm
+            {
+                NodeId = nodeId,
+                SelectedFilterId = NodeFilters[nodeId],
+                FilterItems = _filterItems
+            };
             return PartialView("../OpRoutine/SingleWindow/01_Idle", routineData);
+        }
+        
+        [HttpPost]
+        public void SingleWindowRegistryFilter(int nodeId, int selectedFilterId)
+        {
+            NodeFilters[nodeId] = (SingleWindowRegisterFilter) selectedFilterId;
+            SignalRInvoke.ReloadHubGroup(nodeId);
         }
 
         [HttpGet]

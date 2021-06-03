@@ -6,17 +6,14 @@ using System.Web.Mvc;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.Ticket;
-using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
-using Gravitas.Platform.Web.Manager.Ticket;
 using Gravitas.Platform.Web.Manager.TicketContainer;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.Shared;
 using Gravitas.Platform.Web.ViewModel.TicketContainer;
 using Gravitas.Platform.Web.ViewModel.TicketContainer.List;
-using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Platform.Web.Controllers
 {
@@ -47,43 +44,22 @@ namespace Gravitas.Platform.Web.Controllers
 
         #region SingleWindow
 
-        private static readonly Dictionary<int, int> NodeFilters = new()
-        {
-            {(int)NodeIdValue.SingleWindowFirstType1, (int)SingleWindowRegisterFilter.All},
-            {(int)NodeIdValue.SingleWindowFirstType2, (int)SingleWindowRegisterFilter.All}
-        };
-
-        private readonly List<SelectListItem> _filterItems = new()
-        {
-            new SelectListItem {Text = @"Всі", Value = ((int) SingleWindowRegisterFilter.All).ToString()},
-            new SelectListItem {Text = @"Тільки власні", Value = ((int) SingleWindowRegisterFilter.OwnOnly).ToString()}
-        };
-        
         [HttpPost]
         public ActionResult SingleWindowTicketContainerList(ActionLinkVm detailActionLink)
         {
             if (!detailActionLink.NodeId.HasValue) return new HttpStatusCodeResult(400);
-            var ticketContainersIds = FilterSingleWindowTicketContainers((int) detailActionLink.NodeId);
+            var ticketContainersIds = FilterSingleWindowTicketContainers(detailActionLink.SingleWindowRegisterFilter);
             var resultItems = _ticketContainerRegistryManager.GetSingleWindowTicketContainerItemsVm(ticketContainersIds);
-            var selectedFilter = NodeFilters[(int) detailActionLink.NodeId];
 
             var vm = new SingleWindowTicketContainerListVm
             {
                 DetailActionLink = detailActionLink,
-                Items = resultItems,
-                FilterItems = _filterItems,
-                SelectedFilterId = selectedFilter
+                Items = resultItems
             };
 
             return PartialView("_SingleWindowTicketContainerList", vm);
         }
 
-        public void SingleWindowRegistryFilter(int selectedFilterId, int nodeId)
-        {
-            NodeFilters[nodeId] = selectedFilterId;
-            // SignalRInvoke.ReloadHubGroup(nodeId);
-        }
-        
         #endregion
 
         #region Laboratory
@@ -448,18 +424,17 @@ namespace Gravitas.Platform.Web.Controllers
                    .ToList();
         }
         
-        private IEnumerable<int> FilterSingleWindowTicketContainers(int nodeId)
+        private IEnumerable<int> FilterSingleWindowTicketContainers(SingleWindowRegisterFilter filter)
         {
-            var filterId = NodeFilters[nodeId];
             var result = new List<int>();
 
             var tickets = 
                 (from card in _context.Cards
                     join ticket in _context.Tickets on card.TicketContainerId equals ticket.TicketContainerId 
                     where card.TicketContainerId.HasValue
-                        && (filterId == 0 || (ticket.StatusId == TicketStatus.Processing
-                                          || ticket.StatusId == TicketStatus.ToBeProcessed
-                                          || ticket.StatusId == TicketStatus.New))
+                        && (filter == 0 || (ticket.StatusId == TicketStatus.Processing
+                                            || ticket.StatusId == TicketStatus.ToBeProcessed
+                                            || ticket.StatusId == TicketStatus.New))
                     select ticket)
                 .GroupBy(x => x.TicketContainerId)
                 .Select(x => x.OrderByDescending(z => z.StatusId).FirstOrDefault())
@@ -467,7 +442,7 @@ namespace Gravitas.Platform.Web.Controllers
 
             foreach (var ticket in tickets.Where(ticket => ticket != null))
             {
-                if (filterId == 0)
+                if (filter == 0)
                 {
                     result.Add(ticket.TicketContainerId);
                     continue;
@@ -479,9 +454,9 @@ namespace Gravitas.Platform.Web.Controllers
                     .Select(x => x.Node.NodeGroup)
                     .First();
 
-                switch (filterId)
+                switch (filter)
                 {
-                    case (int)SingleWindowRegisterFilter.OwnOnly:
+                    case SingleWindowRegisterFilter.OwnOnly:
                         if (opData.Node.NodeGroup == singleWindowNodeGroup) result.Add(ticket.TicketContainerId);
                         break;
                 }

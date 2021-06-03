@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using Gravitas.Model.DomainValue;
 
 namespace Gravitas.Platform.Web.ViewModel
 {
@@ -7,9 +9,8 @@ namespace Gravitas.Platform.Web.ViewModel
         public class IdleVm
         {
             public int NodeId { get; set; }
-
-            public string Rfid { get; set; }
-            public DateTime ReadTime { get; set; }
+            public SingleWindowRegisterFilter SelectedFilterId { get; set; }
+            public List<SelectListItem> FilterItems { get; set; }
         }
     }
 }
