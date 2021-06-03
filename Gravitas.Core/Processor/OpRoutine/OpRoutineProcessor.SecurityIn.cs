@@ -138,13 +138,13 @@ namespace Gravitas.Core.Processor.OpRoutine
                 }
             }
 
-            if (!_routesManager.IsNodeNext(card.Ticket.Id, nodeDetailsDto.Id, out var errorMessage))
+            if (card.Ticket.RouteType != RouteType.WaitingIn && !_routesManager.IsNodeNext(card.Ticket.Id, nodeDetailsDto.Id, out var errorMessage))
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id,
                     new NodeProcessingMsgItem(ProcessingMsgType.Error, errorMessage));
 
                 _cardManager.SetRfidValidationDO(false, nodeDetailsDto);
-            return;
+                return;
             }
 
             var securityCheckInOpData = new SecurityCheckInOpData

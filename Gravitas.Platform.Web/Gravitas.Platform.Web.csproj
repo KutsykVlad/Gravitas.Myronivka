@@ -460,7 +460,6 @@
     <Compile Include="ViewModel\Workstation\WorkstationStateItemVm.cs" />
     <Compile Include="ViewModel\Workstation\WorkstationStateVm.cs" />
     <Compile Include="Views\Filters\NonStandartDataFilters.cs" />
-    <Compile Include="Views\Filters\OpDataRegistryFilters.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />

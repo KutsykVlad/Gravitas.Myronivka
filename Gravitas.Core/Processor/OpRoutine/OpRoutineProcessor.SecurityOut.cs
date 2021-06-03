@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using Gravitas.Core.DeviceManager.Device;
@@ -93,10 +94,6 @@ namespace Gravitas.Core.Processor.OpRoutine
                 case Model.DomainValue.OpRoutine.SecurityOut.State.OpenBarrier:
                     OpenBarrier(NodeDetails);
                     break;
-                case Model.DomainValue.OpRoutine.SecurityOut.State.GetCamSnapshot:
-                    WatchBarrier(NodeDetails);
-                    GetCamSnapshot(NodeDetails);
-                    break;
             }
         }
 
@@ -183,7 +180,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             });
         }
 
-        public void AddRouteControlVisa(NodeDetails nodeDetailsDto)
+        private void AddRouteControlVisa(NodeDetails nodeDetailsDto)
         {
             if (nodeDetailsDto?.Context?.OpDataId == null) return;
 
@@ -208,10 +205,8 @@ namespace Gravitas.Core.Processor.OpRoutine
             UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
-        public void AddTransportInspectionVisa(NodeDetails nodeDetailsDto)
+        private void AddTransportInspectionVisa(NodeDetails nodeDetailsDto)
         {
-            //            if (nodeDto?.Context?.OpDataId == null || nodeDto.Context.TicketId == null) return;
-
             var card = _userManager.GetValidatedUsersCardByOnGateReader(nodeDetailsDto);
             if (card == null) return;
 
@@ -233,20 +228,29 @@ namespace Gravitas.Core.Processor.OpRoutine
                 };
                 _nodeRepository.Add<OpVisa, int>(visa);
 
-                var next = _routesInfrastructure.GetNextNodes(nodeDetailsDto.Context.TicketId.Value);
+                var ticket = _context.Tickets.First(x => x.Id == nodeDetailsDto.Context.TicketId.Value);
 
-                if (next?.Count == 1 && next.First() == nodeDetailsDto.Id)
+                if (ticket.RouteType != RouteType.WaitingOut)
                 {
-                    var ticket = _context.Tickets.First(x => x.Id == nodeDetailsDto.Context.TicketId.Value);
-                    ticket.StatusId = TicketStatus.Completed;
-                    _context.SaveChanges();
+                    var next = _routesInfrastructure.GetNextNodes(nodeDetailsDto.Context.TicketId.Value);
 
-                    var singleWindowId = _context.SingleWindowOpDatas
-                        .Where(x => x.TicketId == ticket.Id)
-                        .Select(x => x.Id)
-                        .First();
-                    _oneCApiService.UpdateOneCData(singleWindowId, false);
+                    if (next?.Count == 1 && next.First() == nodeDetailsDto.Id)
+                    {
+                        ticket.StatusId = TicketStatus.Completed;
+                        _context.SaveChanges();
+
+                        var singleWindowId = _context.SingleWindowOpDatas
+                            .Where(x => x.TicketId == ticket.Id)
+                            .Select(x => x.Id)
+                            .First();
+                        _oneCApiService.UpdateOneCData(singleWindowId, false);
+                    }
                 }
+                else
+                {
+                    _routesInfrastructure.SetSecondaryRoute(ticket.Id, _nodeId, RouteType.WaitingIn);
+                }
+                
             }
 
             _cardManager.SetRfidValidationDO(true, nodeDetailsDto);
@@ -271,7 +275,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     }
                 }
 
-                nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityOut.State.GetCamSnapshot;
+                nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityOut.State.Idle;
                 UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
                 return;
             }
@@ -318,15 +322,6 @@ namespace Gravitas.Core.Processor.OpRoutine
                 Thread.Sleep(1000);
             }
 
-            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityOut.State.GetCamSnapshot;
-            UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
-        }
-
-        private void GetCamSnapshot(NodeDetails nodeDetailsDto)
-        {
-            Thread.Sleep(2000);
-
-            _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
             nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityOut.State.Idle;
             nodeDetailsDto.Context.TicketContainerId = null;
             nodeDetailsDto.Context.OpProcessData = null;

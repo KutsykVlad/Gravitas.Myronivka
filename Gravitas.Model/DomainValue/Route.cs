@@ -9,6 +9,8 @@ namespace Gravitas.Model.DomainValue
         PartUnload = 5,
         Move = 6,
         MixedFeedLoad = 7,
-        Reject = 8
+        Reject = 8,
+        WaitingOut = 9,
+        WaitingIn = 10
     }
 }

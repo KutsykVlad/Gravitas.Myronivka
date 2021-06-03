@@ -19,6 +19,9 @@ namespace Gravitas.Model.DomainValue
         
         [Description("Відмовлено у погодженні")]
         CollisionDisapproved = 5,
+        
+        [Description("Очікування")]
+        Waiting = 6,
 
         // Finished states
         [Description("Виконано")]
