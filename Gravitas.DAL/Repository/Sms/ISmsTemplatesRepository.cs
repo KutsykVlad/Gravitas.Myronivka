@@ -1,9 +1,8 @@
-﻿using Gravitas.DAL.Repository._Base;
-using Gravitas.Model.DomainValue;
+﻿using Gravitas.Model.DomainValue;
 
 namespace Gravitas.DAL.Repository.Sms 
 {
-    public interface ISmsTemplatesRepository : IBaseRepository
+    public interface ISmsTemplatesRepository
     {
         string GetSmsTemplate(SmsTemplate templateId);
     }

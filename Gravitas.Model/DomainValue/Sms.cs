@@ -17,7 +17,6 @@
         CentralLaboratorySuccess = 13,
         OnRegisterEmployeeInformation = 14,
         OnWeighBridgeRejected = 15,
-        OnPreRegister = 16,
         NoMixedFeedProduct = 17
     }
 }

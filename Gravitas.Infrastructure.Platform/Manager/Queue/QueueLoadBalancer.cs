@@ -92,21 +92,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             AddRouteLoad(route, (int) currentRouteIndex + 1);
         }
 
-        private void PrintNodeQuatas()
-        {
-            foreach (var nodeLoad in NodesLoad)
-            {
-                var load = NodesLoad[nodeLoad.Key].RoutesLoad.ToList();
-                var a = load.Sum(x => x.ArrivalProbability);
-                if (a > 0) Console.WriteLine($"Future load on Node {nodeLoad.Key}: {a}");
-                if (nodeLoad.Key == 310)
-                {
-                    Console.WriteLine($"310 = {string.Join(",", nodeLoad.Value.RoutesLoad.Select(x => x.TicketContainerId))}");
-                }
-            } 
-//            Console.ReadKey();
-        }
-
         public void RemoveRoute(long ticketContainerId)
         {
             _logger.Info($"RemoveRoute. TicketContainerId: {ticketContainerId}");

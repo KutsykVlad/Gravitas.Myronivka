@@ -95,8 +95,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     PhoneNumber = singleWindow.ContactPhoneNo
                 });
             }
-            
-//            CheckFreeLoad();
         }
         
         public void OnRouteUpdated(Ticket ticket)
@@ -138,8 +136,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 
             var item = CreateRoute(ticket);
             if (item != null) AddLoad(item);
-            
-//            CheckFreeLoad();
         }
     }
 }

@@ -103,6 +103,5 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public Guid? ContractCarrierId { get; set; }
         public double? SenderWeight { get; set; }
         public bool IsPreRegistered { get; set; }
-        public DateTime? PredictionEntranceTime { get; set; }
     }
 }

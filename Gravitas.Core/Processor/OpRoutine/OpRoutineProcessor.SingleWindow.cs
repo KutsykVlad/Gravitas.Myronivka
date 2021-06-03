@@ -21,7 +21,6 @@ using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient;
 using Gravitas.Infrastructure.Platform.ApiClient.OneC;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
-using Gravitas.Infrastructure.Platform.Manager.OpData;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.Queue;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
@@ -197,7 +196,6 @@ namespace Gravitas.Core.Processor.OpRoutine
             foreach (var t in tickets)
             {
                 var routeTemplateId = t.RouteTemplateId;
-                t.RouteTemplateId = null;
                 t.StatusId = TicketStatus.Closed;
                 _ticketRepository.Update<Ticket, int>(t);
                 if (routeTemplateId.HasValue)
@@ -957,13 +955,15 @@ namespace Gravitas.Core.Processor.OpRoutine
                         }
                     }
 
-                    var time = "---";
+                    var averageProcessingTime = GetAverageProcessingTime(ticket.RouteTemplateId);
 
                     if (!isSecondaryTicket) 
                     {
                         _connectManager.SendSms(SmsTemplate.QueueRegistrationSms, nodeDetailsDto.Context.TicketId, null,
-                        new Dictionary<string, object> {
-                            { "EntranceTime", time }
+                        new Dictionary<string, object> 
+                        {
+                            { "AverageProcessingTime", averageProcessingTime },
+                            { "TrucksInQueue", _queueManager.TrucksBefore(ticket.RouteTemplateId.Value, ticket.TicketContainerId) }
                         });
                     }
 
@@ -997,6 +997,36 @@ namespace Gravitas.Core.Processor.OpRoutine
             _nodeRepository.ClearNodeProcessingMessage(_nodeId);
             nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
             UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context); 
+        }
+
+        private TimeSpan GetAverageProcessingTime(int? routeTemplateId)
+        {
+            var lastProcessedTickets = _context.Tickets
+                .Where(x => x.RouteTemplateId == routeTemplateId 
+                    && (x.StatusId == TicketStatus.Closed || x.StatusId == TicketStatus.Completed))
+                .OrderByDescending(x => x.Id)
+                .Select(x => x.Id)
+                .Take(5)
+                .ToList();
+
+            var processingTimes = new List<TimeSpan>();
+            foreach (var ticketId in lastProcessedTickets)
+            {
+                var opDatas = _opDataRepository.GetOpDataList(ticketId);
+                var securityCheckInDateTime = opDatas
+                    .Where(x => x.GetType().BaseType.Name == nameof(SecurityCheckInOpData))
+                    .Select(x => x.CheckInDateTime.Value)
+                    .First();
+                
+                var endPointProcessDateTime = opDatas
+                    .Where(x => x.GetType().BaseType.Name == nameof(UnloadPointOpData) || x.GetType().BaseType.Name == nameof(LoadPointOpData))
+                    .OrderByDescending(x => x.CheckInDateTime)
+                    .Select(x => x.CheckInDateTime.Value)
+                    .First();
+                processingTimes.Add(endPointProcessDateTime - securityCheckInDateTime);
+            }
+
+            return new TimeSpan(processingTimes.Sum(x => x.Ticks) / processingTimes.Count);
         }
 
         private Card GetCardFromTableReader(NodeDetails nodeDetailsDto)

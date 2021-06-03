@@ -237,7 +237,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 var inTirs = _inTirs.Select(x => x.TicketContainerId).ToArray();
                 if (inTirs.Length > 0) _logger.Debug($"_InTirs = { string.Join(", ", inTirs)}");
                 
-                var routesPriority = new Dictionary<long, float>();
+                var routesPriority = new Dictionary<int, float>();
                 if (TicketsRoutes == null || !TicketsRoutes.Any()) return;
 
                 foreach (var nodePriority in _endPointNodeLoad.Where(x => _nodeRepository.GetNodeDto(x.NodeId).IsActive))
@@ -267,6 +267,11 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     }
                 }
             }
+        }
+
+        public int TrucksBefore(int routeId, int ticketContainerId)
+        {
+            return _externalQueue.TrucksBefore(routeId, ticketContainerId);
         }
     }
 }

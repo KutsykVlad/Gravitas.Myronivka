@@ -196,13 +196,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
 
                     foreach (var nodeId in nodes) data.DestinationPoint += $"{_context.Nodes.First(x => x.Id == nodeId).Name}, ";
                     break;
-                case SmsTemplate.OnPreRegister:
-                    if (singleWindowOpData.PredictionEntranceTime.HasValue)
-                    {
-                        data.EntranceTime = singleWindowOpData.PredictionEntranceTime.Value.ToString(CultureInfo.InvariantCulture);
-
-                    }
-                    break;
             }
 
             if (!singleWindowOpData.IsThirdPartyCarrier)

@@ -23,17 +23,12 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 
     public class ExternalQueue
     {
-        private const int OwnerCategory = (int) QueueCategory.Company;
-        private const int PartnersCategory = (int) QueueCategory.Partners;
-        private const int OtherCategory = (int) QueueCategory.Others;
-        private const int MixedFeedCategory = (int) QueueCategory.MixedFeedLoad;
-        private const int PreRegisterCategory = (int) QueueCategory.PreRegisterCategory;
         private readonly IExternalDataRepository _externalRepo;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IOpDataRepository _opDataRepository;
         private readonly IQueryable<QueuePatternItem> _patterns;
         private readonly GravitasDbContext _context;
-        private readonly Dictionary<long, List<CatItem>> _routesQueue = new Dictionary<long, List<CatItem>>();
+        private readonly Dictionary<int, List<CatItem>> _routesQueue = new Dictionary<int, List<CatItem>>();
 
         public ExternalQueue(IQueueSettingsRepository queueSettingsRepository,
             IOpDataRepository opDataRepository,
@@ -86,7 +81,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             return (int) item.Id;
         }
 
-        private void InsertNewPattern(long routeId)
+        private void InsertNewPattern(int routeId)
         {
             foreach (var pattern in _patterns)
                 _routesQueue[routeId].Add(new CatItem
@@ -133,7 +128,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             PrintQueue(routeId.Value);
         }
 
-        private void PrintQueue(long routeId)
+        private void PrintQueue(int routeId)
         {
             var data = new StringBuilder($"ExternalQueue for Route = {routeId} (TicketContainers): ");
             var queue = GetQueue(routeId);
@@ -174,7 +169,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             return s?.Items.SingleOrDefault(r => r.TicketContainerId == ticketContainerId);
         }
 
-        public List<RouteInfo> GetQueue(long routeId)
+        public List<RouteInfo> GetQueue(int routeId)
         {
             _routesQueue.TryGetValue(routeId, out var routeQueue);
             if (_routesQueue.Count == 0)
@@ -184,6 +179,15 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             }
 
             return routeQueue == null ? new List<RouteInfo>() : routeQueue.SelectMany(q => q.Items).ToList();
+        }
+        
+        public int TrucksBefore(int routeId, int ticketContainerId)
+        {
+            var queue = GetQueue(routeId)
+                .Select(x => x.TicketContainerId)
+                .ToArray();
+
+            return Array.IndexOf(queue, ticketContainerId);
         }
 
         private List<CatItem> GetQueueCatItems(int ticketContainerId)

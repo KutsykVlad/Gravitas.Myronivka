@@ -13,5 +13,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
         void RemoveFromQueue(int ticketContainerId);
         int? GetFreeSiloDrive(Guid productId, int ticketId);
         void RestoreState();
+        int TrucksBefore(int routeId, int ticketContainerId);
     }
 }
