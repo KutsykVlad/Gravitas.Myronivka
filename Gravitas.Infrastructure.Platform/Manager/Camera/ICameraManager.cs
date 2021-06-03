@@ -8,6 +8,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.Camera
     {
         bool TakeSnapshot(string host, string user, string pass, string path);
         bool TakeSnapshot(CameraParam param, string filename);
-        List<long> GetSnapshots(NodeConfig nodeConfig);
+        List<int> GetSnapshots(NodeConfig nodeConfig);
     }
 }

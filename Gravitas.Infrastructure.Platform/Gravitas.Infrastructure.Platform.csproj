@@ -52,6 +52,8 @@
     <Compile Include="ApiClient\BaseApiClient.cs" />
     <Compile Include="ApiClient\Devices\DeviceSyncManager.cs" />
     <Compile Include="ApiClient\Devices\IDeviceSyncManager.cs" />
+    <Compile Include="ApiClient\IOneCApiService.cs" />
+    <Compile Include="ApiClient\OneCApiService.cs" />
     <Compile Include="ApiClient\OneC\JsonModel\ChangeSupplyCode.cs" />
     <Compile Include="ApiClient\OneC\JsonModel\GetDeliveryBill.cs" />
     <Compile Include="ApiClient\OneC\JsonModel\GetDictionaryModifiedItems.Unit.cs">

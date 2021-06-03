@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Gravitas.Core.DeviceManager.Device;
 using Gravitas.Core.DeviceManager.User;
 using Gravitas.DAL.Repository.Card;
@@ -16,6 +18,7 @@ using Gravitas.DAL.Repository.PhoneInformTicketAssignment;
 using Gravitas.DAL.Repository.Phones;
 using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Common.Configuration;
+using Gravitas.Infrastructure.Platform.ApiClient;
 using Gravitas.Infrastructure.Platform.ApiClient.OneC;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.OpData;
@@ -51,12 +54,12 @@ namespace Gravitas.Core.Processor.OpRoutine
         private readonly ITicketRepository _ticketRepository;
         private readonly IQueueManager _queueManager;
         private readonly IExternalDataRepository _externalDataRepository;
-        private readonly IOpDataManager _opDataManager;
         private readonly IPhonesRepository _phonesRepository;
         private readonly IPhoneInformTicketAssignmentRepository _phoneInformTicketAssignmentRepository;
         private readonly IUserManager _userManager;
         private readonly IRoutesInfrastructure _routesInfrastructure;
         private readonly IRoutesRepository _routesRepository;
+        private readonly IOneCApiService _oneCApiService;
 
         public SingleWindowOpRoutineProcessor(
             IOpRoutineManager opRoutineManager,
@@ -69,12 +72,12 @@ namespace Gravitas.Core.Processor.OpRoutine
             IConnectManager smsManager,
             IExternalDataRepository externalDataRepository, 
             IQueueManager queueManager, 
-            IOpDataManager opDataManager,
             IPhonesRepository phonesRepository,
             IUserManager userManager, 
             IRoutesInfrastructure routesInfrastructure,
             IRoutesRepository routesRepository,
-            IPhoneInformTicketAssignmentRepository phoneInformTicketAssignmentRepository) :
+            IPhoneInformTicketAssignmentRepository phoneInformTicketAssignmentRepository,
+            IOneCApiService oneCApiService) :
             base(opRoutineManager,
                 deviceManager,
                 deviceRepository,
@@ -84,12 +87,12 @@ namespace Gravitas.Core.Processor.OpRoutine
             _connectManager = smsManager;
             _externalDataRepository = externalDataRepository;
             _queueManager = queueManager;
-            _opDataManager = opDataManager;
             _phonesRepository = phonesRepository;
             _userManager = userManager;
             _routesInfrastructure = routesInfrastructure;
             _routesRepository = routesRepository;
             _phoneInformTicketAssignmentRepository = phoneInformTicketAssignmentRepository;
+            _oneCApiService = oneCApiService;
             _ticketRepository = ticketRepository;
             _cardRepository = cardRepository;
         }
@@ -311,12 +314,14 @@ namespace Gravitas.Core.Processor.OpRoutine
             var windowOpData = _context.SingleWindowOpDatas.First(x => x.TicketId == nodeDetailsDto.Context.TicketId.Value);
             var oneCApiClient = new OneCApiClient(GlobalConfigurationManager.OneCApiHost);
             OneCApiClient.GetDeliveryBill.Response deliveryBill = null;
-            try {
+            try 
+            {
                 deliveryBill = !string.IsNullOrWhiteSpace(windowOpData.SupplyCode) 
                     ? oneCApiClient.GetDeliveryBillViaSupplyCode(windowOpData.SupplyCode)
                     : oneCApiClient.GetDeliveryBillViaBarCode(windowOpData.BarCode);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Logger.Error($"SingleWindow. EditGetApi: Error while processing OneC api request: {e}");
             }
     
@@ -332,7 +337,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             windowOpData.NetValue =  windowOpData.GrossValue - windowOpData.TareValue;
             _ticketRepository.Update<SingleWindowOpData, Guid>(windowOpData);
             
-            windowOpData.Id = new Guid();
+            windowOpData.Id = Guid.NewGuid();
             windowOpData.TicketId = newTicket.Id;
             windowOpData.DeliveryBillId = deliveryBill.Id;
             windowOpData.DeliveryBillCode = deliveryBill.Code;
@@ -511,84 +516,88 @@ namespace Gravitas.Core.Processor.OpRoutine
         {
             var oneCApiClient = new OneCApiClient(GlobalConfigurationManager.OneCApiHost);
             OneCApiClient.GetDeliveryBill.Response deliveryBill = null;
-                try {
-                    deliveryBill = !string.IsNullOrWhiteSpace(windowOpData.SupplyCode) 
-                        ? oneCApiClient.GetDeliveryBillViaSupplyCode(windowOpData.SupplyCode)
-                        : oneCApiClient.GetDeliveryBillViaBarCode(windowOpData.BarCode);
-                }
-                catch (Exception e) {
-                    Logger.Error($"SingleWindow. EditGetApi: Error while processing OneC api request: {e}");
-                }
-    
-                if (deliveryBill == null || deliveryBill.ErrorCode != 0 || deliveryBill.Id == null || deliveryBill.Id == string.Empty) 
-                {
-                    _opRoutineManager.UpdateProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
-                        ProcessingMsgType.Warning, $"Помилка WebAPI. {deliveryBill?.ErrorMsg}"));
-    
-                    return false;
-                    
-                }
-                
-                windowOpData.CreateDate = DateTime.Now;
-                windowOpData.DeliveryBillId = deliveryBill.Id;
-                windowOpData.DeliveryBillCode = deliveryBill.Code;
-                windowOpData.SupplyTypeId = deliveryBill.SupplyTypeId;
-                windowOpData.OrderCode = deliveryBill.OrderCode;
-                windowOpData.DocumentTypeId = deliveryBill.DocumentTypeId;
-                windowOpData.OrganizationId = deliveryBill.OrganizationId;
-                windowOpData.KeeperOrganizationId = deliveryBill.KeeperOrganizationId;
-                windowOpData.StockId = deliveryBill.StockId;
-                windowOpData.ReceiverTypeId = deliveryBill.ReceiverTypeId;
-                windowOpData.ReceiverId = deliveryBill.ReceiverId;
-                windowOpData.ReceiverAnaliticsId = deliveryBill.ReceiverAnaliticsId;
-                windowOpData.ProductId = deliveryBill.ProductId;
-                windowOpData.HarvestId = deliveryBill.HarvestId;
-                windowOpData.BuyBudgetId = deliveryBill.BuyBudgetId;
-                windowOpData.SellBudgetId = deliveryBill.SellBudgetId;
-                windowOpData.ProductContents = JsonConvert.SerializeObject(deliveryBill.ProductContents); 
-                windowOpData.IsThirdPartyCarrier = deliveryBill.IsThirdPartyCarrier == "1";
-                windowOpData.HiredTrailerNumber = deliveryBill.HiredTrailerNumberId;
-                windowOpData.ContractCarrierId = deliveryBill.ContractCarrierId;
-                windowOpData.SenderWeight = deliveryBill.SenderWeight;
-                windowOpData.OriginalТТN = deliveryBill.OriginalТТN;
-                windowOpData.HiredDriverCode = deliveryBill.HiredDriverCode;
-                windowOpData.IncomeInvoiceSeries = deliveryBill.IncomeInvoiceSeries;
-                windowOpData.IncomeInvoiceNumber = deliveryBill.IncomeInvoiceNumber;
-                windowOpData.IncomeDocGrossValue = deliveryBill.IncomeDocGrossValue;
-                windowOpData.IncomeDocTareValue = deliveryBill.IncomeDocTareValue;
-                windowOpData.CarrierId = deliveryBill.CarrierCodeId;
-                windowOpData.CarrierCode = deliveryBill.CarrierCodeId.HasValue
-                    ? _externalDataRepository.GetPartnerDetail(deliveryBill.CarrierCodeId.Value)?.Code ?? "Хибний ключ"
-                    : string.Empty;
-                windowOpData.TransportId = deliveryBill.TransportId;
-                windowOpData.TrailerId = deliveryBill.TrailerId;
-                windowOpData.DriverOneId = deliveryBill.DriverOneId;
-                windowOpData.DriverTwoId = deliveryBill.DriverTwoId;
-                windowOpData.HiredTransportNumber = deliveryBill.HiredTransportNumberId;
-                windowOpData.IncomeDocDateTime = deliveryBill.IncomeDocDate;
-                windowOpData.SupplyTypeId = deliveryBill.SupplyTypeId;
-                windowOpData.StatusType = deliveryBill.StatusType;
-                windowOpData.CarrierRouteId = deliveryBill.CarrierRouteId;
-                windowOpData.ReceiverDepotId = deliveryBill.ReceiverDepotId;
-                windowOpData.SupplyCode = deliveryBill.SupplyCode;
-                windowOpData.ReceiverTitle = deliveryBill.ReceiverId.HasValue
-                    ? _externalDataRepository.GetStockDetail(deliveryBill.ReceiverId.Value)?.ShortName
-                    ?? _externalDataRepository.GetSubdivisionDetail(deliveryBill.ReceiverId.Value)?.ShortName
-                    ?? _externalDataRepository.GetPartnerDetail(deliveryBill.ReceiverId.Value)?.ShortName
-                    : null;
-                windowOpData.OrganizationTitle = deliveryBill.OrganizationId.HasValue
-                    ? _externalDataRepository.GetOrganisationDetail(deliveryBill.OrganizationId.Value)?.ShortName
-                    : null;
-                windowOpData.ProductTitle = deliveryBill.ProductId.HasValue
-                    ? _externalDataRepository.GetProductDetail(deliveryBill.ProductId.Value)?.ShortName 
-                    : null;
-            _opDataRepository.AddOrUpdate<SingleWindowOpData, Guid>(windowOpData);
-    
-                UpdateDeliveryBillDictionaryItems(windowOpData, oneCApiClient);
+            try 
+            {
+                deliveryBill = !string.IsNullOrWhiteSpace(windowOpData.SupplyCode) 
+                    ? oneCApiClient.GetDeliveryBillViaSupplyCode(windowOpData.SupplyCode)
+                    : oneCApiClient.GetDeliveryBillViaBarCode(windowOpData.BarCode);
+            }
+            catch (Exception e) 
+            {
+                Logger.Error($"SingleWindow. EditGetApi: Error while processing OneC api request: {e}");
+            }
 
+            if (deliveryBill == null || deliveryBill.ErrorCode != 0 || deliveryBill.Id == null || deliveryBill.Id == string.Empty) 
+            {
                 _opRoutineManager.UpdateProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
-                    ProcessingMsgType.Success, "WebAPI. Дані отримано успішно"));
-                return true;
+                    ProcessingMsgType.Warning, $"Помилка WebAPI. {deliveryBill?.ErrorMsg}"));
+
+                return false;
+            }
+            
+            windowOpData.CreateDate = DateTime.Now;
+            windowOpData.DeliveryBillId = deliveryBill.Id;
+            windowOpData.DeliveryBillCode = deliveryBill.Code;
+            windowOpData.SupplyTypeId = deliveryBill.SupplyTypeId;
+            windowOpData.OrderCode = deliveryBill.OrderCode;
+            windowOpData.DocumentTypeId = deliveryBill.DocumentTypeId;
+            windowOpData.OrganizationId = deliveryBill.OrganizationId;
+            windowOpData.KeeperOrganizationId = deliveryBill.KeeperOrganizationId;
+            windowOpData.StockId = deliveryBill.StockId;
+            windowOpData.ReceiverTypeId = deliveryBill.ReceiverTypeId;
+            windowOpData.ReceiverId = deliveryBill.ReceiverId;
+            windowOpData.ReceiverAnaliticsId = deliveryBill.ReceiverAnaliticsId;
+            windowOpData.ProductId = deliveryBill.ProductId;
+            windowOpData.HarvestId = deliveryBill.HarvestId;
+            windowOpData.BuyBudgetId = deliveryBill.BuyBudgetId;
+            windowOpData.SellBudgetId = deliveryBill.SellBudgetId;
+            windowOpData.ProductContents = JsonConvert.SerializeObject(deliveryBill.ProductContents); 
+            windowOpData.IsThirdPartyCarrier = deliveryBill.IsThirdPartyCarrier == "1";
+            windowOpData.HiredTrailerNumber = deliveryBill.HiredTrailerNumberId;
+            windowOpData.ContractCarrierId = deliveryBill.ContractCarrierId;
+            windowOpData.SenderWeight = deliveryBill.SenderWeight;
+            windowOpData.OriginalТТN = deliveryBill.OriginalТТN;
+            windowOpData.HiredDriverCode = deliveryBill.HiredDriverCode;
+            windowOpData.IncomeInvoiceSeries = deliveryBill.IncomeInvoiceSeries;
+            windowOpData.IncomeInvoiceNumber = deliveryBill.IncomeInvoiceNumber;
+            windowOpData.IncomeDocGrossValue = deliveryBill.IncomeDocGrossValue;
+            windowOpData.IncomeDocTareValue = deliveryBill.IncomeDocTareValue;
+            windowOpData.CarrierId = deliveryBill.CarrierCodeId;
+            windowOpData.CarrierCode = deliveryBill.CarrierCodeId.HasValue
+                ? _externalDataRepository.GetPartnerDetail(deliveryBill.CarrierCodeId.Value)?.Code ?? "Хибний ключ"
+                : string.Empty;
+            windowOpData.TransportId = deliveryBill.TransportId;
+            windowOpData.TrailerId = deliveryBill.TrailerId;
+            windowOpData.DriverOneId = deliveryBill.DriverOneId;
+            windowOpData.DriverTwoId = deliveryBill.DriverTwoId;
+            windowOpData.HiredTransportNumber = deliveryBill.HiredTransportNumberId;
+            windowOpData.IncomeDocDateTime = deliveryBill.IncomeDocDate;
+            windowOpData.SupplyTypeId = deliveryBill.SupplyTypeId;
+            windowOpData.StatusType = deliveryBill.StatusType;
+            windowOpData.CarrierRouteId = deliveryBill.CarrierRouteId;
+            windowOpData.ReceiverDepotId = deliveryBill.ReceiverDepotId;
+            windowOpData.SupplyCode = deliveryBill.SupplyCode;
+            windowOpData.ReceiverTitle = deliveryBill.ReceiverId.HasValue
+                ? _externalDataRepository.GetStockDetail(deliveryBill.ReceiverId.Value)?.ShortName
+                ?? _externalDataRepository.GetSubdivisionDetail(deliveryBill.ReceiverId.Value)?.ShortName
+                ?? _externalDataRepository.GetPartnerDetail(deliveryBill.ReceiverId.Value)?.ShortName
+                : null;
+            windowOpData.OrganizationTitle = deliveryBill.OrganizationId.HasValue
+                ? _externalDataRepository.GetOrganisationDetail(deliveryBill.OrganizationId.Value)?.ShortName
+                : null;
+            windowOpData.ProductTitle = deliveryBill.ProductId.HasValue
+                ? _externalDataRepository.GetProductDetail(deliveryBill.ProductId.Value)?.ShortName 
+                : null;
+            _opDataRepository.AddOrUpdate<SingleWindowOpData, Guid>(windowOpData);
+
+            Task.Run(() =>
+            {
+                UpdateDeliveryBillDictionaryItems(windowOpData, oneCApiClient);
+            });
+
+            _opRoutineManager.UpdateProcessingMessage(windowOpData.NodeId.Value, new NodeProcessingMsgItem(
+                ProcessingMsgType.Success, "WebAPI. Дані отримано успішно"));
+            return true;
         }
 
         private void UpdateDeliveryBillDictionaryItems(SingleWindowOpData windowOpData, OneCApiClient oneCApiClient)
@@ -721,91 +730,6 @@ namespace Gravitas.Core.Processor.OpRoutine
             _nodeRepository.ClearNodeProcessingMessage(_nodeId);
         }
 
-        private Infrastructure.Platform.ApiClient.OneC.OneCApiClient.UpdateDeliveryBillDto.Request GetUpdateDeliveryBillDtoRequest(SingleWindowOpData singleWindowOpData)
-        {
-            var createData = _opDataRepository.GetLastProcessed<ScaleOpData>(x => x.TicketId == singleWindowOpData.TicketId && x.TypeId == ScaleOpDataType.Gross)?
-                .CheckOutDateTime;
-            return new Infrastructure.Platform.ApiClient.OneC.OneCApiClient.UpdateDeliveryBillDto.Request
-            {
-                Activity = 0,
-
-                Id = singleWindowOpData.DeliveryBillId,
-                CreateOperatorId = singleWindowOpData.CreateOperatorId,
-                CreateDate = createData ?? singleWindowOpData.CreateDate,
-                EditDate = singleWindowOpData.EditDate,
-                RegistrationTime = singleWindowOpData.RegistrationDateTime,
-                InTime = singleWindowOpData.InTime,
-                OutTime = singleWindowOpData.OutTime,
-                FirstGrossTime = singleWindowOpData.FirstGrossTime,
-                FirstTareTime = singleWindowOpData.FirstTareTime,
-                LastGrossTime = singleWindowOpData.LastGrossTime,
-                LastTareTime = singleWindowOpData.LastTareTime,
-                EditOperatorId = singleWindowOpData.EditOperatorId,
-                GrossValue = singleWindowOpData.GrossValue ?? 0,
-                TareValue = singleWindowOpData.TareValue ?? 0,
-                NetValue = (singleWindowOpData.NetValue ?? 0) - (singleWindowOpData.PackingWeightValue ?? 0),
-                DriverOneId = singleWindowOpData.DriverOneId,
-                DriverTwoId = singleWindowOpData.DriverTwoId,
-                TransportId = singleWindowOpData.TransportId,
-                HiredDriverCode = singleWindowOpData.HiredDriverCode,
-                HiredTansportNumber = singleWindowOpData.HiredTransportNumber,
-                IncomeInvoiceSeries = singleWindowOpData.IncomeInvoiceSeries,
-                IncomeInvoiceNumber = singleWindowOpData.IncomeInvoiceNumber,
-                ReceiverStockId = singleWindowOpData.ReceiverDepotId,
-                IsThirdPartyCarrier = singleWindowOpData.IsThirdPartyCarrier ? "1" : "0",
-                CarrierCode = string.IsNullOrWhiteSpace(singleWindowOpData.CarrierCode) 
-                    ? singleWindowOpData.CustomPartnerName 
-                    : singleWindowOpData.CarrierId.ToString(),
-                BuyBudgetsId = singleWindowOpData.BuyBudgetId,
-                SellBudgetsId = singleWindowOpData.SellBudgetId,
-                PackingWeightValue = singleWindowOpData.PackingWeightValue ?? 0,
-                SupplyCode = singleWindowOpData.SupplyCode,
-                CollectionPointId = singleWindowOpData.CollectionPointId,
-                LabHumidityType = singleWindowOpData.LabHumidityName,
-                LabImpurityType = singleWindowOpData.LabImpurityName,
-                LabIsInfectioned = singleWindowOpData.LabIsInfectioned ? "1" : "0",
-                LabHumidityValue = singleWindowOpData.LabHumidityValue ?? 0,
-                LabImpurityValue = singleWindowOpData.LabImpurityValue ?? 0,
-                DocHumidityValue = singleWindowOpData.DocHumidityValue ?? 0,
-                DocImpurityValue = singleWindowOpData.DocImpurityValue ?? 0,
-                DocNetValue = singleWindowOpData.DocumentTypeId == ExternalData.DeliveryBill.Type.Outgoing 
-                    ? (singleWindowOpData.NetValue ?? 0) - (singleWindowOpData.PackingWeightValue ?? 0) 
-                    : singleWindowOpData.DocNetValue ?? 0,
-                DocNetDateTime = singleWindowOpData.DocNetDateTime,
-                ReturnCauseId = singleWindowOpData.ReturnCauseId,
-                TrailerId = singleWindowOpData.TrailerId,
-                TrailerNumber = singleWindowOpData.HiredTrailerNumber,
-                TripTicketNumber = singleWindowOpData.TripTicketNumber,
-                TripTicketDateTime = singleWindowOpData.TripTicketDateTime,
-                WarrantSeries = singleWindowOpData.WarrantSeries,
-                WarrantNumber = singleWindowOpData.WarrantNumber,
-                WarrantDateTime = singleWindowOpData.WarrantDateTime,
-                WarrantManagerName = singleWindowOpData.WarrantManagerName,
-                StampList = singleWindowOpData.StampList,
-                RuleNumber = singleWindowOpData.RuleNumber,
-                TrailerGrossValue = singleWindowOpData.TrailerGrossValue ?? 0,
-                TrailerTareValue = singleWindowOpData.TrailerTareValue ?? 0,
-                IncomeDocGrossValue = singleWindowOpData.IncomeDocGrossValue ?? 0,
-                IncomeDocTareValue = singleWindowOpData.IncomeDocTareValue ?? 0,
-                IncomeDocDateTime = singleWindowOpData.IncomeDocDateTime,
-                Comments = $"{singleWindowOpData.Comments} {_opDataRepository.GetLastProcessed<LabFacelessOpData>(singleWindowOpData.TicketId)?.Comment}",
-                WeightDeltaValue = singleWindowOpData.WeightDeltaValue ?? 0,
-                SupplyType = singleWindowOpData.SupplyTransportTypeId,
-                LabolatoryOperatorId = singleWindowOpData.LabolatoryOperatorId,
-                GrossOperatorId = string.Empty,
-                ScaleInNumber = singleWindowOpData.ScaleInNumber,
-                ScaleOutNumber = singleWindowOpData.ScaleOutNumber,
-                BatchNumber = singleWindowOpData.BatchNumber,
-                TareOperatorId = string.Empty,
-                LoadingOperatorId = singleWindowOpData.LoadingOperatorId,
-                LoadOutDate = singleWindowOpData.LoadOutDateTime,
-                CarrierRouteId = singleWindowOpData.CarrierRouteId,
-                LabOilContentValue = singleWindowOpData.LabOilContentValue ?? 0,
-                InformationCarrier = singleWindowOpData.InformationCarrier,
-                WeightingStatistics = _opDataManager.GetEvents(singleWindowOpData.TicketId.Value, (int?) OpDataEventType.Weight)
-            };
-        }
-
         private void EditPostApiData(NodeDetails nodeDetailsDto)
         {
             _nodeRepository.ClearNodeProcessingMessage(nodeDetailsDto.Id);
@@ -817,51 +741,19 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             var useOneC = singleWindowOpData.SupplyCode != TechRoute.SupplyCode;
 
-            Infrastructure.Platform.ApiClient.OneC.OneCApiClient.UpdateDeliveryBillDto.Response response = null;
             if (useOneC)
             {
-                var request = GetUpdateDeliveryBillDtoRequest(singleWindowOpData);
-                request.Activity = 0; // Update data 
-
-                Logger.Info(JsonConvert.SerializeObject(request));
-            
                 try 
                 {
-                    var oneCApiClient = new OneCApiClient(GlobalConfigurationManager.OneCApiHost);
-                    response = oneCApiClient.PostUpdateDeliveryBill(request, 200);
+                    _oneCApiService.UpdateOneCData(singleWindowOpData.Id, false);
                 }
                 catch (Exception e) 
                 {
                     Logger.Error($"SingleWindow. EditPostApiData: Error while processing OneC api request: {e}");
                 }
             }
-           
-
-            if (useOneC && (response == null || response.ErrorCode != 0)) {
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    ProcessingMsgType.Error, $"Помилка WebAPI. {response?.ErrorMsg}"));
-
-                nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.EditTicketForm;
-            }
-            else
-            {
-                if (useOneC)
-                {
-                    _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                        ProcessingMsgType.Success,
-                        "WebAPI. Дані передано успішно")); 
-                }
-                else
-                {
-                    _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                        ProcessingMsgType.Warning,
-                        "Дані в 1С не були відправлені."));
-                }
-                
-
-                nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
-            }
-           
+      
+            nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
             UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
         }
 
@@ -927,30 +819,14 @@ namespace Gravitas.Core.Processor.OpRoutine
             
             Logger.Info($"SingleWindow. ClosePostApiData: Posted {cameraPostRequests.Count} on Id: {singleWindowOpData.DeliveryBillId}");
             
-            var request = GetUpdateDeliveryBillDtoRequest(singleWindowOpData);
-
-            request.Activity = 1; // Update data and CloseTicket
-            Logger.Info(JsonConvert.SerializeObject(request));
-
-            OneCApiClient.UpdateDeliveryBillDto.Response updateResponse = null;
+            
             try 
             {
-                var oneCApiClient = new OneCApiClient(GlobalConfigurationManager.OneCApiHost);
-                updateResponse = oneCApiClient.PostUpdateDeliveryBill(request, 200);
+                _oneCApiService.UpdateOneCData(singleWindowOpData.Id, true);
             }
             catch (Exception e) 
             {
                 Logger.Error($"SingleWindow. CreatePostApiData: Error while processing OneC api request: {e}");
-            }
-
-            if (updateResponse == null || updateResponse.ErrorCode != 0) 
-            {
-                _opRoutineManager.UpdateProcessingMessage(nodeDetailsDto.Id, new NodeProcessingMsgItem(
-                    ProcessingMsgType.Error,$"Помилка WebAPI. {updateResponse?.ErrorMsg}"));
-
-                nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.ShowTicketMenu;
-                UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
-                return;
             }
 
             var ticket = _context.Tickets.First(x => x.Id == nodeDetailsDto.Context.TicketId.Value);
@@ -998,7 +874,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                         CreateDate = image.DateTime.HasValue
                             ? image.DateTime.Value.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.InvariantCulture)
                             : string.Empty,
-                        ImageName = image.ImagePath.Split('\\').Last(),
+                        ImageName = image.ImagePath.Split('\\').Last()
                     };
 
 

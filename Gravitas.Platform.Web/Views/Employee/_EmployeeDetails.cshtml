@@ -4,10 +4,10 @@
 @if (Model.CardProcessingMsgError != null) {
     var alertClass = string.Empty;
     switch (Model.CardProcessingMsgError.TypeId) {
-        case NodeData.ProcessingMsg.Type.Error:
+        case (int)ProcessingMsgType.Error:
             alertClass = "alert-danger";
             break;
-        case NodeData.ProcessingMsg.Type.Success:
+        case (int)ProcessingMsgType.Success:
             alertClass = "alert-success";
             break;
     }

@@ -1,9 +1,8 @@
-﻿@using Gravitas.Platform.Web.ViewModel
-@using Gravitas.Platform.Web.ViewModel.ExternalData.LabClassifier.List
+﻿@using Gravitas.Platform.Web.ViewModel.ExternalData.LabClassifier.List
 @model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.LabFacelessOpDataComponentDetailVm
 
 @Html.HiddenFor(m => m.Id)
-@Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+@Html.HiddenFor(m => m.NodeId, new { id = "nodeId" })
 @Html.HiddenFor(m => m.StateId)
 @Html.HiddenFor(m => m.LabFacelessOpDataId)
 
@@ -22,7 +21,7 @@
             @Html.LabelFor(m => m.InfectionedClassId)
             @Html.DropDownListFor(
                 m => m.InfectionedClassId,
-                ((LabInfectionedСlassifierItemsVm) ViewBag.LabInfectionedСlassifierItems).Items.Select(d => new SelectListItem { Value = d.Id, Text = d.Name }),
+                ((LabInfectionedСlassifierItemsVm) ViewBag.LabInfectionedСlassifierItems).Items.Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name }),
                 "- - - Оберіть значення - - -",
                 new { @class = "form-control" })
         </div>

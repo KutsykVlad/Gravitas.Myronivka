@@ -635,9 +635,6 @@
     <Content Include="Views\OwnTransport\Get.cshtml" />
     <Content Include="Views\PackingTare\Add.cshtml" />
     <Content Include="Views\PackingTare\Get.cshtml" />
-    <Content Include="Views\PreRegisterCompanies\Get.cshtml" />
-    <Content Include="Views\PreRegisterProducts\Add.cshtml" />
-    <Content Include="Views\PreRegisterProducts\Get.cshtml" />
     <Content Include="Views\Routes\Constructor.cshtml" />
     <Content Include="Views\Routes\CreateMainRoute.cshtml" />
     <Content Include="Views\Routes\List.cshtml" />
@@ -652,7 +649,6 @@
     <Content Include="Views\TicketContainer\_LoadPointTicketContainerList.cshtml" />
     <Content Include="Views\TicketContainer\_MixedFeedGuideTicketContainerList.cshtml" />
     <Content Include="Views\TicketContainer\_MixedFeedLoadTicketContainerList.cshtml" />
-    <Content Include="Views\TicketContainer\_PreRegisterTicketContainerList.cshtml" />
     <Content Include="Views\TicketContainer\_RejectedLoadGuideTicketContainerList.cshtml" />
     <Content Include="Views\TicketContainer\_RejectedMixedFeedLoadTicketContainerList.cshtml" />
     <Content Include="Views\TicketContainer\_RejectedMixedFeedUnloadTicketContainerList.cshtml" />

@@ -59,7 +59,7 @@
                         <div class="col-6 form-group">
                             @Html.LabelFor(m => Model.ValueList[i].TargetId)
                             @Html.DropDownListFor(m => Model.ValueList[i].TargetId,
-                                ((LabDeviceResultTypeItems) ViewBag.LabDevResultTypeItems).Items.Select(e => new SelectListItem() {Value = e.Id, Text = e.Name}),
+                                ((LabDeviceResultTypeItems) ViewBag.LabDevResultTypeItems).Items.Select(e => new SelectListItem {Value = e.Id.ToString(), Text = e.Name}),
                                 new {@class = "form-control"})
                         </div>
                     </div>

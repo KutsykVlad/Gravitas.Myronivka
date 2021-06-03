@@ -8,6 +8,7 @@ using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Infrastructure.Common.Configuration;
+using Gravitas.Infrastructure.Platform.ApiClient;
 using Gravitas.Infrastructure.Platform.Manager.Camera;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
@@ -32,6 +33,7 @@ namespace Gravitas.Core.Processor.OpRoutine
         private readonly IRoutesManager _routesManager;
         private readonly IUserManager _userManager;
         private readonly ITicketRepository _ticketRepository;
+        private readonly IOneCApiService _oneCApiService;
 
         public SecurityOutOpRoutineProcessor(
             IOpRoutineManager opRoutineManager,
@@ -44,7 +46,8 @@ namespace Gravitas.Core.Processor.OpRoutine
             IRoutesManager routesManager,
             IRoutesInfrastructure routesInfrastructure,
             ICardManager cardManager, 
-            IUserManager userManager) :
+            IUserManager userManager, 
+            IOneCApiService oneCApiService) :
             base(opRoutineManager,
                 deviceManager,
                 deviceRepository,
@@ -57,6 +60,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             _routesInfrastructure = routesInfrastructure;
             _cardManager = cardManager;
             _userManager = userManager;
+            _oneCApiService = oneCApiService;
         }
 
         public override void Process()
@@ -231,11 +235,17 @@ namespace Gravitas.Core.Processor.OpRoutine
 
                 var next = _routesInfrastructure.GetNextNodes(nodeDetailsDto.Context.TicketId.Value);
 
-                if (next?.Count==1 && next.First()==nodeDetailsDto.Id)
+                if (next?.Count == 1 && next.First() == nodeDetailsDto.Id)
                 {
                     var ticket = _context.Tickets.First(x => x.Id == nodeDetailsDto.Context.TicketId.Value);
                     ticket.StatusId = TicketStatus.Completed;
                     _context.SaveChanges();
+
+                    var singleWindowId = _context.SingleWindowOpDatas
+                        .Where(x => x.TicketId == ticket.Id)
+                        .Select(x => x.Id)
+                        .First();
+                    _oneCApiService.UpdateOneCData(singleWindowId, false);
                 }
             }
 
@@ -265,9 +275,6 @@ namespace Gravitas.Core.Processor.OpRoutine
                 UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
                 return;
             }
-
-            //            if (nodeDto.Context?.OpDataId == null)
-            //                return;
 
             var iBarrierConfig = nodeDetailsDto.Config.DI[NodeData.Config.DI.Barrier];
             var oBarrierConfig = nodeDetailsDto.Config.DO[NodeData.Config.DO.Barrier];

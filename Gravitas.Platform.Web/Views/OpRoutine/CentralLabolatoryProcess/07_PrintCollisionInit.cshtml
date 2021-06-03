@@ -32,7 +32,7 @@
         </div>
         <div class="form-group col-lg-3">
             @Html.LabelFor(m => m.Manager1, new {@class = ""})
-            @Html.DropDownListFor(m => m.Manager1, Model.ManagerList.Select(d => new SelectListItem {Value = d.Key, Text = d.Value.ShortName}),
+            @Html.DropDownListFor(m => m.Manager1, Model.ManagerList.Select(d => new SelectListItem {Value = d.Key.ToString(), Text = d.Value.ShortName}),
                 "-- Виберіть менеджера --",
                 new {@class = "form-control mt-1", @id = "manager1", @onchange = "addManager(this)"})
         </div>
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="form-group col-lg-3">
-            @Html.DropDownListFor(m => m.Manager2, Model.ManagerList.Select(d => new SelectListItem {Value = d.Key, Text = d.Value.ShortName}),
+            @Html.DropDownListFor(m => m.Manager2, Model.ManagerList.Select(d => new SelectListItem {Value = d.Key.ToString(), Text = d.Value.ShortName}),
                 "-- Виберіть менеджера --",
                 new {@class = "form-control mt-1", @id = "manager2", @onchange = "addManager(this)"})
         </div>
@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="form-group col-lg-3">
-            @Html.DropDownListFor(m => m.Manager3, Model.ManagerList.Select(d => new SelectListItem {Value = d.Key, Text = d.Value.ShortName}),
+            @Html.DropDownListFor(m => m.Manager3, Model.ManagerList.Select(d => new SelectListItem {Value = d.Key.ToString(), Text = d.Value.ShortName}),
                 "-- Виберіть менеджера --",
                 new {@class = "form-control mt-1", @id = "manager3", @onchange="addManager(this)"})
         </div>

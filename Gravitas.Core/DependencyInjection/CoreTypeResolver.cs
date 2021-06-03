@@ -28,7 +28,9 @@ using Gravitas.DAL.Repository.Sms;
 using Gravitas.DAL.Repository.Ticket;
 using Gravitas.DAL.Repository.Traffic;
 using Gravitas.Infrastructure.Common.Configuration;
+using Gravitas.Infrastructure.Platform.ApiClient;
 using Gravitas.Infrastructure.Platform.ApiClient.Messages;
+using Gravitas.Infrastructure.Platform.ApiClient.OneC;
 using Gravitas.Infrastructure.Platform.ApiClient.SmsMobizon;
 using Gravitas.Infrastructure.Platform.DependencyInjection;
 using Gravitas.Infrastructure.Platform.Manager;
@@ -118,6 +120,8 @@ namespace Gravitas.Core.DependencyInjection
 			container.RegisterType<ILabFossManager, LabFossManager>();
 			container.RegisterType<ILabFossManager2, LabFossManager2>();
 			container.RegisterType<ILabInfrascanManager, LabInfrascanManager>();
+			container.RegisterType<IOneCApiService, OneCApiService>();
+			container.RegisterInstance(new OneCApiClient(GlobalConfigurationManager.OneCApiHost));
 
             container.RegisterInstance<IQueueManager>(new QueueManager(container.Resolve<INodeRepository>(),
 		        container.Resolve<IConnectManager>(), container.Resolve<IOpDataRepository>(),

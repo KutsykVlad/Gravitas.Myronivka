@@ -8,7 +8,7 @@
         <div class="col-sm-4">
             @Html.DropDownListFor(
                 m => m.ReasonsForRefundId,
-                Model.ReasonsForRefund.Select(d => new SelectListItem {Value = d.Id, Text = d.Name}),
+                Model.ReasonsForRefund.Select(d => new SelectListItem {Value = d.Id.ToString(), Text = d.Name}),
                 "-- Виберіть причину повернення --",
                 new {@class = "form-control mt-1", @onchange="allowReject()"})
         </div>

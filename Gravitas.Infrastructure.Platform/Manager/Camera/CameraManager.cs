@@ -63,9 +63,9 @@ namespace Gravitas.Infrastructure.Platform.Manager.Camera
             return TakeSnapshot(param.IpAddress, param.Login, param.Password, filename);
         }
 
-        public List<long> GetSnapshots(NodeConfig nodeConfig)
+        public List<int> GetSnapshots(NodeConfig nodeConfig)
         {
-            var cameraImagesList = new List<long>();
+            var cameraImagesList = new List<int>();
 
             if (nodeConfig == null) return null;
 

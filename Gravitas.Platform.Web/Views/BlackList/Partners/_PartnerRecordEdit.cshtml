@@ -9,7 +9,7 @@
                      <p>Ім'я партнера :</p>
                  </div>
                  <div class="col-10">
-                     @Html.DropDownListFor(model => model.Id, Model.Partners.Items.Select(d => new SelectListItem {Value = d.Id, Text = d.ShortName}), new
+                     @Html.DropDownListFor(model => model.Id, Model.Partners.Items.Select(d => new SelectListItem {Value = d.Id.ToString(), Text = d.ShortName}), new
                      {
                          @class = "form-control selectpicker",
                          data_show_subtext = "true",

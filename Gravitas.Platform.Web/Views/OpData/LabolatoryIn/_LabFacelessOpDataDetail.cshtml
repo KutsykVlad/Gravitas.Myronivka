@@ -1,5 +1,4 @@
-﻿@using Gravitas.Platform.Web.ViewModel
-@using Gravitas.Platform.Web.ViewModel.ExternalData.LabClassifier.List
+﻿@using Gravitas.Platform.Web.ViewModel.ExternalData.LabClassifier.List
 @model Gravitas.Platform.Web.ViewModel.LaboratoryInVms.LabFacelessOpDataDetailVm
 
 @using (Ajax.BeginForm("PrintAnalysisResult_Save", "LaboratoryIn", FormMethod.Post, null, new {@class = "col-12 form-group"}))
@@ -20,7 +19,7 @@
             @Html.LabelFor(m => m.ImpurityClassId)
             @Html.DropDownListFor(
                 m => m.ImpurityClassId,
-                ((LabImpurityСlassifierItemsVm) ViewBag.LabImpurityСlassifierItems).Items.Select(d => new SelectListItem {Value = d.Id, Text = d.Name}),
+                ((LabImpurityСlassifierItemsVm) ViewBag.LabImpurityСlassifierItems).Items.Select(d => new SelectListItem {Value = d.Id.ToString(), Text = d.Name}),
                 "- - - Оберіть значення - - -",
                 new {@class = "form-control"})
             @Html.ValidationMessageFor(model => model.ImpurityClassId, "", new { @class = "text-danger" })
@@ -34,7 +33,7 @@
             @Html.LabelFor(m => m.HumidityClassId)
             @Html.DropDownListFor(
                 m => m.HumidityClassId,
-                ((LabHumidityСlassifierItemsVm) ViewBag.LabHumidityСlassifierItems).Items.Select(d => new SelectListItem {Value = d.Id, Text = d.Name}),
+                ((LabHumidityСlassifierItemsVm) ViewBag.LabHumidityСlassifierItems).Items.Select(d => new SelectListItem {Value = d.Id.ToString(), Text = d.Name}),
                 "- - - Оберіть значення - - -",
                 new {@class = "form-control"})
             @Html.ValidationMessageFor(model => model.HumidityClassId, "", new { @class = "text-danger" })
@@ -48,7 +47,7 @@
              @Html.LabelFor(m => m.IsEffectiveClassId)
              @Html.DropDownListFor(
                  m => m.IsEffectiveClassId,
-                 ((LabEffectiveClassifierItemsVm) ViewBag.LabEffectiveСlassifierItems).Items.Select(d => new SelectListItem {Value = d.Id, Text = d.Name}),
+                 ((LabEffectiveClassifierItemsVm) ViewBag.LabEffectiveСlassifierItems).Items.Select(d => new SelectListItem {Value = d.Id.ToString(), Text = d.Name}),
                  "Без перерахунку",
                  new {@class = "form-control disabled", @onchange="EffectiveValueCalc()"})
          </div>
