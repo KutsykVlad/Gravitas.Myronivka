@@ -56,15 +56,9 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 GroupAlternativeNodes = new List<GroupAlternativeNodes>(),
                 TicketContainerId = ticket.TicketContainerId,
                 ActiveTicketId = ticket.Id,
-                CurrentNode = (int) NodeIdValue.SingleWindowFirst
+                CurrentNode = (int) NodeIdValue.SingleWindowFirstType1
             };
 
-            if (_nodeRepository.GetNodeDto((int?) NodeIdValue.SingleWindowSecond).Context.TicketContainerId == ticket.TicketContainerId)
-                result.CurrentNode = (int) NodeIdValue.SingleWindowSecond;
-                    
-            if (_nodeRepository.GetNodeDto((int?) NodeIdValue.SingleWindowThird).Context.TicketContainerId == ticket.TicketContainerId)
-                result.CurrentNode = (int) NodeIdValue.SingleWindowThird;
-            
             var routeId = ticket.RouteTemplateId;
             if (routeId == null)
             {

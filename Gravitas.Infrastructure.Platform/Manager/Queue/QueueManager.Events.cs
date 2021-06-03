@@ -75,14 +75,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 {
                     var record = new TrafficRecord
                     {
-                        TicketContainerId = ticket.TicketContainerId, CurrentNodeId = (int) NodeIdValue.SingleWindowFirst, EntranceTime = DateTime.Now
+                        TicketContainerId = ticket.TicketContainerId, CurrentNodeId = (int) NodeIdValue.SingleWindowFirstType1, EntranceTime = DateTime.Now
                     };
-
-                    if (_nodeRepository.GetNodeDto((int?) NodeIdValue.SingleWindowSecond).Context.TicketContainerId == ticket.TicketContainerId)
-                        record.CurrentNodeId = (int) NodeIdValue.SingleWindowSecond;
-                    
-                    if (_nodeRepository.GetNodeDto((int?) NodeIdValue.SingleWindowThird).Context.TicketContainerId == ticket.TicketContainerId)
-                        record.CurrentNodeId = (int) NodeIdValue.SingleWindowThird;
 
                     _trafficRepository.OnNodeArrival(record);
                 }

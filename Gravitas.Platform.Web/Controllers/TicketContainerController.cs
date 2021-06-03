@@ -24,18 +24,15 @@ namespace Gravitas.Platform.Web.Controllers
     {
         private readonly IOpDataRepository _opDataRepository;
         private readonly ITicketContainerWebManager _ticketContainerRegistryManager;
-        private readonly ITicketWebManager _ticketManager;
         private readonly ITicketRepository _ticketRepository;
         private readonly GravitasDbContext _context;
 
         public TicketContainerController(
-            ITicketWebManager ticketManager,
             ITicketContainerWebManager ticketContainerRegistryManager,
             IOpDataRepository opDataRepository,
             ITicketRepository ticketRepository,
             GravitasDbContext context)
         {
-            _ticketManager = ticketManager;
             _ticketContainerRegistryManager = ticketContainerRegistryManager;
             _opDataRepository = opDataRepository;
             _ticketRepository = ticketRepository;
@@ -47,39 +44,19 @@ namespace Gravitas.Platform.Web.Controllers
         {
             return PartialView("_GetRegistry", vm);
         }
-        
-        public ActionResult TicketList(int? id)
-        {
-            return id == null
-                ? (ActionResult) new HttpStatusCodeResult(HttpStatusCode.BadRequest)
-                : PartialView("_TicketList", _ticketManager.GetTicketItemsVm(id.Value));
-        }
 
         #region SingleWindow
 
-        private static readonly Dictionary<int, int> NodeFilters = new Dictionary<int, int>
+        private static readonly Dictionary<int, int> NodeFilters = new()
         {
-            {(int)NodeIdValue.SingleWindowFirst, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowSecond, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowThird, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowReadonly1, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowReadonly2, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowReadonly3, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowReadonly4, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowReadonly5, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowReadonly6, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowReadonly7, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowReadonly8, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowReadonly9, (int)SingleWindowRegisterFilter.InQueue},
-            {(int)NodeIdValue.SingleWindowReadonly10, (int)SingleWindowRegisterFilter.InQueue}
+            {(int)NodeIdValue.SingleWindowFirstType1, (int)SingleWindowRegisterFilter.All},
+            {(int)NodeIdValue.SingleWindowFirstType2, (int)SingleWindowRegisterFilter.All}
         };
 
-        private readonly List<SelectListItem> _filterItems = new List<SelectListItem>
+        private readonly List<SelectListItem> _filterItems = new()
         {
             new SelectListItem {Text = @"Всі", Value = ((int) SingleWindowRegisterFilter.All).ToString()},
-            new SelectListItem {Text = @"В черзі", Value = ((int) SingleWindowRegisterFilter.InQueue).ToString()},
-            new SelectListItem {Text = @"На території", Value = ((int) SingleWindowRegisterFilter.Inside).ToString()},
-            new SelectListItem {Text = @"Пройдений маршрут", Value = ((int) SingleWindowRegisterFilter.Completed).ToString()}
+            new SelectListItem {Text = @"Тільки власні", Value = ((int) SingleWindowRegisterFilter.OwnOnly).ToString()}
         };
         
         [HttpPost]
@@ -104,7 +81,7 @@ namespace Gravitas.Platform.Web.Controllers
         public void SingleWindowRegistryFilter(int selectedFilterId, int nodeId)
         {
             NodeFilters[nodeId] = selectedFilterId;
-            SignalRInvoke.ReloadHubGroup(nodeId);
+            // SignalRInvoke.ReloadHubGroup(nodeId);
         }
         
         #endregion
@@ -475,7 +452,7 @@ namespace Gravitas.Platform.Web.Controllers
         {
             var filterId = NodeFilters[nodeId];
             var result = new List<int>();
-            
+
             var tickets = 
                 (from card in _context.Cards
                     join ticket in _context.Tickets on card.TicketContainerId equals ticket.TicketContainerId 
@@ -485,14 +462,11 @@ namespace Gravitas.Platform.Web.Controllers
                                           || ticket.StatusId == TicketStatus.New))
                     select ticket)
                 .GroupBy(x => x.TicketContainerId)
-                .Select(x => x.OrderByDescending(z => z.StatusId)
-                    .FirstOrDefault())
+                .Select(x => x.OrderByDescending(z => z.StatusId).FirstOrDefault())
                 .ToList();
 
-            foreach (var ticket in tickets)
+            foreach (var ticket in tickets.Where(ticket => ticket != null))
             {
-                if (ticket == null) continue;
-                
                 if (filterId == 0)
                 {
                     result.Add(ticket.TicketContainerId);
@@ -500,25 +474,15 @@ namespace Gravitas.Platform.Web.Controllers
                 }
 
                 var opData = _opDataRepository.GetLastOpData(ticket.Id);
+                var singleWindowNodeGroup = _context.SingleWindowOpDatas
+                    .Where(x => x.TicketId == ticket.Id)
+                    .Select(x => x.Node.NodeGroup)
+                    .First();
 
                 switch (filterId)
                 {
-                    case (int)SingleWindowRegisterFilter.InQueue:
-                        if (opData.Node.Id == (long) NodeIdValue.SingleWindowFirst 
-                            || opData.Node.Id == (long) NodeIdValue.SingleWindowSecond 
-                            || opData.Node.Id == (long) NodeIdValue.SingleWindowThird) result.Add(ticket.TicketContainerId);
-                        break;
-                    case (int)SingleWindowRegisterFilter.Inside:
-                        if (opData.Node.Id != (long) NodeIdValue.SingleWindowFirst 
-                            && opData.Node.Id != (long) NodeIdValue.SingleWindowSecond
-                            && opData.Node.Id != (long) NodeIdValue.SingleWindowThird
-                            && opData.Node.Id != (long) NodeIdValue.SecurityOut2
-                            && opData.Node.Id != (long) NodeIdValue.SecurityOut1) result.Add(ticket.TicketContainerId);
-                        break;
-                    case (int)SingleWindowRegisterFilter.Completed:
-                        if (ticket.StatusId == TicketStatus.Closed 
-                            || opData.Node.Id == (long) NodeIdValue.SecurityOut2 
-                            || opData.Node.Id == (long) NodeIdValue.SecurityOut1) result.Add(ticket.TicketContainerId);
+                    case (int)SingleWindowRegisterFilter.OwnOnly:
+                        if (opData.Node.NodeGroup == singleWindowNodeGroup) result.Add(ticket.TicketContainerId);
                         break;
                 }
             }

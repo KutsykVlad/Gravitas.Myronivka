@@ -117,10 +117,18 @@ namespace Gravitas.Infrastructure.Platform.ApiClient
             
             Logger.Info(JsonConvert.SerializeObject(request));
 
-            Task.Run(() =>
+            if (!closeDeliveryBill)
+            {
+                // update in background
+                Task.Run(() =>
+                {
+                    _client.PostUpdateDeliveryBill(request, 200);
+                }); 
+            }
+            else
             {
                 _client.PostUpdateDeliveryBill(request, 200);
-            });
+            }
         }
     }
 }

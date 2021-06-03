@@ -3,19 +3,8 @@
     public enum NodeIdValue
     {
         // Single window
-        SingleWindowFirst = 91,
-        SingleWindowSecond = 92,
-        SingleWindowThird = 93,
-        SingleWindowReadonly1 = 99,
-        SingleWindowReadonly2 = 991,
-        SingleWindowReadonly3 = 992,
-        SingleWindowReadonly4 = 993,
-        SingleWindowReadonly5 = 994,
-        SingleWindowReadonly6 = 995,
-        SingleWindowReadonly7 = 996,
-        SingleWindowReadonly8 = 997,
-        SingleWindowReadonly9 = 998,
-        SingleWindowReadonly10 = 999,
+        SingleWindowFirstType1 = 91,
+        SingleWindowFirstType2 = 92,
 
         // Security
         SecurityIn1 = 310,

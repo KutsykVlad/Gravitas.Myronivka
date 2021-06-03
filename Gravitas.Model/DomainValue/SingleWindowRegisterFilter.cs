@@ -4,8 +4,6 @@ namespace Gravitas.Model.DomainValue
     {
         None = 0,
         All,
-        InQueue,
-        Inside,
-        Completed
+        OwnOnly
     }
 }

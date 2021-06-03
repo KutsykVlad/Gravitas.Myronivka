@@ -54,9 +54,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 var opData = _opDataRepository.GetLastOpData(ticket.Id);
                 if (opData == null) continue;
 
-                if (opData.Node.Id == (int) NodeIdValue.SingleWindowFirst ||
-                    opData.Node.Id == (int) NodeIdValue.SingleWindowSecond ||
-                    opData.Node.Id == (int) NodeIdValue.SingleWindowThird ||
+                if (opData.Node.Id == (int) NodeIdValue.SingleWindowFirstType1 ||
                     (opData.Node.Id == (int) NodeIdValue.MixedFeedGuide && ticket.RouteItemIndex == 0))
                 {
                     var registerRecord = _nodeRepository.GetSingleOrDefault<QueueRegister, int>(item => item.TicketContainerId == ticket.TicketContainerId && item.IsAllowedToEnterTerritory);
@@ -92,7 +90,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 _inTirs.Add(route);
                 AddLoad(route);
 
-                if (opData.Node.Id != (int) NodeIdValue.SingleWindowFirst || opData.Node.Id != (int) NodeIdValue.SingleWindowSecond || opData.Node.Id != (int) NodeIdValue.SingleWindowThird)
+                if (opData.Node.Id != (int) NodeIdValue.SingleWindowFirstType1)
                     if (route.TicketIds.Any())
                     {
                         OnNodeArrival(ticket.Id, opData.Node.Id);

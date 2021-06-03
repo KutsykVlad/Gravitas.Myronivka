@@ -2,7 +2,8 @@ namespace Gravitas.Model.DomainValue
 {
     public enum NodeGroup
     { 
-        SingleWindow = 1,
+        SingleWindowTypeOne = 1,
+        SingleWindowTypeTwo = 2,
         Security = 3,
         Laboratory = 5,
         Unload = 81,
