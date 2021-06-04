@@ -89,7 +89,7 @@ namespace Gravitas.Platform.Web.Controllers
             var vm = new SingleWindowInProgressTicketContainerListVm
             {
                 DetailActionLink = detailActionLink,
-                Items = resultItems
+                Items = resultItems.GroupBy(x => x.BaseData.RouteName)
             };
 
             return PartialView("_SingleWindowInProgressTicketContainerList", vm);
