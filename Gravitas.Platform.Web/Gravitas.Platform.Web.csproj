@@ -90,6 +90,7 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\OpCameraImageController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
+    <Compile Include="Controllers\Routine\DriverCheckInController.cs" />
     <Compile Include="Controllers\Routine\LaboratoryInController.cs" />
     <Compile Include="Controllers\Routine\LoadPointGuide2Controller.cs" />
     <Compile Include="Controllers\Routine\LoadPointGuideController.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Manager\MixedFeedManage\IMixedFeedWebManager.cs" />
     <Compile Include="Manager\MixedFeedManage\MixedFeedWebManager.cs" />
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.CentralLabolatory.cs" />
+    <Compile Include="Manager\OpRoutine\OpRoutineWebManager.DriverCheckIn.cs" />
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.LabolatoryIn.cs" />
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.LoadPointGuide.cs" />
     <Compile Include="Manager\OpRoutine\OpRoutineWebManager.LoadCheckPoint.cs" />
@@ -301,6 +303,10 @@
     <Compile Include="ViewModel\OpRoutine\CentralLabolatorySamples\01_IdleVm.cs" />
     <Compile Include="ViewModel\OpRoutine\CentralLabolatorySamples\03_CentralLabSampleAddOpVisa.cs" />
     <Compile Include="ViewModel\OpRoutine\CentralLabolatorySamples\02_CentralLabSampleBindTray.cs" />
+    <Compile Include="ViewModel\OpRoutine\DriverCheckIn\01_IdleVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\DriverCheckIn\02_AddDriverVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\DriverCheckIn\03_DriverInfoCheckVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\DriverCheckIn\04_RegistrationConfirmVm.cs" />
     <Compile Include="ViewModel\OpRoutine\LabolatoryIn\24_PrintCollisionInitVm.cs" />
     <Compile Include="ViewModel\OpRoutine\LabolatoryIn\23_PrintDataDiscloseVm.cs" />
     <Compile Include="ViewModel\OpRoutine\LabolatoryIn\25_PrintCollisionManage.cs" />
@@ -597,6 +603,10 @@
     <Content Include="Views\OpRoutine\CentralLabolatoryProcess\04_PrintLabel.cshtml" />
     <Content Include="Views\OpRoutine\CentralLabolatoryProcess\06_PrintCollisionStartVisa.cshtml" />
     <Content Include="Views\OpRoutine\CentralLabolatoryProcess\08_PrintCollisionInitVisa.cshtml" />
+    <Content Include="Views\OpRoutine\DriverCheckIn\01_Idle.cshtml" />
+    <Content Include="Views\OpRoutine\DriverCheckIn\02_AddDriver.cshtml" />
+    <Content Include="Views\OpRoutine\DriverCheckIn\03_DriverInfoCheck.cshtml" />
+    <Content Include="Views\OpRoutine\DriverCheckIn\04_RegistrationConfirm.cshtml" />
     <Content Include="Views\OpRoutine\LabolatoryIn\23_PrintAnalysisAddOpVisa.cshtml" />
     <Content Include="Views\OpRoutine\LabolatoryIn\26_PrintCollisionManage.cshtml" />
     <Content Include="Views\OpRoutine\LabolatoryIn\28_PrintLaboratoryProtocol.cshtml" />

@@ -197,15 +197,6 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine {
 		LoadPointGuide2Vms.BindDestPointVm LoadPointGuide2_BindLoadPoint_GetVm(int nodeId);
 		bool LoadPointGuide2_BindLoadPoint_Back(int nodeId);
 		bool LoadPointGuide2_BindLoadPoint_Next(LoadPointGuide2Vms.BindDestPointVm vm);
-		// void LoadPointGuide2_AddOpVisa_Back(int nodeId);
-		
-		// LoadCheckPoint
-//		void LoadCheckPoint_GetTareValue_Confirm(LoadCheckPointVms.GetTareValue vm);
-//		void LoadCheckPoint_AddOperationVisa_Back(int nodeId);
-//		LoadCheckPointVms.GetTareValue LoadCheckPoint_GetTareValue_GetVm(int nodeId);
-		
-		// UnloadCheckPoint
-//		void UnloadCheckPoint_AddOperationVisa_Back(int nodeId);
 		
 		// MixedFeedGuide
 		bool MixedFeedGuide_Idle_SelectTicketContainer(int nodeId, int ticketContainerId);
@@ -228,5 +219,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine {
 		void MixedFeedLoad_ConfirmOperation_Reject(int nodeId);
 		void MixedFeedLoad_AddChangeStateVisa_Back(int nodeId);
 		void MixedFeedLoad_Idle_ChangeState(int nodeId);
+		
+		// DriverCheckIn
+		void DriverCheckIn_Idle_CheckIn(int nodeId);
+		void DriverCheckIn_CheckIn_Idle(int nodeId);
+		void DriverCheckIn_CheckIn_DriverInfoCheck(int nodeId);
+		void DriverCheckIn_DriverInfoCheck_RegistrationConfirm(int nodeId);
 	}
 }

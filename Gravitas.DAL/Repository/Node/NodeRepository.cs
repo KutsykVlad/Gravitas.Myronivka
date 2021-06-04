@@ -66,12 +66,6 @@ namespace Gravitas.DAL.Repository.Node
 
         public bool UpdateNodeContext(int nodeId, NodeContext newContext)
         {
-            var nodeDto = GetNodeDto(nodeId);
-
-
-            if (nodeDto.Context.OpRoutineStateId != newContext?.OpRoutineStateId)
-                return false;
-
             if (newContext != null)
                 newContext.LastStateChangeTime = DateTime.Now;
 

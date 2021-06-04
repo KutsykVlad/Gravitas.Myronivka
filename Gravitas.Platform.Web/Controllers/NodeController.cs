@@ -201,6 +201,11 @@ namespace Gravitas.Platform.Web.Controllers
                     actionName = GetActionName(typeof(OpRoutine.LoadPointGuide2.State),
                         nodeDto.Context.OpRoutineStateId.Value);
                     break;
+                case OpRoutine.DriverCheckIn.Id:
+                    controllerName = GetControllerName(typeof(OpRoutine.DriverCheckIn));
+                    actionName = GetActionName(typeof(OpRoutine.DriverCheckIn.State),
+                        nodeDto.Context.OpRoutineStateId.Value);
+                    break;
             }
 
             ViewBag.ActionName = actionName;
