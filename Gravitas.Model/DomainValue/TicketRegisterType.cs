@@ -19,6 +19,7 @@ namespace Gravitas.Model.DomainValue
         LoadPointsType2,
         UnloadGuide,
         SelfServiceLaboratory,
-        UnloadQueue
+        UnloadQueue,
+        DriverCheckIn
     }
 }

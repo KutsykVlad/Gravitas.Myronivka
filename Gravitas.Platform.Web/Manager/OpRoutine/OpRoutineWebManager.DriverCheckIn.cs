@@ -57,7 +57,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
             var dataModel = new DriverCheckInOpData
             {
-                QueueNumber = _context.DriverCheckInOpDatas.Count() + 1,
+                OrderNumber = _context.DriverCheckInOpDatas.Count() + 1,
                 CheckInDateTime = DateTime.Now,
                 DriverPhotoId = _context.DriverPhotos.FirstOrDefault(x => x.PhoneNumber == model.PhoneNumber)?.Id,
                 PhoneNumber = model.PhoneNumber
@@ -141,7 +141,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 .Select(x => new DriverCheckInVms.RegistrationConfirmVm
                 {
                     NodeId = nodeId,
-                    OrderNumber = x.QueueNumber
+                    OrderNumber = x.OrderNumber
                 })
                 .FirstOrDefault();
         }

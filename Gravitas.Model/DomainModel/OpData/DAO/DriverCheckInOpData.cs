@@ -7,7 +7,7 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
     {
         [Key]
         public int Id { get; set; }
-        public int QueueNumber { get; set; }
+        public int OrderNumber { get; set; }
         public string PhoneNumber { get; set; }
         public string Driver { get; set; }
         public string Truck { get; set; }

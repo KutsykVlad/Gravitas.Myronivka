@@ -319,7 +319,6 @@ namespace Gravitas.Platform.Web.ViewModel {
 			public List<InformEmployeeVm> OnRegisterInformEmployees { get; set; }
 			[DisplayName("Договір перевізника")]
 			public string ContractCarrier { get; set; }
-			public bool IsPreRegistered { get; set; }
 
             public ProductContentListVm ProductContentList { get; set; }
 		}

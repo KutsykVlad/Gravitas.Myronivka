@@ -435,6 +435,8 @@
     <Compile Include="ViewModel\TicketContainer\GetRegistryVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\CentralLabTicketContainerItemVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\CentralLabTicketContainerListVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\DriverCheckInItemVm.cs" />
+    <Compile Include="ViewModel\TicketContainer\List\DriverCheckInListVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\LabFacelessTicketContainerListVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\LoadGuideTicketContainerItemVm.cs" />
     <Compile Include="ViewModel\TicketContainer\List\LoadGuideTicketContainerListVm.cs" />
@@ -658,6 +660,7 @@
     <Content Include="Views\Shared\_LayoutFullWidth.cshtml" />
     <Content Include="Views\SingleWindow\ShowTicketMenu_GetLabCertificate.cshtml" />
     <Content Include="Views\SingleWindow\ShowTicketMenu_PrintDoc.cshtml" />
+    <Content Include="Views\TicketContainer\_DriverCheckInList.cshtml" />
     <Content Include="Views\TicketContainer\_GetRegistry.cshtml" />
     <Content Include="Views\TicketContainer\_CentralLabTicketContainerList.cshtml" />
     <Content Include="Views\TicketContainer\_LoadGuideTicketContainerList.cshtml" />

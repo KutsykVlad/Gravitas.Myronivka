@@ -59,6 +59,9 @@
         case TicketRegisterType.UnloadQueue:
             actionName = nameof(TicketContainerController.UnloadQueueContainerList);
             break;
+        case TicketRegisterType.DriverCheckIn:
+            actionName = nameof(TicketContainerController.DriverCheckInList);
+            break;
         default:
             throw new ArgumentOutOfRangeException();
     }

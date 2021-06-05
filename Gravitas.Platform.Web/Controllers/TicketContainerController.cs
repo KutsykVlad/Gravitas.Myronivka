@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Gravitas.DAL.DbContext;
+using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.Ticket;
 using Gravitas.Model.DomainModel.OpData.DAO;
@@ -23,17 +24,20 @@ namespace Gravitas.Platform.Web.Controllers
         private readonly ITicketContainerWebManager _ticketContainerRegistryManager;
         private readonly ITicketRepository _ticketRepository;
         private readonly GravitasDbContext _context;
+        private readonly IExternalDataRepository _externalDataRepository;
 
         public TicketContainerController(
             ITicketContainerWebManager ticketContainerRegistryManager,
             IOpDataRepository opDataRepository,
             ITicketRepository ticketRepository,
-            GravitasDbContext context)
+            GravitasDbContext context, 
+            IExternalDataRepository externalDataRepository)
         {
             _ticketContainerRegistryManager = ticketContainerRegistryManager;
             _opDataRepository = opDataRepository;
             _ticketRepository = ticketRepository;
             _context = context;
+            _externalDataRepository = externalDataRepository;
         }
 
 
@@ -42,6 +46,40 @@ namespace Gravitas.Platform.Web.Controllers
             return PartialView("_GetRegistry", vm);
         }
 
+        #region DriverCheckIn
+        
+        [HttpPost]
+        public ActionResult DriverCheckInList(ActionLinkVm detailActionLink)
+        {
+            if (!detailActionLink.NodeId.HasValue) return new HttpStatusCodeResult(400);
+            var items = _context.DriverCheckInOpDatas
+                .AsEnumerable()
+                .Select(x => new DriverCheckInItemVm
+                {
+                    CardNumber = x.TicketId.HasValue
+                        ? _context.Cards.FirstOrDefault(z => z.TicketContainerId == x.Ticket.TicketContainerId).No.ToString() 
+                        : string.Empty,
+                    HasTicket = x.TicketId.HasValue,
+                    OrderNumber = x.OrderNumber,
+                    Product = x.TicketId.HasValue
+                        ? _externalDataRepository.GetProductDetail(_opDataRepository.GetLastOpData<SingleWindowOpData>(x.TicketId, null).ProductId.Value).ShortName
+                        : string.Empty,
+                    PhoneNumber = x.PhoneNumber,
+                    Truck = x.Truck,
+                    Trailer = x.Trailer
+                })
+                .ToList();
+
+            var vm = new DriverCheckInListVm
+            {
+                DetailActionLink = detailActionLink,
+                Items = items
+            };
+
+            return PartialView("_DriverCheckInList", vm);
+        }
+        #endregion
+        
         #region SingleWindow
 
         [HttpPost]
