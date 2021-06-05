@@ -1,6 +1,7 @@
 ﻿using System;
 using Gravitas.Platform.Web.ViewModel;
 using Gravitas.Platform.Web.ViewModel.MixedFeedManage;
+using Gravitas.Platform.Web.ViewModel.OpRoutine.DriverCheckIn;
 using Gravitas.Platform.Web.ViewModel.OpRoutine.LoadPointGuide2;
 using Gravitas.Platform.Web.ViewModel.OpRoutine.MixedFeedGuide;
 using Gravitas.Platform.Web.ViewModel.OpRoutine.UnloadPointGuide;
@@ -225,5 +226,9 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine {
 		void DriverCheckIn_CheckIn_Idle(int nodeId);
 		void DriverCheckIn_CheckIn_DriverInfoCheck(int nodeId);
 		void DriverCheckIn_DriverInfoCheck_RegistrationConfirm(int nodeId);
+		void DriverCheckIn_AddDriver(DriverCheckInVms.AddDriverVm model);
+		DriverCheckInVms.DriverInfoCheckVm GetDriverInfoCheckModel(int nodeId);
+		void DriverCheckIn_DriverInfoCheck(DriverCheckInVms.DriverInfoCheckVm model);
+		DriverCheckInVms.RegistrationConfirmVm GetRegistrationConfirm(int nodeId);
 	}
 }

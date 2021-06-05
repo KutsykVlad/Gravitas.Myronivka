@@ -2,6 +2,7 @@ using System.Data.Entity;
 using Gravitas.Model.DomainModel.BlackList.DAO;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Device.DAO;
+using Gravitas.Model.DomainModel.DriverPhoto.DAO;
 using Gravitas.Model.DomainModel.EmployeeRoles.DAO;
 using Gravitas.Model.DomainModel.ExternalData.AcceptancePoint.DAO;
 using Gravitas.Model.DomainModel.ExternalData.Budget.DAO;
@@ -48,6 +49,8 @@ namespace Gravitas.DAL.DbContext
         }
 
         public DbSet<Settings> Settings { get; set; }
+        public DbSet<DriverCheckInOpData> DriverCheckInOpDatas { get; set; }
+        public DbSet<DriverPhoto> DriverPhotos { get; set; }
         public DbSet<ExternalUser> ExternalUsers { get; set; }
         public DbSet<DriversBlackListRecord> DriversBlackListRecords { get; set; }
         public DbSet<TransportBlackListRecord> TransportBlackListRecords { get; set; }

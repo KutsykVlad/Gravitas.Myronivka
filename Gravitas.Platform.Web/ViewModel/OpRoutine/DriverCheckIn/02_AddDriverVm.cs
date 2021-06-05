@@ -5,6 +5,7 @@
         public class AddDriverVm
         {
             public int NodeId { get; set; }
+            public string PhoneNumber { get; set; }
         }
     }
 }

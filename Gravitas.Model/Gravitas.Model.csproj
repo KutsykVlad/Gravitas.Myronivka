@@ -95,6 +95,7 @@
     <Compile Include="DomainModel\Device\TDO\DeviceState\VkModuleSocket2State.cs" />
     <Compile Include="DomainModel\Device\TDO\DeviceState\Json\RfidObidRwInJsonState.cs" />
     <Compile Include="DomainModel\Device\TDO\DeviceParam\RfidObidRwParam.cs" />
+    <Compile Include="DomainModel\DriverPhoto\DAO\DriverPhoto.cs" />
     <Compile Include="DomainModel\EmployeeRoles\DAO\RoleAssignment.cs" />
     <Compile Include="DomainModel\EmployeeRoles\DAO\EmployeeRole.cs" />
     <Compile Include="DomainModel\EmployeeRoles\DAO\Role.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="DomainModel\Node\TDO\Json\NodeProcessingMsgItem.cs" />
     <Compile Include="DomainModel\Node\TDO\Json\NodeProcessingMsg.cs" />
     <Compile Include="DomainModel\Node\TDO\Json\NodeContext.cs" />
+    <Compile Include="DomainModel\OpData\DAO\DriverCheckInOpData.cs" />
     <Compile Include="DomainModel\OpData\DAO\SecurityCheckReviewOpData.cs" />
     <Compile Include="DomainModel\PhoneInformTicketAssignment\DAO\PhoneInformTicketAssignment.cs" />
     <Compile Include="DomainModel\OpDataEvent\DAO\OpDataEvent.cs" />

@@ -34,6 +34,11 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             return PartialView("../OpRoutine/DriverCheckIn/02_AddDriver", vm);
         }
         
+        public void DriverCheckIn_AddDriver(DriverCheckInVms.AddDriverVm model)
+        {
+            _opRoutineWebManager.DriverCheckIn_AddDriver(model);
+        }
+        
         public void CheckIn_Return(int nodeId)
         {
             _opRoutineWebManager.DriverCheckIn_CheckIn_Idle(nodeId);
@@ -43,15 +48,20 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         [ChildActionOnly]
         public ActionResult DriverInfoCheck(int nodeId)
         {
-            var vm = new DriverCheckInVms.DriverInfoCheckVm { NodeId = nodeId };
+            var vm = _opRoutineWebManager.GetDriverInfoCheckModel(nodeId);
             return PartialView("../OpRoutine/DriverCheckIn/03_DriverInfoCheck", vm);
+        }
+        
+        public void DriverCheckIn_DriverInfoCheck(DriverCheckInVms.DriverInfoCheckVm model)
+        {
+            _opRoutineWebManager.DriverCheckIn_DriverInfoCheck(model);
         }
         
         [HttpGet]
         [ChildActionOnly]
         public ActionResult RegistrationConfirm(int nodeId)
         {
-            var vm = new DriverCheckInVms.RegistrationConfirmVm { NodeId = nodeId };
+            var vm = _opRoutineWebManager.GetRegistrationConfirm(nodeId);
             return PartialView("../OpRoutine/DriverCheckIn/04_RegistrationConfirm", vm);
         }
 
