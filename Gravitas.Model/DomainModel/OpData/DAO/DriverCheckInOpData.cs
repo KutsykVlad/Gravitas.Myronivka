@@ -14,7 +14,9 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public string Trailer { get; set; }
         public int? DriverPhotoId { get; set; }
         public DateTime? CheckInDateTime { get; set; }
+        public int? TicketId { get; set; }
         
         public DriverPhoto.DAO.DriverPhoto DriverPhoto { get; set; }
+        public Ticket.DAO.Ticket Ticket { get; set; }
     }
 }

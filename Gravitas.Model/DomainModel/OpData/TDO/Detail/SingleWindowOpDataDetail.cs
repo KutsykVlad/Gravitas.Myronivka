@@ -121,7 +121,6 @@ namespace Gravitas.Model.DomainModel.OpData.TDO.Detail
         public Guid? CarrierId { get; set; }
         public string BarCode { get; set; }
         public string ContractCarrier { get; set; }
-        public bool IsPreRegistered { get; set; }
 
         public ProductContentList ProductContentList { get; set; }
     }

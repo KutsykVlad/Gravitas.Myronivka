@@ -138,7 +138,6 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
             dao.InformationCarrier = dto.InformationCarrier;
             dao.CustomPartnerName = dto.CustomPartnerName;
             dao.CarrierId = dto.CarrierId;
-            dao.IsPreRegistered = dto.IsPreRegistered;
             dao.OrganizationTitle = dto.OrganizationName;
             dao.ReceiverTitle = dto.ReceiverName;
             dao.ProductTitle = dto.ProductName;

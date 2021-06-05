@@ -102,6 +102,6 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public string HiredTrailerNumber { get; set; }
         public Guid? ContractCarrierId { get; set; }
         public double? SenderWeight { get; set; }
-        public bool IsPreRegistered { get; set; }
+        public int DriverPhotoId { get; set; }
     }
 }

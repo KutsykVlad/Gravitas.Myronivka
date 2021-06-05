@@ -648,15 +648,6 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 routeTemplate = _context.RouteTemplates.First(x => x.Id == ticket.RouteTemplateId.Value);
             }
 
-            var singleWindowOpData = _context.SingleWindowOpDatas.First(x => x.TicketId == ticketId);
-
-            if (singleWindowOpData.IsPreRegistered)
-            {
-                _opRoutineManager.UpdateProcessingMessage(nodeId,
-                    new NodeProcessingMsgItem(ProcessingMsgType.Warning,
-                        @"Увага! Маршрут був вибраний при попередній реєстрації. Підтвердіть або змініть вибір"));
-            }
-
             return new SingleWindowVms.Route
             {
                 NodeId = nodeId,

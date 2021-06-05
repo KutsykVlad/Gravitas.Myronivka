@@ -47,10 +47,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 
             var category = QueueCategory.Company;
 
-            if (singleWindowOpData.IsPreRegistered)
-            {
-                category = QueueCategory.PreRegisterCategory;
-            } else if (IsNodeAvailable((int) NodeIdValue.MixedFeedGuide, route.PathNodes))
+            if (IsNodeAvailable((int) NodeIdValue.MixedFeedGuide, route.PathNodes))
             {
                 category = QueueCategory.MixedFeedLoad;
             } else if (singleWindowOpData != null && singleWindowOpData.IsThirdPartyCarrier)

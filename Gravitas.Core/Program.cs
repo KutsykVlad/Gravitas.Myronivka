@@ -123,24 +123,6 @@ namespace Gravitas.Core
             }
             switch (Devices[deviceId].TypeId)
             {
-                // case Model.DomainValue.DeviceType.RelayVkmodule4In0Out:
-                //     return new VkModuleI4O0State
-                //     {
-                //         Id = dev.Id,
-                //         ErrorCode = dev.ErrorCode,
-                //         LastUpdate = dev.LastUpdate,
-                //         InData = JsonConvert.DeserializeObject<VkModuleI4O0InJsonState>(dev.InData),
-                //         OutData = JsonConvert.DeserializeObject<VkModuleI4O0OutJsonState>(dev.OutData)
-                //     };
-                // case Model.DomainValue.DeviceType.RelayVkmodule2In2Out:
-                //     return new VkModuleI2O2State
-                //     {
-                //         Id = dev.Id,
-                //         ErrorCode = dev.ErrorCode,
-                //         LastUpdate = dev.LastUpdate,
-                //         InData = JsonConvert.DeserializeObject<VkModuleI2O2InJsonState>(dev.InData),
-                //         OutData = JsonConvert.DeserializeObject<VkModuleI2O2OutJsonState>(dev.OutData)
-                //     };
                 case Model.DomainValue.DeviceType.DigitalIn:
                     return new DigitalInState
                     {

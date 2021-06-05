@@ -159,6 +159,9 @@ namespace Gravitas.Core.Manager
                 case OpRoutine.LoadPointGuide2.Id:
                     processor = DependencyResolverConfig.Resolve<LoadPointGuide2OpRoutineProcessor>();
                     break;
+                case OpRoutine.DriverCheckIn.Id:
+                    processor = DependencyResolverConfig.Resolve<DriveCheckInOpRoutineProcessor>();
+                    break;
                 default:
                     processor = null;
                     break;

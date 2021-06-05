@@ -154,6 +154,7 @@
     <Compile Include="Processor\OpRoutine\IOpRoutineProcessor.cs" />
     <Compile Include="Processor\OpRoutine\OpRoutineProcessor.CentralLabolatoryProcess.cs" />
     <Compile Include="Processor\OpRoutine\OpRoutineProcessor.CentralLabolatorySamples.cs" />
+    <Compile Include="Processor\OpRoutine\OpRoutineProcessor.DriveCheckIn.cs" />
     <Compile Include="Processor\OpRoutine\OpRoutineProcessor.LabolatoryIn.cs" />
     <Compile Include="Processor\OpRoutine\OpRoutineProcessor.LoadPointGuide.cs" />
     <Compile Include="Processor\OpRoutine\OpRoutineProcessor.LoadCheckPoint.cs" />
