@@ -24,9 +24,9 @@ namespace Gravitas.Infrastructure.Platform.SignalRClient
             new SignalRClient.MainHub(GlobalConfigurationManager.SignalRHost).StartSpinner(groupId.ToString("D"));
         }
         
-        public static void UpdateDriverCheckIn(int value)
+        public static void UpdateDriverCheckIn(int? value)
         {
-            new SignalRClient.MainHub(GlobalConfigurationManager.SignalRHost).UpdateDriverCheckIn(value.ToString("D"));
+            new SignalRClient.MainHub(GlobalConfigurationManager.SignalRHost).UpdateDriverCheckIn(value.HasValue ? value.ToString() : string.Empty);
         }
     }
 }

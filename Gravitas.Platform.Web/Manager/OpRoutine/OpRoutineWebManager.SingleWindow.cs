@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
@@ -496,7 +497,15 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
 
             data.EditDate = DateTime.Now;
-           
+
+            var driverCheckIn = _context.DriverCheckInOpDatas.FirstOrDefault(x => x.PhoneNumber == data.ContactPhoneNo);
+            if (driverCheckIn != null)
+            {
+                _context.DriverCheckInOpDatas.Remove(driverCheckIn);
+                _context.SaveChanges();
+                SignalRInvoke.UpdateDriverCheckIn(null);
+            }
+
             _opDataRepository.SetSingleWindowDetail(Mapper.Map<SingleWindowOpDataDetail>(data));
             SaveOnTicketRegisterInformEmployee(data.OnRegisterInformEmployees, data.TicketId.Value);
 
