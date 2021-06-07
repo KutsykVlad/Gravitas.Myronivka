@@ -2,6 +2,9 @@
 {
     public enum NodeIdValue
     {
+        // Driver checkin
+        DriverCheckIn = 10,
+        
         // Single window
         SingleWindowFirstType1 = 91,
         SingleWindowFirstType2 = 92,

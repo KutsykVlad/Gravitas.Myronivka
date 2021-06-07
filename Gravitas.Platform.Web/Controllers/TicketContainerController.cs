@@ -60,6 +60,7 @@ namespace Gravitas.Platform.Web.Controllers
                         ? _context.Cards.FirstOrDefault(z => z.TicketContainerId == x.Ticket.TicketContainerId).No.ToString() 
                         : string.Empty,
                     HasTicket = x.TicketId.HasValue,
+                    IsInvited = x.IsInvited,
                     OrderNumber = x.OrderNumber,
                     Product = x.TicketId.HasValue
                         ? _externalDataRepository.GetProductDetail(_opDataRepository.GetLastOpData<SingleWindowOpData>(x.TicketId, null).ProductId.Value).ShortName

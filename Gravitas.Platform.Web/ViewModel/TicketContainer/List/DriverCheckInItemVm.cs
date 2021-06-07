@@ -26,5 +26,7 @@ namespace Gravitas.Platform.Web.ViewModel.TicketContainer.List
         
         [DisplayName("Стан")]
         public bool HasTicket { get; set; }
+
+        public bool IsInvited { get; set; }
     }
 }

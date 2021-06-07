@@ -91,6 +91,17 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             NodeFilters[nodeId] = (SingleWindowRegisterFilter) selectedFilterId;
             SignalRInvoke.ReloadHubGroup(nodeId);
         }
+        
+        [HttpPost]
+        public void UpdateDriverCheckIn(int queueNumber)
+        {
+            var oldRecord = _context.DriverCheckInOpDatas.First(x => x.IsInvited);
+            oldRecord.IsInvited = false;
+            var record = _context.DriverCheckInOpDatas.First(x => x.OrderNumber == queueNumber);
+            record.IsInvited = true;
+            _context.SaveChanges();
+            SignalRInvoke.UpdateDriverCheckIn(queueNumber);
+        }
 
         [HttpGet]
         public ActionResult Idle_SelectTicketContainer(int? nodeId, int ticketContainerId)
