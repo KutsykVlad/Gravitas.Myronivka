@@ -92,11 +92,13 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             SignalRInvoke.ReloadHubGroup(nodeId);
         }
         
-        [HttpPost]
         public void UpdateDriverCheckIn(int queueNumber)
         {
-            var oldRecord = _context.DriverCheckInOpDatas.First(x => x.IsInvited);
-            oldRecord.IsInvited = false;
+            var oldRecord = _context.DriverCheckInOpDatas.FirstOrDefault(x => x.IsInvited);
+            if (oldRecord != null)
+            {
+                oldRecord.IsInvited = false;
+            }
             var record = _context.DriverCheckInOpDatas.First(x => x.OrderNumber == queueNumber);
             record.IsInvited = true;
             _context.SaveChanges();

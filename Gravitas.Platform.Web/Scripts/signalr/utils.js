@@ -13,7 +13,10 @@
     };
     
     chat.client.updateDriverCheckIn = function (value) {
-        document.getElementById('driver-checkin').value = value;
+        var el = document.getElementById('driver-checkin');
+        if (el) {
+            el.innerHTML = value;
+        }
     };
     
     chat.client.updateProcessingMessage = function (groupId) {
