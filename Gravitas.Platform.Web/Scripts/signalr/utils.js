@@ -12,6 +12,10 @@
         loading(true);
     };
     
+    chat.client.updateDriverCheckIn = function (value) {
+        document.getElementById('driver-checkin').value = value;
+    };
+    
     chat.client.updateProcessingMessage = function (groupId) {
         var modal = $('#exampleModalCenter');
         var m = modal.data('bs.modal');

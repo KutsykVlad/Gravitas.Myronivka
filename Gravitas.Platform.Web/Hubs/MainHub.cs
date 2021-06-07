@@ -19,6 +19,8 @@ namespace Gravitas.Platform.Web.SignalR
         public async Task<dynamic> StartSpinner(string groupId) => string.IsNullOrWhiteSpace(groupId)
             ? await Clients.All.startSpinner()
             : await Clients.Group(groupId).startSpinner();
+
+        public async Task<dynamic> UpdateDriverCheckIn(string groupId) => await Clients.All.updateDriverCheckIn();
         
         public async Task<dynamic> UpdateProcessingMessage(string groupId) => string.IsNullOrWhiteSpace(groupId)
             ? await Clients.All.updateProcessingMessage()

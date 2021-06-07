@@ -37,6 +37,11 @@ namespace Gravitas.Infrastructure.Platform.SignalRClient
                 InvokeHubMethod(_url, _hub, "StartSpinner", groupId);
             }
 
+            public void UpdateDriverCheckIn(string value)
+            {
+                InvokeHubMethod(_url, _hub, "UpdateDriverCheckIn", value);
+            }
+
             private static void InvokeHubMethod(string url, string hub, string method, params object[] parameters)
             {
                 try

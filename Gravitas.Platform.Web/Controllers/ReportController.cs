@@ -23,7 +23,7 @@ namespace Gravitas.Platform.Web.Controllers
             _nodeRepository = nodeRepository;
         }
 
-        public FileResult Generate(Guid id, long nodeId)
+        public FileResult Generate(Guid id, int nodeId)
         {
             SignalRInvoke.StartSpinner(nodeId);
             var templateUri = Server.MapPath("~/Content/reports/labReportTemplate.html");
