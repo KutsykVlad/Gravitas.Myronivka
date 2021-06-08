@@ -114,9 +114,13 @@
         </div>
     </div>
     <div class="tab-pane fade" id="six" role="tabpanel" aria-labelledby="fourth-tab">
-        <div class="card-group justify-content-center">
-            Six
-        </div>
+        @{Html.RenderAction(
+               "OwnTransport",
+               "SingleWindow",
+               new {
+                   nodeId = Model.NodeId
+               });
+        }
     </div>
     <div class="tab-pane fade" id="seven" role="tabpanel" aria-labelledby="fourth-tab">
         <div class="card-group justify-content-center">

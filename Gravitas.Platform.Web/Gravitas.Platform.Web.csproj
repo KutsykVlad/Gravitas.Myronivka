@@ -363,6 +363,7 @@
     <Compile Include="ViewModel\OpRoutine\SecurityIn\01_IdleVm.cs" />
     <Compile Include="ViewModel\OpRoutine\SecurityReview\01_IdleVm.cs" />
     <Compile Include="ViewModel\OpRoutine\SecurityReview\02_AddOperationVisaVm.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\01. OwnTransport.cs" />
     <Compile Include="ViewModel\OpRoutine\SingleWindow\03. ShowTicketMenu.cs" />
     <Compile Include="ViewModel\OpRoutine\SingleWindow\04. ContainerCloseAddOpVisaVm.cs" />
     <Compile Include="ViewModel\OpRoutine\SingleWindow\32. RouteAddOpVisa.cs" />
@@ -636,6 +637,7 @@
     <Content Include="Views\OpRoutine\MixedFeedLoad\06_AddChangeStateVisa.cshtml" />
     <Content Include="Views\OpRoutine\SecurityIn\02_CheckOwnTransport.cshtml" />
     <Content Include="Views\OpRoutine\SecurityOut\02_CheckOwnTransport.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\01_OwnTransport.cshtml" />
     <Content Include="Views\OpRoutine\SingleWindow\15_SupplyChangeAddOpVisa.cshtml" />
     <Content Include="Views\OpRoutine\SingleWindow\16_DivideTicketAddOpVisa.cshtml" />
     <Content Include="Views\OpRoutine\SingleWindow\17_DeleteTicketAddOpVisa.cshtml" />

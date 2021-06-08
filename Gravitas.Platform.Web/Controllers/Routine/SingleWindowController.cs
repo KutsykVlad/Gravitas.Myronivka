@@ -11,6 +11,7 @@ using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.PackingTare;
+using Gravitas.Infrastructure.Common.Helper;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
@@ -83,6 +84,30 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 FilterItems = _filterItems
             };
             return PartialView("../OpRoutine/SingleWindow/01_Idle", routineData);
+        }
+        
+        [HttpGet]
+        [ChildActionOnly]
+        public ActionResult OwnTransport(int nodeId)
+        {
+            var items = _context.OwnTransports
+                .AsEnumerable()
+                .Select(x => new OwnTransportViewModel
+                {
+                    CardNo = x.Card.No,
+                    Driver = x.Driver,
+                    TruckNo = x.TruckNo,
+                    TrailerNo = x.TrailerNo,
+                    ExpirationDate = x.ExpirationDate,
+                    TypeId = x.TypeId.GetDescription(),
+                    LongRangeCardId = x.LongRangeCardId
+                })
+                .ToList();
+            return PartialView("../OpRoutine/SingleWindow/01_OwnTransport", new SingleWindowVms.OwnTransportVm
+            {
+                NodeId = nodeId,
+                Items = items
+            });
         }
         
         [HttpPost]

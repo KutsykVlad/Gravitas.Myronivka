@@ -1,0 +1,44 @@
+﻿@using System.Web.Mvc.Html
+@using Gravitas.Model.DomainValue
+@using Gravitas.Platform.Web.ViewModel.Shared
+@model Gravitas.Platform.Web.ViewModel.SingleWindowVms.OwnTransportVm
+@Html.HiddenFor(m => m.NodeId, new { id = "nodeId" })
+
+@if (!Model.Items.Any()) 
+{
+    <h4>Автомобілів у списку немає</h4>
+}
+else 
+{
+    <table class="table text-center">
+        <thead>
+        <tr>
+            <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().CardNo)</th>
+            <th scope="col-2">@Html.LabelFor(m => Model.Items.FirstOrDefault().LongRangeCardId)</th>
+            <th scope="col-2">@Html.LabelFor(m => Model.Items.FirstOrDefault().TruckNo)</th>
+            <th scope="col-2">@Html.LabelFor(m => Model.Items.FirstOrDefault().TrailerNo)</th>
+            <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().Driver)</th>
+            <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().TypeId)</th>
+            <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().ExpirationDate)</th>
+            <th scope="col-2"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td class="align-middle">@Html.DisplayFor(m => item.CardNo)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.LongRangeCardId)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.TruckNo)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.TrailerNo)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.Driver)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.TypeId)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.ExpirationDate)</td>
+                <td>
+                    
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>  
+}
