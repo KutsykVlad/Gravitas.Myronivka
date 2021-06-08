@@ -114,14 +114,6 @@ namespace Gravitas.Core.Processor.OpRoutine
             var card = _cardManager.GetTruckCardByOnGateReader(nodeDetailsDto);
             if (card == null) return;
 
-            if (card.IsOwn)
-            {
-                nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SecurityIn.State.AddOperationVisa;
-                nodeDetailsDto.Context.OpProcessData =
-                    _cardRepository.GetFirstOrDefault<OwnTransport, int>(x => x.CardId == card.Id)?.Id;
-                UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
-                return;
-            }
             var supplyCode =_context.SingleWindowOpDatas.Where(x => x.TicketId == card.Ticket.Id)
                                                                .Select(c => c.SupplyCode)
                                                                .FirstOrDefault();

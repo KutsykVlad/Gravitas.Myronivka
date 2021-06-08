@@ -41,7 +41,6 @@ namespace Gravitas.DAL.Repository.OwnTransport
                 {
                     var card = _context.Cards.FirstOrDefault(x => x.Id == model.Card);
                     if (card == null) throw new Exception("Card not found");
-                    card.IsOwn = true;
                     Update<Model.DomainModel.Card.DAO.Card, string>(card);
                     
                     Add<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>(new Model.DomainModel.OwnTransport.DAO.OwnTransport
@@ -74,7 +73,6 @@ namespace Gravitas.DAL.Repository.OwnTransport
                     
                     var card = _context.Cards.FirstOrDefault(x => x.Id == ownTransport.CardId);
                     if (card == null) throw new Exception("Card not found");
-                    card.IsOwn = false;
                     Update<Model.DomainModel.Card.DAO.Card, string>(card);
 
                     Delete<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>(ownTransport);

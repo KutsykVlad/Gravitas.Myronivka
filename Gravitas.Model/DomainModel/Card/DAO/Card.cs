@@ -11,7 +11,6 @@ namespace Gravitas.Model.DomainModel.Card.DAO
         public CardType TypeId { get; set; }
         public int No { get; set; }
         public bool IsActive { get; set; }
-        public bool IsOwn { get; set; }
         public Guid? EmployeeId { get; set; }
         public int? TicketContainerId { get; set; }
         public string ParentCardId { get; set; }

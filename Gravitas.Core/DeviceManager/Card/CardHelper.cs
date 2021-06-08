@@ -4,7 +4,7 @@ namespace Gravitas.Core.DeviceManager.Card
     {
         public static bool IsFree(this Model.DomainModel.Card.DAO.Card card)
         {
-            return card != null && !card.IsOwn;
+            return card != null;
         }
     }
 }
