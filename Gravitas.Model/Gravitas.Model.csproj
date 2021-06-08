@@ -250,6 +250,7 @@
     <Compile Include="DomainValue\OpData.cs" />
     <Compile Include="DomainValue\OpDataEventType.cs" />
     <Compile Include="DomainValue\OpRoutine.cs" />
+    <Compile Include="DomainValue\OwnTransportType.cs" />
     <Compile Include="DomainValue\Pdf.cs" />
     <Compile Include="DomainValue\Phone.cs" />
     <Compile Include="DomainValue\Queue.cs" />
