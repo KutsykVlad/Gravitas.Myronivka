@@ -8,7 +8,7 @@ namespace Gravitas.Model.DomainModel.OwnTransport.DAO
     [Table("OwnTransport")]
     public class OwnTransport : BaseEntity<int>
     {
-        public string NodeId { get; set; }
+        public int NodeId { get; set; }
         public string CardId { get; set; }
         public string LongRangeCardId { get; set; }
         public string TruckNo { get; set; }
