@@ -43,10 +43,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine {
 
 		void SingleWindow_DivideTicket(int nodeId, int newWeightValue);
 	    void SingleWindow_DeleteTicketAddOpVisa_Back(int nodeId);
+	    void OwnTransport_AddNew(int nodeId);
+	    void OwnTransport_Update(int nodeId, int id);
 
 
-
-		bool SingleWindow_RouteAddOpVisa_Back(int nodeId);
+	    bool SingleWindow_RouteAddOpVisa_Back(int nodeId);
 		
 		// SecurityIn
 		bool SecurityIn_Entry_Cancelation(int nodeId);

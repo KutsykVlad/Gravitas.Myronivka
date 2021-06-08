@@ -39,6 +39,9 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>C:\Users\Kornel\.nuget\packages\microsoft.aspnet.mvc\5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,6 +63,7 @@
     <Compile Include="Repository\EmployeeRoles\IEmployeeRolesRepository.cs" />
     <Compile Include="Repository\ExternalData\IExternalDataRepository.cs" />
     <Compile Include="Repository\ExternalData\ExternalDataRepository.cs" />
+    <Compile Include="Repository\OwnTransport\Models\OwnTransportViewModel.cs" />
     <Compile Include="Repository\PhoneInformTicketAssignment\IPhoneInformTicketAssignmentRepository.cs" />
     <Compile Include="Repository\PhoneInformTicketAssignment\PhoneInformTicketAssignmentRepository.cs" />
     <Compile Include="Repository\OpWorkflow\Routes\IRoutesRepository.cs" />
@@ -114,6 +118,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="EntityFramework" Version="6.3.0-preview5-19254-05" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="NLog" Version="4.5.11" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />

@@ -1,12 +1,13 @@
-using System.Linq;
-using Gravitas.Model.DomainModel.OwnTransport.DTO;
+using System.Collections.Generic;
+using Gravitas.DAL.Repository.OwnTransport.Models;
 
 namespace Gravitas.DAL.Repository.OwnTransport
 {
     public interface IOwnTransportRepository
     {
-        IQueryable<OwnTransportVm> GetList();
-        bool Add(OwnTransportVm model);
+        List<OwnTransportViewModel> GetList();
+        void AddOrUpdate(OwnTransportViewModel model);
         void Remove(int id);
+        OwnTransportViewModel GetById(int id);
     }
 }

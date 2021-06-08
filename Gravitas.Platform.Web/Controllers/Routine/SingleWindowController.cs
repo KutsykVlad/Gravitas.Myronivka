@@ -10,6 +10,8 @@ using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
+using Gravitas.DAL.Repository.OwnTransport;
+using Gravitas.DAL.Repository.OwnTransport.Models;
 using Gravitas.DAL.Repository.PackingTare;
 using Gravitas.Infrastructure.Common.Helper;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
@@ -36,6 +38,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         private readonly IPackingTareRepository _packingTareRepository;
         private readonly GravitasDbContext _context;
         private readonly IOpDataRepository _opDataRepository;
+        private readonly IOwnTransportRepository _ownTransportRepository;
         
         private static readonly Dictionary<int, SingleWindowRegisterFilter> NodeFilters = new()
         {
@@ -58,7 +61,8 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             IOpRoutineManager opRoutineManager,
             IPackingTareRepository packingTareRepository, 
             GravitasDbContext context, 
-            IOpDataRepository opDataRepository)
+            IOpDataRepository opDataRepository,
+            IOwnTransportRepository ownTransportRepository)
         {
             _opRoutineWebManager = opRoutineWebManager;
             _externalDataRepository = externalDataRepository;
@@ -69,6 +73,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             _packingTareRepository = packingTareRepository;
             _context = context;
             _opDataRepository = opDataRepository;
+            _ownTransportRepository = ownTransportRepository;
         }
 
         #region 01_Idle
@@ -90,24 +95,25 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         [ChildActionOnly]
         public ActionResult OwnTransport(int nodeId)
         {
-            var items = _context.OwnTransports
-                .AsEnumerable()
-                .Select(x => new OwnTransportViewModel
-                {
-                    CardNo = x.Card.No,
-                    Driver = x.Driver,
-                    TruckNo = x.TruckNo,
-                    TrailerNo = x.TrailerNo,
-                    ExpirationDate = x.ExpirationDate,
-                    TypeId = x.TypeId.GetDescription(),
-                    LongRangeCardId = x.LongRangeCardId
-                })
-                .ToList();
             return PartialView("../OpRoutine/SingleWindow/01_OwnTransport", new SingleWindowVms.OwnTransportVm
             {
                 NodeId = nodeId,
-                Items = items
+                Items = _ownTransportRepository.GetList()
             });
+        }
+        
+        [HttpGet]
+        public ActionResult OwnTransport_AddNew(int nodeId)
+        {
+            _opRoutineWebManager.OwnTransport_AddNew(nodeId);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+        
+        [HttpGet]
+        public ActionResult OwnTransport_Update(int nodeId, int id)
+        {
+            _opRoutineWebManager.OwnTransport_Update(nodeId, id);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
         
         [HttpPost]
@@ -404,6 +410,55 @@ namespace Gravitas.Platform.Web.Controllers.Routine
 
             _opRoutineWebManager.SingleWindow_EditAddOpVisa_Back(nodeId.Value);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        #endregion
+
+        #region 05_AddOwnTransport
+
+        [HttpGet]
+        [ChildActionOnly]
+        public ActionResult AddOwnTransport(int nodeId)
+        {
+            var nodeDto = _nodeRepository.GetNodeDto(nodeId);
+            var routineData = new SingleWindowVms.AddOwnTransportVm
+            {
+                NodeId = nodeId,
+                Transport = nodeDto.Context.OpProcessData != null
+                    ? _ownTransportRepository.GetById(nodeDto.Context.OpProcessData.Value)
+                    : new OwnTransportViewModel(),
+                Types = new List<SelectListItem>
+                {
+                    new SelectListItem
+                    {
+                        Text = OwnTransportType.Own.GetDescription(),
+                        Value = OwnTransportType.Own.ToString()
+                    },
+                    new SelectListItem
+                    {
+                        Text = OwnTransportType.Tech.GetDescription(),
+                        Value = OwnTransportType.Tech.ToString()
+                    },
+                    new SelectListItem
+                    {
+                        Text = OwnTransportType.Move.GetDescription(),
+                        Value = OwnTransportType.Move.ToString()
+                    }
+                }
+            };
+            return PartialView("../OpRoutine/SingleWindow/05_AddOwnTransport", routineData);
+        }
+
+        [HttpPost]
+        public void AddOwnTransport(SingleWindowVms.AddOwnTransportVm model)
+        {
+            _ownTransportRepository.AddOrUpdate(model.Transport);
+            _opRoutineWebManager.SingleWindow_GetTicket_Back(model.NodeId);
+        }
+        
+        public void AddOwnTransport_Back(int nodeId)
+        {
+            _opRoutineWebManager.SingleWindow_GetTicket_Back(nodeId);
         }
 
         #endregion

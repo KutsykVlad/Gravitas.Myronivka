@@ -1,8 +1,10 @@
 ﻿@using System.Web.Mvc.Html
-@using Gravitas.Model.DomainValue
-@using Gravitas.Platform.Web.ViewModel.Shared
 @model Gravitas.Platform.Web.ViewModel.SingleWindowVms.OwnTransportVm
-@Html.HiddenFor(m => m.NodeId, new { id = "nodeId" })
+
+<div class="offset-9 col-3">
+    @Ajax.ActionLink(@"Додати новий", "OwnTransport_AddNew", "SingleWindow", new { nodeId = Model.NodeId }, null, new {@class = "btn btn-primary btn-lg btn-block"})
+
+</div>
 
 @if (!Model.Items.Any()) 
 {
@@ -18,7 +20,7 @@ else
             <th scope="col-2">@Html.LabelFor(m => Model.Items.FirstOrDefault().TruckNo)</th>
             <th scope="col-2">@Html.LabelFor(m => Model.Items.FirstOrDefault().TrailerNo)</th>
             <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().Driver)</th>
-            <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().TypeId)</th>
+            <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().TypeName)</th>
             <th scope="col-1">@Html.LabelFor(m => Model.Items.FirstOrDefault().ExpirationDate)</th>
             <th scope="col-2"></th>
         </tr>
@@ -32,10 +34,10 @@ else
                 <td class="align-middle">@Html.DisplayFor(m => item.TruckNo)</td>
                 <td class="align-middle">@Html.DisplayFor(m => item.TrailerNo)</td>
                 <td class="align-middle">@Html.DisplayFor(m => item.Driver)</td>
-                <td class="align-middle">@Html.DisplayFor(m => item.TypeId)</td>
-                <td class="align-middle">@Html.DisplayFor(m => item.ExpirationDate)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.TypeName)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.ExpirationDateFormatted)</td>
                 <td>
-                    
+                    @Ajax.ActionLink(@"Редагувати", "OwnTransport_Update", "SingleWindow", new { nodeId = Model.NodeId, id = item.Id }, null, new {@class = "btn btn-warning btn-block"})
                 </td>
             </tr>
         }

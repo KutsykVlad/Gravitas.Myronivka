@@ -8,7 +8,6 @@ namespace Gravitas.Model.DomainModel.OwnTransport.DAO
     [Table("OwnTransport")]
     public class OwnTransport : BaseEntity<int>
     {
-        public int NodeId { get; set; }
         public string CardId { get; set; }
         public string LongRangeCardId { get; set; }
         public string TruckNo { get; set; }
@@ -19,6 +18,5 @@ namespace Gravitas.Model.DomainModel.OwnTransport.DAO
         
         public virtual Card.DAO.Card Card { get; set; }
         public virtual Card.DAO.Card LongRangeCard { get; set; }
-        public virtual Node.DAO.Node Node { get; set; }
     }
 }

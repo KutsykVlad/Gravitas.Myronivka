@@ -1,8 +1,9 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository._Base;
-using Gravitas.Model.DomainModel.OwnTransport.DTO;
+using Gravitas.DAL.Repository.OwnTransport.Models;
+using Gravitas.Infrastructure.Common.Helper;
 
 namespace Gravitas.DAL.Repository.OwnTransport
 {
@@ -15,75 +16,74 @@ namespace Gravitas.DAL.Repository.OwnTransport
             _context = context;
         }
 
-        public IQueryable<OwnTransportVm> GetList()
+        public List<OwnTransportViewModel> GetList()
         {
-            var list = GetQuery<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>()
-                .Select(x => new OwnTransportVm
+            return _context.OwnTransports
+                .Include(nameof(Model.DomainModel.Card.DAO.Card))
+                .AsEnumerable()
+                .Select(x => new OwnTransportViewModel
                 {
-                    Id = x.Id, 
-                    Card = x.CardId,
+                    Id = x.Id,
+                    CardNo = x.Card.No,
+                    Driver = x.Driver,
                     TruckNo = x.TruckNo,
-                    TrailerNo = x.TrailerNo
-                });
-            return list;
+                    TrailerNo = x.TrailerNo,
+                    ExpirationDate = x.ExpirationDate,
+                    TypeName = x.TypeId.GetDescription(),
+                    LongRangeCardId = x.LongRangeCardId
+                })
+                .ToList();
         }
 
-        public bool Add(OwnTransportVm model)
+        public void AddOrUpdate(OwnTransportViewModel model)
         {
-            var item = GetFirstOrDefault<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>(x => 
-                x.CardId == model.Card || x.TruckNo == model.TruckNo);
+            var item = model.Id.HasValue
+                ? _context.OwnTransports.FirstOrDefault(x => x.Id == model.Id)
+                : null;
 
-            if (item != null) return false;
-            
-            using (var transaction = _context.Database.BeginTransaction())
+            if (item == null)
             {
-                try
-                {
-                    var card = _context.Cards.FirstOrDefault(x => x.Id == model.Card);
-                    if (card == null) throw new Exception("Card not found");
-                    Update<Model.DomainModel.Card.DAO.Card, string>(card);
-                    
-                    Add<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>(new Model.DomainModel.OwnTransport.DAO.OwnTransport
-                    {
-                        CardId = model.Card,
-                        TruckNo = model.TruckNo,
-                        TrailerNo = model.TrailerNo
-                    });
-                   
-                    transaction.Commit();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    transaction.Rollback();
-                    Console.WriteLine(e);
-                    return false;
-                }
+                item = new Model.DomainModel.OwnTransport.DAO.OwnTransport();
+                _context.OwnTransports.Add(item);
             }
+            
+            item.CardId = _context.Cards.First(x => x.No == model.CardNo).Id;
+            item.Driver = model.Driver;
+            item.TruckNo = model.TruckNo;
+            item.TrailerNo = model.TrailerNo;
+            item.ExpirationDate = model.ExpirationDate;
+            item.TypeId = model.TypeId;
+            item.LongRangeCardId = model.LongRangeCardId;
+         
+            _context.SaveChanges();
         }
         
         public void Remove(int id)
         {
-            using (var transaction = _context.Database.BeginTransaction())
-            {
-                try
-                {
-                    var ownTransport = _context.OwnTransports.FirstOrDefault(x => x.Id == id);
-                    if (ownTransport == null) return;
-                    
-                    var card = _context.Cards.FirstOrDefault(x => x.Id == ownTransport.CardId);
-                    if (card == null) throw new Exception("Card not found");
-                    Update<Model.DomainModel.Card.DAO.Card, string>(card);
+            var item = GetFirstOrDefault<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>(x => x.Id == id);
+            _context.OwnTransports.Remove(item);
+            _context.SaveChanges();
+        }
 
-                    Delete<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>(ownTransport);
-                    transaction.Commit();
-                }
-                catch (Exception e)
+        public OwnTransportViewModel GetById(int id)
+        {
+            return _context.OwnTransports
+                .Include(nameof(Model.DomainModel.Card.DAO.Card))
+                .Where(x => x.Id == id)
+                .AsEnumerable()
+                .Select(x => new OwnTransportViewModel
                 {
-                    transaction.Rollback();
-                    Console.WriteLine(e);
-                }
-            }
+                    Id = x.Id,
+                    CardNo = x.Card.No,
+                    Driver = x.Driver,
+                    TruckNo = x.TruckNo,
+                    TrailerNo = x.TrailerNo,
+                    ExpirationDate = x.ExpirationDate,
+                    TypeName = x.TypeId.GetDescription(),
+                    TypeId = x.TypeId,
+                    LongRangeCardId = x.LongRangeCardId
+                })
+                .FirstOrDefault();
         }
     }
 }

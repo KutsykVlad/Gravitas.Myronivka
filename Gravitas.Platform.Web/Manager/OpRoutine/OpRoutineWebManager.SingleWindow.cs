@@ -856,6 +856,23 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             node.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.RouteEditData;
             return UpdateNodeContext(node.Id, node.Context);
         }
+        
+        public void OwnTransport_AddNew(int nodeId)
+        {
+            var node = _nodeRepository.GetNodeDto(nodeId);
+            
+            node.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.AddOwnTransport;
+            UpdateNodeContext(node.Id, node.Context);
+        }
+        
+        public void OwnTransport_Update(int nodeId, int id)
+        {
+            var node = _nodeRepository.GetNodeDto(nodeId);
+            
+            node.Context.OpProcessData = id;
+            node.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.AddOwnTransport;
+            UpdateNodeContext(node.Id, node.Context);
+        }
 
         private void SetEmployeePhones(SingleWindowVms.SingleWindowOpDataDetailVm vm)
         {

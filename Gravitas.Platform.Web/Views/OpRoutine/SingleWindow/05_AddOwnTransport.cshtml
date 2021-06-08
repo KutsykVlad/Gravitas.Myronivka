@@ -1,0 +1,53 @@
+﻿@using System.Web.Mvc.Html
+@model Gravitas.Platform.Web.ViewModel.SingleWindowVms.AddOwnTransportVm
+
+@using (Ajax.BeginForm("AddOwnTransport", "SingleWindow", FormMethod.Post, null, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.NodeId, new { @id = "nodeId" })
+    @Html.HiddenFor(m => m.Transport.Id)
+    
+    <div class="row mb-2">
+        <div class="col-4">
+            @Html.LabelFor(m => m.Transport.Driver)
+            @Html.EditorFor(m => m.Transport.Driver, new { htmlAttributes = new { @class = "form-control" }})
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(m => m.Transport.TruckNo)
+            @Html.EditorFor(m => m.Transport.TruckNo, new { htmlAttributes = new { @class = "form-control" }})
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(m => m.Transport.TrailerNo)
+            @Html.EditorFor(m => m.Transport.TrailerNo, new { htmlAttributes = new { @class = "form-control" }})
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(m => m.Transport.CardNo)
+            @Html.EditorFor(m => m.Transport.CardNo, new { htmlAttributes = new { @class = "form-control" }})
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(m => m.Transport.LongRangeCardId)
+            @Html.EditorFor(m => m.Transport.LongRangeCardId, new { htmlAttributes = new { @class = "form-control" }})
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(m => m.Transport.TypeName)
+            @Html.DropDownListFor(
+                        m => m.Transport.TypeId,
+                        Model.Types,
+                        "-- Виберіть тип --",
+                        new {@class = "form-control"})
+        </div>
+        <div class="col-4">
+            @Html.LabelFor(m => m.Transport.ExpirationDate)
+            @Html.TextBoxFor(m => m.Transport.ExpirationDate,
+                       new { type = "date", Value = Model.Transport.ExpirationDate.Date.ToString("yyyy-MM-dd"), @class = "form-control" })
+        </div>
+    </div>   
+
+    <div class="row mt-3 justify-content-center">
+        <div class="col-3">
+            <button type="submit" class="btn btn-warning btn-lg btn-block">Підтвердити</button>
+        </div>
+        <div class="col-3">
+            @Ajax.ActionLink(@"Назад", "AddOwnTransport_Back", "SingleWindow", new { nodeId = Model.NodeId }, null, new { @class = "btn btn-danger btn-lg btn-block" })
+        </div>
+    </div>
+}
