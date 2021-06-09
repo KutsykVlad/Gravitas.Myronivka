@@ -327,7 +327,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 if (!_connectManager.SendSms(SmsTemplate.InvalidPerimeterGuardianSms, card.Ticket.Id, securityPhoneNo, new Dictionary<string, object>
                 {
                     {"ScaleValidationText", validationResult.ValidationMessage}
-                }))
+                }, cardId: card.Id))
                     Logger.Info($"Weightbridge.OproutineProcessor: Message to {securityPhoneNo} hasn`t been sent");
             }
             else

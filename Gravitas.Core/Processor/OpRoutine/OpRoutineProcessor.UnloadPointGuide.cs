@@ -77,7 +77,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             var unloadResult = _unloadPointManager.ConfirmUnloadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId.Value);
             if (!unloadResult) return;
 
-            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId))
+            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId, cardId: card.Id))
             {
                 Logger.Error("Sms hasn`t been sent");
             }
@@ -95,7 +95,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             _queueInfrastructure.ImmediateEntrance(nodeDetailsDto.Context.TicketContainerId.Value);
             var ticketId = _ticketRepository.GetTicketInContainer(nodeDetailsDto.Context.TicketContainerId.Value, TicketStatus.ToBeProcessed)?.Id;
-            _connectManager.SendSms(SmsTemplate.EntranceApprovalSms, ticketId);
+            _connectManager.SendSms(SmsTemplate.EntranceApprovalSms, ticketId, cardId: card.Id);
 
             var singleWindowOpData = _opDataRepository.GetLastProcessed<SingleWindowOpData>(ticketId);
 

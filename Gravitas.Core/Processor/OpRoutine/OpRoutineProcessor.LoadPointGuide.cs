@@ -107,7 +107,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 }
             }
             
-            _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId);
+            _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId, cardId: card.Id);
          
             if (ticket.RouteItemIndex == 0 || (ticket.SecondaryRouteTemplateId.HasValue && ticket.SecondaryRouteItemIndex == 0))
             {

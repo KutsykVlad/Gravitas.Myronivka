@@ -24,6 +24,7 @@ using Gravitas.Model.DomainModel.ExternalData.Subdivision.DAO;
 using Gravitas.Model.DomainModel.ExternalData.SupplyTransportType.DAO;
 using Gravitas.Model.DomainModel.ExternalData.SupplyType.DAO;
 using Gravitas.Model.DomainModel.ExternalData.YearOfHarvest.DAO;
+using Gravitas.Model.DomainModel.Message.DAO;
 using Gravitas.Model.DomainModel.MixedFeed.DAO;
 using Gravitas.Model.DomainModel.Node.DAO;
 using Gravitas.Model.DomainModel.OpCameraImage;
@@ -49,6 +50,7 @@ namespace Gravitas.DAL.DbContext
         }
 
         public DbSet<Settings> Settings { get; set; }
+        public DbSet<Message> Messages { get; set; }
         public DbSet<DriverCheckInOpData> DriverCheckInOpDatas { get; set; }
         public DbSet<DriverPhoto> DriverPhotos { get; set; }
         public DbSet<ExternalUser> ExternalUsers { get; set; }

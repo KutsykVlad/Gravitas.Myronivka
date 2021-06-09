@@ -215,7 +215,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                 new NodeProcessingMsgItem(ProcessingMsgType.Success, "Мітки та картки роз'єднано"));
 
             var ticket = _ticketRepository.GetTicketInContainer(nodeDetailsDto.Context.TicketContainerId.Value, TicketStatus.ToBeProcessed);
-            if (ticket == null) _connectManager.SendSms(SmsTemplate.RemovedFromQueue, nodeDetailsDto.Context.TicketId);
+            if (ticket == null) _connectManager.SendSms(SmsTemplate.RemovedFromQueue, nodeDetailsDto.Context.TicketId, cardId: card.Id);
 
             nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.Idle;
             UpdateNodeContext(nodeDetailsDto.Id, nodeDetailsDto.Context);
@@ -951,7 +951,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                         var freeMixedFeedSilo = _queueManager.GetFreeSiloDrive(windowOpData.ProductId.Value, ticket.Id);
                         if (freeMixedFeedSilo == null)
                         {
-                            _connectManager.SendSms(SmsTemplate.NoMixedFeedProduct, nodeDetailsDto.Context.TicketId, _phonesRepository.GetPhone(Phone.MixedFeedManager));
+                            _connectManager.SendSms(SmsTemplate.NoMixedFeedProduct, nodeDetailsDto.Context.TicketId, _phonesRepository.GetPhone(Phone.MixedFeedManager), cardId: card.Id);
                         }
                     }
 
@@ -964,12 +964,12 @@ namespace Gravitas.Core.Processor.OpRoutine
                         {
                             { "AverageProcessingTime", averageProcessingTime },
                             { "TrucksInQueue", _queueManager.TrucksBefore(ticket.RouteTemplateId.Value, ticket.TicketContainerId) }
-                        });
+                        }, cardId: card.Id);
                     }
 
                     foreach (var item in _phoneInformTicketAssignmentRepository.GetAll().Where(e => e.TicketId == ticket.Id))
                     {
-                        _connectManager.SendSms(SmsTemplate.OnRegisterEmployeeInformation, nodeDetailsDto.Context.TicketId, item.PhoneDictionary.PhoneNumber);
+                        _connectManager.SendSms(SmsTemplate.OnRegisterEmployeeInformation, nodeDetailsDto.Context.TicketId, item.PhoneDictionary.PhoneNumber, cardId: card.Id);
                     }
                 }
 
@@ -981,7 +981,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             else
             {
-                if (!_connectManager.SendSms(SmsTemplate.RouteChangeSms, nodeDetailsDto.Context.TicketId))
+                if (!_connectManager.SendSms(SmsTemplate.RouteChangeSms, nodeDetailsDto.Context.TicketId, cardId: card.Id))
                 {
                     Logger.Error("SingleWindow. RouteAddOpVisa: Sms hasn`t been sent");
                 }

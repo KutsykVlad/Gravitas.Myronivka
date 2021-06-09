@@ -211,7 +211,7 @@ namespace Gravitas.Core.Processor.OpRoutine
 
             try
             {
-                _connectManager.SendSms(SmsTemplate.CentralLaboratoryCollisionSend, nodeDetailsDto.Context.TicketId, _phonesRepository.GetPhone(Phone.CentralLaboratoryWorker), parameters);
+                _connectManager.SendSms(SmsTemplate.CentralLaboratoryCollisionSend, nodeDetailsDto.Context.TicketId, _phonesRepository.GetPhone(Phone.CentralLaboratoryWorker), parameters, cardId: card.Id);
                 Logger.Info($"CentralLabolatoryProcess_PrintCollisionInit_Send: Sms was send");
             }
             catch (Exception e)
@@ -295,7 +295,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     }
                     try
                     {
-                        _connectManager.SendSms(SmsTemplate.ReturnToCollectSamples, nodeDetailsDto.Context.TicketId);
+                        _connectManager.SendSms(SmsTemplate.ReturnToCollectSamples, nodeDetailsDto.Context.TicketId, cardId: card.Id);
                     }
                     catch (Exception e)
                     {
@@ -351,7 +351,7 @@ namespace Gravitas.Core.Processor.OpRoutine
                     centralLabOpData.CheckOutDateTime = DateTime.Now;
                     centralLabOpData.StateId = OpDataState.Processed;
                     _opDataRepository.Update<CentralLabOpData, Guid>(centralLabOpData);
-                    _connectManager.SendSms(SmsTemplate.CentralLaboratorySuccess, nodeDetailsDto.Context.TicketId);
+                    _connectManager.SendSms(SmsTemplate.CentralLaboratorySuccess, nodeDetailsDto.Context.TicketId, cardId: card.Id);
                     break;
             }
 

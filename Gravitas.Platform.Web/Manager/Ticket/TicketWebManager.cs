@@ -165,8 +165,9 @@ namespace Gravitas.Platform.Web.Manager.Ticket
 
             Logger.Debug($"SendReplySms: Trying to send sms on {singleWindowOpData.ContactPhoneNo}");
 
+            var card = _context.Cards.First(x => x.TicketContainerId == nodeDto.Context.TicketContainerId);
             if (!_connectManager.SendSms(SmsTemplate.QueueRegistrationSms, nodeDto.Context.TicketId,
-                singleWindowOpData.ContactPhoneNo))
+                singleWindowOpData.ContactPhoneNo, cardId: card.Id))
             {
                 Logger.Error($"SendReplySms: Error while sending sms on {singleWindowOpData.ContactPhoneNo}");
                 return false;

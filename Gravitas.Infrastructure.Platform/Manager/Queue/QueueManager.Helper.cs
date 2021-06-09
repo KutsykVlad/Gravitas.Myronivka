@@ -142,7 +142,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 if (!_smsSendingEnabled) return;
                 try
                 {
-                    _logger.Debug(!_connectManager.SendSms(smsTemplate, ticketId)
+                    var card = _context.Cards.First(x => x.TicketContainerId == ticketContainerId);
+                    _logger.Debug(!_connectManager.SendSms(smsTemplate, ticketId, cardId: card.Id)
                         ? $"Message to  hasn`t been sent to TicketId: {ticketId} "
                         : $"Message to  has been sent to TicketId: {ticketId} ");
                 }

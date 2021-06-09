@@ -75,7 +75,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                     }
                     _opDataRepository.AddOrUpdate<LoadGuideOpData, Guid>(mixedFeedGuideOpData);
                     
-                    _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, ticketId);
+                    var card = _context.Cards.First(x => x.TicketContainerId == ticket.TicketContainerId);
+                    _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, ticketId, cardId: card.Id);
                     
                     _routesInfrastructure.MoveForward(ticketId, (int) NodeIdValue.MixedFeedGuide);
 

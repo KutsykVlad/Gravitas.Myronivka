@@ -107,9 +107,10 @@ namespace Gravitas.Infrastructure.Platform.Manager.Scale
                     var nextNode = _routesInfrastructure.GetNextNodes(ticketId).First();
                     _routesInfrastructure.MoveForward(ticketId, nextNode);
                 }
+                var card = _context.Cards.First(x => x.TicketContainerId == ticket.TicketContainerId);
                 foreach (var item in _phoneInformTicketAssignmentRepository.GetAll().Where(e => e.TicketId == ticketId))
                 {
-                    _connectManager.SendSms(SmsTemplate.OnWeighBridgeRejected, ticketId, item.PhoneDictionary.PhoneNumber);
+                    _connectManager.SendSms(SmsTemplate.OnWeighBridgeRejected, ticketId, item.PhoneDictionary.PhoneNumber, cardId: card.Id);
                 }
             }
                         

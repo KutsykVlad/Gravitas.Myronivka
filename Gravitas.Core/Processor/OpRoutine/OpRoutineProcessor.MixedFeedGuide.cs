@@ -106,7 +106,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             mixedFeedGuideOpData.StateId = OpDataState.Processed;
             _ticketRepository.Update<LoadGuideOpData, Guid>(mixedFeedGuideOpData);
             
-            _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId);
+            _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId, cardId: card.Id);
 
             var nextNodes = _routesInfrastructure.GetNextNodes(ticket.Id);
             if (!isNotFirstTicket && nextNodes.Contains((int) NodeIdValue.MixedFeedGuide))

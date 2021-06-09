@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Gravitas.CollisionCoordination.Manager.LaboratoryData;
 using Gravitas.CollisionCoordination.Models;
+using Gravitas.DAL.DbContext;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
+using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
 using NLog;
 
@@ -13,17 +16,20 @@ namespace Gravitas.CollisionCoordination.Messages
     {
         private readonly IConnectManager _connectManager;
         private readonly ILaboratoryDataManager _laboratoryDataManager;
+        private readonly GravitasDbContext _context;
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly int _ticketId;
         private readonly List<string> _contactData;
 
         public Email(IConnectManager connectManager,
-            ILaboratoryDataManager laboratoryDataManager, int ticketId, List<string> contactData)
+            ILaboratoryDataManager laboratoryDataManager, int ticketId, List<string> contactData,
+            GravitasDbContext context)
         {
             _connectManager = connectManager;
             _laboratoryDataManager = laboratoryDataManager;
             _ticketId = ticketId;
             _contactData = contactData;
+            _context = context;
         }
 
         public bool Send(List<string> contacts, int? templateId = null)
@@ -51,7 +57,9 @@ namespace Gravitas.CollisionCoordination.Messages
                 }
                 try
                 {
-                    _connectManager.SendEmail(EmailTemplate.CollisionApproval, contact, laboratoryDataVm, laboratoryDataVm.LabolatoryFilePath);
+                    var ticket = _context.Tickets.First(x => x.Id == _ticketId);
+                    var card = _context.Cards.FirstOrDefault(x => x.TicketContainerId == ticket.TicketContainerId);
+                    _connectManager.SendEmail(EmailTemplate.CollisionApproval, contact, laboratoryDataVm, laboratoryDataVm.LabolatoryFilePath, card.Id);
                     _logger.Info($"Collision coordination: email send. Address={contact}");
                 }
                 catch (Exception e)

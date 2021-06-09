@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -59,14 +57,16 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
         }
 
 
-        public bool SendSms(SmsTemplate smsId, int? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null)
+        public bool SendSms(SmsTemplate smsId, int? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null, string cardId = null)
         {
-            return _messageClient.SendSms(GenerateSmsMessage(smsId, ticketId, phoneNumber, parameters));
+            var message = GenerateSmsMessage(smsId, ticketId, phoneNumber, parameters);
+            return _messageClient.SendSms(message);
         }
 
-        public bool SendEmail(EmailTemplate emailId, string emailAddress = null, object data = null, string attachmentPath = null)
+        public bool SendEmail(EmailTemplate emailId, string emailAddress = null, object data = null, string attachmentPath = null, string cardId = null)
         {
-            return _messageClient.SendEmail(GenerateEmailMessage(emailId, emailAddress, data, attachmentPath));
+            var message = GenerateEmailMessage(emailId, emailAddress, data, attachmentPath);
+            return _messageClient.SendEmail(message);
         }
 
         private MailMessage GenerateEmailMessage(EmailTemplate emailId, string emailAddress, object data, string attachmentPath)

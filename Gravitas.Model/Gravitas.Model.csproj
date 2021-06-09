@@ -180,6 +180,7 @@
     <Compile Include="DomainModel\ExternalData\Stock\DAO\Stock.cs" />
     <Compile Include="DomainModel\ExternalData\Organization\DAO\Organization.cs" />
     <Compile Include="DomainModel\ExternalData\YearOfHarvest\DTO\YearOfHarvestDetail.cs" />
+    <Compile Include="DomainModel\Message\DAO\Messages.cs" />
     <Compile Include="DomainModel\MixedFeed\DAO\MixedFeedSilo.cs" />
     <Compile Include="DomainModel\MixedFeed\DTO\MixedFeedSiloDto.cs" />
     <Compile Include="DomainModel\Node\DAO\Node.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="DomainValue\DeviceErrorCode.cs" />
     <Compile Include="DomainValue\Email.cs" />
     <Compile Include="DomainValue\LabEffectiveClassifier.cs" />
+    <Compile Include="DomainValue\MessageType.cs" />
     <Compile Include="DomainValue\NodeData.cs" />
     <Compile Include="DomainValue\ExternalData.cs" />
     <Compile Include="DomainValue\DeviceType.cs" />
@@ -288,7 +290,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DomainModel\Card\TDO\" />
     <Folder Include="DomainModel\Queue\DTO\" />
   </ItemGroup>
   <ItemGroup>

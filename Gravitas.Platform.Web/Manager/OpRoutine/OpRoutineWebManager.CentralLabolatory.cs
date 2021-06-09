@@ -268,7 +268,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 new List<string> { vm.Email1, vm.Email2, vm.Email3 }, EmailTemplate.CentralLaboratoryCollisionApproval)) return false;
 
             Logger.Info("Laboratory collision send: Try send driver sms");
-            if (!_connectManager.SendSms(SmsTemplate.DriverQualityMatchingSms, nodeDto.Context.TicketId))
+            var card = _context.Cards.First(x => x.TicketContainerId == nodeDto.Context.TicketContainerId);
+            if (!_connectManager.SendSms(SmsTemplate.DriverQualityMatchingSms, nodeDto.Context.TicketId, cardId: card.Id))
                 Logger.Error("Message hasn`t been sent");
             else Logger.Info("Laboratory collision send: Driver sms send.");
 

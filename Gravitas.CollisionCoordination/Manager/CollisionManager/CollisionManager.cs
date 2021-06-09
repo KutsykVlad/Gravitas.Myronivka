@@ -37,9 +37,9 @@ namespace Gravitas.CollisionCoordination.Manager.CollisionManager
         }
 
         public IMessage CreateEmail(int ticketId, List<string> contactData) =>
-            new Email(_connectManager, _laboratoryDataManager, ticketId, contactData);
+            new Email(_connectManager, _laboratoryDataManager, ticketId, contactData, _context);
 
-        public IMessage CreateSms(int ticketId) => new Sms(_connectManager, ticketId);
+        public IMessage CreateSms(int ticketId) => new Sms(_connectManager, ticketId, _context);
 
         public void Approve(Guid opDataId, string approvedBy)
         {
@@ -73,7 +73,9 @@ namespace Gravitas.CollisionCoordination.Manager.CollisionManager
 
             try
             {
-                _connectManager.SendSms(SmsTemplate.CentralLaboratoryCollisionProcessed, opData.TicketId, _phonesRepository.GetPhone(Phone.CentralLaboratoryWorker), parameters);
+                var card = _context.Cards.First(x => x.TicketContainerId == opData.TicketContainerId);
+
+                _connectManager.SendSms(SmsTemplate.CentralLaboratoryCollisionProcessed, opData.TicketId, _phonesRepository.GetPhone(Phone.CentralLaboratoryWorker), parameters, cardId: card.Id);
             }
             catch (Exception e)
             {

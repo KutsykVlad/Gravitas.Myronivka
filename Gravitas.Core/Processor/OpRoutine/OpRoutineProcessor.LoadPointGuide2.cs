@@ -70,7 +70,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             var loadResultConfirm = _loadPointManager.ConfirmLoadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId.Value);
             if (!loadResultConfirm) return;
 
-            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId))
+            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId, cardId: card.Id))
             {
                 Logger.Error("Sms hasn`t been sent");
             }
