@@ -831,6 +831,15 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             return vm;
         }
 
+        public void AddOwnTransport_Delete(int nodeId, int id)
+        {
+            var node = _nodeRepository.GetNodeDto(nodeId);
+            _ownTransportRepository.Remove(id);
+            node.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.SingleWindow.State.Idle;
+            node.Context.OpProcessData = null;
+            UpdateNodeContext(node.Id, node.Context);
+        }
+
         public bool SingleWindow_RouteAddOpVisa_Back(int nodeId)
         {
             var node = _nodeRepository.GetNodeDto(nodeId);

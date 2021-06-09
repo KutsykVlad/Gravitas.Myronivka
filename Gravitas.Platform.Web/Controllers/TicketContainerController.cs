@@ -53,6 +53,7 @@ namespace Gravitas.Platform.Web.Controllers
         {
             if (!detailActionLink.NodeId.HasValue) return new HttpStatusCodeResult(400);
             var items = _context.DriverCheckInOpDatas
+                .Where(x => x.NodeId == detailActionLink.NodeId)
                 .AsEnumerable()
                 .Select(x => new DriverCheckInItemVm
                 {

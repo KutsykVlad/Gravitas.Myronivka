@@ -460,6 +460,11 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         {
             _opRoutineWebManager.SingleWindow_GetTicket_Back(nodeId);
         }
+        
+        public void AddOwnTransport_Delete(int nodeId, int id)
+        {
+            _opRoutineWebManager.AddOwnTransport_Delete(nodeId, id);
+        }
 
         #endregion
         

@@ -7,6 +7,7 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
     {
         [Key]
         public int Id { get; set; }
+        public int NodeId { get; set; }
         public int OrderNumber { get; set; }
         public string PhoneNumber { get; set; }
         public string Driver { get; set; }
@@ -19,5 +20,6 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         
         public DriverPhoto.DAO.DriverPhoto DriverPhoto { get; set; }
         public Ticket.DAO.Ticket Ticket { get; set; }
+        public Node.DAO.Node Node { get; set; }
     }
 }

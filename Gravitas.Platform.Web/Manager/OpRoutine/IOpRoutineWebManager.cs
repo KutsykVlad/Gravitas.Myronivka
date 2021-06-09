@@ -45,7 +45,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine {
 	    void SingleWindow_DeleteTicketAddOpVisa_Back(int nodeId);
 	    void OwnTransport_AddNew(int nodeId);
 	    void OwnTransport_Update(int nodeId, int id);
-
+	    void AddOwnTransport_Delete(int nodeId, int id);
 
 	    bool SingleWindow_RouteAddOpVisa_Back(int nodeId);
 		

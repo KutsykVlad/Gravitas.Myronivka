@@ -1,17 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gravitas.DAL.DbContext;
-using Gravitas.DAL.Repository._Base;
 using Gravitas.DAL.Repository.OwnTransport.Models;
 using Gravitas.Infrastructure.Common.Helper;
 
 namespace Gravitas.DAL.Repository.OwnTransport
 {
-    public class OwnTransportRepository : BaseRepository, IOwnTransportRepository
+    public class OwnTransportRepository : IOwnTransportRepository
     {
         private readonly GravitasDbContext _context;
 
-        public OwnTransportRepository( GravitasDbContext context) : base(context)
+        public OwnTransportRepository( GravitasDbContext context)
         {
             _context = context;
         }
@@ -60,7 +59,7 @@ namespace Gravitas.DAL.Repository.OwnTransport
         
         public void Remove(int id)
         {
-            var item = GetFirstOrDefault<Model.DomainModel.OwnTransport.DAO.OwnTransport, int>(x => x.Id == id);
+            var item = _context.OwnTransports.First(x => x.Id == id);
             _context.OwnTransports.Remove(item);
             _context.SaveChanges();
         }

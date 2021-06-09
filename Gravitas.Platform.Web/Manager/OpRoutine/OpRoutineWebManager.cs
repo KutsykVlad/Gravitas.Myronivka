@@ -5,6 +5,7 @@ using Gravitas.DAL.Repository.ExternalData;
 using Gravitas.DAL.Repository.Node;
 using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.OpWorkflow.Routes;
+using Gravitas.DAL.Repository.OwnTransport;
 using Gravitas.DAL.Repository.PhoneInformTicketAssignment;
 using Gravitas.DAL.Repository.Phones;
 using Gravitas.DAL.Repository.Ticket;
@@ -49,6 +50,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
         private readonly ITicketRepository _ticketRepository;
         private readonly ITrafficRepository _trafficRepository;
         private readonly GravitasDbContext _context;
+        private readonly IOwnTransportRepository _ownTransportRepository;
 
         public OpRoutineWebManager(
             INodeRepository nodeRepository,
@@ -71,7 +73,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             IExternalDataWebManager externalDataManager,
             IScaleManager scaleManager,
             IPhoneInformTicketAssignmentRepository phoneInformTicketAssignmentRepository,
-            GravitasDbContext context)
+            GravitasDbContext context, 
+            IOwnTransportRepository ownTransportRepository)
 
         {
             _nodeRepository = nodeRepository;
@@ -95,6 +98,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             _scaleManager = scaleManager;
             _phoneInformTicketAssignmentRepository = phoneInformTicketAssignmentRepository;
             _context = context;
+            _ownTransportRepository = ownTransportRepository;
         }
 
         private bool UpdateNodeContext(int nodeId, NodeContext newContext)
