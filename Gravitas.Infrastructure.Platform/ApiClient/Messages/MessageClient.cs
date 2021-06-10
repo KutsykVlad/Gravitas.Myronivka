@@ -40,17 +40,13 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.Messages
             {
                 try
                 {
-                    _logger.Trace($"MessageClient: Host = {_client.Host}");
-                    _logger.Trace($"MessageClient: Port = {_client.Port}");
-                    _logger.Trace($"MessageClient: RootEmail =  {_rootEmail}");
-                    _logger.Trace($"MessageClient: DestinationEmail =  {_rootEmailDestination}");
-                    _logger.Trace($"MessageClient: MailTo =  {sms?.PhoneNumber?.Trim()}@{_rootEmailDestination.Trim()}");
-
-                    _logger.Info($"MessageClient: Sms on number {sms?.PhoneNumber}, with text {sms?.Message}");
-                    var text = Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(sms?.Message ?? string.Empty));
+                    _logger.Info($"MessageClient: Sms on number {sms?.PhoneNumber}, with text {sms.Message}");
+                    var text = Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(sms.Message ?? string.Empty));
                     using (var mail = new MailMessage
                     {
-                        From = new MailAddress(_rootEmail.Trim()), Subject = "Message", Body = text
+                        From = new MailAddress(_rootEmail.Trim()), 
+                        Subject = "Message", 
+                        Body = text
                     })
                     {
                         mail.To.Add($"{sms?.PhoneNumber.Trim()}@{_rootEmailDestination.Trim()}");
@@ -72,11 +68,6 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.Messages
         {
             try
             {
-                _logger.Debug($"MessageClient: Host = {_client.Host}");
-                _logger.Debug($"MessageClient: Port = {_client.Port}");
-                _logger.Debug($"MessageClient: RootEmail =  {_rootEmail}");
-                _logger.Debug($"MessageClient: MailTo =  {message.To[0]}");
-                _logger.Debug($"MessageClient: MailFrom =  {message.From}");
                 _client.Send(message);
             }
             catch (Exception e)

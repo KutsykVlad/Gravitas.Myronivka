@@ -57,7 +57,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
             _nodeRepository = nodeRepository;
         }
 
-
         public bool SendSms(SmsTemplate smsId, int? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null, string cardId = null)
         {
             var message = GenerateSmsMessage(smsId, ticketId, phoneNumber, parameters);
@@ -143,8 +142,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
             return message;
         }
 
-
-        //Set additional properties
         private void PutAdditionalProperties(ref SmsMessageData data, Dictionary<string, object> parameters)
         {
             if (parameters == null) return;
@@ -158,7 +155,6 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
                 propertyInfo.SetValue(data, parameters[propertyName], null);
             }
         }
-
 
         private SmsMessage GenerateSmsMessage(SmsTemplate smsId, int? ticketId, string phoneNumber, Dictionary<string, object> parameters)
         {
