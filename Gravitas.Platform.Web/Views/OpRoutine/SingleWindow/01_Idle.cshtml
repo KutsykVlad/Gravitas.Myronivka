@@ -45,34 +45,34 @@
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="first" role="tabpanel" aria-labelledby="first-tab">
         @{Html.RenderAction(
-               "GetRegistry",
-               "TicketContainer",
-               new {
-                   nodeId = Model.NodeId,
-                   registerType = TicketRegisterType.SingleWindowQueue,
-                   detailActionLink = new ActionLinkVm {
-                       NodeId = Model.NodeId,
-                       ControllerName = "SingleWindow",
-                       ActionName = "Idle_SelectTicketContainer",
-                       SingleWindowRegisterFilter = Model.SelectedFilterId
-                   }
-               });
+              "GetRegistry",
+              "TicketContainer",
+              new {
+                  nodeId = Model.NodeId,
+                  registerType = TicketRegisterType.SingleWindowQueue,
+                  detailActionLink = new ActionLinkVm {
+                      NodeId = Model.NodeId,
+                      ControllerName = "SingleWindow",
+                      ActionName = "Idle_SelectTicketContainer",
+                      SingleWindowRegisterFilter = Model.SelectedFilterId
+                  }
+              });
         }
     </div>
     <div class="tab-pane fade" id="second" role="tabpanel" aria-labelledby="second-tab">
         @{Html.RenderAction(
-               "GetRegistry",
-               "TicketContainer",
-               new {
-                   nodeId = Model.NodeId,
-                   registerType = TicketRegisterType.SingleWindowInProgress,
-                   detailActionLink = new ActionLinkVm {
-                       NodeId = Model.NodeId,
-                       ControllerName = "SingleWindow",
-                       ActionName = "Idle_SelectTicketContainer",
-                       SingleWindowRegisterFilter = Model.SelectedFilterId
-                   }
-               });
+              "GetRegistry",
+              "TicketContainer",
+              new {
+                  nodeId = Model.NodeId,
+                  registerType = TicketRegisterType.SingleWindowInProgress,
+                  detailActionLink = new ActionLinkVm {
+                      NodeId = Model.NodeId,
+                      ControllerName = "SingleWindow",
+                      ActionName = "Idle_SelectTicketContainer",
+                      SingleWindowRegisterFilter = Model.SelectedFilterId
+                  }
+              });
         }
     </div>
     <div class="tab-pane fade" id="third" role="tabpanel" aria-labelledby="third-tab">
@@ -94,32 +94,31 @@
     </div>
     <div class="tab-pane fade" id="fourth" role="tabpanel" aria-labelledby="fourth-tab">
         @{Html.RenderAction(
-               "GetRegistry",
-               "TicketContainer",
-               new {
-                   nodeId = Model.NodeId,
-                   registerType = TicketRegisterType.SingleWindowProcessed,
-                   detailActionLink = new ActionLinkVm {
-                       NodeId = Model.NodeId,
-                       ControllerName = "SingleWindow",
-                       ActionName = "Idle_SelectTicketContainer",
-                       SingleWindowRegisterFilter = Model.SelectedFilterId
-                   }
-               });
+              "GetRegistry",
+              "TicketContainer",
+              new {
+                  nodeId = Model.NodeId,
+                  registerType = TicketRegisterType.SingleWindowProcessed,
+                  detailActionLink = new ActionLinkVm {
+                      NodeId = Model.NodeId,
+                      ControllerName = "SingleWindow",
+                      ActionName = "Idle_SelectTicketContainer",
+                      SingleWindowRegisterFilter = Model.SelectedFilterId
+                  }
+              });
         }
     </div>
     <div class="tab-pane fade" id="five" role="tabpanel" aria-labelledby="fourth-tab">
-        <div class="card-group justify-content-center">
-            Five
-        </div>
+        <input >
+        <div id="messages-list"></div>
     </div>
     <div class="tab-pane fade" id="six" role="tabpanel" aria-labelledby="fourth-tab">
         @{Html.RenderAction(
-               "OwnTransport",
-               "SingleWindow",
-               new {
-                   nodeId = Model.NodeId
-               });
+              "OwnTransport",
+              "SingleWindow",
+              new {
+                  nodeId = Model.NodeId
+              });
         }
     </div>
     <div class="tab-pane fade" id="seven" role="tabpanel" aria-labelledby="fourth-tab">
@@ -128,3 +127,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    function updateMessages(cardNumber) {
+        $.ajax({
+            url: '@Url.Action("MessagesList", "SingleWindow")',
+            method: 'POST',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                'cardNumber': cardNumber
+            }),
+            success: function(data) {
+                document.getElementById('messages-list').innerHTML = data;
+            },
+            error: function(e) {
+                console.log('Error while retrieving ticket registry: ' + e);
+                document.getElementById('messages-list').innerHTML = "Server error";
+            }
+        });
+    }
+</script>

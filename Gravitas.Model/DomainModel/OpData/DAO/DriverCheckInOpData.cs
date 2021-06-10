@@ -18,8 +18,8 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public int? TicketId { get; set; }
         public bool IsInvited { get; set; }
         
-        public DriverPhoto.DAO.DriverPhoto DriverPhoto { get; set; }
-        public Ticket.DAO.Ticket Ticket { get; set; }
-        public Node.DAO.Node Node { get; set; }
+        public virtual DriverPhoto.DAO.DriverPhoto DriverPhoto { get; set; }
+        public virtual Ticket.DAO.Ticket Ticket { get; set; }
+        public virtual Node.DAO.Node Node { get; set; }
     }
 }

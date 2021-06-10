@@ -17,6 +17,7 @@ using Gravitas.Infrastructure.Common.Helper;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
+using Gravitas.Model.DomainModel.Card.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
@@ -89,6 +90,26 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 FilterItems = _filterItems
             };
             return PartialView("../OpRoutine/SingleWindow/01_Idle", routineData);
+        }
+        
+        public ActionResult MessagesList(int cardNo)
+        {
+            var items = _context.Messages
+                .Include(nameof(Card))
+                .Where(x => x.Card.No == cardNo)
+                .AsEnumerable()
+                .Select(x => new SingleWindowVms.MessageVm
+                {
+                    Id = x.Id,
+                    Message = x.Text,
+                    Receiver = x.Receiver,
+                    CardNo = x.Card.No,
+                    Created = x.Created,
+                    TruckNo = _context.SingleWindowOpDatas
+                        .FirstOrDefault(z => z.TicketContainerId == x.Card.TicketContainerId)?.HiredTransportNumber
+                })
+                .ToList();
+            return PartialView("../OpRoutine/SingleWindow/_MessagesList", items);
         }
         
         [HttpGet]

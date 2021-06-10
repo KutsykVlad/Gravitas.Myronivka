@@ -1,0 +1,34 @@
+﻿@model List<Gravitas.Platform.Web.ViewModel.SingleWindowVms.MessageVm>
+
+@if (!Model.Any()) 
+{
+    <h4>Немає записів</h4>
+}
+else 
+{
+    <table class="table text-center">
+        <thead>
+        <tr>
+            <th scope="col-2">@Html.LabelFor(m => Model.FirstOrDefault().Created)</th>
+            <th scope="col-2">@Html.LabelFor(m => Model.FirstOrDefault().CardNo)</th>
+            <th scope="col-2">@Html.LabelFor(m => Model.FirstOrDefault().TruckNo)</th>
+            <th scope="col-2">@Html.LabelFor(m => Model.FirstOrDefault().Message)</th>
+            <th scope="col-2">@Html.LabelFor(m => Model.FirstOrDefault().Receiver)</th>
+            <th scope="col-2"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">@Html.DisplayFor(m => item.Created)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.CardNo)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.TruckNo)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.Message)</td>
+                <td class="align-middle">@Html.DisplayFor(m => item.Receiver)</td>
+                <td class="align-middle"></td>
+            </tr>
+        }
+        </tbody>
+    </table>  
+}

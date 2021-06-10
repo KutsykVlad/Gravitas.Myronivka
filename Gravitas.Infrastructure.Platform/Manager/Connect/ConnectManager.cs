@@ -16,6 +16,7 @@ using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Platform.ApiClient.Messages;
 using Gravitas.Infrastructure.Platform.Manager.ReportTool;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
+using Gravitas.Model.DomainModel.Message.DAO;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
 using NLog;
@@ -60,13 +61,49 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
         public bool SendSms(SmsTemplate smsId, int? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null, string cardId = null)
         {
             var message = GenerateSmsMessage(smsId, ticketId, phoneNumber, parameters);
-            return _messageClient.SendSms(message);
+            try
+            {
+                _messageClient.SendSms(message);
+                _context.Messages.Add(new Message
+                {
+                    CardId = cardId,
+                    TypeId = MessageType.Sms,
+                    Text = message.Message,
+                    Created = DateTime.Now,
+                    Receiver = phoneNumber
+                });
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, $"Unable to send sms to ${phoneNumber} message '{message.Message}'");
+                return false;
+            }
         }
 
         public bool SendEmail(EmailTemplate emailId, string emailAddress = null, object data = null, string attachmentPath = null, string cardId = null)
         {
             var message = GenerateEmailMessage(emailId, emailAddress, data, attachmentPath);
-            return _messageClient.SendEmail(message);
+            try
+            {
+                _messageClient.SendEmail(message);
+                _context.Messages.Add(new Message
+                {
+                    CardId = cardId,
+                    TypeId = MessageType.Email,
+                    Text = message.Body,
+                    Created = DateTime.Now,
+                    Receiver = emailAddress
+                });
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, $"Unable to send email to ${emailAddress} message '{message.Body}'");
+                return false;
+            }
         }
 
         private MailMessage GenerateEmailMessage(EmailTemplate emailId, string emailAddress, object data, string attachmentPath)

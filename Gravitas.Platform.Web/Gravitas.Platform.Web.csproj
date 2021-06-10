@@ -371,6 +371,7 @@
     <Compile Include="ViewModel\OpRoutine\SingleWindow\21. CloseAddOpVisa.cs" />
     <Compile Include="ViewModel\OpRoutine\SingleWindow\14. EditPostApiData.cs" />
     <Compile Include="ViewModel\OpRoutine\SingleWindow\13. EditAddOpVisa.cs" />
+    <Compile Include="ViewModel\OpRoutine\SingleWindow\MessageVm.cs" />
     <Compile Include="ViewModel\OpRoutine\SingleWindow\ProtocolPrintoutVm.cs" />
     <Compile Include="ViewModel\OpRoutine\SingleWindow\RoutePrintoutVm.cs" />
     <Compile Include="ViewModel\OpRoutine\SingleWindow\TechnologicalRoutePrintoutVm.cs" />
@@ -642,6 +643,7 @@
     <Content Include="Views\OpRoutine\SingleWindow\15_SupplyChangeAddOpVisa.cshtml" />
     <Content Include="Views\OpRoutine\SingleWindow\16_DivideTicketAddOpVisa.cshtml" />
     <Content Include="Views\OpRoutine\SingleWindow\17_DeleteTicketAddOpVisa.cshtml" />
+    <Content Include="Views\OpRoutine\SingleWindow\_MessagesList.cshtml" />
     <Content Include="Views\OpRoutine\UnloadCheckPoint\01_Idle.cshtml" />
     <Content Include="Views\OpRoutine\UnloadPointGuide2\01_Idle.cshtml" />
     <Content Include="Views\OpRoutine\UnloadPointGuide2\02_BindUnloadPoint.cshtml" />
