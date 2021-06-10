@@ -27,7 +27,7 @@ else
                 <td class="align-middle">@Html.DisplayFor(m => item.Message)</td>
                 <td class="align-middle">@Html.DisplayFor(m => item.Receiver)</td>
                 <td class="align-middle">
-                    @Html.ActionLink("Відправити", "SendMessage", "SingleWindow", new {id = item.Id}, new {@class = "btn btn-warning btn-sm"})
+                    @Ajax.ActionLink("Відправити", "SendMessage", "SingleWindow", new {id = item.Id}, null, new {@class = "btn btn-warning btn-sm"})
                 </td>
             </tr>
         }

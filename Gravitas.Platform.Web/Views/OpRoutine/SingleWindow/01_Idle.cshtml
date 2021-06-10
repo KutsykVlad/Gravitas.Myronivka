@@ -109,7 +109,14 @@
         }
     </div>
     <div class="tab-pane fade" id="five" role="tabpanel" aria-labelledby="fourth-tab">
-        <input class="form-control" onkeyup="updateMessages(this.value)" >
+        <div class="row">
+            <h5 class="offset-6 col-3" style="text-align: right; line-height: 1.7">
+                Номер картки: 
+            </h5>
+            <div class="col-3">
+                <input class="form-control" onkeyup="updateMessages(this.value)" >
+            </div>
+        </div>
         <div id="messages-list">
             Введіть номер картки для пошуку
         </div>

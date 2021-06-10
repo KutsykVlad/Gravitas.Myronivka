@@ -22,6 +22,7 @@ using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
 using Gravitas.Model.DomainModel.Card.DAO;
+using Gravitas.Model.DomainModel.Message.DAO;
 using Gravitas.Model.DomainModel.Node.TDO.Json;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainValue;
@@ -150,6 +151,17 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 default:
                     throw new ArgumentOutOfRangeException("Invalid message type");
             }
+
+            _context.Messages.Add(new Message
+            {
+                CardId = message.CardId,
+                Text = message.Text,
+                Receiver = message.Receiver,
+                AttachmentPath = message.AttachmentPath,
+                TypeId = message.TypeId,
+                Created = DateTime.Now
+            });
+            _context.SaveChanges();
         }
         
         [HttpGet]
