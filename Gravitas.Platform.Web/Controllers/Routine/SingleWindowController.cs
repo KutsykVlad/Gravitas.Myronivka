@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading;
 using System.Web;
@@ -13,7 +14,10 @@ using Gravitas.DAL.Repository.OpWorkflow.OpData;
 using Gravitas.DAL.Repository.OwnTransport;
 using Gravitas.DAL.Repository.OwnTransport.Models;
 using Gravitas.DAL.Repository.PackingTare;
+using Gravitas.Infrastructure.Common.Configuration;
 using Gravitas.Infrastructure.Common.Helper;
+using Gravitas.Infrastructure.Platform.ApiClient.Messages;
+using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Infrastructure.Platform.Manager.OpRoutine;
 using Gravitas.Infrastructure.Platform.SignalRClient;
 using Gravitas.Model;
@@ -40,6 +44,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         private readonly GravitasDbContext _context;
         private readonly IOpDataRepository _opDataRepository;
         private readonly IOwnTransportRepository _ownTransportRepository;
+        private readonly IMessageClient _messageClient;
         
         private static readonly Dictionary<int, SingleWindowRegisterFilter> NodeFilters = new()
         {
@@ -63,7 +68,8 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             IPackingTareRepository packingTareRepository, 
             GravitasDbContext context, 
             IOpDataRepository opDataRepository,
-            IOwnTransportRepository ownTransportRepository)
+            IOwnTransportRepository ownTransportRepository,
+            IMessageClient messageClient)
         {
             _opRoutineWebManager = opRoutineWebManager;
             _externalDataRepository = externalDataRepository;
@@ -75,6 +81,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
             _context = context;
             _opDataRepository = opDataRepository;
             _ownTransportRepository = ownTransportRepository;
+            _messageClient = messageClient;
         }
 
         #region 01_Idle
@@ -105,11 +112,44 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                     Receiver = x.Receiver,
                     CardNo = x.Card.No,
                     Created = x.Created,
-                    TruckNo = _context.SingleWindowOpDatas
-                        .FirstOrDefault(z => z.TicketContainerId == x.Card.TicketContainerId)?.HiredTransportNumber
+                    TruckNo = x.Card.TicketContainerId.HasValue 
+                        ? _context.SingleWindowOpDatas.FirstOrDefault(z => z.TicketContainerId == x.Card.TicketContainerId)?.HiredTransportNumber
+                        : string.Empty
                 })
                 .ToList();
             return PartialView("../OpRoutine/SingleWindow/_MessagesList", items);
+        }
+
+        public void SendMessage(int id)
+        {
+            var message = _context.Messages.First(x => x.Id == id);
+            switch (message.TypeId)
+            {
+                case MessageType.Sms:
+                    _messageClient.SendSms(new SmsMessage
+                    {
+                        Message = message.Text,
+                        PhoneNumber = message.Receiver
+                    });
+                    break;
+                case MessageType.Email:
+                    _messageClient.SendEmail(new MailMessage(
+                        new MailAddress(GlobalConfigurationManager.RootEmail, "Булат. Автоматичні повідомлення"),
+                        new MailAddress(message.Receiver))
+                    {
+                        IsBodyHtml = true,
+                        Body = message.Text,
+                        Attachments = 
+                        {
+                            string.IsNullOrEmpty(message.AttachmentPath)
+                                ? null
+                                : new Attachment(message.AttachmentPath)
+                        }
+                    });
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("Invalid message type");
+            }
         }
         
         [HttpGet]

@@ -94,7 +94,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
                     TypeId = MessageType.Email,
                     Text = message.Body,
                     Created = DateTime.Now,
-                    Receiver = emailAddress
+                    Receiver = emailAddress,
+                    AttachmentPath = attachmentPath
                 });
                 _context.SaveChanges();
                 return true;

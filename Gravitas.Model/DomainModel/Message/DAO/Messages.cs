@@ -11,6 +11,7 @@ namespace Gravitas.Model.DomainModel.Message.DAO
         public string Text { get; set; }
         public DateTime Created { get; set; }
         public string Receiver { get; set; }
+        public string AttachmentPath { get; set; }
 
         public virtual Card.DAO.Card Card { get; set; }
     }

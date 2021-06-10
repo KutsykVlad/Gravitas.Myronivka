@@ -109,8 +109,10 @@
         }
     </div>
     <div class="tab-pane fade" id="five" role="tabpanel" aria-labelledby="fourth-tab">
-        <input >
-        <div id="messages-list"></div>
+        <input class="form-control" onkeyup="updateMessages(this.value)" >
+        <div id="messages-list">
+            Введіть номер картки для пошуку
+        </div>
     </div>
     <div class="tab-pane fade" id="six" role="tabpanel" aria-labelledby="fourth-tab">
         @{Html.RenderAction(
@@ -130,19 +132,16 @@
 
 <script>
     function updateMessages(cardNumber) {
+        if (cardNumber.length < 4) return;
+        
         $.ajax({
-            url: '@Url.Action("MessagesList", "SingleWindow")',
-            method: 'POST',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({
-                'cardNumber': cardNumber
-            }),
+            type: "GET",
+            url: '@Url.Action("MessagesList", "SingleWindow")' + '?cardNo=' + cardNumber,
             success: function(data) {
-                document.getElementById('messages-list').innerHTML = data;
+                 $("#messages-list").html(data);
             },
-            error: function(e) {
-                console.log('Error while retrieving ticket registry: ' + e);
-                document.getElementById('messages-list').innerHTML = "Server error";
+            error: function () { 
+                $("#messages-list").html("Server error"); 
             }
         });
     }
