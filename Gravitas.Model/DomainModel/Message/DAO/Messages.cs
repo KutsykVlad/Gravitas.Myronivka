@@ -14,6 +14,7 @@ namespace Gravitas.Model.DomainModel.Message.DAO
         public string AttachmentPath { get; set; }
         public long DeliveryId { get; set; }
         public MessageStatus Status { get; set; }
+        public int RetryCount { get; set; }
 
         public virtual Card.DAO.Card Card { get; set; }
     }

@@ -71,7 +71,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
                     Created = DateTime.Now,
                     Receiver = phoneNumber,
                     DeliveryId = id,
-                    Status = status
+                    Status = status,
+                    RetryCount = 1
                 });
                 _context.SaveChanges();
                 return true;
@@ -98,7 +99,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
                     Receiver = emailAddress,
                     AttachmentPath = attachmentPath,
                     DeliveryId = 0,
-                    Status = MessageStatus.Accepted
+                    Status = MessageStatus.Accepted,
+                    RetryCount = 1
                 });
                 _context.SaveChanges();
                 return true;

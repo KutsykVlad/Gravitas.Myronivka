@@ -124,10 +124,12 @@ namespace Gravitas.Platform.Web.Controllers.Routine
         public void SendMessage(int id)
         {
             var message = _context.Messages.First(x => x.Id == id);
+            long deliveryId = 0;
+            var status = MessageStatus.Undeliverable;
             switch (message.TypeId)
             {
                 case MessageType.Sms:
-                    _messageClient.SendSms(new SmsMessage
+                    (deliveryId, status) = _messageClient.SendSms(new SmsMessage
                     {
                         Message = message.Text,
                         PhoneNumber = message.Receiver
@@ -159,7 +161,10 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                 Receiver = message.Receiver,
                 AttachmentPath = message.AttachmentPath,
                 TypeId = message.TypeId,
-                Created = DateTime.Now
+                Created = DateTime.Now,
+                RetryCount = 1,
+                DeliveryId = deliveryId,
+                Status = status
             });
             _context.SaveChanges();
         }
