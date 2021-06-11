@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Web.Mvc;
 using Gravitas.DAL.DbContext;
 using Gravitas.DAL.Repository.Card;
@@ -25,6 +28,7 @@ using Gravitas.Platform.Web.ViewModel.Admin.NodeDetails;
 using Gravitas.Platform.Web.ViewModel.Admin.QueuePriority;
 using Gravitas.Platform.Web.ViewModel.Admin.Role;
 using Gravitas.Platform.Web.ViewModel.Admin.Version;
+using Newtonsoft.Json;
 using Settings = Gravitas.Model.DomainModel.Settings.DAO.Settings;
 
 namespace Gravitas.Platform.Web.Controllers
@@ -50,6 +54,38 @@ namespace Gravitas.Platform.Web.Controllers
             _context = context;
         }
 
+        public void Test2()
+        {
+            var httpClient = new HttpClient(); 
+            
+            var cred = "kucherenko:fhJA9362xumnwrc";
+            var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(cred));
+            
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+            httpClient.DefaultRequestHeaders
+                .Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var message = new
+            {
+                id = "6616146061573",
+                value = "status"
+            };
+
+            var data = JsonConvert.SerializeObject(message);
+            
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://api.omnicell.com.ua/ip2sms-request/")
+            {
+                Content = new StringContent(data,
+                    Encoding.UTF8,
+                    "application/json")
+            };
+
+            var response = httpClient.SendAsync(request).GetAwaiter().GetResult();
+
+            var r = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+        }
+        
         public ActionResult Login()
         {
             return View();  

@@ -53,6 +53,9 @@
     <Compile Include="ApiClient\Devices\DeviceSyncManager.cs" />
     <Compile Include="ApiClient\Devices\IDeviceSyncManager.cs" />
     <Compile Include="ApiClient\IOneCApiService.cs" />
+    <Compile Include="ApiClient\Messages\Models\OmniMessage.cs" />
+    <Compile Include="ApiClient\Messages\Models\OmniSmsSendResult.cs" />
+    <Compile Include="ApiClient\Messages\Models\OmniStatus.cs" />
     <Compile Include="ApiClient\OneCApiService.cs" />
     <Compile Include="ApiClient\OneC\JsonModel\ChangeSupplyCode.cs" />
     <Compile Include="ApiClient\OneC\JsonModel\GetDeliveryBill.cs" />

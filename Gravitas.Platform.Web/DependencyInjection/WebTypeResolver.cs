@@ -75,10 +75,13 @@ namespace Gravitas.Platform.Web.DependencyInjection
             container.RegisterType<IOpDataManager, OpDataManager>();
             container.RegisterType<ICameraManager, CameraManager>();
             container.RegisterType<IRoutesManager, RoutesManager>();
-            container.RegisterInstance<IMessageClient>(
-                new MessageClient(GlobalConfigurationManager.EmailHost, GlobalConfigurationManager.RootEmail,
-                    GlobalConfigurationManager.RootEmailDestination,
-                    GlobalConfigurationManager.RootEmailLogin, GlobalConfigurationManager.RootEmailPassword));
+            container.RegisterInstance<IMessageClient>( 
+                new MessageClient (GlobalConfigurationManager.EmailHost, 
+                    GlobalConfigurationManager.RootEmailLogin, 
+                    GlobalConfigurationManager.RootEmailPassword,
+                    GlobalConfigurationManager.OmniHost,
+                    GlobalConfigurationManager.OmniLogin,
+                    GlobalConfigurationManager.OmniPassword));
             container.RegisterType<IConnectManager, ConnectManager>();
             container.RegisterType<IQueueDisplay, QueueDisplay>();
             container.RegisterType<ICollisionWebManager, CollisionWebManager>();

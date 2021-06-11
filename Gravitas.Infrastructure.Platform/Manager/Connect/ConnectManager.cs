@@ -62,14 +62,16 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
             var message = GenerateSmsMessage(smsId, ticketId, phoneNumber, parameters);
             try
             {
-                _messageClient.SendSms(message);
+                var (id, status) = _messageClient.SendSms(message);
                 _context.Messages.Add(new Message
                 {
                     CardId = cardId,
                     TypeId = MessageType.Sms,
                     Text = message.Message,
                     Created = DateTime.Now,
-                    Receiver = phoneNumber
+                    Receiver = phoneNumber,
+                    DeliveryId = id,
+                    Status = status
                 });
                 _context.SaveChanges();
                 return true;
@@ -94,7 +96,9 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
                     Text = message.Body,
                     Created = DateTime.Now,
                     Receiver = emailAddress,
-                    AttachmentPath = attachmentPath
+                    AttachmentPath = attachmentPath,
+                    DeliveryId = 0,
+                    Status = MessageStatus.Accepted
                 });
                 _context.SaveChanges();
                 return true;

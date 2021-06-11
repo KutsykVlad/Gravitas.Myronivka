@@ -51,9 +51,12 @@ namespace Gravitas.CollisionCoordination
 			container.RegisterType<ICameraManager, CameraManager>();
 			
 			container.RegisterInstance<IMessageClient>( 
-				new MessageClient (GlobalConfigurationManager.EmailHost, GlobalConfigurationManager.RootEmail,
-				GlobalConfigurationManager.RootEmailDestination,
-				GlobalConfigurationManager.RootEmailLogin, GlobalConfigurationManager.RootEmailPassword));
+				new MessageClient (GlobalConfigurationManager.EmailHost, 
+					GlobalConfigurationManager.RootEmailLogin, 
+					GlobalConfigurationManager.RootEmailPassword,
+					GlobalConfigurationManager.OmniHost,
+					GlobalConfigurationManager.OmniLogin,
+					GlobalConfigurationManager.OmniPassword));
             container.RegisterType<IConnectManager, ConnectManager>();
 
 			container.RegisterType<IOpRoutineManager, OpRoutineManager>();

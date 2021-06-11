@@ -1,24 +1,32 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Text;
+using Gravitas.Infrastructure.Platform.ApiClient.Messages.Models;
 using Gravitas.Infrastructure.Platform.Manager.Connect;
+using Gravitas.Model.DomainValue;
+using Newtonsoft.Json;
 using NLog;
 
 namespace Gravitas.Infrastructure.Platform.ApiClient.Messages
 {
     public class MessageClient : IMessageClient
     {
+        private readonly string _omniHost;
         private static readonly object LockObject = new object();
-        private readonly SmtpClient _client;
+        private readonly SmtpClient _smtpClient;
+        private static readonly HttpClient _httpClient = new HttpClient();
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        private readonly string _rootEmail;
-        private readonly string _rootEmailDestination;
-
-        public MessageClient(string host, string rootEmail, string rootEmailDestination, string login, string password)
+        public MessageClient(string host, string login, string password, string omniHost, string omniLogin, string omniPassword)
         {
-            _client = new SmtpClient
+            _omniHost = omniHost;
+            var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{omniLogin}:{omniPassword}"));
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+
+            _smtpClient = new SmtpClient
             {
                 Port = 587,
                 UseDefaultCredentials = false,
@@ -26,41 +34,45 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.Messages
                 Credentials = new NetworkCredential(login.Trim(), password.Trim()),
                 Host = host
             };
-            _rootEmail = rootEmail;
-            _rootEmailDestination = rootEmailDestination;
         }
 
-        public bool SendSms(SmsMessage sms)
+        public (long Id, MessageStatus Value) SendSms(SmsMessage sms)
         {
-            if (string.IsNullOrEmpty(sms?.PhoneNumber))
-            {
-                return false;
-            }
             lock (LockObject)
             {
                 try
                 {
-                    _logger.Info($"MessageClient: Sms on number {sms?.PhoneNumber}, with text {sms.Message}");
-                    var text = Encoding.Unicode.GetString(Encoding.Unicode.GetBytes(sms.Message ?? string.Empty));
-                    using (var mail = new MailMessage
+                    var message = new OmniMessage
                     {
-                        From = new MailAddress(_rootEmail.Trim()), 
-                        Subject = "Message", 
-                        Body = text
-                    })
+                        To = new Receiver[]
+                        {
+                            new Receiver
+                            {
+                                Msisdn = sms.PhoneNumber
+                            }
+                        },
+                        Body = new Body
+                        {
+                            Value = sms.Message
+                        }
+                    };
+
+                    var request = new HttpRequestMessage(HttpMethod.Post, _omniHost)
                     {
-                        mail.To.Add($"{sms?.PhoneNumber.Trim()}@{_rootEmailDestination.Trim()}");
-                        _client.Send(mail);
-                    }
+                        Content = new StringContent(JsonConvert.SerializeObject(message), Encoding.UTF8, "application/json")
+                    };
+
+                    var response = _httpClient.SendAsync(request).GetAwaiter().GetResult();
+
+                    var result = JsonConvert.DeserializeObject<OmniSmsSendResult>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+                    _logger.Info($"MessageClient: Sms on number {sms.PhoneNumber} has been sent");
+                    return (result.Id, result.Request.Value);
                 }
                 catch (Exception e)
                 {
                     _logger.Error($"MessageClient: Error on sending sms: {e}");
-                    return false;
+                    return (default, MessageStatus.Undeliverable);
                 }
-
-                _logger.Info($"MessageClient: Sms on number {sms?.PhoneNumber} has been sent");
-                return true;
             }
         }
 
@@ -68,7 +80,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.Messages
         {
             try
             {
-                _client.Send(message);
+                _smtpClient.Send(message);
             }
             catch (Exception e)
             {

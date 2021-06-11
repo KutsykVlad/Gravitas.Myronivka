@@ -37,7 +37,9 @@ namespace Gravitas.Infrastructure.Common.Configuration
         public static string RootEmail => Read("RootEmail");
         public static string RootEmailLogin => Read("RootEmailLogin");
         public static string RootEmailPassword => Read("RootEmailPassword");
-        public static string RootEmailDestination => Read("RootEmailDestination");
+        public static string OmniHost => Read(nameof(OmniHost));
+        public static string OmniLogin => Read(nameof(OmniLogin));
+        public static string OmniPassword => Read(nameof(OmniPassword));
         public static string ConnectApiHost => Read("ConnectApiHost");
 
         private static string Read(string key) => ConfigurationManager.AppSettings[key];
