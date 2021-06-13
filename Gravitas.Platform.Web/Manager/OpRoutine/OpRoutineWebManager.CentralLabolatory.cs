@@ -269,9 +269,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             Logger.Info("Laboratory collision send: Try send driver sms");
             var card = _context.Cards.First(x => x.TicketContainerId == nodeDto.Context.TicketContainerId);
-            if (!_connectManager.SendSms(SmsTemplate.DriverQualityMatchingSms, nodeDto.Context.TicketId, cardId: card.Id))
-                Logger.Error("Message hasn`t been sent");
-            else Logger.Info("Laboratory collision send: Driver sms send.");
+            _connectManager.SendSms(SmsTemplate.DriverQualityMatchingSms, nodeDto.Context.TicketId, cardId: card.Id);
 
             nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.CentralLaboratoryProcess.State.Idle;
             _nodeRepository.ClearNodeProcessingMessage(vm.NodeId);

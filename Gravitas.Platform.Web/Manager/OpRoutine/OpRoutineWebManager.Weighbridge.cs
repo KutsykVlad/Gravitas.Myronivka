@@ -131,10 +131,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 nodeDto.Context.OpProcessData = null;
 
                 var card = _context.Cards.First(x => x.TicketContainerId == nodeDto.Context.TicketContainerId);
-                if (!_connectManager.SendSms(SmsTemplate.InvalidPerimeterGuardianSms, nodeDto.Context.TicketId, 
-                    _phonesRepository.GetPhone(Phone.Security), cardId: card.Id))
-                    Logger.Info($"Weightbridge.OproutineWebManager: Message to {_phonesRepository.GetPhone(Phone.Security)} hasn`t been sent");
-
+                _connectManager.SendSms(SmsTemplate.InvalidPerimeterGuardianSms, nodeDto.Context.TicketId, _phonesRepository.GetPhone(Phone.Security), cardId: card.Id);
                 _opRoutineManager.UpdateProcessingMessage(nodeId,
                     new NodeProcessingMsgItem(ProcessingMsgType.Info, @"Очікуйте прибуття охоронця для подальшого зважування"));
             }

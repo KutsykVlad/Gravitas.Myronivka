@@ -208,6 +208,11 @@ namespace Gravitas.Core.Processor.OpRoutine
                 }
             }
 
+            var messages = _context.Messages
+                .Where(x => cardList.Select(z => z.Id).Contains(x.Card.Id))
+                .ToList();
+            _context.Messages.RemoveRange(messages);
+
             container.StatusId = TicketContainerStatus.Inactive;
             _nodeRepository.Update<TicketContainer, int>(container);
             
@@ -981,10 +986,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             }
             else
             {
-                if (!_connectManager.SendSms(SmsTemplate.RouteChangeSms, nodeDetailsDto.Context.TicketId, cardId: card.Id))
-                {
-                    Logger.Error("SingleWindow. RouteAddOpVisa: Sms hasn`t been sent");
-                }
+                _connectManager.SendSms(SmsTemplate.RouteChangeSms, nodeDetailsDto.Context.TicketId, cardId: card.Id);
             }
             
             _ticketRepository.Update<SingleWindowOpData, Guid>(windowOpData);

@@ -63,10 +63,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             var unloadResult = _unloadPointManager.ConfirmUnloadGuide(nodeDetailsDto.Context.TicketId.Value, card.EmployeeId.Value);
             if (!unloadResult) return;
 
-            if (!_connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId, cardId: card.Id))
-            {
-                Logger.Error("Sms hasn`t been sent");
-            }
+            _connectManager.SendSms(SmsTemplate.DestinationPointApprovalSms, nodeDetailsDto.Context.TicketId, cardId: card.Id);
 
             nodeDetailsDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.UnloadPointGuide2.State.Idle;
             nodeDetailsDto.Context.OpDataId = null;

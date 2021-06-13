@@ -65,11 +65,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
             if (nodeDto?.Context == null) return;
-            
+
             nodeDto.Context.TicketId = null;
-			nodeDto.Context.TicketContainerId = null;
-			nodeDto.Context.OpDataId = null;
-			nodeDto.Context.OpDataComponentId = null;
+            nodeDto.Context.TicketContainerId = null;
+            nodeDto.Context.OpDataId = null;
+            nodeDto.Context.OpDataComponentId = null;
             nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
@@ -138,7 +138,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
         }
-        
+
         public bool LaboratoryIn_Idle_PrintCollisionInit(int nodeId, int ticketId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -148,7 +148,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 .Where(x => x.TicketId == ticketId)
                 .Select(x => x.Id)
                 .First();
-            
+
             nodeDto.Context.OpDataId = opDataId;
             nodeDto.Context.TicketId = ticketId;
             nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.PrintCollisionInit;
@@ -161,7 +161,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (nodeDto?.Context?.OpDataId == null || nodeDto.Context?.TicketId == null) return null;
             var opData = _context.SingleWindowOpDatas.FirstOrDefault(x => x.TicketId == nodeDto.Context.TicketId.Value);
             var card = _context.Cards.FirstOrDefault(e =>
-                    e.TicketContainerId == nodeDto.Context.TicketContainerId && e.TypeId == CardType.TicketCard);
+                e.TicketContainerId == nodeDto.Context.TicketContainerId && e.TypeId == CardType.TicketCard);
 
             var analysisValueDescriptor = new LaboratoryInVms.AnalysisValueDescriptorVm
             {
@@ -190,19 +190,19 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 || nodeDto.Context?.TicketId == null
                 || nodeDto.Context?.OpDataId == null)
                 return false;
-            
+
             if (!vmData.AnalysisValueDescriptor.EditHumidity
                 && !vmData.AnalysisValueDescriptor.EditImpurity
                 && !vmData.AnalysisValueDescriptor.EditEffectiveValue
                 && !vmData.AnalysisValueDescriptor.EditIsInfectioned)
             {
                 _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
-                    ProcessingMsgType.Error,@"Виберіть значення"));
+                    ProcessingMsgType.Error, @"Виберіть значення"));
                 return false;
             }
 
             var sampleCard = _context.Cards.FirstOrDefault(c =>
-                c.TicketContainerId == nodeDto.Context.TicketContainerId.Value 
+                c.TicketContainerId == nodeDto.Context.TicketContainerId.Value
                 && c.TypeId == CardType.LaboratoryTray
                 && c.Id == c.ParentCardId);
 
@@ -224,20 +224,20 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 _cardRepository.Update<Card, string>(analysisCard);
 
                 var component = _context.LabFacelessOpDataComponents.FirstOrDefault(x =>
-                                    x.LabFacelessOpDataId == nodeDto.Context.OpDataId
-                                    && x.AnalysisTrayRfid == analysisCard.Id) ?? new LabFacelessOpDataComponent
-                                {
-                                    LabFacelessOpDataId = labFacelessOpData.Id,
-                                    StateId = OpDataState.Init,
-                                    AnalysisTrayRfid = analysisCard.Id
-                                };
+                    x.LabFacelessOpDataId == nodeDto.Context.OpDataId
+                    && x.AnalysisTrayRfid == analysisCard.Id) ?? new LabFacelessOpDataComponent
+                {
+                    LabFacelessOpDataId = labFacelessOpData.Id,
+                    StateId = OpDataState.Init,
+                    AnalysisTrayRfid = analysisCard.Id
+                };
                 component.AnalysisValueDescriptor = JsonConvert.SerializeObject(Mapper.Map<AnalysisValueDescriptor>(vmData.AnalysisValueDescriptor));
                 _opDataRepository.AddOrUpdate<LabFacelessOpDataComponent, int>(component);
             }
 
             _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(ProcessingMsgType.Success, @"Лотки прив'язано"));
             SignalRInvoke.ReloadHubGroup(nodeDto.Id);
-            
+
             return true;
         }
 
@@ -247,14 +247,15 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (nodeDto?.Context == null) return false;
 
             var areOpDataComponents = _context.LabFacelessOpDataComponents.Any(item =>
-                    item.LabFacelessOpDataId == nodeDto.Context.OpDataId);
+                item.LabFacelessOpDataId == nodeDto.Context.OpDataId);
 
             if (areOpDataComponents)
             {
                 nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.SampleAddOpVisa;
                 _nodeRepository.ClearNodeProcessingMessage(nodeId);
-                return UpdateNodeContext(nodeDto.Id, nodeDto.Context); 
+                return UpdateNodeContext(nodeDto.Id, nodeDto.Context);
             }
+
             _opRoutineManager.UpdateProcessingMessage(nodeDto.Id, new NodeProcessingMsgItem(
                 ProcessingMsgType.Warning, @"Немає прив'язаних лотків"));
             return false;
@@ -295,13 +296,10 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 NodeId = nodeId,
                 OpDataId = nodeDto.Context.OpDataId.Value,
                 OpDataComponentId = nodeDto.Context.OpDataComponentId.Value,
-
                 ProductName = singleWindowOpDataDto.ProductName,
                 DocHumidityValue = (float?) singleWindowOpDataDto.DocHumidityValue,
                 DocImpurityValue = (float?) singleWindowOpDataDto.DocImpurityValue,
-
                 IsLabDevicesEnable = labFacelessOpDataComponentDto.AnalysisValueDescriptor.EditEffectiveValue,
-
                 LabFacelessOpDataDetail = new LaboratoryInVms.LabFacelessOpDataDetailVm
                 {
                     Id = labFacelessOpDataDto.Id,
@@ -310,21 +308,16 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     StateId = labFacelessOpDataDto.StateId,
                     CheckInDateTime = labFacelessOpDataDto.CheckInDateTime,
                     CheckOutDateTime = labFacelessOpDataDto.CheckOutDateTime,
-
                     ImpurityValue = labFacelessOpDataDto.ImpurityValue,
                     HumidityValue = labFacelessOpDataDto.HumidityValue,
-
                     ImpurityClassId = labFacelessOpDataDto.ImpurityClassId,
                     HumidityClassId = labFacelessOpDataDto.HumidityClassId,
                     IsInfectionedClassId = labFacelessOpDataDto.InfectionedClassId,
                     EffectiveValue = labFacelessOpDataDto.EffectiveValue,
                     Comment = labFacelessOpDataDto.Comment,
-
                     LabFacelessOpDataComponentItemSet = new LaboratoryInVms.LabFacelessOpDataComponentItemsVm()
                 },
-
                 LabAnalyserDevices = nodeDto.Config.LabAnalyser.Values.Select(e => e.DeviceId).ToList(),
-
                 LabFacelessOpDataComponentDetail = new LaboratoryInVms.LabFacelessOpDataComponentDetailVm
                 {
                     Id = labFacelessOpDataComponentDto.Id,
@@ -332,7 +325,6 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     NodeId = labFacelessOpDataComponentDto.NodeId,
                     StateId = labFacelessOpDataComponentDto.StateId,
                     DataSourceName = "Ручний ввід",
-
                     AnalysisValueDescriptor = new LaboratoryInVms.AnalysisValueDescriptorVm
                     {
                         EditIsInfectioned = labFacelessOpDataComponentDto.AnalysisValueDescriptor.EditIsInfectioned,
@@ -363,14 +355,11 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             var dto = new Model.DomainModel.OpData.TDO.Detail.LabFacelessOpDataComponent
             {
                 Id = vm.Id,
-
                 LabFacelessOpDataId = vm.LabFacelessOpDataId,
                 StateId = vm.StateId,
                 NodeId = vm.NodeId,
-
                 AnalysisTrayRfid = vm.AnalysisTrayRfid,
                 AnalysisValueDescriptor = Mapper.Map<AnalysisValueDescriptor>(vm.AnalysisValueDescriptor),
-
                 ImpurityClassId = vm.ImpurityClassId,
                 ImpurityValue = vm.ImpurityValue,
                 HumidityClassId = vm.HumidityClassId,
@@ -481,11 +470,9 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 NodeId = nodeId,
                 OpDataId = nodeDto.Context.OpDataId.Value,
                 OpDataComponentId = nodeDto.Context.OpDataComponentId.Value,
-
                 ProductName = singleWindowOpDataDto.ProductName,
-                DocHumidityValue = (float?)singleWindowOpDataDto.DocHumidityValue,
-                DocImpurityValue = (float?)singleWindowOpDataDto.DocImpurityValue,
-
+                DocHumidityValue = (float?) singleWindowOpDataDto.DocHumidityValue,
+                DocImpurityValue = (float?) singleWindowOpDataDto.DocImpurityValue,
                 LabFacelessOpDataDetail = new LaboratoryInVms.LabFacelessOpDataDetailVm
                 {
                     Id = labFacelessOpDataDto.Id,
@@ -494,18 +481,14 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     StateId = labFacelessOpDataDto.StateId,
                     CheckInDateTime = labFacelessOpDataDto.CheckInDateTime,
                     CheckOutDateTime = labFacelessOpDataDto.CheckOutDateTime,
-
                     ImpurityValue = labFacelessOpDataDto.ImpurityValue,
                     HumidityValue = labFacelessOpDataDto.HumidityValue,
                     EffectiveValue = labFacelessOpDataDto.EffectiveValue,
-
                     ImpurityClassId = labFacelessOpDataDto.ImpurityClassId,
                     HumidityClassId = labFacelessOpDataDto.HumidityClassId,
                     IsInfectionedClassId = labFacelessOpDataDto.InfectionedClassId,
                     Comment = labFacelessOpDataDto.Comment,
-
                     DataSourceName = labFacelessOpDataDto.DataSourceName,
-
                     LabFacelessOpDataComponentItemSet = new LaboratoryInVms.LabFacelessOpDataComponentItemsVm
                     {
                         Items = labFacelessOpDataDto.LabFacelessOpDataItemSet.Select(e =>
@@ -518,8 +501,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                                 StateName = @"Хибний стан",
                                 AnalysisTrayRfid = e.AnalysisTrayRfid,
                                 AnalysisValueDescriptor = Mapper.Map<LaboratoryInVms.AnalysisValueDescriptorVm>(e.AnalysisValueDescriptor),
-
-                                ImpurityClassName = _externalDataRepository.GetLabImpurityСlassifierDetail(e.ImpurityClassId)?.Name,                                ImpurityValue = e.ImpurityValue,
+                                ImpurityClassName = _externalDataRepository.GetLabImpurityСlassifierDetail(e.ImpurityClassId)?.Name,
+                                ImpurityValue = e.ImpurityValue,
                                 HumidityClassName = _externalDataRepository.GetLabHumidityСlassifierDetail(e.HumidityClassId)?.Name,
                                 HumidityValue = e.HumidityValue,
                                 IsInfectionedClassId = _externalDataRepository.GetLabInfectionedСlassifierDetail(e.InfectionedClassId)?.Name,
@@ -625,23 +608,31 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             }
 
             _context.SaveChanges();
-            
+
             if (!_collisionWebManager.SendToConfirmation(vm.TicketId,
-                new List<string> {vm.Phone1, vm.Phone2, vm.Phone3},
-                new List<string> {vm.Email1?.Trim(), vm.Email2?.Trim(), vm.Email3?.Trim()})) return false;
-            
-            SignalRInvoke.StartSpinner(vm.NodeId);            
+                new List<string>
+                {
+                    vm.Phone1,
+                    vm.Phone2,
+                    vm.Phone3
+                },
+                new List<string>
+                {
+                    vm.Email1?.Trim(),
+                    vm.Email2?.Trim(),
+                    vm.Email3?.Trim()
+                })) return false;
+
+            SignalRInvoke.StartSpinner(vm.NodeId);
             Logger.Info("Laboratory collision send: Try send driver sms");
             var card = _context.Cards.First(x => x.TicketContainerId == nodeDto.Context.TicketContainerId);
-            if (!_connectManager.SendSms(SmsTemplate.DriverQualityMatchingSms, nodeDto.Context.TicketId, cardId: card.Id))
-                Logger.Error("Message hasn`t been sent");
-            else Logger.Info("Laboratory collision send: Driver sms send.");
+            _connectManager.SendSms(SmsTemplate.DriverQualityMatchingSms, nodeDto.Context.TicketId, cardId: card.Id);
 
             nodeDto.Context.OpRoutineStateId = Model.DomainValue.OpRoutine.LaboratoryIn.State.Idle;
             _nodeRepository.ClearNodeProcessingMessage(vm.NodeId);
             return UpdateNodeContext(vm.NodeId, nodeDto.Context);
         }
-        
+
         private string NormalizePhone(string phone)
         {
             phone = phone.Replace("-", string.Empty);
@@ -654,23 +645,23 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (nodeDto?.Context.TicketId == null) return null;
 
             var receiverAnalyticsId = _context.SingleWindowOpDatas.First(item =>
-                                          item.TicketId == nodeDto.Context.TicketId).ReceiverAnaliticsId;
+                item.TicketId == nodeDto.Context.TicketId).ReceiverAnaliticsId;
             if (receiverAnalyticsId == null) return null;
 
-            var contract = _context.Contracts.FirstOrDefault (x => x.Id == receiverAnalyticsId);
+            var contract = _context.Contracts.FirstOrDefault(x => x.Id == receiverAnalyticsId);
             var manager = _externalDataRepository.GetEmployeeDetail(contract.ManagerId.Value);
-            
+
             return new LaboratoryInVms.PrintCollisionInitVm
-                          {
-                              NodeId = nodeId,
-                              TicketId = nodeDto.Context.TicketId.Value,
-                              Phone2 = manager is null ? string.Empty : NormalizePhone(manager.PhoneNo),
-                              Email2 = manager is null ? string.Empty : manager.Email,
-                              ManagerList = _context.EmployeeRoles.Where(x => x.RoleId == (long) UserRole.LaboratoryManager)
-                                  .AsEnumerable()
-                                  .Select(l => _context.Employees.First(x => x.Id == l.EmployeeId))
-                                  .ToDictionary(x => x.Id)
-                          };
+            {
+                NodeId = nodeId,
+                TicketId = nodeDto.Context.TicketId.Value,
+                Phone2 = manager is null ? string.Empty : NormalizePhone(manager.PhoneNo),
+                Email2 = manager is null ? string.Empty : manager.Email,
+                ManagerList = _context.EmployeeRoles.Where(x => x.RoleId == (long) UserRole.LaboratoryManager)
+                    .AsEnumerable()
+                    .Select(l => _context.Employees.First(x => x.Id == l.EmployeeId))
+                    .ToDictionary(x => x.Id)
+            };
         }
 
         public bool LaboratoryIn_PrintCollisionManage_ReturnToCollectSamples(int nodeId)
@@ -712,7 +703,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             return UpdateNodeContext(nodeId, nodeDto.Context);
         }
-        
+
         public void LaboratoryIn_PrintCollisionManage_SetReloadRoute(int nodeId)
         {
             var nodeDto = _nodeRepository.GetNodeDto(nodeId);
@@ -750,7 +741,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (tmpComponent != null)
                     vm.ImpurityValueUserName =
                         tmpComponent.OpVisaSet.OrderByDescending(e => e.DateTime).FirstOrDefault()?.Employee
-                                    ?.ShortName ??
+                            ?.ShortName ??
                         string.Empty;
             }
 
@@ -762,7 +753,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (tmpComponent != null)
                     vm.HumidityValueUserName =
                         tmpComponent.OpVisaSet.OrderByDescending(e => e.DateTime).FirstOrDefault()?.Employee
-                                    ?.ShortName ??
+                            ?.ShortName ??
                         string.Empty;
             }
 
@@ -773,7 +764,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (tmpComponent != null)
                     vm.IsInfectionedValueUserName =
                         tmpComponent.OpVisaSet.OrderByDescending(e => e.DateTime).FirstOrDefault()?.Employee
-                                    ?.ShortName ??
+                            ?.ShortName ??
                         string.Empty;
             }
 
@@ -784,7 +775,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 if (tmpComponent != null)
                     vm.EffectiveValueUserName =
                         tmpComponent.OpVisaSet.OrderByDescending(e => e.DateTime).FirstOrDefault()?.Employee
-                                    ?.ShortName ??
+                            ?.ShortName ??
                         string.Empty;
             }
 
@@ -825,8 +816,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                 }
             }
 
-            vm.EffectiveClassifier = string.IsNullOrEmpty(labFacelessOpData.LabEffectiveClassifier) 
-                ? "Немає перерахунку" 
+            vm.EffectiveClassifier = string.IsNullOrEmpty(labFacelessOpData.LabEffectiveClassifier)
+                ? "Немає перерахунку"
                 : labFacelessOpData.LabEffectiveClassifier;
             vm.CommentAutoGenerated = labFacelessOpData.Comment;
             vm.CommentSingleWindow = singleWindowOpData?.Comments;
@@ -843,7 +834,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             };
 
             var componentList = _context.LabFacelessOpDataComponents.Where(e =>
-                                    e.LabFacelessOpDataId == labFacelessOpData.Id).ToList();
+                e.LabFacelessOpDataId == labFacelessOpData.Id).ToList();
             foreach (var component in componentList)
             {
                 foreach (var opVisa in component.OpVisaSet.ToList())
@@ -893,7 +884,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             if (labFacelessOpData == null) return;
 
             var componentList = labFacelessOpData.LabFacelessOpDataComponentSet
-                                                 .OrderBy(e => e.CheckInDateTime).ToList();
+                .OrderBy(e => e.CheckInDateTime).ToList();
 
             labFacelessOpData.ImpurityClassId = null;
             labFacelessOpData.ImpurityValue = null;
@@ -911,7 +902,7 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             foreach (var component in componentList)
             {
-                var descriptors = (JObject)JsonConvert.DeserializeObject(component.AnalysisValueDescriptor);
+                var descriptors = (JObject) JsonConvert.DeserializeObject(component.AnalysisValueDescriptor);
                 var valueDescriptor = new AnalysisValueDescriptor
                 {
                     EditImpurity = descriptors["EditImpurity"].Value<bool>(),
@@ -952,18 +943,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
                     labFacelessOpData.EffectiveValue = component.EffectiveValue;
                     labFacelessOpData.EffectiveValueSourceId = component.Id;
                 }
-//                
-//                labFacelessOpData.EffectiveValue = component.EffectiveValue;
-//                labFacelessOpData.EffectiveValueSourceId = component.Id;
 
                 if (!string.IsNullOrWhiteSpace(component.Comment)) labFacelessOpData.Comment += component.Comment + " ";
-
-                // Exit when OpData model got all values
-//                if (labFacelessOpData.ImpurityValueSourceId != null
-//                    && labFacelessOpData.HumidityValueSourceId != null
-//                    && labFacelessOpData.InfectionedValueSourceId != null
-//                    && labFacelessOpData.EffectiveValueSourceId != null)
-//                    break;
             }
 
             _opDataRepository.Update<LabFacelessOpData, Guid>(labFacelessOpData);
@@ -973,10 +954,10 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
         {
             // Unbind trays
             var unbindRfidList = _context.Cards.Where(e =>
-                                     e.TicketContainerId == ticketContainerId
-                                     && e.TypeId == CardType.LaboratoryTray)
-                                 .Select(e => e.Id)
-                                 .ToList();
+                    e.TicketContainerId == ticketContainerId
+                    && e.TypeId == CardType.LaboratoryTray)
+                .Select(e => e.Id)
+                .ToList();
 
             foreach (var rfid in unbindRfidList)
             {

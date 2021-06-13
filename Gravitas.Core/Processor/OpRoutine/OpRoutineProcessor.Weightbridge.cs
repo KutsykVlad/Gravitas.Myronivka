@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using Gravitas.Core.DeviceManager;
@@ -324,11 +325,12 @@ namespace Gravitas.Core.Processor.OpRoutine
                     ProcessingMsgType.Info, $"{validationResult.ValidationMessage} Очікуйте охоронця"));
 
                 var securityPhoneNo = _phonesRepository.GetPhone(Phone.Security);
-                if (!_connectManager.SendSms(SmsTemplate.InvalidPerimeterGuardianSms, card.Ticket.Id, securityPhoneNo, new Dictionary<string, object>
+                _connectManager.SendSms(SmsTemplate.InvalidPerimeterGuardianSms, card.Ticket.Id, securityPhoneNo, new Dictionary<string, object>
                 {
-                    {"ScaleValidationText", validationResult.ValidationMessage}
-                }, cardId: card.Id))
-                    Logger.Info($"Weightbridge.OproutineProcessor: Message to {securityPhoneNo} hasn`t been sent");
+                    {
+                        "ScaleValidationText", validationResult.ValidationMessage
+                    }
+                }, cardId: card.Id);
             }
             else
             {
@@ -475,10 +477,6 @@ namespace Gravitas.Core.Processor.OpRoutine
                 .FirstOrDefault();
    
             var isRejected = prevScale?.StateId == OpDataState.Rejected || prevLab?.StateId == OpDataState.Rejected;
-            Logger.Trace($"isRejected = {isRejected}");
-            Logger.Trace($"prev id = {prevScale?.Id}");
-            Logger.Trace($"isTruckWeighting = {isTruckWeighting}");
-            Logger.Trace($"scaleState = {scaleState.InData.Value}");
 
             if (isTruckWeighting)
             {
