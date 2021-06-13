@@ -195,6 +195,7 @@
     <Compile Include="Manager\Connect\IConnectManager.cs" />
     <Compile Include="Manager\Connect\SmsMessage.cs" />
     <Compile Include="Manager\Connect\SmsMessageData.cs" />
+    <Compile Include="Manager\Connect\TelegramMessage.cs" />
     <Compile Include="Manager\Display\QueueDisplay.cs" />
     <Compile Include="Manager\Display\IQueueDisplay.cs" />
     <Compile Include="Manager\LoadPoint\ILoadPointManager.cs" />
@@ -277,6 +278,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NLog" Version="4.5.9" />
     <PackageReference Include="Polly" Version="7.2.2" />
+    <PackageReference Include="Telegram.Bot" Version="15.7.1" />
     <PackageReference Include="Unity" Version="5.8.6" />
     <PackageReference Include="Unity.Abstractions" Version="3.3.0" />
     <PackageReference Include="Unity.Interception" Version="5.5.3" />

@@ -49,6 +49,7 @@ namespace Gravitas.DAL.DbContext
         {
         }
 
+        public DbSet<TelegramBot> TelegramBots { get; set; }
         public DbSet<Settings> Settings { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<DriverCheckInOpData> DriverCheckInOpDatas { get; set; }

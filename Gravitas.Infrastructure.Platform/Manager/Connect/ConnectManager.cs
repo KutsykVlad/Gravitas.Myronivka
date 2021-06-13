@@ -57,59 +57,64 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
             _nodeRepository = nodeRepository;
         }
 
-        public bool SendSms(SmsTemplate smsId, int? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null, string cardId = null)
+        public void SendSms(SmsTemplate smsId, int? ticketId, string phoneNumber = null, Dictionary<string, object> parameters = null, string cardId = null)
         {
             var message = GenerateSmsMessage(smsId, ticketId, phoneNumber, parameters);
-            try
+            var (id, status) = _messageClient.SendSms(message);
+            _context.Messages.Add(new Message
             {
-                var (id, status) = _messageClient.SendSms(message);
-                _context.Messages.Add(new Message
-                {
-                    CardId = cardId,
-                    TypeId = MessageType.Sms,
-                    Text = message.Message,
-                    Created = DateTime.Now,
-                    Receiver = phoneNumber,
-                    DeliveryId = id,
-                    Status = status,
-                    RetryCount = 1
-                });
-                _context.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, $"Unable to send sms to ${phoneNumber} message '{message.Message}'");
-                return false;
-            }
+                CardId = cardId,
+                TypeId = MessageType.Sms,
+                Text = message.Message,
+                Created = DateTime.Now,
+                Receiver = phoneNumber,
+                DeliveryId = id,
+                Status = status,
+                RetryCount = 1
+            });
+            _context.SaveChanges();
         }
 
-        public bool SendEmail(EmailTemplate emailId, string emailAddress = null, object data = null, string attachmentPath = null, string cardId = null)
+        public void SendEmail(EmailTemplate emailId, string emailAddress = null, object data = null, string attachmentPath = null, string cardId = null)
         {
             var message = GenerateEmailMessage(emailId, emailAddress, data, attachmentPath);
-            try
+            _messageClient.SendEmail(message);
+            _context.Messages.Add(new Message
             {
-                _messageClient.SendEmail(message);
-                _context.Messages.Add(new Message
-                {
-                    CardId = cardId,
-                    TypeId = MessageType.Email,
-                    Text = message.Body,
-                    Created = DateTime.Now,
-                    Receiver = emailAddress,
-                    AttachmentPath = attachmentPath,
-                    DeliveryId = 0,
-                    Status = MessageStatus.Accepted,
-                    RetryCount = 1
-                });
-                _context.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
+                CardId = cardId,
+                TypeId = MessageType.Email,
+                Text = message.Body,
+                Created = DateTime.Now,
+                Receiver = emailAddress,
+                AttachmentPath = attachmentPath,
+                DeliveryId = 0,
+                Status = MessageStatus.Accepted,
+                RetryCount = 1
+            });
+        }
+        
+        public void SendTelegramPost(TelegramGroupType groupType, string message)
+        {
+            var telegramBot = _context.TelegramBots.First(x => x.Type == groupType);
+            _messageClient.SendTelegramPost(new TelegramMessage
             {
-                _logger.Error(e, $"Unable to send email to ${emailAddress} message '{message.Body}'");
-                return false;
-            }
+                BotToken = telegramBot.Token,
+                ChatId = telegramBot.ChatId,
+                Message = message
+            });
+            _context.Messages.Add(new Message
+            {
+                CardId = null,
+                TypeId = MessageType.Telegram,
+                Text = message,
+                Created = DateTime.Now,
+                Receiver = telegramBot.Name,
+                AttachmentPath = null,
+                DeliveryId = 0,
+                Status = MessageStatus.Accepted,
+                RetryCount = 1
+            });
+            _context.SaveChanges();
         }
 
         private MailMessage GenerateEmailMessage(EmailTemplate emailId, string emailAddress, object data, string attachmentPath)

@@ -8,5 +8,6 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.Messages
     {
         (long Id, MessageStatus Value) SendSms(SmsMessage message);
         bool SendEmail(MailMessage message);
+        (long Id, MessageStatus Value) SendTelegramPost(TelegramMessage message);
     }
 }

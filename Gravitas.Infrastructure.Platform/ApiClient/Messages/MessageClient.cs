@@ -9,6 +9,7 @@ using Gravitas.Infrastructure.Platform.Manager.Connect;
 using Gravitas.Model.DomainValue;
 using Newtonsoft.Json;
 using NLog;
+using Telegram.Bot;
 
 namespace Gravitas.Infrastructure.Platform.ApiClient.Messages
 {
@@ -90,6 +91,23 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.Messages
 
             _logger.Info($"MessageClient: Email on {message.To[0]} has been sent");
             return true;
+        }
+        
+        public (long Id, MessageStatus Value) SendTelegramPost(TelegramMessage message)
+        {
+            try
+            {
+                var telegramBotClient = new TelegramBotClient(message.BotToken);
+                telegramBotClient.SendTextMessageAsync(message.ChatId, message.Message).GetAwaiter().GetResult();
+
+                _logger.Info($"MessageClient: Telegram message {message.Message} ({message.ChatId}) has been sent");
+                return (0, MessageStatus.Accepted);
+            }
+            catch (Exception e)
+            {
+                _logger.Info(e,$"MessageClient:  Error on sending telegram message {message.Message} ({message.ChatId})");
+                return (0, MessageStatus.Undeliverable);
+            }
         }
     }
 }

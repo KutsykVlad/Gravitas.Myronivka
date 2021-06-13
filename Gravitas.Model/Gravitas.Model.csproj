@@ -181,6 +181,7 @@
     <Compile Include="DomainModel\ExternalData\Organization\DAO\Organization.cs" />
     <Compile Include="DomainModel\ExternalData\YearOfHarvest\DTO\YearOfHarvestDetail.cs" />
     <Compile Include="DomainModel\Message\DAO\Messages.cs" />
+    <Compile Include="DomainModel\Message\DAO\TelegramBot.cs" />
     <Compile Include="DomainModel\MixedFeed\DAO\MixedFeedSilo.cs" />
     <Compile Include="DomainModel\MixedFeed\DTO\MixedFeedSiloDto.cs" />
     <Compile Include="DomainModel\Node\DAO\Node.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="DomainValue\QueueItemPriority.cs" />
     <Compile Include="DomainValue\SingleWindowReadonly.cs" />
     <Compile Include="DomainValue\TechRoute.cs" />
+    <Compile Include="DomainValue\TelegramGroupType.cs" />
     <Compile Include="DomainValue\UserRole.cs" />
     <Compile Include="DomainValue\Route.cs" />
     <Compile Include="DomainValue\SingleWindowRegisterFilter.cs" />

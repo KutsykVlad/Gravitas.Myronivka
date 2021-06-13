@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Gravitas.Infrastructure.Platform.Manager.Routes;
 using Gravitas.Model.DomainModel.OpData.DAO;
 using Gravitas.Model.DomainModel.Queue.DAO;
 using Gravitas.Model.DomainModel.Ticket.DAO;
 using Gravitas.Model.DomainValue;
-using TicketStatus = Gravitas.Model.DomainValue.TicketStatus;
 
 namespace Gravitas.Infrastructure.Platform.Manager.Queue
 {
@@ -20,7 +18,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             var ticket = _context.Tickets.AsNoTracking().FirstOrDefault(x => x.Id == ticketId);
             if (ticket == null) throw new Exception($"Non-existing ticketId: {ticketId}");
             
-            var registerData = _opDataRepository.GetSingleOrDefault<QueueRegister, int>(t => t.TicketContainerId == ticket.TicketContainerId);
+            var registerData = _opDataRepository.GetFirstOrDefault<QueueRegister, int>(t => t.TicketContainerId == ticket.TicketContainerId);
             var result = registerData?.IsAllowedToEnterTerritory;
             
             _logger.Debug($"IsAllowedEnterTerritory {result} for container id : {ticket.TicketContainerId}. ");
@@ -143,9 +141,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
                 try
                 {
                     var card = _context.Cards.First(x => x.TicketContainerId == ticketContainerId);
-                    _logger.Debug(!_connectManager.SendSms(smsTemplate, ticketId, cardId: card.Id)
-                        ? $"Message to  hasn`t been sent to TicketId: {ticketId} "
-                        : $"Message to  has been sent to TicketId: {ticketId} ");
+                    _connectManager.SendSms(smsTemplate, ticketId, cardId: card.Id);
                 }
                 catch (Exception e)
                 {
@@ -156,10 +152,11 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
 
         private List<int> GetEndPointNodes(int ticketContainerId)
         {
-            var ticket = _context.Tickets.FirstOrDefault(x =>
-                             x.TicketContainerId == ticketContainerId && x.StatusId == TicketStatus.Processing)
-                         ?? _context.Tickets.FirstOrDefault(x =>
-                             x.TicketContainerId == ticketContainerId && x.StatusId == TicketStatus.ToBeProcessed);
+            var ticket = _context.Tickets
+                .Where(x => x.TicketContainerId == ticketContainerId && (x.StatusId == TicketStatus.Processing || x.StatusId == TicketStatus.ToBeProcessed))
+                .OrderByDescending(x => x.StatusId)
+                .FirstOrDefault();
+            
             if (ticket != null)
             {
                 var endpointNode = _opDataRepository.GetLastProcessed<UnloadGuideOpData>(ticket.Id)?.UnloadPointNodeId

@@ -4,6 +4,7 @@ namespace Gravitas.Model.DomainValue
     {
         None = 0,
         Sms = 1,
-        Email = 2
+        Email = 2,
+        Telegram = 3
     }
 }
