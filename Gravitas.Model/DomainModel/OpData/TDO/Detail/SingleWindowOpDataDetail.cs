@@ -36,7 +36,7 @@ namespace Gravitas.Model.DomainModel.OpData.TDO.Detail
         public Guid? DriverTwoId { get; set; }
         public Guid? TransportId { get; set; }
         public string HiredDriverCode { get; set; }
-        public string HiredTransportNumber { get; set; }
+        public string TransportNumber { get; set; }
         public string IncomeInvoiceSeries { get; set; }
         public string IncomeInvoiceNumber { get; set; }
         public string CollectionPointName { get; set; }

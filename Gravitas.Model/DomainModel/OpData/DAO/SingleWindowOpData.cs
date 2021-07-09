@@ -31,7 +31,7 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public Guid? DriverTwoId { get; set; }
         public Guid? TransportId { get; set; }
         public string HiredDriverCode { get; set; }
-        public string HiredTransportNumber { get; set; }
+        public string TransportNumber { get; set; }
         public string IncomeInvoiceSeries { get; set; }
         public string IncomeInvoiceNumber { get; set; }
         public Guid? ReceiverDepotId { get; set; }
@@ -63,7 +63,6 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public DateTime? DocNetDateTime { get; set; }
         public string ReturnCauseId { get; set; }
         public Guid? TrailerId { get; set; }
-        public string TrailerNumber { get; set; }
         public string TripTicketNumber { get; set; }
         public DateTime? TripTicketDateTime { get; set; }
         public string WarrantSeries { get; set; }
@@ -99,7 +98,7 @@ namespace Gravitas.Model.DomainModel.OpData.DAO
         public string ProductContents { get; set; }
         public string BarCode { get; set; }
         public string OriginalТТN { get; set; }
-        public string HiredTrailerNumber { get; set; }
+        public string TrailerNumber { get; set; }
         public Guid? ContractCarrierId { get; set; }
         public double? SenderWeight { get; set; }
         public int DriverPhotoId { get; set; }

@@ -103,7 +103,7 @@ namespace Gravitas.Infrastructure.Platform.Manager.Queue
             
             _queueNotRecoveryMode = true;
             _smsSendingEnabled = true;
-            DoAsyncInfiniteChecks();
+            _ = DoAsyncInfiniteChecks();
         }
     }
 }

@@ -556,7 +556,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             windowOpData.SellBudgetId = deliveryBill.SellBudgetId;
             windowOpData.ProductContents = JsonConvert.SerializeObject(deliveryBill.ProductContents); 
             windowOpData.IsThirdPartyCarrier = deliveryBill.IsThirdPartyCarrier == "1";
-            windowOpData.HiredTrailerNumber = deliveryBill.HiredTrailerNumberId;
+            windowOpData.TrailerNumber = deliveryBill.HiredTrailerNumberId;
             windowOpData.ContractCarrierId = deliveryBill.ContractCarrierId;
             windowOpData.SenderWeight = deliveryBill.SenderWeight;
             windowOpData.OriginalТТN = deliveryBill.OriginalТТN;
@@ -573,7 +573,7 @@ namespace Gravitas.Core.Processor.OpRoutine
             windowOpData.TrailerId = deliveryBill.TrailerId;
             windowOpData.DriverOneId = deliveryBill.DriverOneId;
             windowOpData.DriverTwoId = deliveryBill.DriverTwoId;
-            windowOpData.HiredTransportNumber = deliveryBill.HiredTransportNumberId;
+            windowOpData.TransportNumber = deliveryBill.HiredTransportNumberId;
             windowOpData.IncomeDocDateTime = deliveryBill.IncomeDocDate;
             windowOpData.SupplyTypeId = deliveryBill.SupplyTypeId;
             windowOpData.StatusType = deliveryBill.StatusType;

@@ -91,8 +91,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
                 if (singleWindowOpData.IsThirdPartyCarrier)
                 {
-                    vm.BindedTruck.TransportNo = singleWindowOpData.HiredTransportNumber;
-                    vm.BindedTruck.TrailerNo = singleWindowOpData.HiredTrailerNumber;
+                    vm.BindedTruck.TransportNo = singleWindowOpData.TransportNumber;
+                    vm.BindedTruck.TrailerNo = singleWindowOpData.TrailerNumber;
                 }
                 else
                 {

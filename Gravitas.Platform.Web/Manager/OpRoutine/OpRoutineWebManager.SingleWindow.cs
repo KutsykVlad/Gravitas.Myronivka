@@ -724,8 +724,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             if (singleWindowOpData.IsThirdPartyCarrier)
             {
-                vm.TransportNo = singleWindowOpData.HiredTransportNumber;
-                vm.TrailerNo = singleWindowOpData.HiredTrailerNumber;
+                vm.TransportNo = singleWindowOpData.TransportNumber;
+                vm.TrailerNo = singleWindowOpData.TrailerNumber;
             }
             else
             {
@@ -774,8 +774,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             if (singleWindowOpData.IsThirdPartyCarrier)
             {
-                vm.TruckNo = singleWindowOpData.HiredTransportNumber;
-                vm.TrailerNo = singleWindowOpData.HiredTrailerNumber;
+                vm.TruckNo = singleWindowOpData.TransportNumber;
+                vm.TrailerNo = singleWindowOpData.TrailerNumber;
             }
             else
             {
@@ -817,8 +817,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             if (singleWindowOpData.IsThirdPartyCarrier)
             {
-                vm.TransportNo = singleWindowOpData.HiredTransportNumber;
-                vm.TrailerNo = singleWindowOpData.HiredTrailerNumber;
+                vm.TransportNo = singleWindowOpData.TransportNumber;
+                vm.TrailerNo = singleWindowOpData.TrailerNumber;
             }
             else
             {

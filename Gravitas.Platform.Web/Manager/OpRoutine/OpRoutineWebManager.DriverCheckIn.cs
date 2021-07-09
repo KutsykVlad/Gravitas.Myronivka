@@ -73,8 +73,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             {
                 if (lastProcessed.IsThirdPartyCarrier)
                 {
-                    dataModel.Truck = lastProcessed.HiredTransportNumber;
-                    dataModel.Trailer = lastProcessed.HiredTrailerNumber;
+                    dataModel.Truck = lastProcessed.TransportNumber;
+                    dataModel.Trailer = lastProcessed.TrailerNumber;
                     dataModel.Driver = lastProcessed.HiredDriverCode;
                 }
                 else

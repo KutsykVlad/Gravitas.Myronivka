@@ -20,8 +20,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
             string trailerNo;
             if (singleWindowOpData.IsThirdPartyCarrier)
             {
-                truckNo = singleWindowOpData.HiredTransportNumber;
-                trailerNo = singleWindowOpData.HiredTrailerNumber;
+                truckNo = singleWindowOpData.TransportNumber;
+                trailerNo = singleWindowOpData.TrailerNumber;
             }
             else
             {

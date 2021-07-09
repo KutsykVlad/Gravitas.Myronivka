@@ -42,6 +42,7 @@ namespace Gravitas.DAL.Repository.ExternalData
         DeliveryBillTypeDetail GetDeliveryBillTypeDetail(string id);
         EmployeeDetail GetEmployeeDetail(Guid id);
         ExternalEmployeeDetail GetExternalEmployeeDetail(Guid id);
+        string GetProductDetail(object value);
         FixedAssetDetail GetFixedAssetDetail(Guid id);
         LabImpurityСlassifierDetail GetLabImpurityСlassifierDetail(string id);
         LabHumidityСlassifierDetail GetLabHumidityСlassifierDetail(string id);

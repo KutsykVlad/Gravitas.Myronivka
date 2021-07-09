@@ -114,7 +114,7 @@ namespace Gravitas.Platform.Web.Controllers.Routine
                     CardNo = x.Card.No,
                     Created = x.Created,
                     TruckNo = x.Card.TicketContainerId.HasValue 
-                        ? _context.SingleWindowOpDatas.FirstOrDefault(z => z.TicketContainerId == x.Card.TicketContainerId)?.HiredTransportNumber
+                        ? _context.SingleWindowOpDatas.FirstOrDefault(z => z.TicketContainerId == x.Card.TicketContainerId)?.TransportNumber
                         : string.Empty
                 })
                 .ToList();

@@ -106,7 +106,7 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
             dao.DriverTwoId = dto.DriverTwoId;
             dao.TransportId = dto.TransportId;
             dao.HiredDriverCode = dto.HiredDriverCode;
-            dao.HiredTransportNumber = dto.HiredTransportNumber;
+            dao.TransportNumber = dto.TransportNumber;
             dao.IncomeInvoiceSeries = dto.IncomeInvoiceSeries;
             dao.IncomeInvoiceNumber = dto.IncomeInvoiceNumber;
             dao.ReceiverDepotId = dto.ReceiverDepotId;
@@ -120,7 +120,7 @@ namespace Gravitas.DAL.Repository.OpWorkflow.OpData
             dao.DocNetValue = dto.DocNetValue;
             dao.DocNetDateTime = dto.DocNetDateTime;
             dao.TrailerId = dto.TrailerId;
-            dao.HiredTrailerNumber = dto.TrailerNumber;
+            dao.TrailerNumber = dto.TrailerNumber;
             dao.TripTicketNumber = dto.TripTicketNumber;
             dao.TripTicketDateTime = dto.TripTicketDateTime;
             dao.WarrantSeries = dto.WarrantSeries;

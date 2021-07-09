@@ -729,5 +729,10 @@ namespace Gravitas.DAL.Repository.ExternalData
             };
             return result;
         }
+
+        public string GetProductDetail(object value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

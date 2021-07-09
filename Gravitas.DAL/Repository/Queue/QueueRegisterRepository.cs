@@ -132,8 +132,8 @@ namespace Gravitas.DAL.Repository.Queue
 
                 if (singleWindow.IsThirdPartyCarrier)
                 {
-                    newRegistration.TruckPlate = singleWindow.HiredTransportNumber;
-                    newRegistration.TrailerPlate = singleWindow.HiredTrailerNumber;
+                    newRegistration.TruckPlate = singleWindow.TransportNumber;
+                    newRegistration.TrailerPlate = singleWindow.TrailerNumber;
                 }
                 else
                 {

@@ -30,7 +30,7 @@ namespace Gravitas.DAL.Extension
             refOpData.DriverTwoId = srcOpData.DriverTwoId;
             refOpData.TransportId = srcOpData.TransportId;
             refOpData.HiredDriverCode = srcOpData.HiredDriverCode;
-            refOpData.HiredTransportNumber = srcOpData.HiredTransportNumber;
+            refOpData.TransportNumber = srcOpData.TransportNumber;
             refOpData.IncomeInvoiceSeries = srcOpData.IncomeInvoiceSeries;
             refOpData.IncomeInvoiceNumber = srcOpData.IncomeInvoiceNumber;
             refOpData.ReceiverDepotId = srcOpData.ReceiverDepotId;

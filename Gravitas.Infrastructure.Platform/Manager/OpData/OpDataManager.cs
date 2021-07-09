@@ -124,8 +124,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpData
                 DriverTwoId = dao.DriverTwoId,
                 TransportId = dao.TransportId,
                 HiredDriverCode = dao.HiredDriverCode,
-                HiredTransportNumber = dao.HiredTransportNumber,
-                TrailerNumber = dao.HiredTrailerNumber,
+                TransportNumber = dao.TransportNumber,
+                TrailerNumber = dao.TrailerNumber,
                 IncomeInvoiceSeries = dao.IncomeInvoiceSeries,
                 IncomeInvoiceNumber = dao.IncomeInvoiceNumber,
                 ReceiverDepotId = dao.ReceiverDepotId,
@@ -401,8 +401,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.OpData
                 data.StampList = singleWindowOpData.StampList;
                 if (singleWindowOpData.IsThirdPartyCarrier)
                 {
-                    data.TransportNo = singleWindowOpData.HiredTransportNumber;
-                    data.TrailerNo = singleWindowOpData.HiredTrailerNumber;
+                    data.TransportNo = singleWindowOpData.TransportNumber;
+                    data.TrailerNo = singleWindowOpData.TrailerNumber;
                 }
                 else
                 {

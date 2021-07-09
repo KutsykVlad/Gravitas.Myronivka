@@ -91,7 +91,7 @@ namespace Gravitas.Infrastructure.Platform.ApiClient.OneC
 
                 // 23
                 [JsonProperty("HiredTansportNumber")]
-                public string HiredTansportNumber { get; set; }
+                public string TransportNumber { get; set; }
 
                 // 25
                 [JsonProperty("IncomeInvoiceSeries")]

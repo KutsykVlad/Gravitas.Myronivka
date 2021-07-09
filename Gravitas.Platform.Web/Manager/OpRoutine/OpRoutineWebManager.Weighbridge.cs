@@ -75,8 +75,8 @@ namespace Gravitas.Platform.Web.Manager.OpRoutine
 
             if (windowInOpData.IsThirdPartyCarrier)
             {
-                vm.TruckNo = windowInOpData.HiredTransportNumber;
-                vm.TrailerNo = windowInOpData.HiredTrailerNumber;
+                vm.TruckNo = windowInOpData.TransportNumber;
+                vm.TrailerNo = windowInOpData.TrailerNumber;
                 vm.DriverName = windowInOpData.HiredDriverCode;
             }
             else

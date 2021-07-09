@@ -178,8 +178,8 @@ namespace Gravitas.Infrastructure.Platform.Manager.Connect
 
             data.NodeNumber = _opDataRepository.GetLastOpData(ticketId).Node.Name?.Last().ToString();
             data.DispatcherPhoneNumber = _phonesRepository.GetPhone(Phone.Dispatcher);
-            data.TransportNo = singleWindowOpData.HiredTransportNumber;
-            data.TrailerNo = singleWindowOpData.HiredTrailerNumber;
+            data.TransportNo = singleWindowOpData.TransportNumber;
+            data.TrailerNo = singleWindowOpData.TrailerNumber;
             data.ReceiverName = _externalDataRepository
                                     .GetOrganisationDetail(singleWindowOpData.OrganizationId.Value)
                                     ?.ShortName ?? singleWindowOpData.CustomPartnerName;

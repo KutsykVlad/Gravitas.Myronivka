@@ -266,8 +266,8 @@ namespace Gravitas.Platform.Web.Manager.OpData
 
                 if (singleWindowOpData.IsThirdPartyCarrier)
                 {
-                    result.TruckNo = singleWindowOpData.HiredTransportNumber;
-                    result.TrailerNo = singleWindowOpData.HiredTrailerNumber;
+                    result.TruckNo = singleWindowOpData.TransportNumber;
+                    result.TrailerNo = singleWindowOpData.TrailerNumber;
                     result.Driver1 = singleWindowOpData.HiredDriverCode;
                 }
                 else

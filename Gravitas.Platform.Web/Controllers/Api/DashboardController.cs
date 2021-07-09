@@ -76,8 +76,8 @@ namespace Gravitas.Platform.Web.Controllers.Api
                         };
                         if (x.IsThirdPartyCarrier)
                         {
-                            truck.TruckNo = x.HiredTransportNumber;
-                            truck.TrailerNo = x.HiredTrailerNumber;
+                            truck.TruckNo = x.TransportNumber;
+                            truck.TrailerNo = x.TrailerNumber;
                             truck.DriverName = x.HiredDriverCode;
                         }
                         else
@@ -175,8 +175,8 @@ namespace Gravitas.Platform.Web.Controllers.Api
                         };
                         if (x.IsThirdPartyCarrier)
                         {
-                            truck.TruckNo = x.HiredTransportNumber;
-                            truck.TrailerNo = x.HiredTrailerNumber;
+                            truck.TruckNo = x.TransportNumber;
+                            truck.TrailerNo = x.TrailerNumber;
                             truck.DriverName = x.HiredDriverCode;
                         }
                         else

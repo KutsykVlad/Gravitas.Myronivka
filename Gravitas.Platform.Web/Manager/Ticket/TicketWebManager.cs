@@ -99,8 +99,8 @@ namespace Gravitas.Platform.Web.Manager.Ticket
 
             if (singleWindowOpData.IsThirdPartyCarrier)
             {
-                vm.TransportNo = singleWindowOpData.HiredTransportNumber;
-                vm.TrailerNo = singleWindowOpData.HiredTrailerNumber;
+                vm.TransportNo = singleWindowOpData.TransportNumber;
+                vm.TrailerNo = singleWindowOpData.TrailerNumber;
             }
             else
             {
@@ -195,8 +195,8 @@ namespace Gravitas.Platform.Web.Manager.Ticket
                         where i.CheckOutDateTime.HasValue &&
                               (!date.HasValue || i.CheckOutDateTime.HasValue
                                 && (i.CheckOutDateTime.Value > date && i.CheckOutDateTime.Value < nextDay.Value)) &&
-                              ((transport != null && !i.IsThirdPartyCarrier ? transport.RegistrationNo.Contains(query) : i.HiredTransportNumber.Contains(query)) ||
-                              (trailer != null && !i.IsThirdPartyCarrier ? trailer.RegistrationNo.Contains(query) : i.HiredTrailerNumber.Contains(query)))
+                              ((transport != null && !i.IsThirdPartyCarrier ? transport.RegistrationNo.Contains(query) : i.TransportNumber.Contains(query)) ||
+                              (trailer != null && !i.IsThirdPartyCarrier ? trailer.RegistrationNo.Contains(query) : i.TrailerNumber.Contains(query)))
                         orderby i.EditDate descending
                         select new TicketHistoryItem
                         {
@@ -213,10 +213,10 @@ namespace Gravitas.Platform.Web.Manager.Ticket
                                                ?? "- Хибний ключ -" :
                                            string.Empty,
                             TransportNo = i.IsThirdPartyCarrier ?
-                                               i.HiredTransportNumber :
+                                               i.TransportNumber :
                                                transport != null ? transport.RegistrationNo ?? string.Empty : string.Empty,
                             TrailerNo = i.IsThirdPartyCarrier ?
-                                               i.HiredTrailerNumber :
+                                               i.TrailerNumber :
                                                trailer != null ? trailer.RegistrationNo ?? string.Empty : string.Empty,
                         });
 
@@ -255,10 +255,10 @@ namespace Gravitas.Platform.Web.Manager.Ticket
                             TicketContainerId = ticketContainerId,
                             DeliveryBillId = item.DeliveryBillId,
                             TransportNo = item.IsThirdPartyCarrier ?
-                                          item.HiredTransportNumber :
+                                          item.TransportNumber :
                                           transport != null ? transport.RegistrationNo ?? string.Empty : string.Empty,
                             TrailerNo = item.IsThirdPartyCarrier ?
-                                        item.HiredTrailerNumber :
+                                        item.TrailerNumber :
                                         trailer != null ? trailer.RegistrationNo ?? string.Empty : string.Empty,
                         }).FirstOrDefault();
 
@@ -356,10 +356,10 @@ namespace Gravitas.Platform.Web.Manager.Ticket
                                                 {
                                                     CheckOutDateTime = c.CheckOutDateTime,
                                                     TransportNo = data.IsThirdPartyCarrier ?
-                                                                   data.HiredTransportNumber :
+                                                                   data.TransportNumber :
                                                                    transport != null ? transport.RegistrationNo ?? string.Empty : string.Empty,
                                                     TrailerNo = data.IsThirdPartyCarrier ?
-                                                                   data.HiredTrailerNumber :
+                                                                   data.TrailerNumber :
                                                                    trailer != null ? trailer.RegistrationNo ?? string.Empty : string.Empty,
                                                     EffectiveValue = c.EffectiveVal,
                                                     HumidityValue = c.HumidityVal,
